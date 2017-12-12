@@ -816,7 +816,7 @@
                               cuentaMPgeneral ++;
                               totalLiderMP++;
                             } 
-                            else if (field["tipo"] == "Correctivo de emergencia" || field["tipo"] == "Correctivo planeado")
+                            else if (field["tipo"] != "Mant. preventivo")
                             {
                               if(field["estado"] == "Terminado")
                               {

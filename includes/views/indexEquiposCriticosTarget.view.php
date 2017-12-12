@@ -58,9 +58,13 @@
                                             $colorEstatus = "bs-callout bs-callout-red";
                                             echo "<div class='col-xs-6 col-sm-2 col-md-2'>";
                                             echo "<div class='thumbnail ".$colorEstatus."' style='padding:5px !important;'>";
-                                                if($critico->familia == "TRACTOR")
+                                                if(strpos($critico->nombre_equipo, 'CO-TRC') !== false)
                                                 {
                                                     echo "<img src='".$url."dist/img/tractor.png' alt='...' class='img-responsive'>";
+                                                }
+                                                else if(strpos($critico->nombre_equipo, 'CO-CAM') !== false)
+                                                {
+                                                     echo "<img src='".$url."dist/img/volteo.png' alt='...' class='img-responsive'>";
                                                 }
                                                 else if($critico->familia == "FUMIGACION")
                                                 {

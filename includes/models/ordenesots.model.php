@@ -49,7 +49,7 @@ class Ordenesots {
 	public static function getAll() {
 
 		// Build database query
-		$sql = 'SELECT * FROM ordenesots';
+		$sql = 'SELECT * FROM ordenesots'; 
 		
 		// Return objects
 		return self::getBySql($sql);
@@ -199,12 +199,12 @@ class Ordenesots {
 		return self::getBySql($sql);
 	}
 
-	public static function getAllMpByMesAno($mes, $ano) {
+	public static function getAllMpByMesAno($mes, $ano) { 
 
 		// Build database query
 		$sql = "SELECT ordenesots.id, ordenesots.orden_trabajo,  activos_equipos.familia FROM ordenesots
 				LEFT JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo
-				WHERE date_format(ordenesots.fecha_inicio_programada, '%Y-%m') = '".$ano."-".$mes."' AND ordenesots.tipo='Mant. preventivo' 
+				WHERE date_format(ordenesots.fecha_finalizacion_programada, '%Y-%m') = '".$ano."-".$mes."' AND ordenesots.tipo='Mant. preventivo' 
 				AND (activos_equipos.familia = 'ELECTRICA' 
 					OR activos_equipos.familia = 'EMBARQUE' 
 					OR activos_equipos.familia = 'FUMIGACION' 
@@ -269,12 +269,12 @@ class Ordenesots {
 
 		/*$sql = "SELECT equipo, fecha_informe, fecha_inicio, fecha_finalizacion, fecha_inicio_programada, descripcion FROM ordenesots WHERE date_format(fecha_inicio_programada, '%Y-%m') = '".$ano."-".$mes."' AND tipo='Mant. preventivo' AND equipo='$equipo'";*/
 
-		$sql = "SELECT equipo, fecha_informe, fecha_inicio, fecha_finalizacion, fecha_inicio_programada, descripcion FROM ordenesots WHERE date_format(fecha_inicio_programada, '%Y-%m') = '".$ano."-".$mes."' AND tipo='Mant. preventivo' AND equipo='$equipo'
-			AND (/*estado = 'Cerrado sin ejecutar'
-			 	OR */estado = 'Cierre Lider Mtto'
+		$sql = "SELECT equipo, fecha_informe, fecha_inicio, fecha_finalizacion, fecha_inicio_programada, fecha_finalizacion_programada, descripcion FROM ordenesots WHERE date_format(fecha_finalizacion_programada, '%Y-%m') = '".$ano."-".$mes."' AND tipo='Mant. preventivo' AND equipo='$equipo'
+			AND (estado = 'Cierre Lider Mtto'
 			 	OR estado = 'Ejecutado'
 			 	OR estado = 'Espera de equipo'
 			 	OR estado = 'Espera de refacciones'
+			 	OR estado = 'Falta de mano de obra'
 			 	OR estado = 'Programada' 
 			 	OR estado = 'Terminado' )";
 		/*if($equipo == "CO-TRC-002")
@@ -294,7 +294,7 @@ class Ordenesots {
 
 		/*$sql = "SELECT * FROM ordenesots WHERE date_format(fecha_inicio_programada, '%Y-%m') = '".$ano."-".$mes."'  AND equipo='$equipo'";*/
 
-		$sql = "SELECT * FROM ordenesots WHERE date_format(fecha_inicio_programada, '%Y-%m') = '".$ano."-".$mes."'  AND equipo='$equipo'
+		$sql = "SELECT * FROM ordenesots WHERE date_format(fecha_finalizacion_programada, '%Y-%m') = '".$ano."-".$mes."'  AND equipo='$equipo'
 			AND (/*estado = 'Cerrado sin ejecutar'
 				 	OR */estado = 'Cierre Lider Mtto'
 				 	OR estado = 'Ejecutado'
@@ -318,12 +318,12 @@ class Ordenesots {
 		/*$sql = "SELECT TIMESTAMPDIFF(MINUTE, fecha_informe, fecha_finalizacion) AS tiempoCorrectivo, equipo, fecha_Informe, fecha_finalizacion, descripcion, equipo FROM ordenesots WHERE date_format(fecha_informe, '%Y-%m') = '".$ano."-".$mes."' AND (tipo='Correctivo de emergencia' OR tipo='Correctivo planeado') AND equipo='$equipo'";*/
 
 		/*$sql = "SELECT equipo, fecha_informe, fecha_inicio, fecha_finalizacion, fecha_inicio_programada, descripcion, equipo FROM ordenesots WHERE date_format(fecha_informe, '%Y-%m') = '".$ano."-".$mes."' AND (tipo='Correctivo de emergencia' OR tipo='Correctivo planeado') AND equipo='$equipo'";*/
-		$sql = "SELECT equipo, fecha_informe, fecha_inicio, fecha_finalizacion, fecha_inicio_programada, descripcion, equipo FROM ordenesots WHERE date_format(fecha_inicio_programada, '%Y-%m') = '$ano-$mes' AND (tipo='Correctivo de emergencia' OR tipo='Correctivo planeado') AND equipo='$equipo'
-			AND (/*estado = 'Cerrado sin ejecutar'
-		 	OR */estado = 'Cierre Lider Mtto'
+		$sql = "SELECT equipo, fecha_informe, fecha_inicio, fecha_finalizacion, fecha_inicio_programada, fecha_finalizacion_programada, descripcion, equipo FROM ordenesots WHERE date_format(fecha_finalizacion_programada, '%Y-%m') = '$ano-$mes' AND (tipo='Correctivo de emergencia' OR tipo='Correctivo planeado') AND equipo='$equipo'
+			AND (estado = 'Cierre Lider Mtto'
 		 	OR estado = 'Ejecutado'
 		 	OR estado = 'Espera de equipo'
 		 	OR estado = 'Espera de refacciones'
+		 	OR estado = 'Falta de mano de obra'
 		 	OR estado = 'Programada' 
 		 	OR estado = 'Terminado' )";
 		//die($sql);
@@ -357,17 +357,18 @@ class Ordenesots {
 
 		// Build database query
 
-		$sql = "SELECT count(orden_trabajo) AS nProgramadosMP 
+		$sql = "SELECT count(orden_trabajo) AS nProgramadosMP, id 
 				FROM ordenesots 
-				WHERE ( fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion') 
+				WHERE ( fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion') 
 				AND tipo='Mant. preventivo'
-				AND (estado = 'Cerrado sin ejecutar'
-		 	OR estado = 'Cierre Lider Mtto'
-		 	OR estado = 'Ejecutado'
-		 	OR estado = 'Espera de equipo'
-		 	OR estado = 'Espera de refacciones'
-		 	OR estado = 'Programada' 
-		 	OR estado = 'Terminado' )";
+				AND (estado = 'Cierre Lider Mtto'
+					 	OR estado = 'Ejecutado'
+					 	OR estado = 'Espera de equipo'
+					 	OR estado = 'Espera de refacciones'
+					 	OR estado = 'Abierta'
+					 	OR estado = 'Falta de mano de obra'
+					 	OR estado = 'Programada' 
+					 	OR estado = 'Terminado' )";
 		
 		// Return objects
 		return self::getBySql($sql);
@@ -380,13 +381,14 @@ class Ordenesots {
 		$sql = "SELECT count(ordenesots.orden_trabajo) AS nProgramadosMP, activos_equipos.nombre_equipo
 				FROM ordenesots 
 				INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo
-				WHERE ( ordenesots.fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion') 
+				WHERE ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion') 
 				AND ordenesots.tipo='Mant. preventivo'
-				AND (ordenesots.estado = 'Cerrado sin ejecutar'
-		 	OR ordenesots.estado = 'Cierre Lider Mtto'
+				AND (ordenesots.estado = 'Cierre Lider Mtto'
 		 	OR ordenesots.estado = 'Ejecutado'
 		 	OR ordenesots.estado = 'Espera de equipo'
 		 	OR ordenesots.estado = 'Espera de refacciones'
+		 	OR ordenesots.estado = 'Abierta'
+		 	OR ordenesots.estado = 'Falta de mano de obra'
 		 	OR ordenesots.estado = 'Programada' 
 		 	OR ordenesots.estado = 'Terminado' )";
 		
@@ -399,12 +401,11 @@ class Ordenesots {
 
 		// Build database query
 
-		$sql = "SELECT count(orden_trabajo) AS nTerminadosMP 
+		$sql = "SELECT count(orden_trabajo) AS nTerminadosMP, id 
 		FROM ordenesots WHERE
-		 ( fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+		 ( fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
 		 AND tipo='Mant. preventivo'
-		 AND (estado='Terminado'
-		 OR estado = 'Cerrado sin ejecutar') ";
+		 AND (estado='Terminado') ";
 		
 		
 		// Return objects 
@@ -419,10 +420,9 @@ class Ordenesots {
 		FROM ordenesots 
 		INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo 
 		WHERE
-		 ( ordenesots.fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+		 ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
 		 AND ordenesots.tipo='Mant. preventivo'
-		 AND (ordenesots.estado='Terminado'
-		 OR ordenesots.estado = 'Cerrado sin ejecutar') ";
+		 AND (ordenesots.estado='Terminado') ";
 		
 		
 		// Return objects 
@@ -433,15 +433,16 @@ class Ordenesots {
 
 		// Build database query
 
-		$sql = "SELECT count(orden_trabajo) AS nPendientesMP FROM ordenesots WHERE
-		 ( fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+		$sql = "SELECT count(orden_trabajo) AS nPendientesMP, id FROM ordenesots WHERE
+		 ( fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
 		 AND tipo='Mant. preventivo'
 		 AND (estado = 'Programada' 
-		 		OR estado = 'Cierre Lider Mtto'
+		 		OR estado = 'Cierre Lider Mtto' 
 		 		OR estado = 'Ejecutado'
 		 		OR estado = 'Espera de equipo'
-		 		OR estado = 'Espera de refacciones')
-		 AND  estado <> 'Cancelado'";
+		 		OR estado = 'Espera de refacciones'
+		 		OR estado = 'Falta de mano de obra'
+		 		OR estado = 'Abierta')";
 
 		// Return objects
 		return self::getBySql($sql);
@@ -454,14 +455,15 @@ class Ordenesots {
 		$sql = "SELECT count(ordenesots.orden_trabajo) AS nPendientesMP, activos_equipos.nombre_equipo
 				FROM ordenesots
 				INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo
-				WHERE ( ordenesots.fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+				WHERE ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
 		 AND ordenesots.tipo='Mant. preventivo'
 		 AND (ordenesots.estado = 'Programada' 
 		 		OR ordenesots.estado = 'Cierre Lider Mtto'
 		 		OR ordenesots.estado = 'Ejecutado'
 		 		OR ordenesots.estado = 'Espera de equipo'
-		 		OR ordenesots.estado = 'Espera de refacciones')
-		 AND  ordenesots.estado <> 'Cancelado'";
+		 		OR ordenesots.estado = 'Espera de refacciones'
+		 		OR ordenesots.estado = 'Falta de mano de obra'
+		 		OR ordenesots.estado = 'Abierta')";
 
 		// Return objects
 		return self::getBySql($sql);
@@ -471,11 +473,11 @@ class Ordenesots {
 
 		// Build database query
 		$sql = "SELECT count(orden_trabajo) AS nOtrosMP FROM ordenesots WHERE
-		 ( fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+		 ( fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
 		 AND (tipo='Mant. preventivo')
 		 AND (estado = 'Cancelado'
 		 		OR estado = 'Rechazado'
-		 		OR estado = 'Solic. de trabajo') ";
+		 		OR estado = 'Cerrado sin ejecutar') ";
 		 //echo $sql;
 			//die($sql);
 		
@@ -491,11 +493,11 @@ class Ordenesots {
 				FROM ordenesots 
 				INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo
 				WHERE
-		 ( ordenesots.fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+		 ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
 		 AND (ordenesots.tipo='Mant. preventivo')
 		 AND (ordenesots.estado = 'Cancelado'
 		 		OR ordenesots.estado = 'Rechazado'
-		 		OR ordenesots.estado = 'Solic. de trabajo') ";
+		 		OR ordenesots.estado = 'Cerrado sin ejecutar') ";
 		 //echo $sql;
 			//die($sql);
 		
@@ -509,15 +511,18 @@ class Ordenesots {
 		// Build database query
 
 		$sql = "SELECT count(orden_trabajo) AS nProgramadosMC FROM ordenesots WHERE
-		 ( fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
-		 AND (tipo='Correctivo planeado' OR tipo='Correctivo de emergencia')
-		 AND (estado = 'Cerrado sin ejecutar'
-		 	OR estado = 'Cierre Lider Mtto'
+		 ( fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+		 AND (tipo <> 'Mant. preventivo')
+		 AND (estado = 'Cierre Lider Mtto'
 		 	OR estado = 'Ejecutado'
 		 	OR estado = 'Espera de equipo'
 		 	OR estado = 'Espera de refacciones'
+		 	OR estado = 'Falta de mano de obra'
 		 	OR estado = 'Programada' 
-		 	OR estado = 'Terminado' )";
+		 	OR estado = 'Terminado'
+		 	OR estado = 'Solic. de trabajo'
+		 	OR estado = 'Abierta' )";
+
 		//echo ($sql);
 		
 		// Return objects
@@ -532,15 +537,17 @@ class Ordenesots {
 		FROM ordenesots 
 		INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo
 		WHERE
-		 ( ordenesots.fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
-		 AND (ordenesots.tipo='Correctivo planeado' OR ordenesots.tipo='Correctivo de emergencia')
-		 AND (ordenesots.estado = 'Cerrado sin ejecutar'
-		 	OR ordenesots.estado = 'Cierre Lider Mtto'
+		 ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+		 AND (ordenesots.tipo <> 'Mant. preventivo')
+		 AND (ordenesots.estado = 'Cierre Lider Mtto'
 		 	OR ordenesots.estado = 'Ejecutado'
 		 	OR ordenesots.estado = 'Espera de equipo'
 		 	OR ordenesots.estado = 'Espera de refacciones'
+		 	OR ordenesots.estado = 'Falta de mano de obra'
 		 	OR ordenesots.estado = 'Programada' 
-		 	OR ordenesots.estado = 'Terminado' )";
+		 	OR ordenesots.estado = 'Terminado' 
+		 	OR ordenesots.estado = 'Solic. de trabajo'
+		 	OR ordenesots.estado = 'Abierta')";
 		//echo ($sql);
 		
 		// Return objects
@@ -557,10 +564,9 @@ class Ordenesots {
 		 AND estado='Terminado'";*/
 
 		 $sql = "SELECT count(orden_trabajo) AS nTerminadosMC FROM ordenesots WHERE
-		 ( fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
-		 AND (tipo='Correctivo planeado' OR tipo='Correctivo de emergencia')
-		 AND (estado = 'Terminado'
-		 	OR estado = 'Cerrado sin ejecutar')";
+		 ( fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+		 AND (tipo <> 'Mant. preventivo')
+		 AND (estado = 'Terminado')";
 		/*if($mes==04)
 		{
 			die($sql);
@@ -583,10 +589,9 @@ class Ordenesots {
 		  FROM ordenesots 
 		  INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo
 		  WHERE
-		 ( ordenesots.fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
-		 AND (ordenesots.tipo='Correctivo planeado' OR ordenesots.tipo='Correctivo de emergencia')
-		 AND (ordenesots.estado = 'Terminado'
-		 	OR ordenesots.estado = 'Cerrado sin ejecutar')";
+		 ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+		 AND (ordenesots.tipo <> 'Mant. preventivo')
+		 AND (ordenesots.estado = 'Terminado')";
 		/*if($mes==04)
 		{
 			die($sql);
@@ -605,14 +610,17 @@ class Ordenesots {
 		 AND (tipo='Correctivo planeado' OR tipo='Correctivo de emergencia')
 		 AND estado != 'Terminado'";*/
 		$sql = "SELECT count(orden_trabajo) AS nPendientesMC FROM ordenesots WHERE
-		 ( fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
-		 AND (tipo='Correctivo planeado' OR tipo='Correctivo de emergencia')
+		 ( fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+		 AND (tipo <> 'Mant. preventivo')
 		 AND (estado = 'Programada' 
 		 		OR estado = 'Cierre Lider Mtto'
 		 		OR estado = 'Ejecutado'
 		 		OR estado = 'Espera de equipo'
-		 		OR estado = 'Espera de refacciones')
-		 AND  estado <> 'Cancelado' ";
+		 		OR estado = 'Espera de refacciones'
+		 		OR estado = 'Falta de mano de obra'
+		 		OR estado = 'Solic. de trabajo'
+		 		OR estado = 'Abierta')";
+
 		 //echo $sql;
 			//die($sql);
 		
@@ -632,14 +640,16 @@ class Ordenesots {
 		$sql = "SELECT count(ordenesots.orden_trabajo) AS nPendientesMC, activos_equipos.nombre_equipo FROM ordenesots 
 			 INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo
 			WHERE
-		 ( ordenesots.fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
-		 AND (ordenesots.tipo='Correctivo planeado' OR ordenesots.tipo='Correctivo de emergencia')
+		 ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+		 AND (ordenesots.tipo <> 'Mant. preventivo')
 		 AND (ordenesots.estado = 'Programada' 
 		 		OR ordenesots.estado = 'Cierre Lider Mtto'
 		 		OR ordenesots.estado = 'Ejecutado'
 		 		OR ordenesots.estado = 'Espera de equipo'
-		 		OR ordenesots.estado = 'Espera de refacciones')
-		 AND  ordenesots.estado <> 'Cancelado' ";
+		 		OR ordenesots.estado = 'Espera de refacciones'
+		 		OR ordenesots.estado = 'Falta de mano de obra'
+		 		OR ordenesots.estado = 'Solic. de trabajo'
+		 		OR ordenesots.estado = 'Abierta')";
 		 //echo $sql;
 			//die($sql);
 		
@@ -657,11 +667,11 @@ class Ordenesots {
 		 AND (tipo='Correctivo planeado' OR tipo='Correctivo de emergencia')
 		 AND estado != 'Terminado'";*/
 		$sql = "SELECT count(orden_trabajo) AS nOtrosMC FROM ordenesots WHERE
-		 ( fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
-		 AND (tipo='Correctivo planeado' OR tipo='Correctivo de emergencia')
+		 ( fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+		 AND (tipo <> 'Mant. preventivo')
 		 AND (estado = 'Cancelado'
 		 		OR estado = 'Rechazado'
-		 		OR estado = 'Solic. de trabajo') ";
+		 		OR estado = 'Cerrado sin ejecutar') ";
 		 //echo $sql;
 			//die($sql);
 		
@@ -682,11 +692,11 @@ class Ordenesots {
 		 FROM ordenesots 
 		 INNER JOIN activos_equipos ON ordenesots.equipo =  activos_equipos.nombre_equipo
 		 WHERE
-		 ( ordenesots.fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
-		 AND (ordenesots.tipo='Correctivo planeado' OR ordenesots.tipo='Correctivo de emergencia')
+		 ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+		 AND (ordenesots.tipo <> 'Mant. preventivo')
 		 AND (ordenesots.estado = 'Cancelado'
 		 		OR ordenesots.estado = 'Rechazado'
-		 		OR ordenesots.estado = 'Solic. de trabajo') ";
+		 		OR ordenesots.estado = 'Cerrado sin ejecutar') ";
 		 //echo $sql;
 			//die($sql);
 		
@@ -701,7 +711,7 @@ class Ordenesots {
 		// Build database query
 
 		$sql = "SELECT * FROM ordenesots WHERE
-		 ( fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')";
+		 ( fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')";
 		/*if($mes==04)
 		{
 			die($sql);
@@ -718,7 +728,7 @@ class Ordenesots {
 		$sql = "SELECT ordenesots.*, activos_equipos.nombre_equipo FROM ordenesots
 		INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo
 		WHERE
-		 ( ordenesots.fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')";
+		 ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')";
 		/*if($mes==04)
 		{
 			die($sql);

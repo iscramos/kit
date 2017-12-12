@@ -6,7 +6,7 @@ require_once('includes/inc.session.php');
 //$bloques = Bloques::getById($id);
 //print_r($bloques);
 $str="";
-if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7)) // para el admimistrador
+if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_SESSION["type"] == 4)) // para el admimistrador
 {	
 	//$mes = $_GET['mes'];
 	$ano = $_GET['ano'];
@@ -24,7 +24,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 	    $fecha1 = strtotime($fecha1);
 	    $fecha2 = strtotime($fecha2);
 	    return round( (($fecha2 - $fecha1) / 60) / 60, 1); //convirtiendo a horas
-	}
+	} 
 
 	function nombreMes($mes)
 	{
@@ -128,6 +128,8 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 	
 	if($parametro == "MPvsMC")
 	{
+		
+
 		$meses = Calendario_nature::getAllMeses();
 		//print_r($meses);
 		// Esto es para traernos los pendientes del otro año
@@ -141,7 +143,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 		if($ano > 2016)
 		{
 
-			$anoAnterior = $ano - 1;
+			$anoAnterior = $ano - 1; 
 			$fechaInicioAnoAnterior = $anoAnterior."-01-01";
 			$fechaFinalizacionAnoAnterior = $anoAnterior."-12-30";
 
@@ -164,8 +166,10 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 		// PARA LA GRAFICA
 			$str.="<h4 style='text-align:center;' >MANTENIMIENTOS</h4>
 					<input class='form-control hidden' type='number' id='ano' value='$ano'>
-					<a href='indexMp_Mc_lider.php?responsable=41185&ano=$ano' target='_blank' title='Ver cumplimiento por líder' type='button' class='btn btn-default btn-md'> <i class='fa fa-user' aria-hidden='true'></i> Orfanel</a>
-					<a href='indexMp_Mc_lider.php?responsable=239&ano=$ano' target='_blank' title='Ver cumplimiento por líder' type='button' class='btn btn-default btn-md'> <i class='fa fa-user' aria-hidden='true'></i> Humberto</a>
+					<a href='indexMp_Mc_lider.php?responsable=41185&ano=$ano' target='_blank' title='Ver cumplimiento por líder' type='button' class='btn btn-default btn-md'> <i class='fa fa-user' aria-hidden='true'></i> Orfanel Rendón</a>
+					<a href='indexMp_Mc_lider.php?responsable=239&ano=$ano' target='_blank' title='Ver cumplimiento por líder' type='button' class='btn btn-default btn-md'> <i class='fa fa-user' aria-hidden='true'></i> Humberto Cervantes</a>
+					<a href='indexMp_Mc_lider.php?responsable=14993&ano=$ano' target='_blank' title='Ver cumplimiento por líder' type='button' class='btn btn-default btn-md'> <i class='fa fa-user' aria-hidden='true'></i> Miguel Tadeo</a>
+					<a href='indexMp_Mc_lider.php?responsable=15113&ano=$ano' target='_blank' title='Ver cumplimiento por líder' type='button' class='btn btn-default btn-md'> <i class='fa fa-user' aria-hidden='true'></i> Antonio Virgen</a>
 					 <br>";
 
 	        $str.="<br><div class='row'>";
@@ -225,7 +229,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 			$semanas = Calendario_nature::getAllSemanasByMes($mes);
 			$nSemanas = count($semanas);
 
-			$str.="<table class='table table-bordered ".$nombre."' style='font-size:12px'>";
+			$str.="<table class='table table-condensed ".$nombre."' style='font-size:12px'>";
 			$str.="<tr >";
 				$str.="<th class='bg-primary'>SEM</th>
 						<th style='background:#5cb85c; color:white; '>TOTAL MP</th>
@@ -305,7 +309,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 				{
 					$cuentaProgramadosMP = $programadosMP[0]->nProgramadosMP;
 				}
-
+				//echo $cuentaProgramadosMP;
 				// para todas las ordenes mp terminados
 				
 				$terminadosMP = Ordenesots::getAllTerminadosMP($fechaInicio, $fechaFinalizacion);
@@ -398,11 +402,11 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 				
 
 				$str.="<tr>";
-					$str.="<th >".$semana->semana."</th>";
-					$str.="<td class='bg-info'>".$cuentaProgramadosMP."</td>";
-					$str.="<td style='background: #5b4282; color:white;'>".$cuentaOtrosMP."</td>";
-					$str.="<td class='bg-success'>".$cuentaTerminadosMP."</td>";
-					$str.="<td class='bg-warning'>".$cuentaPendientesMP."</td>";
+					$str.="<th class='bg-info'>".$semana->semana."</th>";
+					$str.="<td class='bg-success'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='totalMP' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaProgramadosMP."</a></td>";
+					$str.="<td class='bg-success'><a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='otrosMP' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaOtrosMP."</a></td>";
+					$str.="<td class='bg-success'><a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='terminadoMP' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaTerminadosMP."</a></td>";
+					$str.="<td class='bg-success'><a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='pendienteMP' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaPendientesMP."</a></td>";
 					/*if($semana->semana != 1)
 					{	
 						$str.="<td class='bg-danger'>".$acumuladoMP."</td>";
@@ -412,13 +416,13 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 						$str.="<td class='bg-danger'>".$nPendientesAnoAnteriorMP."</td>";
 					}*/
 					//$str.="<td class='bg-danger'>".$acumuladoMP."</td>";
-					$str.="<td class='bg-default'>".$subCumplimientoMP." % </td>";
+					$str.="<td class='bg-success'>".$subCumplimientoMP." % </td>";
 
 
-					$str.="<td class='bg-info'>".$cuentaProgramadosMC."</td>";
-					$str.="<td style='background: #5b4282; color:white;'>".$cuentaOtrosMC."</td>";
-					$str.="<td class='bg-success'>".$cuentaTerminadosMC."</td>";
-					$str.="<td class='bg-warning'>".$cuentaPendientesMC."</td>";
+					$str.="<td class='bg-warning'><a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='totalMC' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaProgramadosMC."</a></td>";
+					$str.="<td class='bg-warning'><a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='otrosMC' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaOtrosMC."</a></td>";
+					$str.="<td class='bg-warning'><a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='terminadoMC' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaTerminadosMC."</a></td>";
+					$str.="<td class='bg-warning'><a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='pendienteMC' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaPendientesMC."</a></td>";
 
 					/*if($semana->semana != 1)
 					{	
@@ -428,15 +432,15 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 					{
 						$str.="<td class='bg-danger'>".$nPendientesAnoAnteriorMC."</td>";
 					}*/
-					$str.="<td class='bg-danger'>".$acumuladoMC."</td>";
+					$str.="<td class='bg-warning'>".$acumuladoMC."</td>";
 
 					
 
-					$str.="<td class='bg-default'>".$subCumplimientoMC." %</td>";
+					$str.="<td class='bg-warning'>".$subCumplimientoMC." %</td>";
 
 					// PARA VER LOS DETALLES
-					$str.="<td>
-									<a href='indexMpvsMcDetails.php?semana=$semana->semana&fechaInicio=$fechaInicio&fechaFinalizacion=$fechaFinalizacion&ano=$ano' target='_blank' title='Ver detalles de semana $semana->semana' class='detalles_semana_".$semana->semana." btn btn-info btn-md' parametroDetalleSemana='".$semana->semana."'>
+					$str.="<td class='bg-info'>
+									<a href='indexMpvsMcDetails.php?semana=$semana->semana&fechaInicio=$fechaInicio&fechaFinalizacion=$fechaFinalizacion&ano=$ano' target='_blank' title='Ver detalles de semana $semana->semana' class='detalles_semana_".$semana->semana." btn btn-info btn-sm' parametroDetalleSemana='".$semana->semana."'>
 										<i class='fa fa-eye' aria-hidden='true' ></i> 
 									</a>";
 									$verifica_historico = Mp_mc_historicos::verifica($ano, $mes, $semana->semana);
@@ -444,7 +448,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 
 									if($_SESSION["login_user"] == "lramos" && $verifica_historico == 0 )
 									{
-										$str.="<a type='button' class='btn btn-default btn-md guardar_semana' data-toggle='confirmation'
+										$str.="<a type='button' class='btn btn-default btn-sm guardar_semana' data-toggle='confirmation'
 											data-singleton='true'  data-btn-ok-label='S&iacute;'  data-btn-ok-class='btn-danger' data-btn-cancel-label='No' data-btn-cancel-class='btn-default' 
 										semana='".$semana->semana."'
 										mes='".$mes."'
@@ -476,11 +480,11 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 				$posicion++;
 			}
 				$str.="<tr>";
-					$str.="<td 	colspan='5' class='totalMesPreventivo$nombre'>CUMPLIMIENTO MENSUAL PREVENTIVO</td>";
-					$str.="<td > <input class='form-control valorMP$nombre' value='".round($totalMesPreventivo / $nSemanas, 2)."' readonly></td>";
+					$str.="<td 	colspan='5' class='totalMesPreventivo$nombre input-sm'>CUMPLIMIENTO MENSUAL PREVENTIVO</td>";
+					$str.="<td > <input class='form-control input-sm valorMP$nombre' value='".round($totalMesPreventivo / $nSemanas, 2)."' readonly></td>";
 
-					$str.="<td 	colspan='4' class='totalMesPreventivo$nombre'>CUMPLIMIENTO MENSUAL CORRECTIVO</td>";
-					$str.="<td colspan='2'> <input class='form-control valorMC$nombre' value='".round($totalMesCorrectivo / $nSemanas, 2)."' readonly> </td>";
+					$str.="<td 	colspan='4' class='totalMesPreventivo$nombre input-sm'>CUMPLIMIENTO MENSUAL CORRECTIVO</td>";
+					$str.="<td colspan='2'> <input class='form-control input-sm valorMC$nombre' value='".round($totalMesCorrectivo / $nSemanas, 2)."' readonly> </td>";
 					$str.="<td> </td>";
 				$str.="</tr>";
 			$str.="</table>";
@@ -488,7 +492,28 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 		}
 	
 
-		
+		$str.="<!-- Modal -->
+        <div class='modal fade bs-example-modal-lg' id='modalDetalles' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>
+            <div class='modal-dialog modal-lg' role='document'>
+                <div class='modal-content'>
+                  <div class='modal-header'>
+                    <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+                    <h4 class='modal-title' id='myModalLabel'>Detalles de órdenes</h4>
+                  </div>
+                  <div class='modal-body' >
+                    
+                    <div class='table-responsive' id='recibeDetalles'>
+                        
+                    </div>
+
+                  </div>
+                  <div class='modal-footer'>
+                    <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+                  </div>
+                    
+                </div>
+            </div>
+        </div>";	
 	}
 }
 else
@@ -545,6 +570,11 @@ echo $str;
       
     <script src="<?php echo $url; ?>dist/js/bootstrap-confirmation.js"></script>
 
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="<?php echo $url; ?>vendor/bootstrap/js/bootstrap.min.js"></script>
+ 
+
 	<script type="text/javascript">
 
 		/*$('.dataTables-example').DataTable(
@@ -566,7 +596,32 @@ echo $str;
 	        }
 	    });*/
 
+	    $(document).ready(function()
+	    {
+	    	$(".detallesOrdenes").on("click", function(event) 
+		    {
+		        event.preventDefault();
 
+		        var fechaInicio = null;
+		        var fechaFinalizacion = null;
+		        var lider = null;
+		        var tipo = null;
+
+		        var fechaInicio = $(this).attr("fechaInicio");
+		        var fechaFinalizacion = $(this).attr("fechaFinalizacion");
+		        var tipo = $(this).attr("tipo");
+
+		        //Añadimos la imagen de carga en el contenedor
+		        $("#modalDetalles").modal("show");
+		        $('#recibeDetalles').html('<div style="text-align:center;"><img src="dist/img/loading.gif"/></div>');
+		      
+		        $.get("helperMpvsMcDetailsGeneral.php", {fechaInicio:fechaInicio, fechaFinalizacion:fechaFinalizacion, tipo:tipo} ,function(data)
+		        {
+		            $("#recibeDetalles").html(data);
+		        });
+		        
+		    });// fin de detalles
+	    });
 		
 
 	</script>
@@ -579,6 +634,8 @@ echo $str;
 <!-- ------------------------------------------------ -->
 <script type="text/javascript">
 	 	//$('[data-toggle="tooltip"]').tooltip();
+
+
     $('[data-toggle="confirmation"]').confirmation(
     {
         title: '¿Guardar?',

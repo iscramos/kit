@@ -26,7 +26,7 @@ if( isset($_REQUEST["equipo"]) )
     $str.="<table class='table table-bordered jambo_table bulk_action' style='font-size:12px; !important;'>";
                     $str.="<thead >";
                         $str.="<tr >";
-                            $str.="<th>ORDEN</th> <th>DESCRIPCION</th> <th>FECHA INICIO PROGRAMADA</th> <th>ESTADO</th>";
+                            $str.="<th>ORDEN</th> <th>DESCRIPCION</th> <th>HASTA</th> <th>ESTADO</th>";
                         $str.="</tr>";
                     $str.="</thead>";
                     $str.="<tbody>";
@@ -41,7 +41,7 @@ if( isset($_REQUEST["equipo"]) )
                         $str.="<tr>";
                             $str.="<td>".$orden["orden_trabajo"]."</td> 
                                     <td>".$orden["descripcion"]."</td> 
-                                    <td>".date("d-m-Y", strtotime($orden["fecha_inicio_programada"]))."</td>
+                                    <td>".date("d-M-Y", strtotime($orden["fecha_finalizacion_programada"]))."</td>
                                     <td>".$orden["estado"]."</td> ";
                         $str.="</tr>";
                     

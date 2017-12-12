@@ -17,21 +17,21 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7)) // p
 	$adicional = "";
 	if ($tipo == "totalMP") 
 	{
-		$adicional = " AND ordenesots.tipo='Mant. preventivo' 
-		AND (ordenesots.estado = 'Cerrado sin ejecutar'
-		 	OR ordenesots.estado = 'Cierre Lider Mtto'
+		$adicional = " AND ordenesots.tipo = 'Mant. preventivo' 
+		AND (ordenesots.estado = 'Cierre Lider Mtto'
 		 	OR ordenesots.estado = 'Ejecutado'
 		 	OR ordenesots.estado = 'Espera de equipo'
 		 	OR ordenesots.estado = 'Espera de refacciones'
+		 	OR ordenesots.estado = 'Falta de mano de obra'
+		 	OR ordenesots.estado = 'Abierta'
 		 	OR ordenesots.estado = 'Programada' 
 		 	OR ordenesots.estado = 'Terminado' )";
 	}
 	elseif ($tipo == "terminadoMP") 
 	{
 		//$adicional = " AND tipo='Mant. preventivo' AND estado='Terminado' ";
-		$adicional = "AND ordenesots.tipo='Mant. preventivo'
-		 AND (ordenesots.estado='Terminado'
-		 OR ordenesots.estado = 'Cerrado sin ejecutar')";
+		$adicional = "AND ordenesots.tipo = 'Mant. preventivo'
+		 AND (ordenesots.estado = 'Terminado')";
 	}
 	elseif ($tipo == "pendienteMP") 
 	{
@@ -41,8 +41,9 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7)) // p
 		 		OR ordenesots.estado = 'Cierre Lider Mtto'
 		 		OR ordenesots.estado = 'Ejecutado'
 		 		OR ordenesots.estado = 'Espera de equipo'
-		 		OR ordenesots.estado = 'Espera de refacciones')
-		 AND  ordenesots.estado <> 'Cancelado'";
+		 		OR ordenesots.estado = 'Espera de refacciones'
+		 		OR ordenesots.estado = 'Falta de mano de obra'
+		 		OR ordenesots.estado = 'Abierta')";
 		
 	}
 	elseif ($tipo == "otrosMP") 
@@ -51,7 +52,7 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7)) // p
 		$adicional = " AND (ordenesots.tipo='Mant. preventivo')
 		 AND (ordenesots.estado = 'Cancelado'
 		 		OR ordenesots.estado = 'Rechazado'
-		 		OR ordenesots.estado = 'Solic. de trabajo') ";
+		 		OR ordenesots.estado = 'Cerrado sin ejecutar') ";
 
 	}
 
@@ -106,7 +107,7 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7)) // p
  				FROM ordenesots
  				INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo 
  				WHERE
-		 ( ordenesots.fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+		 ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
 		 $adicional
 		 AND ordenesots.responsable=$lider";
 
@@ -115,7 +116,7 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7)) // p
 	$ordenes = Ordenesots::getAllConsulta($consulta);
 		 
 
-	$str.="<table class='table table-bordered table-hover pagina' style='font-size: 11px;'>
+	$str.="<table class='table table-bordered table-hover dataTables_wrapper jambo_table pagina' style='font-size: 11px;'>
 			<thead class='bg-primary'>";
 			$str.="<tr >";
 				$str.="<th >OT</th>
@@ -129,8 +130,8 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7)) // p
 							$str.="<th>ESTADO</th>";
 						}*/
 						$str.="<th>ESTADO</th>";
-						$str.="<th>PROGRAMADA</th>
-						<th>FINALIZADA</th>
+						$str.="<th>LIMITE</th>
+						<th>CIERRE</th>
 						<th>MOTIVO</th>";
 			$str.="</tr>
 			</thead>
@@ -138,6 +139,12 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7)) // p
 
 			foreach ($ordenes as $orden) 
 			{
+				$fecha_fin_tecnico = "";
+				if($orden->fecha_finalizacion != null)
+				{
+					$fecha_fin_tecnico = date("d-M", strtotime($orden->fecha_finalizacion));
+				}
+
 				$str.="<tr>";
 					$str.="<th >".$orden->orden_trabajo."</th>";
 					$str.="<td >".utf8_encode($orden->descripcion)."</td>";
@@ -151,8 +158,8 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7)) // p
 					}*/
 					$str.="<td >".$orden->estado."</td>";
 
-					$str.="<td >".$orden->fecha_inicio_programada."</td>";
-					$str.="<td >".$orden->fecha_finalizacion."</td>";
+					$str.="<td class='bg-success'>".date("d-M", strtotime($orden->fecha_finalizacion_programada))."</td>";
+					$str.="<td >".$fecha_fin_tecnico."</td>";
 					$str.="<td >".$orden->motivo."</td>";
 				$str.="</tr>";
 			}

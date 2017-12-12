@@ -132,7 +132,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 	                        </div>
 	                        <!-- /.panel-body -->
 	                    </div>
-	                    <!-- /.panel -->
+	                    <!-- /.panel --> 
 	                </div>";
 	        $str.="</div>";
 
@@ -178,7 +178,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 			$semanas = Calendario_nature::getAllSemanasByMes($mes);
 			$nSemanas = count($semanas);
 
-			$str.="<table class='table table-bordered ".$nombre."' style='font-size:12px'>";
+			$str.="<table class='table table-condensed ".$nombre."' style='font-size:12px'>";
 			$str.="<tr >";
 				$str.="<th class='bg-primary'>SEM</th>
 						<th style='background:#5cb85c; color:white; '>TOTAL MP</th>
@@ -351,11 +351,11 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 				
 
 				$str.="<tr>";
-					$str.="<th >".$semana->semana."</th>";
-					$str.="<td class='bg-info'>".$cuentaProgramadosMP."</td>";
-					$str.="<td style='background: #5b4282; color:white;'>".$cuentaOtrosMP."</td>";
-					$str.="<td class='bg-success'>".$cuentaTerminadosMP."</td>";
-					$str.="<td class='bg-warning'>".$cuentaPendientesMP."</td>";
+					$str.="<th class='bg-info'>".$semana->semana."</th>";
+					$str.="<td class='bg-success'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='totalMP' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaProgramadosMP."</td>";
+					$str.="<td class='bg-success'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='otrosMP' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaOtrosMP."</td>";
+					$str.="<td class='bg-success'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='terminadoMP' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaTerminadosMP."</td>";
+					$str.="<td class='bg-success'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='pendienteMP' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaPendientesMP."</td>";
 					/*if($semana->semana != 1)
 					{	
 						$str.="<td class='bg-danger'>".$acumuladoMP."</td>";
@@ -365,13 +365,13 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 						$str.="<td class='bg-danger'>".$nPendientesAnoAnteriorMP."</td>";
 					}*/
 					//$str.="<td class='bg-danger'>".$acumuladoMP."</td>";
-					$str.="<td class='bg-default'>".$subCumplimientoMP." % </td>";
+					$str.="<td class='bg-success'>".$subCumplimientoMP." % </td>";
 
 
-					$str.="<td class='bg-info'>".$cuentaProgramadosMC."</td>";
-					$str.="<td style='background: #5b4282; color:white;'>".$cuentaOtrosMC."</td>";
-					$str.="<td class='bg-success'>".$cuentaTerminadosMC."</td>";
-					$str.="<td class='bg-warning'>".$cuentaPendientesMC."</td>";
+					$str.="<td class='bg-warning'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='totalMC' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaProgramadosMC."</td>";
+					$str.="<td class='bg-warning'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='otrosMC' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaOtrosMC."</td>";
+					$str.="<td class='bg-warning'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='terminadoMC' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaTerminadosMC."</td>";
+					$str.="<td class='bg-warning'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='pendienteMC' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaPendientesMC."</td>";
 
 					/*if($semana->semana != 1)
 					{	
@@ -381,14 +381,14 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 					{
 						$str.="<td class='bg-danger'>".$nPendientesAnoAnteriorMC."</td>";
 					}*/
-					$str.="<td class='bg-danger'>".$acumuladoMC."</td>";
+					$str.="<td class='bg-warning'>".$acumuladoMC."</td>";
 
 					
 
-					$str.="<td class='bg-default'>".$subCumplimientoMC." %</td>";
+					$str.="<td class='bg-warning'>".$subCumplimientoMC." %</td>";
 
 					// PARA VER LOS DETALLES
-					$str.="<td>
+					$str.="<td class='bg-info'>
 									<a href='indexMpvsMcDetailsCriticos.php?semana=$semana->semana&fechaInicio=$fechaInicio&fechaFinalizacion=$fechaFinalizacion&ano=$ano' target='_blank' title='Ver detalles de semana $semana->semana' class='detalles_semana_".$semana->semana." btn btn-info btn-md' parametroDetalleSemana='".$semana->semana."'>
 										<i class='fa fa-eye' aria-hidden='true' ></i> 
 									</a>";
@@ -441,7 +441,28 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 		}
 	
 
-		
+		$str.="<!-- Modal -->
+        <div class='modal fade bs-example-modal-lg' id='modalDetalles' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>
+            <div class='modal-dialog modal-lg' role='document'>
+                <div class='modal-content'>
+                  <div class='modal-header'>
+                    <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+                    <h4 class='modal-title' id='myModalLabel'>Detalles de órdenes</h4>
+                  </div>
+                  <div class='modal-body' >
+                    
+                    <div class='table-responsive' id='recibeDetalles'>
+                        
+                    </div>
+
+                  </div>
+                  <div class='modal-footer'>
+                    <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+                  </div>
+                    
+                </div>
+            </div>
+        </div>";	
 	}
 }
 else
@@ -519,7 +540,32 @@ echo $str;
 	        }
 	    });*/
 
+	    $(document).ready(function()
+	    {
+	    	$(".detallesOrdenes").on("click", function(event) 
+		    {
+		        event.preventDefault();
 
+		        var fechaInicio = null;
+		        var fechaFinalizacion = null;
+		        var lider = null;
+		        var tipo = null;
+
+		        var fechaInicio = $(this).attr("fechaInicio");
+		        var fechaFinalizacion = $(this).attr("fechaFinalizacion");
+		        var tipo = $(this).attr("tipo");
+
+		        //Añadimos la imagen de carga en el contenedor
+		        $("#modalDetalles").modal("show");
+		        $('#recibeDetalles').html('<div style="text-align:center;"><img src="dist/img/loading.gif"/></div>');
+		      
+		        $.get("helperMpvsMcDetailsGeneralCriticos.php", {fechaInicio:fechaInicio, fechaFinalizacion:fechaFinalizacion, tipo:tipo} ,function(data)
+		        {
+		            $("#recibeDetalles").html(data);
+		        });
+		        
+		    });// fin de detalles
+	    });
 		
 
 	</script>

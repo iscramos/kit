@@ -1,66 +1,63 @@
  <?php require_once(VIEW_PATH.'header.inc.php');
-    include(VIEW_PATH.'indexMenu.php');
+    //include(VIEW_PATH.'indexMenu.php');
  ?>
 
-            
-            <!-- /.navbar-static-side -->
-        </nav>
-
-        <div id="page-wrapper">
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <br>
-                    <button class="btn btn-primary btn-md expandir" title="Expandir"> <i class="fa fa-expand" aria-hidden="true"></i> </button>
-
-                    <button class="btn btn-primary btn-md contraer hidden" title="Contraer"> <i class="fa fa-compress" aria-hidden="true"></i> </button>
-                    <h1 class="page-header">MP vs MC (Críticos)</h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default" style='border-color: #d43f3a !important;'>
-                        <div class="panel-heading text-right" style='background-color: #d43f3a !important;
-    color: white !important;'>
-                            <form class='form-inline'>
+            <!-- page content -->
+        <div class="right_col" role="main"> 
+            <div class="">
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3>MP VS MC (Críticos)...</h3>
+                    </div>
+                    <div class="title_right ">
+                        <div class="col-md-8 col-sm-8 col-xs-12  pull-right ">
+                            <form class='form-inline pull-right'>
                                 
 
                                 <div class="form-group">
-                                    <select class="form-control" id="ano">
+                                    <label>Generar hasta el A&Ntilde;O </label>
+                                    <select class="form-control input-sm" id="ano">
                                         <option value='<?php echo date('Y'); ?>' style="display: none;"><?php echo date('Y'); ?></option>
                                         <option value='2016' ">2016</option>
                                         <option value='2017' ">2017</option>
                                     </select>
                                 </div>
-                                <button type="button" class="btn btn-success btn-circle btn-md" title="Traer registros" id="verDisponibilidad"><i class="fa fa-database"></i>
+                                <button type="button" class="btn btn-danger btn-sm" title="Traer registros" id="verDisponibilidad"><i class="fa fa-search"></i>
                             </button>
                             </form>
-                            
                         </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="table-responsive" id="disponibilidad" >
-                            
-                            <!-- /.table-responsive -->
+                    </div>
+
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2><i class="fa fa-cogs"></i> Datos <small>en el sistema</small></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">           
+                                <!-- aqui va el contenido -->
+
+                                <div class="table-responsive" id="disponibilidad" >   
+                                    <!-- /.table-responsive -->
+                                </div> 
+                                              
+
                             </div>
                         </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
+                    </div> <!-- fin class='' -->
                 </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-
-            
-           
-            
+            <div class="clearfix"></div>
         </div>
-        <!-- /#page-wrapper -->
-
-
   		
 
 

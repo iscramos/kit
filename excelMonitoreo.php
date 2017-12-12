@@ -30,7 +30,7 @@ if(isset($_REQUEST["semanaActual"]))
         $tipoMantenmiento = $tipo = $sheet->getCell("E".$row)->getValue();
 
 
-        if( ($sheet->getCell("Q".$row)->getValue() == $semanaActual) && ($anoActual == $anoProgramada) && ($tipoMantenmiento == "Mant. preventivo" || $tipoMantenmiento == "Correctivo de emergencia" || $tipoMantenmiento == "Correctivo planeado") )
+        if( ($sheet->getCell("Q".$row)->getValue() == $semanaActual) && ($anoActual == $anoProgramada) )
         {
 
         

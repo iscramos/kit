@@ -1,19 +1,32 @@
  <?php require_once(VIEW_PATH.'header.inc.php');
       
  ?>        
-            <!-- /.navbar-static-side -->
-        </nav>
-        <div id="page-wrapper">
+
+            <div class="right_col" role="main"> 
+            <div class="">
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3>Detalles de cumplimiento <?php echo $nombreResponsable; ?> </h3>
+                    </div>
+                 </div>
+
+                <div class="clearfix"></div>  
+
 
             <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Detalle de cumplimiento <?php echo $nombreResponsable; ?></h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2><i class="fa fa-cogs"></i> Datos <small>en el sistema</small></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content table-responsive">           
+                                <!-- aqui va el contenido -->
                 <?php
 					$str="";
 					if(isset($ano ) && isset($responsable))// para el admimistrador
@@ -79,7 +92,7 @@
 							$nPendientesAnoAnteriorMC = 0;
 							$pendientesAnoAnteriorMC = 0;
 							$anoAnterior = 0;
-							if($ano > 2016)
+							if($ano > 2016) 
 							{
 
 								$anoAnterior = $ano - 1;
@@ -88,28 +101,31 @@
 								
 								$consulta = "SELECT count(orden_trabajo) AS nPendientesMP 
 											FROM ordenesots 
-											WHERE ( fecha_inicio_programada BETWEEN '$fechaInicioAnoAnterior' AND '$fechaFinalizacionAnoAnterior')
+											WHERE ( fecha_finalizacion_programada BETWEEN '$fechaInicioAnoAnterior' AND '$fechaFinalizacionAnoAnterior')
 											AND tipo='Mant. preventivo'
 											AND (estado = 'Programada' 
 											 		OR estado = 'Cierre Lider Mtto'
 											 		OR estado = 'Ejecutado'
 											 		OR estado = 'Espera de equipo'
-											 		OR estado = 'Espera de refacciones')
-											 AND  estado <> 'Cancelado'
+											 		OR estado = 'Espera de refacciones'
+											 		OR estado = 'Falta de mano de obra'
+											 		OR estado = 'Abierta')
 											 AND responsable = $responsable";
 
 								$pendientesAnoAnteriorMP = Ordenesots::getAllConsulta($consulta);
 
 								$consulta = "SELECT count(orden_trabajo) AS nPendientesMC 
 											FROM ordenesots 
-											WHERE ( fecha_inicio_programada BETWEEN '$fechaInicioAnoAnterior' AND '$fechaFinalizacionAnoAnterior')
-											 AND (tipo='Correctivo planeado' OR tipo='Correctivo de emergencia')
+											WHERE ( fecha_finalizacion_programada BETWEEN '$fechaInicioAnoAnterior' AND '$fechaFinalizacionAnoAnterior')
+											 AND (tipo <> 'Mant. preventivo')
 											 AND (estado = 'Programada' 
 											 		OR estado = 'Cierre Lider Mtto'
 											 		OR estado = 'Ejecutado'
 											 		OR estado = 'Espera de equipo'
-											 		OR estado = 'Espera de refacciones')
-											 AND  estado <> 'Cancelado' 
+											 		OR estado = 'Espera de refacciones'
+											 		OR estado = 'Falta de mano de obra'
+											 		OR estado = 'Abierta'
+											 		OR estado = 'Solic. de trabajo') 
 											 AND responsable = $responsable";
 								$pendientesAnoAnteriorMC = Ordenesots::getAllConsulta($consulta);
 							}
@@ -127,7 +143,7 @@
 							//$anoAnterior = $programadosMP = Ordenesots::getAllProgramadosMP($fechaInicio, $fechaFinalizacion);
 							//$x = 1;
 							// PARA LA GRAFICA
-								$str.="<h4 style='text-align:center;' class='hidden'>MANTENIMIENTOS</h4>
+								$str.="<!--h4 style='text-align:center;' class='hidden'>MANTENIMIENTOS</h4-->
 										<input class='form-control hidden' type='number' id='ano' value='$ano' >";
 
 						        $str.="<div class='row'>";
@@ -171,7 +187,7 @@
 								$semanas = Calendario_nature::getAllSemanasByMes($mes);
 								$nSemanas = count($semanas);
 
-								$str.="<table class='table table-bordered ".$nombre." ' style='font-size:12px'>";
+								$str.="<table class='table table-hover table-condensed ".$nombre." ' style='font-size:12px'>";
 								$str.="<tr >";
 									$str.="<th class='bg-primary'>SEM</th>
 											<th style='background:#5cb85c; color:white; '>TOTAL MP</th>
@@ -218,16 +234,16 @@
 									// para todas las ordenes MP de la semana
 									$consulta = "SELECT count(orden_trabajo) AS nProgramadosMP 
 												FROM ordenesots 
-												WHERE ( fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion') 
+												WHERE ( fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion') 
 												AND tipo='Mant. preventivo'
-												AND (estado = 'Cerrado sin ejecutar'
-										 	OR estado = 'Cierre Lider Mtto'
-										 	OR estado = 'Ejecutado'
-										 	OR estado = 'Espera de equipo'
-										 	OR estado = 'Espera de refacciones'
-										 	OR estado = 'Programada' 
-										 	OR estado = 'Terminado' )
-										 	AND responsable = $responsable";
+												AND (estado = 'Cierre Lider Mtto'
+												 	OR estado = 'Ejecutado'
+												 	OR estado = 'Espera de equipo'
+												 	OR estado = 'Espera de refacciones'
+												 	OR estado = 'Falta de mano de obra'
+												 	OR estado = 'Programada' 
+												 	OR estado = 'Terminado' )
+												 	AND responsable = $responsable";
 
 										 	//if ($mes == 04)echo $consulta."<br>";
 
@@ -241,10 +257,9 @@
 									// para todas las ordenes mp terminados
 									$consulta = "SELECT count(orden_trabajo) AS nTerminadosMP 
 												FROM ordenesots 
-												WHERE ( fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
-												 AND tipo='Mant. preventivo'
-												 AND (estado='Terminado'
-												 OR estado = 'Cerrado sin ejecutar')
+												WHERE ( fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+												 AND tipo = 'Mant. preventivo'
+												 AND (estado = 'Terminado')
 												 AND responsable = $responsable";
 									$terminadosMP = Ordenesots::getAllConsulta($consulta);
 									$cuentaTerminadosMP = 0;
@@ -256,14 +271,14 @@
 									// para todas las ordenes mp pendientes
 									$consulta = "SELECT count(orden_trabajo) AS nPendientesMP 
 												FROM ordenesots 
-												WHERE ( fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
-												 AND tipo='Mant. preventivo'
+												WHERE ( fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+												 AND tipo = 'Mant. preventivo'
 												 AND (estado = 'Programada' 
 												 		OR estado = 'Cierre Lider Mtto'
 												 		OR estado = 'Ejecutado'
 												 		OR estado = 'Espera de equipo'
-												 		OR estado = 'Espera de refacciones')
-												 AND  estado <> 'Cancelado'
+												 		OR estado = 'Espera de refacciones'
+												 		OR estado = 'Falta de mano de obra')
 												 AND responsable = $responsable";
 									$pendientesMP = Ordenesots::getAllConsulta($consulta);
 									$cuentaPendientesMP = 0;
@@ -284,15 +299,17 @@
 									// para todas las ordenes MC de la semana
 									$consulta = "SELECT count(orden_trabajo) AS nProgramadosMC 
 											FROM ordenesots 
-											WHERE ( fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
-									 AND (tipo='Correctivo planeado' OR tipo='Correctivo de emergencia')
-									 AND (estado = 'Cerrado sin ejecutar'
-									 	OR estado = 'Cierre Lider Mtto'
+											WHERE ( fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+									 AND (tipo <> 'Mant. preventivo')
+									 AND (estado = 'Cierre Lider Mtto'
 									 	OR estado = 'Ejecutado'
 									 	OR estado = 'Espera de equipo'
 									 	OR estado = 'Espera de refacciones'
+									 	OR estado = 'Falto de mano de obra'
 									 	OR estado = 'Programada' 
-									 	OR estado = 'Terminado' )
+									 	OR estado = 'Terminado'
+									 	OR estado = 'Abierta'
+									 	OR estado = 'Solic. de trabajo' )
 									 	AND responsable = $responsable";
 									$programadosMC = Ordenesots::getAllConsulta($consulta);
 									$cuentaProgramadosMC = 0;
@@ -304,10 +321,9 @@
 									// para todas las ordenes MC terminados
 									$consulta = "SELECT count(orden_trabajo) AS nTerminadosMC 
 												FROM ordenesots 
-												WHERE ( fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
-										 		AND (tipo='Correctivo planeado' OR tipo='Correctivo de emergencia')
-										 		AND (estado = 'Terminado'
-										 			OR estado = 'Cerrado sin ejecutar')
+												WHERE ( fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+										 		AND (tipo <> 'Mant. preventivo')
+										 		AND (estado = 'Terminado')
 												AND responsable = $responsable";
 									$terminadosMC = Ordenesots::getAllConsulta($consulta);
 									$cuentaTerminadosMC = 0;
@@ -320,14 +336,16 @@
 									// para todas las ordenes MC terminados
 									$consulta = "SELECT count(orden_trabajo) AS nPendientesMC 
 												FROM ordenesots 
-												WHERE ( fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
-												 AND (tipo='Correctivo planeado' OR tipo='Correctivo de emergencia')
+												WHERE ( fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+												 AND (tipo <> 'Mant. preventivo')
 												 AND (estado = 'Programada' 
 												 		OR estado = 'Cierre Lider Mtto'
 												 		OR estado = 'Ejecutado'
 												 		OR estado = 'Espera de equipo'
-												 		OR estado = 'Espera de refacciones')
-												 AND  estado <> 'Cancelado' 
+												 		OR estado = 'Espera de refacciones'
+												 		OR estado = 'Falta de mano de obra'
+												 		OR estado = 'Abierta'
+												 		OR estado = 'Solic. de trabajo') 
 												AND responsable = $responsable";
 									$pendientesMC = Ordenesots::getAllConsulta($consulta);
 									$cuentaPendientesMC = 0;
@@ -378,26 +396,26 @@
 									
 
 									$str.="<tr>";
-										$str.="<th >".$semana->semana."</th>";
-										$str.="<td class='bg-info'>".$cuentaProgramadosMP."</td>";
+										$str.="<th class='bg-info'>".$semana->semana."</th>";
+										$str.="<td class='bg-success'>".$cuentaProgramadosMP."</td>";
 										/*$str.="<td style='background: #5b4282; color:white;'>".$cuentaOtrosMP."</td>";*/
 										$str.="<td class='bg-success'>".$cuentaTerminadosMP."</td>";
-										$str.="<td class='bg-warning'>".$cuentaPendientesMP."</td>";
+										$str.="<td class='bg-success'>".$cuentaPendientesMP."</td>";
 										
-										$str.="<td class='bg-default'>".$subCumplimientoMP." % </td>";
+										$str.="<td class='bg-success'>".$subCumplimientoMP." % </td>";
 
 
-										$str.="<td class='bg-info'>".$cuentaProgramadosMC."</td>";
+										$str.="<td class='bg-warning'>".$cuentaProgramadosMC."</td>";
 										/*$str.="<td style='background: #5b4282; color:white;'>".$cuentaOtrosMC."</td>";*/
-										$str.="<td class='bg-success'>".$cuentaTerminadosMC."</td>";
+										$str.="<td class='bg-warning'>".$cuentaTerminadosMC."</td>";
 										$str.="<td class='bg-warning'>".$cuentaPendientesMC."</td>";
 
 										
-										$str.="<td class='bg-danger'>".$acumuladoMC."</td>";
+										$str.="<td class='bg-warning'>".$acumuladoMC."</td>";
 
 										
 
-										$str.="<td class='bg-default'>".$subCumplimientoMC." %</td>";
+										$str.="<td class='bg-warning'>".$subCumplimientoMC." %</td>";
 
 										
 									$str.="</tr>";
@@ -438,9 +456,11 @@
                     
                     
                 </div>
-                <!-- /.col-lg-12 -->
             </div>
-            <!-- /.row -->
+        </div> <!-- fin class='' -->
+    </div>
+    <div class="clearfix"></div>
+</div>
 
 
  <?php require_once(VIEW_PATH.'footer.inc.php'); ?>
@@ -450,7 +470,10 @@
     <script type="text/javascript">
         $(document).ready(function()
         {
-            $("#page-wrapper").css("margin", 0);
+            $(".left_col").addClass("hidden", "hidden");
+            $(".top_nav").css("margin-left", 0);
+            $(".right_col").css("margin-left", 0);
+            $(".toggle").addClass("hidden", "hidden");
             
 
             // ----------------------------------------------------------------

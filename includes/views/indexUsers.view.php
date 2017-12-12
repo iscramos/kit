@@ -60,7 +60,8 @@
                                                     echo "<td>".$user->description."</td>";
                                                     echo "<td>";
                                                         echo "<a type='button' class='btn btn-warning btn-circle btn-sm optionEdit' valueEdit='".$user->id."' title='Editar registro' ><i class='fa fa-pencil-square-o'></i></a>";
-                                                        echo " <a type='button' class='btn btn-danger btn-circle btn-sm' data-toggle='confirmation' data-btn-ok-label='S&iacute;' data-btn-ok-icon='glyphicon glyphicon-share-alt' data-btn-ok-class='btn-danger' data-btn-cancel-label='No' data-btn-cancel-icon='glyphicon glyphicon-ban-circle' data-btn-cancel-class='btn-default'><span title='Eliminar registro'class='glyphicon glyphicon-remove' aria-hidden='true'></span></a>";
+                                                        echo " <a type='button' class='btn btn-danger btn-circle btn-sm' data-toggle='confirmation'
+                                                        data-placement='left' data-btn-ok-label='S&iacute;' data-btn-ok-icon='glyphicon glyphicon-share-alt' data-btn-ok-class='btn-danger' data-btn-cancel-label='No' data-btn-cancel-icon='glyphicon glyphicon-ban-circle' data-btn-cancel-class='btn-default'><span title='Eliminar registro'class='glyphicon glyphicon-remove' aria-hidden='true'></span></a>";
                                                        /* echo " <a class='btn btn-danger btn-circle btn-md' data-toggle='confirmation' data-singleton='true'  title='Eliminar registro'><i class='fa fa-times'></i></a>";*/
                                                     echo "</td>";
                                                 echo "</tr>";

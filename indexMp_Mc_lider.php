@@ -29,4 +29,4 @@ else
 {
 	// Include page view
 	redirect_to('index.php');
-}
+} 

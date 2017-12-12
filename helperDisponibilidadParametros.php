@@ -205,13 +205,13 @@ if(isset($_GET['param']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_S
 								{
 									$fechaHoy = null;
 									$fechaHoy = date("Y-m-d H:i:s");
-									if($ordenmp->fecha_inicio_programada > $fechaHoy)
+									if($ordenmp->fecha_finalizacion_programada > $fechaHoy)
 									{
 										$realA = 0;
 									}
 									else
 									{
-										$realA = getMinutes($ordenmp->fecha_inicio_programada, $fechaHoy);
+										$realA = getMinutes($ordenmp->fecha_finalizacion_programada, $fechaHoy);
 									}
 									
 									
@@ -246,13 +246,13 @@ if(isset($_GET['param']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_S
 								{
 									$fechaHoy = null;
 									$fechaHoy = date("Y-m-d H:i:s");
-									if($ordenmp->fecha_inicio_programada > $fechaHoy)
+									if($ordenmp->fecha_finalizacion_programada > $fechaHoy)
 									{
 										$realB = 0;
 									}
 									else
 									{
-										$realB = getMinutes($ordenmp->fecha_inicio_programada, $fechaHoy);
+										$realB = getMinutes($ordenmp->fecha_finalizacion_programada, $fechaHoy);
 									}
 									
 									$encuentraB = 1;
@@ -284,13 +284,13 @@ if(isset($_GET['param']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_S
 								{
 									$fechaHoy = null;
 									$fechaHoy = date("Y-m-d H:i:s");
-									if($ordenmp->fecha_inicio_programada > $fechaHoy)
+									if($ordenmp->fecha_finalizacion_programada > $fechaHoy)
 									{
 										$realC = 0;
 									}
 									else
 									{
-										$realC = getMinutes($ordenmp->fecha_inicio_programada, $fechaHoy);
+										$realC = getMinutes($ordenmp->fecha_finalizacion_programada, $fechaHoy);
 									}
 									
 									$encuentraC = 1;
@@ -322,13 +322,13 @@ if(isset($_GET['param']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_S
 								{
 									$fechaHoy = null;
 									$fechaHoy = date("Y-m-d H:i:s");
-									if($ordenmp->fecha_inicio_programada > $fechaHoy)
+									if($ordenmp->fecha_finalizacion_programada > $fechaHoy)
 									{
 										$realD = 0;
 									}
 									else
 									{
-										$realD = getMinutes($ordenmp->fecha_inicio_programada, $fechaHoy);
+										$realD = getMinutes($ordenmp->fecha_finalizacion_programada, $fechaHoy);
 									};
 									
 									$encuentraD = 1;
@@ -360,13 +360,13 @@ if(isset($_GET['param']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_S
 								{
 									$fechaHoy = null;
 									$fechaHoy = date("Y-m-d H:i:s");
-									if($ordenmp->fecha_inicio_programada > $fechaHoy)
+									if($ordenmp->fecha_finalizacion_programada > $fechaHoy)
 									{
 										$realE = 0;
 									}
 									else
 									{
-										$realE = getMinutes($ordenmp->fecha_inicio_programada, $fechaHoy);
+										$realE = getMinutes($ordenmp->fecha_finalizacion_programada, $fechaHoy);
 									}
 								}
 								else if($ordenmp->fecha_finalizacion == "" && $ordenmp->fecha_inicio != "")
@@ -396,13 +396,13 @@ if(isset($_GET['param']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_S
 								{
 									$fechaHoy = null;
 									$fechaHoy = date("Y-m-d H:i:s");
-									if($ordenmp->fecha_inicio_programada > $fechaHoy)
+									if($ordenmp->fecha_finalizacion_programada > $fechaHoy)
 									{
 										$realF = 0;
 									}
 									else
 									{
-										$realF = getMinutes($ordenmp->fecha_inicio_programada, $fechaHoy);
+										$realF = getMinutes($ordenmp->fecha_finalizacion_programada, $fechaHoy);
 									}
 									
 									$encuentraF = 1;
@@ -580,12 +580,12 @@ if(isset($_GET['param']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_S
 							$fechaHoy = null;
 							$fechaHoy = date("Y-m-d H:i:s");
 
-							if($mc->fecha_inicio_programada <= $fechaHoy)
+							if($mc->fecha_finalizacion_programada <= $fechaHoy)
 							{
 								if($mc->fecha_inicio == "")
 								{
 									
-									$timeToRepair = $timeToRepair + getMinutes($mc->fecha_inicio_programada, $fechaHoy);
+									$timeToRepair = $timeToRepair + getMinutes($mc->fecha_finalizacion_programada, $fechaHoy);
 									$cuentaFails ++;	
 
 									
@@ -766,7 +766,7 @@ if(isset($_GET['param']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_S
 
 		$str.="<br>
 				<h4> <i class='fa fa-wrench' aria-hidden='true'></i> EQUIPO: ".$equipo."</h4>
-				<table class='table table-bordered table-condensed dataTables_wrapper jambo_table bulk_action' style='font-size: 10px;'>
+				<table class='table table-bordered table-condensed dataTables_wrapper jambo_table bulk_action' style='font-size: 11px;'>
 					<thead >
 					<tr>
 						<th>OT</th>
@@ -775,7 +775,7 @@ if(isset($_GET['param']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_S
 						<th>ESTADO</th>
 						<th>CLASE</th>
 						<th>DEPARTAMENTO</th>
-						<th>F. INICIO PROGRAMADA</th>
+						<th>LIMITE</th>
 						<th>F. INICIO (TEC)</th>
 						<th>F. FIN (TEC)</th>
 					</tr>
@@ -790,7 +790,7 @@ if(isset($_GET['param']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_S
 							$str.="<td>".$detalleEquipo->estado."</td>";
 							$str.="<td>".$detalleEquipo->clase."</td>";
 							$str.="<td>".$detalleEquipo->departamento."</td>";
-							$str.="<td>".$detalleEquipo->fecha_inicio_programada."</td>";
+							$str.="<td class='bg-danger'>".date("d-M-Y",strtotime($detalleEquipo->fecha_finalizacion_programada) )."</td>";
 							$str.="<td>".$detalleEquipo->fecha_inicio."</td>";
 							$str.="<td>".$detalleEquipo->fecha_finalizacion."</td>";
 						$str.="</tr>";

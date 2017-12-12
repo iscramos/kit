@@ -31,7 +31,7 @@
 }
 .nav-sm .container.body .col-md-3.left_col
 {
-	min-height:100%;width:70px;padding:0;z-index:9999;position:absolute;
+	min-height:100%;width:70px;padding:0;z-index:9999;position:fixed;
 }
 .nav-sm .container.body .col-md-3.left_col.menu_fixed
 {
@@ -169,7 +169,7 @@
 .nav-md .container.body .col-md-3.left_col
 {
 	/*min-height:100%;width:70px;padding:0;position:absolute;display:-ms-flexbox;display:flex;z-index:1*/
-	min-height:100%;width:70px;padding:0;z-index:9999;position:absolute;
+	min-height:100%;width:70px;padding:0;z-index:9999;position:fixed;
 }
 .nav-md .container.body .col-md-3.left_col.menu_fixed
 {
@@ -268,7 +268,7 @@ body
 {
 	color:#73879C;
 	background:#F7F7F7;
-	font-family:"Helvetica Neue",Roboto,Arial,"Droid Sans",sans-serif;
+	/*font-family:"Helvetica Neue",Roboto,Arial,"Droid Sans",sans-serif;*/
 	font-size:13px;
 	font-weight:400;
 	line-height:1.471

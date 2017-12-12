@@ -11,48 +11,48 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 	//$mes = $_GET['mes'];
 	$fechaInicio = $_GET['fechaInicio'];
 	$fechaFinalizacion = $_GET['fechaFinalizacion'];
-	$lider = $_GET['lider'];
 	$tipo = $_GET['tipo'];
 
 	$adicional = "";
 	if ($tipo == "totalMP") 
 	{
-		$adicional = " AND tipo='Mant. preventivo' 
-		AND (estado = 'Cierre Lider Mtto'
-		 	OR estado = 'Ejecutado'
-		 	OR estado = 'Espera de equipo'
-		 	OR estado = 'Espera de refacciones'
-		 	OR estado = 'Falta de mano de obra'
-		 	OR estado = 'Abierta'
-		 	OR estado = 'Programada' 
-		 	OR estado = 'Terminado' )";
+		$adicional = " AND tipo='Mant. preventivo'
+				AND (estado = 'Cierre Lider Mtto'
+					 	OR estado = 'Ejecutado'
+					 	OR estado = 'Espera de equipo'
+					 	OR estado = 'Espera de refacciones'
+					 	OR estado = 'Abierta'
+					 	OR estado = 'Falta de mano de obra'
+					 	OR estado = 'Programada' 
+					 	OR estado = 'Terminado' )";
 	}
 	elseif ($tipo == "terminadoMP") 
 	{
 		//$adicional = " AND tipo='Mant. preventivo' AND estado='Terminado' ";
-		$adicional = "AND tipo = 'Mant. preventivo'
+		$adicional = " AND tipo='Mant. preventivo'
 		 AND (estado='Terminado')";
 	}
 	elseif ($tipo == "pendienteMP") 
 	{
 		//$adicional = " AND tipo='Mant. preventivo' AND estado <> 'Terminado' ";
-		$adicional = "AND tipo = 'Mant. preventivo'
+		$adicional = " AND tipo='Mant. preventivo'
 		 AND (estado = 'Programada' 
 		 		OR estado = 'Cierre Lider Mtto'
 		 		OR estado = 'Ejecutado'
 		 		OR estado = 'Espera de equipo'
 		 		OR estado = 'Espera de refacciones'
 		 		OR estado = 'Falta de mano de obra'
+		 		OR estado = 'Solic. de trabajo'
 		 		OR estado = 'Abierta')";
 		
 	}
 	elseif ($tipo == "otrosMP") 
 	{
 		/*$adicional = " AND (tipo='Correctivo de emergencia' OR tipo='Correctivo planeado') AND estado <> 'Terminado' ";*/
-		$adicional = " AND (tipo = 'Mant. preventivo')
+		$adicional = " AND (tipo='Mant. preventivo')
 		 AND (estado = 'Cancelado'
 		 		OR estado = 'Rechazado'
-		 		OR estado = 'Cerrado sin ejecutar') ";
+		 		OR estado = 'Cerrado sin ejecutar')";
 
 	}
 
@@ -65,11 +65,11 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 		 	OR estado = 'Ejecutado'
 		 	OR estado = 'Espera de equipo'
 		 	OR estado = 'Espera de refacciones'
-		 	OR estado = 'Falta de mano de obra'
-		 	OR estado = 'Abierta'
+		 	OR estado = 'Falta  de mano de obra'
 		 	OR estado = 'Programada' 
 		 	OR estado = 'Terminado'
-		 	OR estado = 'Solic. de trabajo' )";
+		 	OR estado = 'Solic. de trabajo'
+		 	OR estado = 'Abierta' )";
 	}
 	elseif ($tipo == "terminadoMC") 
 	{
@@ -87,8 +87,8 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 		 		OR estado = 'Espera de equipo'
 		 		OR estado = 'Espera de refacciones'
 		 		OR estado = 'Falta de mano de obra'
-		 		OR estado = 'Abierta'
-		 		OR estado = 'Solic. de trabajo')";
+		 		OR estado = 'Solic. de trabajo'
+		 		OR estado = 'Abierta') ";
 	}
 	elseif ($tipo == "otrosMC") 
 	{
@@ -102,20 +102,19 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 
 	$consulta = "";
  	$consulta = "SELECT * FROM ordenesots WHERE
-		 ( fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
-		 $adicional
-		 AND responsable=$lider";
+		 ( fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+		 $adicional ORDER BY responsable ASC";
 
 		 //echo $consulta;
 
 	$ordenes = Ordenesots::getAllConsulta($consulta);
 		 
 
-	$str.="<table class='table table-bordered table-condensed dataTables_wrapper jambo_table bulk_action pagina' style='font-size: 11px;'>
+	$str.="<table class='table table-bordered table-condensed table-hover dataTables_wrapper jambo_table bulk_action pagina' style='font-size: 11px;'>
 			<thead class='bg-primary'>";
 			$str.="<tr >";
 				$str.="<th >OT</th>
-						<th>DESCRIPCION</th>
+						<th>DESCRIPCIÓN</th>
 						<th>EQUIPO</th>
 						<th>CLASE</th>
 						<!--th>DEPARTAMENTO</th-->";
@@ -127,7 +126,8 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 						$str.="<th>ESTADO</th>";
 						$str.="<th>LIMITE</th>
 						<th>CIERRE</th>
-						<th>* MOTIVO </th>";
+						<th>MOTIVO</th>
+						<th>Líder</th>";
 			$str.="</tr>
 			</thead>
 			</tbody>";
@@ -139,9 +139,10 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 				{
 					$fecha_fin_tecnico = date("d-M", strtotime($orden->fecha_finalizacion));
 				}
+
 				$str.="<tr>";
 					$str.="<th >".$orden->orden_trabajo."</th>";
-					$str.="<td >".$orden->descripcion."</td>";
+					$str.="<td >".utf8_encode($orden->descripcion)."</td>";
 					$str.="<td >".$orden->equipo."</td>";
 					$str.="<td >".$orden->clase."</td>";
 					//$str.="<td >".$orden->departamento."</td>";
@@ -151,10 +152,11 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 						$str.="<td >".$orden->estado."</td>";
 					}*/
 					$str.="<td >".$orden->estado."</td>";
-
+					
 					$str.="<td class='bg-success'>".date("d-M", strtotime($orden->fecha_finalizacion_programada))."</td>";
 					$str.="<td >".$fecha_fin_tecnico."</td>";
 					$str.="<td >".$orden->motivo."</td>";
+					$str.="<td >".$orden->responsable."</td>";
 				$str.="</tr>";
 			}
 	$str.="</tbody>

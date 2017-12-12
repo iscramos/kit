@@ -28,7 +28,7 @@
       <div class="col-md-4 col-sm-4 col-xs-4 tile_stats_count">
         <span class="count_top"><i class="fa fa-folder-open"></i> Archivo de carga (ordenesots.xlsx)</span>
         
-          <form action="load.php" method="POST" enctype="multipart/form-data" class="form-inline">
+          <form name="importa" action="importar.php" method="POST" enctype="multipart/form-data">
              <div class='form-group'>
                   <div class='col-sm-10'>  
                       <input type='file' id='archivo' name='archivo' onChange='extensionCHK(this);' required>

@@ -115,7 +115,7 @@
                 	<img src="<?php echo $url."dist/img/naturesweet_picture.png"; ?>"  alt="Responsive image"><b style="color: #969696;"> Planta Colima</b>
                     <img src="<?php echo $url."dist/img/infor-logo.png"; ?>" class='pull-right' style='width: 36px;'  alt="Responsive image">
                     <hr>
-                	<h4>Kit de mantenimiento</h4>
+                	<h4>Kit de mantenimiento v2</h4>
 
                 	<?php
                 		session_start();

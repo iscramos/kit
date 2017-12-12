@@ -1,19 +1,31 @@
  <?php require_once(VIEW_PATH.'header.inc.php');
       
  ?>        
-            <!-- /.navbar-static-side -->
-        </nav>
-        <div id="page-wrapper">
+        <div class="right_col" role="main"> 
+            <div class="">
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3>Detalles de cumplimiento <?php echo $nombreResponsable; ?></h3>
+                    </div>
+                 </div>
+
+                <div class="clearfix"></div>  
+
 
             <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Detalle de cumplimiento <?php echo $nombreResponsable; ?></h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2><i class="fa fa-cogs"></i> Datos <small>en el sistema</small></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content table-responsive">           
+                                <!-- aqui va el contenido -->
                 <?php
 					$str="";
 					if(isset($ano ) && isset($responsable))// para el admimistrador
@@ -89,14 +101,15 @@
 								$consulta = "SELECT count(ordenesots.orden_trabajo) AS nPendientesMP, activos_equipos.nombre_equipo 
 									FROM ordenesots
 									INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo 
-									WHERE ( ordenesots.fecha_inicio_programada BETWEEN '$fechaInicioAnoAnterior' AND '$fechaFinalizacionAnoAnterior')
+									WHERE ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicioAnoAnterior' AND '$fechaFinalizacionAnoAnterior')
 					 				AND ordenesots.tipo='Mant. preventivo'
 					 				AND (ordenesots.estado = 'Programada' 
 					 					OR ordenesots.estado = 'Cierre Lider Mtto'
 					 					OR ordenesots.estado = 'Ejecutado'
 					 					OR ordenesots.estado = 'Espera de equipo'
-					 					OR ordenesots.estado = 'Espera de refacciones')
-					 				AND  ordenesots.estado <> 'Cancelado'
+					 					OR ordenesots.estado = 'Espera de refacciones'
+					 					OR ordenesots.estado = 'Falta de mano de obra'
+					 					OR ordenesots.estado = 'Abierta')
 			         				AND ordenesots.responsable = 41185";
 
 								$pendientesAnoAnteriorMP = Ordenesots::getAllConsulta($consulta);
@@ -104,15 +117,16 @@
 								$consulta = "SELECT count(ordenesots.orden_trabajo) AS nPendientesMC, activos_equipos.nombre_equipo 
 									FROM ordenesots
 									INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo 
-									WHERE ( ordenesots.fecha_inicio_programada BETWEEN '$fechaInicioAnoAnterior' AND '$fechaFinalizacionAnoAnterior') 
-									AND (ordenesots.tipo='Correctivo planeado' 
-										OR ordenesots.tipo='Correctivo de emergencia') 
+									WHERE ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicioAnoAnterior' AND '$fechaFinalizacionAnoAnterior') 
+									AND (ordenesots.tipo <> 'Mant. preventivo') 
 									AND (ordenesots.estado = 'Programada' 
 										OR ordenesots.estado = 'Cierre Lider Mtto' 
 										OR ordenesots.estado = 'Ejecutado' 
 										OR ordenesots.estado = 'Espera de equipo' 
-										OR ordenesots.estado = 'Espera de refacciones') 
-									AND ordenesots.estado <> 'Cancelado'
+										OR ordenesots.estado = 'Espera de refacciones'
+										OR ordenesots.estado = 'Falta de mano de obra'
+										OR ordenesots.estado = 'Abierta'
+										OR ordenesots.estado = 'Solic. de trabajo')
 									AND ordenesots.responsable = 41185";
 
 								$pendientesAnoAnteriorMC = Ordenesots::getAllConsulta($consulta);
@@ -223,13 +237,13 @@
 									$consulta = "SELECT count(ordenesots.orden_trabajo) AS nProgramadosMP, activos_equipos.nombre_equipo 
 												FROM ordenesots
 												INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo 
-												WHERE ( ordenesots.fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion') 
+												WHERE ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion') 
 												AND ordenesots.tipo='Mant. preventivo'
-												AND (ordenesots.estado = 'Cerrado sin ejecutar'
-										 	OR ordenesots.estado = 'Cierre Lider Mtto'
+												AND (ordenesots.estado = 'Cierre Lider Mtto'
 										 	OR ordenesots.estado = 'Ejecutado'
 										 	OR ordenesots.estado = 'Espera de equipo'
 										 	OR ordenesots.estado = 'Espera de refacciones'
+										 	OR ordenesots.estado = 'Falta de mano de obra'
 										 	OR ordenesots.estado = 'Programada' 
 										 	OR ordenesots.estado = 'Terminado' )
 										 	AND ordenesots.responsable = $responsable";
@@ -247,10 +261,9 @@
 									$consulta = "SELECT count(ordenesots.orden_trabajo) AS nTerminadosMP, activos_equipos.nombre_equipo 
 												FROM ordenesots
 												INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo 
-												WHERE ( ordenesots.fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+												WHERE ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
 												 AND ordenesots.tipo='Mant. preventivo'
-												 AND (ordenesots.estado='Terminado'
-												 OR ordenesots.estado = 'Cerrado sin ejecutar')
+												 AND (ordenesots.estado='Terminado')
 												 AND ordenesots.responsable = $responsable";
 									$terminadosMP = Ordenesots::getAllConsulta($consulta);
 									$cuentaTerminadosMP = 0;
@@ -263,14 +276,14 @@
 									$consulta = "SELECT count(ordenesots.orden_trabajo) AS nPendientesMP, activos_equipos.nombre_equipo
 												FROM ordenesots
 												INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo 
-												WHERE ( ordenesots.fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+												WHERE ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
 												 AND ordenesots.tipo='Mant. preventivo'
 												 AND (ordenesots.estado = 'Programada' 
 												 		OR ordenesots.estado = 'Cierre Lider Mtto'
 												 		OR ordenesots.estado = 'Ejecutado'
 												 		OR ordenesots.estado = 'Espera de equipo'
-												 		OR ordenesots.estado = 'Espera de refacciones')
-												 AND  ordenesots.estado <> 'Cancelado'
+												 		OR ordenesots.estado = 'Espera de refacciones'
+												 		OR ordenesots.estado = 'Falta de mano de obra')
 												 AND ordenesots.responsable = $responsable";
 									$pendientesMP = Ordenesots::getAllConsulta($consulta);
 									$cuentaPendientesMP = 0;
@@ -292,15 +305,17 @@
 									$consulta = "SELECT count(ordenesots.orden_trabajo) AS nProgramadosMC, activos_equipos.nombre_equipo
 											FROM ordenesots
 											INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo 
-											WHERE ( ordenesots.fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
-									 AND (ordenesots.tipo='Correctivo planeado' OR ordenesots.tipo='Correctivo de emergencia')
-									 AND (ordenesots.estado = 'Cerrado sin ejecutar'
-									 	OR ordenesots.estado = 'Cierre Lider Mtto'
+											WHERE ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+									 AND (ordenesots.tipo <> 'Mant. preventivo')
+									 AND (ordenesots.estado = 'Cierre Lider Mtto'
 									 	OR ordenesots.estado = 'Ejecutado'
 									 	OR ordenesots.estado = 'Espera de equipo'
 									 	OR ordenesots.estado = 'Espera de refacciones'
+									 	OR ordenesots.estado = 'Falta de mano de obra'
 									 	OR ordenesots.estado = 'Programada' 
-									 	OR ordenesots.estado = 'Terminado' )
+									 	OR ordenesots.estado = 'Terminado'
+									 	OR ordenesots.estado = 'Abierta'
+									 	OR ordenesots.estado = 'Solic. de trabajo' )
 									 	AND ordenesots.responsable = $responsable";
 									$programadosMC = Ordenesots::getAllConsulta($consulta);
 									$cuentaProgramadosMC = 0;
@@ -313,10 +328,9 @@
 									$consulta = "SELECT count(ordenesots.orden_trabajo) AS nTerminadosMC, activos_equipos.nombre_equipo 
 												FROM ordenesots
 												INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo 
-												WHERE ( ordenesots.fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
-										 		AND (ordenesots.tipo='Correctivo planeado' OR ordenesots.tipo='Correctivo de emergencia')
-										 		AND (ordenesots.estado = 'Terminado'
-										 			OR ordenesots.estado = 'Cerrado sin ejecutar')
+												WHERE ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+										 		AND (ordenesots.tipo <> 'Mant. preventivo')
+										 		AND (ordenesots.estado = 'Terminado')
 												AND ordenesots.responsable = $responsable";
 									$terminadosMC = Ordenesots::getAllConsulta($consulta);
 									$cuentaTerminadosMC = 0;
@@ -330,14 +344,16 @@
 									$consulta = "SELECT count(ordenesots.orden_trabajo) AS nPendientesMC, activos_equipos.nombre_equipo
 												FROM ordenesots
 												INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo
-												WHERE ( ordenesots.fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
-												 AND (ordenesots.tipo='Correctivo planeado' OR ordenesots.tipo='Correctivo de emergencia')
+												WHERE ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+												 AND (ordenesots.tipo <> 'Mant. preventivo')
 												 AND (ordenesots.estado = 'Programada' 
 												 		OR ordenesots.estado = 'Cierre Lider Mtto'
 												 		OR ordenesots.estado = 'Ejecutado'
 												 		OR ordenesots.estado = 'Espera de equipo'
-												 		OR ordenesots.estado = 'Espera de refacciones')
-												 AND  ordenesots.estado <> 'Cancelado' 
+												 		OR ordenesots.estado = 'Espera de refacciones'
+												 		OR ordenesots.estado = 'Falta de mano de obra'
+												 		OR ordenesots.estado = 'Abierta'
+												 		OR ordenesots.estado = 'Solic. de trabajo') 
 												AND ordenesots.responsable = $responsable";
 									$pendientesMC = Ordenesots::getAllConsulta($consulta);
 									$cuentaPendientesMC = 0;
@@ -460,7 +476,10 @@
     <script type="text/javascript">
         $(document).ready(function()
         {
-            $("#page-wrapper").css("margin", 0);
+            $(".left_col").addClass("hidden", "hidden");
+            $(".top_nav").css("margin-left", 0);
+            $(".right_col").css("margin-left", 0);
+            $(".toggle").addClass("hidden", "hidden");
             
 
             // ----------------------------------------------------------------

@@ -1,560 +1,676 @@
- <?php require_once(VIEW_PATH.'header.inc.php');
-      
- ?>        
-            <!-- /.navbar-static-side -->
-        </nav>
+ <?php require_once(VIEW_PATH.'header.inc.php'); 
+       
+ ?>         
+        <div class="right_col" role="main"> 
+            <div class="">
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3>Detalles de semana <?php echo $semana; ?> por líder de equipos críticos</h3>
+                    </div>
+                 </div>
 
-        <div id="page-wrapper">
+                <div class="clearfix"></div>           
+        
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Detalles de semana <?php echo $semana; ?> por líder</h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12">
-                    
-                            <?php
-                                
+        
 
-                                $nsOrfanel = 41185;
-                                $nsHumberto = 239;
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2><i class="fa fa-cogs"></i> Datos <small>en el sistema</small></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content table-responsive">           
+                                <!-- aqui va el contenido -->
 
-                                $totalMPOrfanel = 0;
-                                $otrosMPOrfanel = 0;
-                                $totalMPTerminadosOrfanel = 0;
-                                $totalMPPendientesOrfanel = 0;
-                                $totalMCOrfanel = 0;
-                                $otrosMCOrfanel = 0;
-                                $totalMCTerminadosOrfanel = 0;
-                                $totalMCPendientesOrfanel = 0;
-                                $cumplimientoMPOrfanel = 0;
-                                $cumplimientoMCOrfanel = 0;
-                                $promedioSemanalOrfanel = 0;
-                                $promedioSemanalAcumuladoOrfanel = 0;
+                                <?php
+                                    $dias = ["DOMINGO", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"];
 
+                                    foreach ($lideres as $lider) 
+                                    {   
+                                        $nombreLider = "";
+                                        if($lider == 41185)
+                                        {
+                                            $nombreLider = "ORFANEL RENDON RAMIREZ";
+                                        }
+                                        if($lider == 239)
+                                        {
+                                            $nombreLider = "HUMBERTO CERVANTES";
+                                        }
+                                        if($lider == 14993)
+                                        {
+                                            $nombreLider = "MIGUEL TADEO";
+                                        }
+                                        if($lider == 15113)
+                                        {
+                                            $nombreLider = "ANTONIO VIRGEN";
+                                        }
 
-                                $totalMPHumberto = 0;
-                                $otrosMPHumberto = 0;
-                                $totalMPTerminadosHumberto = 0;
-                                $totalMPPendientesHumberto = 0;
-                                $totalMCHumberto = 0;
-                                $otrosMCHumberto = 0;
-                                $totalMCTerminadosHumberto = 0;
-                                $totalMCPendientesHumberto = 0;
-                                $cumplimientoMPHumberto = 0;
-                                $cumplimientoMCHumberto = 0;
-                                $promedioSemanalHumberto = 0;
-                                $promedioSemanalAcumuladoHumberto = 0;
-
-
-                                foreach ($ordenes as $orden) 
-                                {
-                                    // ORFANEL
-                                    /*if ($orden->tipo == "Mant. preventivo" && $orden->responsable == $nsOrfanel) 
-                                    {
-                                        $totalMPOrfanel ++;
-                                    }*/
-                                    if ($orden->tipo == "Mant. preventivo" && $orden->responsable == $nsOrfanel
-                                        && ($orden->estado == 'Cerrado sin ejecutar'
-                                           || $orden->estado == 'Cierre Lider Mtto'
-                                            || $orden->estado == 'Ejecutado'
-                                            || $orden->estado == 'Espera de equipo'
-                                            || $orden->estado == 'Espera de refacciones'
-                                            || $orden->estado == 'Programada' 
-                                            || $orden->estado == 'Terminado' ) 
-                                        ) 
-                                    {
-                                        $totalMPOrfanel ++;
+                                        echo "<div class='row'>";
+                                            echo "<h4 class='text-center'> ".$nombreLider."</h4>";
+                                            echo "<div id='mp_".$lider."' class='col-xs-12 col-md-6'></div>";
+                                            echo "<div id='mc_".$lider."' class='col-xs-12 col-md-6'></div>";
+                                        echo "</div>";
+                                        echo "<hr>";
                                     }
-
-                                    if ($orden->tipo == "Mant. preventivo" && $orden->responsable == $nsOrfanel
-                                        && ($orden->estado == 'Cancelado'
-                                            || $orden->estado == 'Rechazado'
-                                            || $orden->estado == 'Solic. de trabajo' ) 
-                                        ) 
-                                    {
-                                        $otrosMPOrfanel ++;
-                                    }
-
-                                    /*if ($orden->tipo == "Mant. preventivo" && $orden->estado == "Terminado" && $orden->responsable == $nsOrfanel) 
-                                    {
-                                        $totalMPTerminadosOrfanel ++;
-                                    }*/
-
-                                    if ($orden->tipo == "Mant. preventivo"  && $orden->responsable == $nsOrfanel
-                                        && ($orden->estado == 'Terminado'
-                                            || $orden->estado == 'Cerrado sin ejecutar')
-                                        ) 
-                                    {
-                                        $totalMPTerminadosOrfanel ++;
-                                    }
-                                    
-
-                                    /*if ($orden->tipo == "Mant. preventivo" && $orden->estado != "Terminado" && $orden->responsable == $nsOrfanel) 
-                                    {
-                                        $totalMPPendientesOrfanel ++;
-                                    }*/
-
-                                    if ($orden->tipo == "Mant. preventivo"  && $orden->responsable == $nsOrfanel
-                                        && ($orden->estado == 'Programada' 
-                                            || $orden->estado == 'Cierre Lider Mtto'
-                                            || $orden->estado == 'Ejecutado'
-                                            || $orden->estado == 'Espera de equipo'
-                                            || $orden->estado == 'Espera de refacciones')
-                                        &&  $orden->estado != 'Cancelado'
-                                        ) 
-                                    {
-                                        $totalMPPendientesOrfanel ++;
-                                    }
-
-                                    
-
-                                    if ($orden->responsable == $nsOrfanel
-                                        && ($orden->tipo =='Correctivo planeado' || $orden->tipo == 'Correctivo de emergencia')
-                                        && ($orden->estado == 'Cerrado sin ejecutar'
-                                            || $orden->estado == 'Cierre Lider Mtto'
-                                            || $orden->estado == 'Ejecutado'
-                                            || $orden->estado == 'Espera de equipo'
-                                            || $orden->estado == 'Espera de refacciones'
-                                            || $orden->estado == 'Programada' 
-                                            || $orden->estado == 'Terminado' )
-                                        ) 
-                                    {
-                                        $totalMCOrfanel ++;
-                                    }
-
-                                    if ($orden->responsable == $nsOrfanel
-                                        && ($orden->tipo =='Correctivo planeado' || $orden->tipo == 'Correctivo de emergencia')
-                                        && ($orden->estado == 'Cancelado'
-                                            || $orden->estado == 'Rechazado'
-                                            || $orden->estado == 'Solic. de trabajo' ) 
-                                        ) 
-                                    {
-
-                                        $otrosMCOrfanel ++;
-                                    }
-
-                                    /*if (($orden->tipo == "Correctivo de emergencia" || $orden->tipo == "Correctivo planeado") && $orden->estado == "Terminado" && $orden->responsable == $nsOrfanel) 
-                                    {
-                                        $totalMCTerminadosOrfanel ++;
-                                    }*/
-
-                                    if (($orden->tipo == "Correctivo de emergencia" || $orden->tipo == "Correctivo planeado")  && $orden->responsable == $nsOrfanel
-                                            && ($orden->estado == 'Terminado'
-                                                || $orden->estado == 'Cerrado sin ejecutar')
-                                        ) 
-                                    {
-                                        $totalMCTerminadosOrfanel ++;
-                                    }
-
-                                    /*if (($orden->tipo == "Correctivo de emergencia" || $orden->tipo == "Correctivo planeado") && $orden->estado != "Terminado" && $orden->responsable == $nsOrfanel) 
-                                    {
-                                        $totalMCPendientesOrfanel ++;
-                                    }*/
-
-                                    if (($orden->tipo == "Correctivo de emergencia" || $orden->tipo == "Correctivo planeado") && $orden->responsable == $nsOrfanel
-                                            && ($orden->estado == 'Programada' 
-                                                || $orden->estado == 'Cierre Lider Mtto'
-                                                || $orden->estado == 'Ejecutado'
-                                                || $orden->estado == 'Espera de equipo'
-                                                || $orden->estado == 'Espera de refacciones')
-                                            &&  $orden->estado != 'Cancelado'
-                                        ) 
-                                    {
-                                        $totalMCPendientesOrfanel ++;
-                                    }
-
-                                    // HUMBERTO
-                                    /*if ($orden->tipo == "Mant. preventivo" && $orden->responsable == $nsHumberto) 
-                                    {
-                                        $totalMPHumberto ++;
-                                    }
-
-                                    if ($orden->tipo == "Mant. preventivo" && $orden->estado == "Terminado" && $orden->responsable == $nsHumberto) 
-                                    {
-                                        $totalMPTerminadosHumberto ++;
-                                    }
-
-                                    if ($orden->tipo == "Mant. preventivo" && $orden->estado != "Terminado" && $orden->responsable == $nsHumberto) 
-                                    {
-                                        $totalMPPendientesHumberto ++;
-                                    }
-
-                                    if ( ($orden->tipo == "Correctivo de emergencia" || $orden->tipo == "Correctivo planeado") && $orden->responsable == $nsHumberto) 
-                                    {
-                                        $totalMCHumberto ++;
-                                    }
-
-                                    if (($orden->tipo == "Correctivo de emergencia" || $orden->tipo == "Correctivo planeado") && $orden->estado == "Terminado" && $orden->responsable == $nsHumberto) 
-                                    {
-                                        $totalMCTerminadosHumberto ++;
-                                    }
-
-                                    if (($orden->tipo == "Correctivo de emergencia" || $orden->tipo == "Correctivo planeado") && $orden->estado != "Terminado" && $orden->responsable == $nsHumberto) 
-                                    {
-                                        $totalMCPendientesHumberto ++;
-                                    }*/
-
-                                    if ($orden->tipo == "Mant. preventivo" && $orden->responsable == $nsHumberto
-                                        && ($orden->estado == 'Cerrado sin ejecutar'
-                                           || $orden->estado == 'Cierre Lider Mtto'
-                                            || $orden->estado == 'Ejecutado'
-                                            || $orden->estado == 'Espera de equipo'
-                                            || $orden->estado == 'Espera de refacciones'
-                                            || $orden->estado == 'Programada' 
-                                            || $orden->estado == 'Terminado' ) 
-                                        ) 
-                                    {
-                                        $totalMPHumberto ++;
-                                    }
-
-                                    if ($orden->tipo == "Mant. preventivo" && $orden->responsable == $nsHumberto
-                                        && ($orden->estado == 'Cancelado'
-                                            || $orden->estado == 'Rechazado'
-                                            || $orden->estado == 'Solic. de trabajo' ) 
-                                        ) 
-                                    {
-                                        $otrosMPHumberto ++;
-                                    }
-
-                                    if ($orden->tipo == "Mant. preventivo"  && $orden->responsable == $nsHumberto
-                                        && ($orden->estado == 'Terminado'
-                                            || $orden->estado == 'Cerrado sin ejecutar')
-                                        ) 
-                                    {
-                                        $totalMPTerminadosHumberto ++;
-                                    }
-
-                                    if ($orden->tipo == "Mant. preventivo"  && $orden->responsable == $nsHumberto
-                                        && ($orden->estado == 'Programada' 
-                                            || $orden->estado == 'Cierre Lider Mtto'
-                                            || $orden->estado == 'Ejecutado'
-                                            || $orden->estado == 'Espera de equipo'
-                                            || $orden->estado == 'Espera de refacciones')
-                                        &&  $orden->estado != 'Cancelado'
-                                        ) 
-                                    {
-                                        $totalMPPendientesHumberto ++;
-                                    }
-
-                                    if ( $orden->responsable == $nsHumberto
-                                        && ($orden->tipo =='Correctivo planeado' || $orden->tipo == 'Correctivo de emergencia')
-                                        && ($orden->estado == 'Cerrado sin ejecutar'
-                                            || $orden->estado == 'Cierre Lider Mtto'
-                                            || $orden->estado == 'Ejecutado'
-                                            || $orden->estado == 'Espera de equipo'
-                                            || $orden->estado == 'Espera de refacciones'
-                                            || $orden->estado == 'Programada' 
-                                            || $orden->estado == 'Terminado' )
-                                        ) 
-                                    {
-                                        $totalMCHumberto ++;
-                                    }
-
-                                    if ($orden->responsable == $nsHumberto
-                                        && ($orden->tipo =='Correctivo planeado' || $orden->tipo == 'Correctivo de emergencia')
-                                        && ($orden->estado == 'Cancelado'
-                                            || $orden->estado == 'Rechazado'
-                                            || $orden->estado == 'Solic. de trabajo' ) 
-                                        ) 
-                                    {
-
-                                        $otrosMCHumberto ++;
-                                    }
-
-                                    if (($orden->tipo == "Correctivo de emergencia" || $orden->tipo == "Correctivo planeado") && $orden->responsable == $nsHumberto
-                                        && ($orden->estado == 'Terminado'
-                                                || $orden->estado == 'Cerrado sin ejecutar')
-                                        ) 
-                                    {
-                                        $totalMCTerminadosHumberto ++;
-                                    }
-
-                                    if (($orden->tipo == "Correctivo de emergencia" || $orden->tipo == "Correctivo planeado") && $orden->responsable == $nsHumberto
-                                        && ($orden->estado == 'Programada' 
-                                                || $orden->estado == 'Cierre Lider Mtto'
-                                                || $orden->estado == 'Ejecutado'
-                                                || $orden->estado == 'Espera de equipo'
-                                                || $orden->estado == 'Espera de refacciones')
-                                            &&  $orden->estado != 'Cancelado'
-                                        ) 
-                                    {
-                                        $totalMCPendientesHumberto ++;
-                                    }
-                                }
-
-                                /*$cumplimientoMPOrfanel = ($totalMPTerminadosOrfanel / ($totalMPOrfanel + $nPendientesAnoAnteriorMPOrfanel) * 100);*/
-                                if($totalMPOrfanel > 0)
-                                {
-                                    $cumplimientoMPOrfanel = ($totalMPTerminadosOrfanel / $totalMPOrfanel) * 100;
-                                    $cumplimientoMPOrfanel = round($cumplimientoMPOrfanel, 1);
-                                }
-                                
-                                if( ($totalMCOrfanel + $nPendientesAnoAnteriorMCOrfanel) > 0)
-                                {
-                                    $cumplimientoMCOrfanel = ($totalMCTerminadosOrfanel / ($totalMCOrfanel + $nPendientesAnoAnteriorMCOrfanel) * 100);
-                                
-                                    $cumplimientoMCOrfanel = round($cumplimientoMCOrfanel, 1);
-                                }
-                                
-
-                                if($totalMCOrfanel > 0)
-                                {
-                                    $promedioSemanalOrfanel = ($cumplimientoMPOrfanel + ( ($totalMCTerminadosOrfanel / $totalMCOrfanel ) * 100) )/2 ;
-                                    $promedioSemanalOrfanel = round($promedioSemanalOrfanel, 1);
-                                }
-                                
-
-                                $promedioSemanalAcumuladoOrfanel = ($cumplimientoMPOrfanel + $cumplimientoMCOrfanel) /2 ;
-                                $promedioSemanalAcumuladoOrfanel = round($promedioSemanalAcumuladoOrfanel, 1);
-
-                                /*$cumplimientoMPHumberto = ($totalMPTerminadosHumberto / ($totalMPHumberto + $nPendientesAnoAnteriorMPHumberto) * 100);*/
-                                if($totalMPHumberto > 0)
-                                {
-                                    $cumplimientoMPHumberto = ($totalMPTerminadosHumberto / $totalMPHumberto) * 100;
-                                    $cumplimientoMPHumberto = round($cumplimientoMPHumberto, 1);
-                                }
-                                
-                                if (($totalMCHumberto + $nPendientesAnoAnteriorMCHumberto) > 0)
-                                {
-                                    $cumplimientoMCHumberto = ($totalMCTerminadosHumberto / ($totalMCHumberto + $nPendientesAnoAnteriorMCHumberto) * 100);
-                                    $cumplimientoMCHumberto = round($cumplimientoMCHumberto, 1);
-                                }
-                                
-
-                                if ($totalMCHumberto > 0)
-                                {
-                                    $promedioSemanalHumberto = ($cumplimientoMPHumberto + ( ($totalMCTerminadosHumberto / $totalMCHumberto ) * 100) )/2 ;
-                                    $promedioSemanalHumberto = round($promedioSemanalHumberto, 1);
-                                }
-                                
-
-                                $promedioSemanalAcumuladoHumberto = ($cumplimientoMPHumberto + $cumplimientoMCHumberto) /2 ;
-                                $promedioSemanalAcumuladoHumberto = round($promedioSemanalAcumuladoHumberto, 1);
+                                ?>
 
                                 
-                            ?>
-                    <input type="text" id="fechaInicio" class='form-control hidden' value='<?php echo $fechaInicio; ?>'>
-                    <input type="text" id="fechaFinalizacion" class='form-control hidden' value='<?php echo $fechaFinalizacion; ?>'>
-                    
-                    <div class='alert alert-success' role='alert' id='mensaje'>
+                                <div class='alert alert-success' role='alert' id='mensaje'>
                                   <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
                                   <strong>Nota!</strong> Para ver más detalles de las órdenes de trabajo, haga click sobre el número correspondiente.
                                 </div>
+                                <?php
+                                    // ---- para sacar la semana en la que estamos
+                                        $hoy = date("d/m/Y");
+                                        $fechaConsultaFormateada = date("m-d");
+                                        $semanaA = Calendario_nature::getSemanaByFecha($fechaConsultaFormateada);
+                                        $semanaActual = $semanaA[0]->semana;
+                                    // fin de la semana actual
+                                    
+                                    foreach ($lideres as $lider) 
+                                    {
+                                        //echo $lider;
+                                        $responsable = $lider;
+
+                                        $totalMP = 0;
+                                        $otrosMP = 0;
+                                        $totalMPTerminados = 0;
+                                        $totalMPPendientes = 0;
+                                        $totalMC = 0;
+                                        $otrosMC = 0;
+                                        $totalMCTerminados = 0;
+                                        $totalMCPendientes = 0;
+                                        $cumplimientoMP = 0;
+                                        $cumplimientoMC = 0;
+                                        $promedioSemanal = 0;
+                                        $promedioSemanalAcumulado = 0;
+
+                                        // este pequeño codigo es para traernos el acumulado
+                                        $nPendientesAnoAnteriorMP = 0;
+                                        $nPendientesAnoAnteriorMC = 0;
+                                        $pendientesMP = 0;
+                                        $pendientesMC = 0;
 
 
-                    <h4 class='text-center'>ING. ORFANEL RENDON RAMIREZ</h4>
-                    <table class='table table-bordered orfanel' style='font-size: 12px;'>
-                        <thead >
-                            <tr>
-                                <th style='background:#5cb85c; color:white;'>TOTAL MP</th>
-                                <th style='background:#5cb85c; color:white;'>OTROS MP</th>
-                                <th style='background:#5cb85c; color:white;'>TERMINADOS MP</th>
-                                <th style='background:#5cb85c; color:white;'>PENDIENTES MP</th>
-                                <!--th style='background:#5cb85c; color:white;'>+ MP</th-->
-                                <th style='background:#5cb85c; color:white;'>% CMTO.</th>
-                                
-                                
 
-                                <th style='background:#f0ad4e; color:white; '>TOTAL MC</th>
-                                <th style='background:#f0ad4e; color:white;'>OTROS MC</th>
-                                <th style='background:#f0ad4e; color:white; '>TERMINADOS MC</th>
-                                <th style='background:#f0ad4e; color:white; '>PENDIENTES MC</th>
-                                <th style='background:#f0ad4e; color:white; '>+ MC</th>
-                                <th style='background:#f0ad4e; color:white; '>% CMTO.</th>                                 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class='bg-info'>
-                                    <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='totalMP' lider='<?php echo $nsOrfanel?>'><?php echo $totalMPOrfanel; ?></a>
-                                </td>
-                                <td style='background: #5b4282; color:white;'>
-                                    <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='otrosMP' lider='<?php echo $nsOrfanel?>'><?php echo $otrosMPOrfanel; ?></a>
-                                </td>
-                                <td class='bg-success'>
-                                    <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='terminadoMP' lider='<?php echo $nsOrfanel?>'><?php echo $totalMPTerminadosOrfanel; ?></a>
-                                </td>
-                                <td class='bg-warning'>
-                                    <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='pendienteMP' lider='<?php echo $nsOrfanel?>'><?php echo $totalMPPendientesOrfanel; ?></a>
-                                </td>
-                                <!--td class='bg-danger'>
-                                    <?php echo $nPendientesAnoAnteriorMPOrfanel; ?>
-                                </td-->
-                                <td >
-                                    <?php echo $cumplimientoMPOrfanel; ?> %
-                                </td>
+                                        $nuevaSemana = 0;
+                                        if($semana == 1)
+                                        {
+                                            $traerSemana = Calendario_nature::getMaxSemana();
+                                            $temporal_inicio = $traerSemana[0]->fecha_inicio;
+                                            $temporal_fin = $traerSemana[0]->fecha_fin;
 
-                                <td class='bg-info'>
-                                    <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='totalMC' lider='<?php echo $nsOrfanel?>'><?php echo $totalMCOrfanel; ?></a>
-                                </td>
-                                <td style='background: #5b4282; color:white;'>
-                                    <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='otrosMC' lider='<?php echo $nsOrfanel?>'> <?php echo $otrosMCOrfanel ;?></a>
-                                </td>
-                                <td class='bg-success'>
-                                    <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='terminadoMC' lider='<?php echo $nsOrfanel?>'><?php echo $totalMCTerminadosOrfanel; ?></a>
-                                </td>
-                                <td class='bg-warning'>
-                                    <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='pendienteMC' lider='<?php echo $nsOrfanel?>'><?php echo $totalMCPendientesOrfanel; ?></a>
-                                </td>
-                                <td class='bg-danger'>
-                                    <?php echo $nPendientesAnoAnteriorMCOrfanel; ?>
-                                </td>
-                                <td >
-                                    <?php echo $cumplimientoMCOrfanel; ?> %
-                                </td>
+                                            $anoNuevo = $ano - 1;
+                                            if($ano > 2016)
+                                            {
+                                                $fechaInicioAnoAnterior = $anoNuevo."-01-01";
+                                                $fechaFinalizacionAnoAnterior = $anoNuevo."-".$temporal_fin;
 
-                            </tr>
-                            <tr class='bg-primary'>
-                                <td colspan='10' class='text-right'>PROMEDIO SEMANAL MP Y MC (SIN ACUMULACION)</td>
-                                <td>
-                                    <div class="input-group col-xs-6">
-                                        <input type="text" class='form-control' value='<?php echo $promedioSemanalOrfanel; ?>' readonly>
-                                        <div class="input-group-addon">%</div>
-                                </td>
-                            </tr>
-                            <tr class='bg-primary'>
-                                <td colspan='10' class='text-right'>PROMEDIO SEMANAL MP Y MC (CON ACUMULACION)</td>
-                                <td>
-                                    <div class="input-group col-xs-6">
-                                        <input type="text" class='form-control' value='<?php echo $promedioSemanalAcumuladoOrfanel; ?>' readonly>
-                                        <div class="input-group-addon">%</div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                                $consulta = "SELECT count(ordenesots.orden_trabajo) AS nPendientesMP, activos_equipos.nombre_equipo 
+                                                            FROM ordenesots
+                                                            INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo 
+                                                            WHERE ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicioAnoAnterior' AND '$fechaFinalizacionAnoAnterior')
+                                                            AND ordenesots.tipo='Mant. preventivo'
+                                                            AND (ordenesots.estado = 'Programada' 
+                                                                OR ordenesots.estado = 'Cierre Lider Mtto'
+                                                                OR ordenesots.estado = 'Ejecutado'
+                                                                OR ordenesots.estado = 'Espera de equipo'
+                                                                OR ordenesots.estado = 'Espera de refacciones'
+                                                                OR ordenesots.estado = 'Falta de mano de obra'
+                                                                OR ordenesots.estado = 'Abierta')
+                                                            AND ordenesots.responsable = $responsable";
 
-                    <h4 class='text-center'>ING. HUMBERTO CERVANTES RODRIGUEZ</h4>
-                    <table class='table table-bordered humberto' style='font-size: 12px;'>
-                        <thead class='bg-primary'>
-                            <tr>
-                                <th style='background:#5cb85c; color:white;'>TOTAL MP</th>
-                                <th style='background:#5cb85c; color:white;'>OTROS MP</th>
-                                <th style='background:#5cb85c; color:white;'>TERMINADOS MP</th>
-                                <th style='background:#5cb85c; color:white;'>PENDIENTES MP</th>
-                                <!--th style='background:#5cb85c; color:white; '>+ MP</th-->
-                                <th style='background:#5cb85c; color:white; '>% CMTO.</th>
+                                                $pendientesMP = Ordenesots::getAllConsulta($consulta);
+
+                                                $consulta = "SELECT count(ordenesots.orden_trabajo) AS nPendientesMC, activos_equipos.nombre_equipo 
+                                                            FROM ordenesots
+                                                            INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo 
+                                                            WHERE ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicioAnoAnterior' AND '$fechaFinalizacionAnoAnterior') 
+                                                            AND (ordenesots.tipo <> 'Mant. preventivo') 
+                                                            AND (ordenesots.estado = 'Programada' 
+                                                                OR ordenesots.estado = 'Cierre Lider Mtto' 
+                                                                OR ordenesots.estado = 'Ejecutado' 
+                                                                OR ordenesots.estado = 'Espera de equipo' 
+                                                                OR ordenesots.estado = 'Espera de refacciones'
+                                                                OR ordenesots.estado = 'Falta de mano de obra'
+                                                                OR ordenesots.estado = 'Abierta'
+                                                                OR ordenesots.estado = 'Solic. de trabajo')
+                                                            AND ordenesots.responsable = $responsable";
+
+                                                $pendientesMC = Ordenesots::getAllConsulta($consulta);
+                                                // -----------------------------------------------------------------------
+                                            }
+                                            //print_r($pendientesAnoAnteriorMP);
+
+                                            
+                                        }
+                                        elseif($semana > 1)
+                                        {
+                                            $semanaNueva = $semana - 1;
+                                            $traerSemana = Calendario_nature::getAllSemana($semanaNueva);
+                                            $temporal_inicio = $traerSemana[0]->fecha_inicio;
+                                            $temporal_fin = $traerSemana[0]->fecha_fin;
+
+                                            $anoNuevo = $ano - 1;
+                                            if ($ano > 2016) 
+                                            {
+                                                $fechaInicioAnoAnterior = $anoNuevo."-01-01";
+                                                $fechaFinalizacionAnoAnterior = $ano."-".$temporal_fin;
+
+                                                $consulta = "SELECT count(ordenesots.orden_trabajo) AS nPendientesMP, activos_equipos.nombre_equipo 
+                                                            FROM ordenesots
+                                                            INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo 
+                                                            WHERE ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicioAnoAnterior' AND '$fechaFinalizacionAnoAnterior')
+                                                            AND ordenesots.tipo='Mant. preventivo'
+                                                            AND (ordenesots.estado = 'Programada' 
+                                                                OR ordenesots.estado = 'Cierre Lider Mtto'
+                                                                OR ordenesots.estado = 'Ejecutado'
+                                                                OR ordenesots.estado = 'Espera de equipo'
+                                                                OR ordenesots.estado = 'Espera de refacciones'
+                                                                OR ordenesots.estado = 'Falta de mano de obra'
+                                                                OR ordenesots.estado = 'Abierta')
+                                                            AND ordenesots.responsable = $responsable";
+
+                                                $pendientesMP = Ordenesots::getAllConsulta($consulta);
+
+                                                $consulta = "SELECT count(ordenesots.orden_trabajo) AS nPendientesMC, activos_equipos.nombre_equipo 
+                                                            FROM ordenesots
+                                                            INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo 
+                                                            WHERE ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicioAnoAnterior' AND '$fechaFinalizacionAnoAnterior') 
+                                                            AND (ordenesots.tipo <> 'Mant. preventivo') 
+                                                            AND (ordenesots.estado = 'Programada' 
+                                                                OR ordenesots.estado = 'Cierre Lider Mtto' 
+                                                                OR ordenesots.estado = 'Ejecutado' 
+                                                                OR ordenesots.estado = 'Espera de equipo' 
+                                                                OR ordenesots.estado = 'Espera de refacciones'
+                                                                OR ordenesots.estado = 'Falta de mano de obra'
+                                                                OR ordenesots.estado = 'Abierta'
+                                                                OR ordenesots.estado = 'Solic. de trabajo')
+                                                            AND ordenesots.responsable = $responsable";
+
+                                                $pendientesMC = Ordenesots::getAllConsulta($consulta);
+                                            }
+                                            else
+                                            {
+                                                $fechaInicioAnoAnterior = $ano."-01-01";
+                                                $fechaFinalizacionAnoAnterior = $ano."-".$temporal_fin;
+
+                                                $consulta = "SELECT count(ordenesots.orden_trabajo) AS nPendientesMP, activos_equipos.nombre_equipo 
+                                                            FROM ordenesots
+                                                            INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo 
+                                                            WHERE ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicioAnoAnterior' AND '$fechaFinalizacionAnoAnterior')
+                                                            AND ordenesots.tipo = 'Mant. preventivo'
+                                                            AND (ordenesots.estado = 'Programada' 
+                                                                OR ordenesots.estado = 'Cierre Lider Mtto'
+                                                                OR ordenesots.estado = 'Ejecutado'
+                                                                OR ordenesots.estado = 'Espera de equipo'
+                                                                OR ordenesots.estado = 'Espera de refacciones'
+                                                                OR ordenesots.estado = 'Falta mano de obra'
+                                                                OR ordenesots.estado = 'Abierta')
+                                                            AND ordenesots.responsable = $responsable";
+
+                                                $pendientesMP = Ordenesots::getAllConsulta($consulta);
+
+                                                $consulta = "SELECT count(ordenesots.orden_trabajo) AS nPendientesMC, activos_equipos.nombre_equipo 
+                                                            FROM ordenesots
+                                                            INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo 
+                                                            WHERE ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicioAnoAnterior' AND '$fechaFinalizacionAnoAnterior') 
+                                                            AND (ordenesots.tipo <> 'Mant. preventivo') 
+                                                            AND (ordenesots.estado = 'Programada' 
+                                                                OR ordenesots.estado = 'Cierre Lider Mtto' 
+                                                                OR ordenesots.estado = 'Ejecutado' 
+                                                                OR ordenesots.estado = 'Espera de equipo' 
+                                                                OR ordenesots.estado = 'Espera de refacciones'
+                                                                OR ordenesots.estado = 'Falta de mano de obra'
+                                                                OR ordenesots.estado = 'Abierta'
+                                                                OR ordenesots.estado = 'Solic. de trabajo')
+                                                            AND ordenesots.responsable = $responsable";
+
+                                                $pendientesMC = Ordenesots::getAllConsulta($consulta);
+                                                // -----------------------------------------------------------------------
+                                            }
+                                            
+
+                                            
+                                        }
 
 
-                                <th style='background:#f0ad4e; color:white; '>TOTAL MC</th>
-                                <th style='background:#f0ad4e; color:white; '>OTROS MC</th>
-                                <th style='background:#f0ad4e; color:white; '>TERMINADOS MC</th>
-                                <th style='background:#f0ad4e; color:white; '>PENDIENTES MC</th> 
-                                <th style='background:#f0ad4e; color:white; '>+ MC</th>
-                                <th style='background:#f0ad4e; color:white; '>% CMTO.</th>                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                
-                                <td class='bg-info'>
-                                    <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='totalMP' lider='<?php echo $nsHumberto?>'> <?php echo $totalMPHumberto; ?></a>
-                                </td>
-                                <td style='background: #5b4282; color:white;'>
-                                    <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='otrosMP' lider='<?php echo $nsHumberto?>'> <?php echo $otrosMPHumberto ;?></a>
-                                </td>
-                                <td class='bg-success'>
-                                    <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='terminadoMP' lider='<?php echo $nsHumberto?>'> <?php echo $totalMPTerminadosHumberto; ?></a>
-                                </td>
-                                <td class='bg-warning'>
-                                    <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='pendienteMP' lider='<?php echo $nsHumberto?>'> <?php echo $totalMPPendientesHumberto; ?></a>
-                                </td>
-                                <!--td class='bg-danger'>
-                                    <?php echo $nPendientesAnoAnteriorMPHumberto; ?>
-                                </td-->
-                                <td >
-                                    <?php echo $cumplimientoMPHumberto; ?> %
-                                </td>
+                                        if($pendientesMP != 0 )
+                                        {
+                                            //echo "entro";
+                                            $nPendientesAnoAnteriorMP = $pendientesMP[0]->nPendientesMP;
+                                        }
+                                        if($pendientesMC != 0 )
+                                        {
+                                            $nPendientesAnoAnteriorMC = $pendientesMC[0]->nPendientesMC;
+                                        }
 
-                                <td class='bg-info'>
-                                    <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='totalMC' lider='<?php echo $nsHumberto?>'> <?php echo $totalMCHumberto; ?></a>
-                                </td>
-                                <td style='background: #5b4282; color:white;'>
-                                    <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='otrosMC' lider='<?php echo $nsHumberto?>'> <?php echo $otrosMCHumberto ;?></a>
-                                </td>
-                                <td class='bg-success'>
-                                    <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='terminadoMC' lider='<?php echo $nsHumberto?>'> <?php echo $totalMCTerminadosHumberto; ?></a>
-                                </td>
-                                <td class='bg-warning'>
-                                    <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='pendienteMC' lider='<?php echo $nsHumberto?>'> <?php echo $totalMCPendientesHumberto; ?></a>
-                                </td>
-                                <td class='bg-danger'>
-                                    <?php echo $nPendientesAnoAnteriorMCHumberto; ?>
-                                </td>
-                                <td >
-                                    <?php echo $cumplimientoMCHumberto; ?> %
-                                </td>
-                            </tr>
-                            <tr class='bg-primary'>
-                                <td colspan='10' class='text-right'>PROMEDIO SEMANAL MP Y MC (SIN ACUMULACION)</td>
-                                <td >
-                                    <div class="input-group col-xs-6">
-                                        <input type="text" class='form-control' value='<?php echo $promedioSemanalHumberto; ?>' readonly>
-                                        <div class="input-group-addon">%</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class='bg-primary'>
-                                <td colspan='10' class='text-right '>PROMEDIO SEMANAL MP Y MC (CON ACUMULACION)</td>
-                                <td >
-                                    <div class="input-group col-xs-6">
-                                        <input type="text" class='form-control' value='<?php echo $promedioSemanalAcumuladoHumberto; ?>' readonly>
-                                        <div class="input-group-addon">%</div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                        
+                                        // termina acumulado
+                                        $mp_pro_domingo = 0;
+                                        $mp_pro_lunes = 0;
+                                        $mp_pro_martes = 0;
+                                        $mp_pro_miercoles = 0;
+                                        $mp_pro_jueves = 0;
+                                        $mp_pro_viernes = 0;
+                                        $mp_pro_sabado = 0;
 
-                    <!-- /.panel -->
+                                        $mp_rea_domingo = 0;
+                                        $mp_rea_lunes = 0;
+                                        $mp_rea_martes = 0;
+                                        $mp_rea_miercoles = 0;
+                                        $mp_rea_jueves = 0;
+                                        $mp_rea_viernes = 0;
+                                        $mp_rea_sabado = 0;
+
+                                        $mc_pro_domingo = 0;
+                                        $mc_pro_lunes = 0;
+                                        $mc_pro_martes = 0;
+                                        $mc_pro_miercoles = 0;
+                                        $mc_pro_jueves = 0;
+                                        $mc_pro_viernes = 0;
+                                        $mc_pro_sabado = 0;
+
+                                        $mc_rea_domingo = 0;
+                                        $mc_rea_lunes = 0;
+                                        $mc_rea_martes = 0;
+                                        $mc_rea_miercoles = 0;
+                                        $mc_rea_jueves = 0;
+                                        $mc_rea_viernes = 0;
+                                        $mc_rea_sabado = 0;
+
+                                        $mc_pen_domingo = 0;
+                                        $mc_pen_lunes = 0;
+                                        $mc_pen_martes = 0;
+                                        $mc_pen_miercoles = 0;
+                                        $mc_pen_jueves = 0;
+                                        $mc_pen_viernes = 0;
+                                        $mc_pen_sabado = 0;
+                                        foreach ($ordenes as $orden) 
+                                        {
+                                            $dia_fin = $orden->fecha_finalizacion_programada;
+                                            $nombreDiaFin = $dias[date('w', strtotime($dia_fin))];
+                                            
+                                            if ($orden->tipo == "Mant. preventivo" && $orden->responsable == $responsable
+                                                && ($orden->estado == 'Cierre Lider Mtto'
+                                                    || $orden->estado == 'Ejecutado'
+                                                    || $orden->estado == 'Espera de equipo'
+                                                    || $orden->estado == 'Espera de refacciones'
+                                                    || $orden->estado == 'Falta de mano de obra'
+                                                    || $orden->estado == 'Abierta'
+                                                    || $orden->estado == 'Programada' 
+                                                    || $orden->estado == 'Terminado' ) 
+                                                ) 
+                                            {
+                                                $totalMP ++;
+
+                                                if($nombreDiaFin == "DOMINGO") $mp_pro_domingo ++;
+                                                if($nombreDiaFin == "LUNES") $mp_pro_lunes ++;
+                                                if($nombreDiaFin == "MARTES") $mp_pro_martes ++;
+                                                if($nombreDiaFin == "MIERCOLES") $mp_pro_miercoles ++;
+                                                if($nombreDiaFin == "JUEVES") $mp_pro_jueves ++;
+                                                if($nombreDiaFin == "VIERNES") $mp_pro_viernes ++;
+                                                if($nombreDiaFin == "SABADO") $mp_pro_sabado ++;
+                                                //echo "entro_".$lider."_dia_".$nombreDiaFin."<br>";
+                                            }
+
+                                            if ($orden->tipo == "Mant. preventivo" && $orden->responsable == $responsable
+                                                && ($orden->estado == 'Cancelado'
+                                                    || $orden->estado == 'Rechazado'
+                                                    || $orden->estado == 'Cerrado sin ejecutar' ) 
+                                                ) 
+                                            {
+                                                $otrosMP ++;
+                                            }
+
+                                            if ($orden->tipo == "Mant. preventivo"  && $orden->responsable == $responsable
+                                                && ($orden->estado == 'Terminado')                                                
+                                                ) 
+                                            {
+                                                $totalMPTerminados ++;
+
+                                                if($nombreDiaFin == "DOMINGO" && date("Y-m-d", strtotime($orden->fecha_finalizacion_programada)) >= date("Y-m-d", strtotime($orden->fecha_finalizacion)) ) $mp_rea_domingo ++;
+                                                if($nombreDiaFin == "LUNES"  && date("Y-m-d", strtotime($orden->fecha_finalizacion_programada)) >= date("Y-m-d", strtotime($orden->fecha_finalizacion)) ) $mp_rea_lunes ++;
+                                                if($nombreDiaFin == "MARTES"  && date("Y-m-d", strtotime($orden->fecha_finalizacion_programada)) >= date("Y-m-d", strtotime($orden->fecha_finalizacion)) ) $mp_rea_martes ++;
+                                                if($nombreDiaFin == "MIERCOLES"  && date("Y-m-d", strtotime($orden->fecha_finalizacion_programada)) >= date("Y-m-d", strtotime($orden->fecha_finalizacion)) ) $mp_rea_miercoles ++;
+                                                if($nombreDiaFin == "JUEVES"  && date("Y-m-d", strtotime($orden->fecha_finalizacion_programada)) >= date("Y-m-d", strtotime($orden->fecha_finalizacion)) ) $mp_rea_jueves ++;
+                                                if($nombreDiaFin == "VIERNES"  && date("Y-m-d", strtotime($orden->fecha_finalizacion_programada)) >= date("Y-m-d", strtotime($orden->fecha_finalizacion)) ) $mp_rea_viernes ++;
+                                                if($nombreDiaFin == "SABADO"  && date("Y-m-d", strtotime($orden->fecha_finalizacion_programada)) >= date("Y-m-d", strtotime($orden->fecha_finalizacion)) ) $mp_rea_sabado ++;
+                                            }
+
+                                            if ($orden->tipo == "Mant. preventivo"  && $orden->responsable == $responsable
+                                                && ($orden->estado == 'Programada' 
+                                                    || $orden->estado == 'Cierre Lider Mtto'
+                                                    || $orden->estado == 'Ejecutado'
+                                                    || $orden->estado == 'Espera de equipo'
+                                                    || $orden->estado == 'Espera de refacciones'
+                                                    || $orden->estado == 'Falta de mano de obra'
+                                                    || $orden->estado == 'Abierta')
+                                                ) 
+                                            {
+                                                $totalMPPendientes ++;
+                                            }
+
+                                            
+
+                                            if ($orden->responsable == $responsable
+                                                && ($orden->tipo != 'Mant. preventivo')
+                                                && ($orden->estado == 'Cierre Lider Mtto'
+                                                    || $orden->estado == 'Ejecutado'
+                                                    || $orden->estado == 'Espera de equipo'
+                                                    || $orden->estado == 'Espera de refacciones'
+                                                    || $orden->estado == 'Falta de mano de obra'
+                                                    || $orden->estado == 'Abierta'
+                                                    || $orden->estado == 'Solic. de trabajo'
+                                                    || $orden->estado == 'Programada' 
+                                                    || $orden->estado == 'Terminado' )
+                                                ) 
+                                            {
+                                                $totalMC ++;
+
+                                                if($nombreDiaFin == "DOMINGO") $mc_pro_domingo ++;
+                                                if($nombreDiaFin == "LUNES") $mc_pro_lunes ++;
+                                                if($nombreDiaFin == "MARTES") $mc_pro_martes ++;
+                                                if($nombreDiaFin == "MIERCOLES") $mc_pro_miercoles ++;
+                                                if($nombreDiaFin == "JUEVES") $mc_pro_jueves ++;
+                                                if($nombreDiaFin == "VIERNES") $mc_pro_viernes ++;
+                                                if($nombreDiaFin == "SABADO") $mc_pro_sabado ++;
+
+                                            }
+
+                                            if ($orden->responsable == $responsable
+                                                && ($orden->tipo != 'Mant. preventivo')
+                                                && ($orden->estado == 'Cancelado'
+                                                    || $orden->estado == 'Rechazado'
+                                                    || $orden->estado == 'Cerrado sin ejecutar' ) 
+                                                ) 
+                                            {
+
+                                                $otrosMC ++;
+                                            }
+
+                                            /*if (($orden->tipo == "Correctivo de emergencia" || $orden->tipo == "Correctivo planeado") && $orden->estado == "Terminado" && $orden->responsable == $ns) 
+                                            {
+                                                $totalMCTerminados ++;
+                                            }*/
+
+                                            if (($orden->tipo != 'Mant. preventivo')  && $orden->responsable == $responsable
+                                                    && ($orden->estado == 'Terminado')
+                                                ) 
+                                            {
+                                                $totalMCTerminados ++;
+
+                                                if($nombreDiaFin == "DOMINGO" && date("Y-m-d", strtotime($orden->fecha_finalizacion_programada)) >= date("Y-m-d", strtotime($orden->fecha_finalizacion)) ) $mc_rea_domingo ++;
+                                                if($nombreDiaFin == "LUNES"  && date("Y-m-d", strtotime($orden->fecha_finalizacion_programada)) >= date("Y-m-d", strtotime($orden->fecha_finalizacion)) ) $mc_rea_lunes ++;
+                                                if($nombreDiaFin == "MARTES"  && date("Y-m-d", strtotime($orden->fecha_finalizacion_programada)) >= date("Y-m-d", strtotime($orden->fecha_finalizacion)) ) $mc_rea_martes ++;
+                                                if($nombreDiaFin == "MIERCOLES"  && date("Y-m-d", strtotime($orden->fecha_finalizacion_programada)) >= date("Y-m-d", strtotime($orden->fecha_finalizacion)) ) $mc_rea_miercoles ++;
+                                                if($nombreDiaFin == "JUEVES"  && date("Y-m-d", strtotime($orden->fecha_finalizacion_programada)) >= date("Y-m-d", strtotime($orden->fecha_finalizacion)) ) $mc_rea_jueves ++;
+                                                if($nombreDiaFin == "VIERNES"  && date("Y-m-d", strtotime($orden->fecha_finalizacion_programada)) >= date("Y-m-d", strtotime($orden->fecha_finalizacion)) ) $mc_rea_viernes ++;
+                                                if($nombreDiaFin == "SABADO"  && date("Y-m-d", strtotime($orden->fecha_finalizacion_programada)) >= date("Y-m-d", strtotime($orden->fecha_finalizacion)) ) $mc_rea_sabado ++;
+                                            }
+
+                                            /*if (($orden->tipo == "Correctivo de emergencia" || $orden->tipo == "Correctivo planeado") && $orden->estado != "Terminado" && $orden->responsable == $ns) 
+                                            {
+                                                $totalMCPendientes ++;
+                                            }*/
+
+                                            if (($orden->tipo != 'Mant. preventivo') && ($orden->responsable == $responsable)
+                                                    && ($orden->estado == 'Programada' 
+                                                        || $orden->estado == 'Cierre Lider Mtto'
+                                                        || $orden->estado == 'Ejecutado'
+                                                        || $orden->estado == 'Espera de equipo'
+                                                        || $orden->estado == 'Espera de refacciones'
+                                                        || $orden->estado == 'Falta de mano de obra'
+                                                        || $orden->estado == 'Abierta'
+                                                        || $orden->estado == 'Solic. de trabajo')
+                                                ) 
+                                            {
+                                                $totalMCPendientes ++;
+
+                                                if($nombreDiaFin == "DOMINGO") $mc_pen_domingo ++;
+                                                if($nombreDiaFin == "LUNES") $mc_pen_lunes ++;
+                                                if($nombreDiaFin == "MARTES") $mc_pen_martes ++;
+                                                if($nombreDiaFin == "MIERCOLES") $mc_pen_miercoles ++;
+                                                if($nombreDiaFin == "JUEVES") $mc_pen_jueves ++;
+                                                if($nombreDiaFin == "VIERNES") $mc_pen_viernes ++;
+                                                if($nombreDiaFin == "SABADO") $mc_pen_sabado ++;
+                                            }
+
+                                            
+
+                                            
+                                        }// fin del foreach ordenes
+                                        
+
+                                        /*$cumplimientoMP = ($totalMPTerminados / ($totalMP + $nPendientesAnoAnteriorMP) * 100);*/
+                                        if($totalMP > 0)
+                                        {
+                                            $cumplimientoMP = ($totalMPTerminados / $totalMP) * 100;
+                                            $cumplimientoMP = round($cumplimientoMP, 1);
+                                        }
+                                        
+                                        if( ($totalMC + $nPendientesAnoAnteriorMC) > 0)
+                                        {
+                                            $cumplimientoMC = ($totalMCTerminados / ($totalMC + $nPendientesAnoAnteriorMC) * 100);
+                                        
+                                            $cumplimientoMC = round($cumplimientoMC, 1);
+                                        }
+                                        
+
+                                        if($totalMC > 0)
+                                        {
+                                            $promedioSemanal = ($cumplimientoMP + ( ($totalMCTerminados / $totalMC ) * 100) )/2 ;
+                                            $promedioSemanal = round($promedioSemanal, 1);
+                                        }
+                                        
+                                        // para cuando no existen mp o mc, para un lider en la semana
+                                            if($semana <= $semanaActual && $totalMP == 0){ $cumplimientoMP = 100; }
+                                            if($semana <= $semanaActual && $totalMC == 0 && $nPendientesAnoAnteriorMC == 0){ $cumplimientoMC = 100; $promedioSemanal = 100;}
+                                        // ----------------------------------------------------------
+
+                                        $promedioSemanalAcumulado = ($cumplimientoMP + $cumplimientoMC) /2 ;
+                                        $promedioSemanalAcumulado = round($promedioSemanalAcumulado, 1);
+
+
+                                        $nombreLider = "";
+                                        if($responsable == 41185)
+                                        {
+                                            $nombreLider = "ORFANEL RENDON RAMIREZ";
+                                        }
+                                        if($responsable == 239)
+                                        {
+                                            $nombreLider = "HUMBERTO CERVANTES";
+                                        }
+                                        if($responsable == 14993)
+                                        {
+                                            $nombreLider = "MIGUEL TADEO";
+                                        }
+                                        if($responsable == 15113)
+                                        {
+                                            $nombreLider = "ANTONIO VIRGEN";
+                                        }
+
+                                        // PARA EL ACUMULADO
+                                            $mc_pro_domingo = $mc_pro_domingo + $nPendientesAnoAnteriorMC;
+                                            $mc_pro_lunes = $mc_pro_lunes + $mc_pen_domingo;
+                                            $mc_pro_martes = $mc_pro_martes + $mc_pen_lunes;
+                                            $mc_pro_miercoles = $mc_pro_miercoles + $mc_pen_martes;
+                                            $mc_pro_jueves = $mc_pro_jueves + $mc_pen_miercoles;
+                                            $mc_pro_viernes = $mc_pro_viernes + $mc_pen_jueves;
+                                            $mc_pro_sabado = $mc_pro_sabado + $mc_pen_viernes;
+                                        //
+                                        /*echo "DOMINGO:".$pro_domingo.", LUNES:".$pro_lunes.", MARTES:".$pro_martes.", MIERCOLES:".$pro_miercoles.", JUEVES:".$pro_jueves.", VIERNES:".$pro_viernes.", SABADO:".$pro_sabado;*/
+
+
+                                        echo "<input id='mp_pro_domingo_".$lider."' value='".$mp_pro_domingo."' class='hidden  form-control'>";
+                                        echo "<input id='mp_pro_lunes_".$lider."' value='".$mp_pro_lunes."' class='hidden  form-control'>";
+                                        echo "<input id='mp_pro_martes_".$lider."' value='".$mp_pro_martes."' class='hidden  form-control'>";
+                                        echo "<input id='mp_pro_miercoles_".$lider."' value='".$mp_pro_miercoles."' class='hidden  form-control'>";
+                                        echo "<input id='mp_pro_jueves_".$lider."' value='".$mp_pro_jueves."' class='hidden  form-control'>";
+                                        echo "<input id='mp_pro_viernes_".$lider."' value='".$mp_pro_viernes."' class='hidden  form-control'>";
+                                        echo "<input id='mp_pro_sabado_".$lider."' value='".$mp_pro_sabado."' class='hidden form-control'>";
+
+                                        echo "<input id='mp_rea_domingo_".$lider."' value='".$mp_rea_domingo."' class='hidden form-control'>";
+                                        echo "<input id='mp_rea_lunes_".$lider."' value='".$mp_rea_lunes."' class='hidden form-control'>";
+                                        echo "<input id='mp_rea_martes_".$lider."' value='".$mp_rea_martes."' class='hidden form-control'>";
+                                        echo "<input id='mp_rea_miercoles_".$lider."' value='".$mp_rea_miercoles."' class='hidden form-control'>";
+                                        echo "<input id='mp_rea_jueves_".$lider."' value='".$mp_rea_jueves."' class='hidden form-control'>";
+                                        echo "<input id='mp_rea_viernes_".$lider."' value='".$mp_rea_viernes."' class='hidden form-control'>";
+                                        echo "<input id='mp_rea_sabado_".$lider."' value='".$mp_rea_sabado."' class='hidden form-control'>";
+
+                                        echo "<input id='mc_pro_domingo_".$lider."' value='".$mc_pro_domingo."' class='hidden form-control'>";
+                                        echo "<input id='mc_pro_lunes_".$lider."' value='".$mc_pro_lunes."' class='hidden form-control'>";
+                                        echo "<input id='mc_pro_martes_".$lider."' value='".$mc_pro_martes."' class='hidden form-control'>";
+                                        echo "<input id='mc_pro_miercoles_".$lider."' value='".$mc_pro_miercoles."' class='hidden form-control'>";
+                                        echo "<input id='mc_pro_jueves_".$lider."' value='".$mc_pro_jueves."' class='hidden form-control'>";
+                                        echo "<input id='mc_pro_viernes_".$lider."' value='".$mc_pro_viernes."' class='hidden form-control'>";
+                                        echo "<input id='mc_pro_sabado_".$lider."' value='".$mc_pro_sabado."' class='hidden form-control'>";
+
+                                        echo "<input id='mc_rea_domingo_".$lider."' value='".$mc_rea_domingo."' class='hidden form-control'>";
+                                        echo "<input id='mc_rea_lunes_".$lider."' value='".$mc_rea_lunes."' class='hidden form-control'>";
+                                        echo "<input id='mc_rea_martes_".$lider."' value='".$mc_rea_martes."' class='hidden form-control'>";
+                                        echo "<input id='mc_rea_miercoles_".$lider."' value='".$mc_rea_miercoles."' class='hidden form-control'>";
+                                        echo "<input id='mc_rea_jueves_".$lider."' value='".$mc_rea_jueves."' class='hidden form-control'>";
+                                        echo "<input id='mc_rea_viernes_".$lider."' value='".$mc_rea_viernes."' class='hidden form-control'>";
+                                        echo "<input id='mc_rea_sabado_".$lider."' value='".$mc_rea_sabado."' class='hidden form-control'>";
+
+                                        echo "<h4 class='text-center'>".$nombreLider."</h4>
+                                        <table class='table table-hover table-condensed' style='font-size: 12px;'>
+                                            <thead >
+                                                <tr>
+                                                    <th style='background:#5cb85c; color:white;'>TOTAL MP</th>
+                                                    <th style='background:#5cb85c; color:white;'>OTROS MP</th>
+                                                    <th style='background:#5cb85c; color:white;'>TERMINADOS MP</th>
+                                                    <th style='background:#5cb85c; color:white;'>PENDIENTES MP</th>
+                                                    <!--th style='background:#5cb85c; color:white;'>+ MP</th-->
+                                                    <th style='background:#5cb85c; color:white;'>% CMTO.</th>
+                                                    
+                                                    
+
+                                                    <th style='background:#f0ad4e; color:white; '>TOTAL MC</th>
+                                                    <th style='background:#f0ad4e; color:white;'>OTROS MC</th>
+                                                    <th style='background:#f0ad4e; color:white; '>TERMINADOS MC</th>
+                                                    <th style='background:#f0ad4e; color:white; '>PENDIENTES MC</th>
+                                                    <th style='background:#f0ad4e; color:white; '>+ MC</th>
+                                                    <th style='background:#f0ad4e; color:white; '>% CMTO.</th>                                 
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class='bg-success'>
+                                                        <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='totalMP' lider='".$responsable."'>".$totalMP."</a>
+                                                    </td>
+                                                    <td class='bg-success'>
+                                                        <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='otrosMP' lider='".$responsable."'>".$otrosMP."</a>
+                                                    </td>
+                                                    <td class='bg-success'>
+                                                        <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='terminadoMP' lider='".$responsable."'>".$totalMPTerminados."</a>
+                                                    </td>
+                                                    <td class='bg-success'>
+                                                        <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='pendienteMP' lider='".$responsable."'>".$totalMPPendientes."</a>
+                                                    </td>
+                                                    <!--td class='bg-success'>
+                                                        <?php echo $nPendientesAnoAnteriorMP; ?>
+                                                    </td-->
+                                                    <th class='bg-success'>
+                                                        ".$cumplimientoMP." %
+                                                    </th>
+
+                                                    <td class='bg-warning'>
+                                                        <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='totalMC' lider='".$responsable."'>".$totalMC."</a>
+                                                    </td>
+                                                    <td class='bg-warning'>
+                                                        <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='otrosMC' lider='".$responsable."'>".$otrosMC."</a>
+                                                    </td>
+                                                    <td class='bg-warning'>
+                                                        <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='terminadoMC' lider='".$responsable."'>".$totalMCTerminados."</a>
+                                                    </td>
+                                                    <td class='bg-warning'>
+                                                        <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='pendienteMC' lider='".$responsable."'>".$totalMCPendientes."</a>
+                                                    </td>
+                                                    <td class='bg-warning'>
+                                                        ".$nPendientesAnoAnteriorMC."
+                                                    </td>
+                                                    <th class='bg-warning'>
+                                                        ".$cumplimientoMC." %
+                                                    </th>
+
+                                                </tr>
+                                                <tr >
+                                                    <td colspan='10' class='text-right'>PROMEDIO SEMANAL MP Y MC (SIN ACUMULACION)</td>
+                                                    <th>
+                                                        ".$promedioSemanal." %
+                                                    </th>
+                                                </tr>
+                                                <tr >
+                                                    <td colspan='10' class='text-right'>PROMEDIO SEMANAL MP Y MC (CON ACUMULACION)</td>
+                                                    <th style='background:#FFFF00;'>
+                                                        ".$promedioSemanalAcumulado." %
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>";
+                                    } // fin del foreach lideres
+                                    
+                                    
+                                ?>
+                                        <input type="text" id="fechaInicio" class='form-control hidden' value='<?php echo $fechaInicio; ?>'>
+                                        <input type="text" id="fechaFinalizacion" class='form-control hidden' value='<?php echo $fechaFinalizacion; ?>'>
+                                              
+
+                            </div>
+                        </div>
+                    </div> <!-- fin class='' -->
                 </div>
-                <!-- /.col-lg-12 -->
+                <div class="clearfix"></div>
             </div>
-            <!-- /.row -->
 
             
-            
-        </div>
-        <!-- /#page-wrapper -->
 
 
-<!-- Modal -->
-        <div class="modal fade bs-example-modal-lg" id="modalDetalles" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-          <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Detalles de órdenes</h4>
-              </div>
-              <div class="modal-body" >
-                
-                <div class='table-responsive' id='recibeDetalles'>
+            <!-- Modal -->
+            <div class="modal fade bs-example-modal-lg" id="modalDetalles" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Detalles de órdenes</h4>
+                  </div>
+                  <div class="modal-body" >
+                    
+                    <div class='table-responsive' id='recibeDetalles'>
+                        
+                    </div>
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                  </div>
                     
                 </div>
-
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              </div>
-                
             </div>
-          </div>
-        </div>
 
 
 
- <?php require_once(VIEW_PATH.'footer.inc.php'); ?>
-   <!-- Flot Charts JavaScript -->
-    <script src="<?php echo $url; ?>dist/js/loader.js"></script>
-    <script src="<?php echo $url; ?>dist/js/jsapi.js"></script>
+ <?php require_once(VIEW_PATH.'footer.inc.php'); ?> 
+  
     <script type="text/javascript">
         $(document).ready(function()
         {
-            $("#page-wrapper").css("margin", 0);
+            $(".left_col").addClass("hidden", "hidden");
+            $(".top_nav").css("margin-left", 0);
+            $(".right_col").css("margin-left", 0);
+            $(".toggle").addClass("hidden", "hidden");
+           
+
             $(".detallesOrdenes").on("click", function(event) 
             {
                 event.preventDefault();
@@ -584,105 +700,151 @@
 
             // ----------------------------------------------------------------
 
-    google.charts.load("visualization", "1", {packages:["corechart","bar"]});
-    google.charts.setOnLoadCallback(drawPorMes);
-     
-    
-    function drawPorMes()
-    {
-        var meses = ["ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
-
-        var constructor = [['',  'TOTAL', 'Preventivos', 'Correctivos']];
-        $.each(meses, function( key, value ) 
-        {
-            var mes = value;
-    
-                var porcentajePreventivo = 0;
-                var porcentajeCorrectivo = 0;
-
-                porcentajeMes = 0;
-                //promedio = 0;
-
-            $( ".totalMesPreventivo"+mes).each(function() 
-            {
-               porcentajePreventivo = $(".valorMP"+mes).val();
-               porcentajeCorrectivo = $(".valorMC"+mes).val();
-               //console.log(porcentajePreventivo);
-               
-            });
-            porcentajePreventivo = parseFloat(porcentajePreventivo);
-            porcentajeCorrectivo = parseFloat(porcentajeCorrectivo);
-
-            porcentajeMes = parseFloat( (porcentajePreventivo + porcentajeCorrectivo) / 2 );
-
             
-
-
-            /*contadorPreventivo = parseInt(contadorPreventivo);
-            contadorCorrectivo = parseInt(contadorPreventivo);*/
-            /*constructor.push([mes, porcentajePreventivo, porcentajeCorrectivo, porcentajeMes]);*/
-
-            constructor.push([mes, porcentajeMes, porcentajePreventivo, porcentajeCorrectivo]);
-        });
-
-        var data = google.visualization.arrayToDataTable(constructor);
-
-        var options = {
-            
-          chart: {
-            //title: 'Company Performance',
-            subtitle: 'Cumplimiento mensual de MP vs MC',
-
-          },
-          bars: 'vertical',
-          vAxis: {
-                //format: 'percent',
-                 //textStyle: { color: '#94511A'},
-                title: '% de cumplimiento',
-                
-                format: '#\'%\''
-
-                //format: '#',
-                //viewWindow: {min: 0, max: 85},
-                //gridlines:{count:5},
-                
-                
-            },
-          height: 315,
-          /*width:400,*/
-          colors: ['#337ab7', '#5cb85c', '#f0ad4e']
-        };
-
-        var chart = new google.charts.Bar(document.getElementById('graficaActualizada'));
-
-        chart.draw(data, google.charts.Bar.convertOptions(options));
-
-    }
-            
-            // ----------------------------------------------------------------
 
         }); // end ready
 
+        /*var semanas = ["ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];*/
 
-        $( window ).load(function() 
+        var lideres = [41185, 239, 14993, 15113];
+        // PARA LAS GRAFICAS LINEALES
+        google.charts.load('current', {'packages':['corechart' ]});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() 
         {
-             
-    
+            $.each(lideres, function(key, value)
+            {
+                var lider = value;
+                
+                var mp_pro_domingo = 0;
+                var mp_pro_lunes = 0;
+                var mp_pro_martes = 0;
+                var mp_pro_miercoles = 0;
+                var mp_pro_jueves = 0;
+                var mp_pro_viernes = 0;
+                var mp_pro_sabado = 0;
+
+                var mp_rea_domingo = 0;
+                var mp_rea_lunes = 0;
+                var mp_rea_martes = 0;
+                var mp_rea_miercoles = 0;
+                var mp_rea_jueves = 0;
+                var mp_rea_viernes = 0;
+                var mp_rea_sabado = 0;
+
+                var mc_pro_domingo = 0;
+                var mc_pro_lunes = 0;
+                var mc_pro_martes = 0;
+                var mc_pro_miercoles = 0;
+                var mc_pro_jueves = 0;
+                var mc_pro_viernes = 0;
+                var mc_pro_sabado = 0;
+
+                var mc_rea_domingo = 0;
+                var mc_rea_lunes = 0;
+                var mc_rea_martes = 0;
+                var mc_rea_miercoles = 0;
+                var mc_rea_jueves = 0;
+                var mc_rea_viernes = 0;
+                var mc_rea_sabado = 0;
+
+                var mp_pro_total = 0;
+
+                    mp_pro_domingo = parseInt($("#mp_pro_domingo_"+lider).val());
+                    mp_pro_lunes = parseInt($("#mp_pro_lunes_"+lider).val());
+                    mp_pro_martes = parseInt($("#mp_pro_martes_"+lider).val());
+                    mp_pro_miercoles = parseInt($("#mp_pro_miercoles_"+lider).val());
+                    mp_pro_jueves = parseInt($("#mp_pro_jueves_"+lider).val());
+                    mp_pro_viernes = parseInt($("#mp_pro_viernes_"+lider).val());
+                    mp_pro_sabado = parseInt($("#mp_pro_sabado_"+lider).val());
 
 
-    
-    
+                    /*mp_pro_total = mp_pro_domingo + mp_pro_lunes + mp_pro_martes + mp_pro_miercoles + mp_pro_jueves + mp_pro_viernes + mp_pro_sabado;*/
 
-        });
+                    mp_rea_domingo = parseInt($("#mp_rea_domingo_"+lider).val());
+                    mp_rea_lunes = parseInt($("#mp_rea_lunes_"+lider).val());
+                    mp_rea_martes = parseInt($("#mp_rea_martes_"+lider).val());
+                    mp_rea_miercoles = parseInt($("#mp_rea_miercoles_"+lider).val());
+                    mp_rea_jueves = parseInt($("#mp_rea_jueves_"+lider).val());
+                    mp_rea_viernes = parseInt($("#mp_rea_viernes_"+lider).val());
+                    mp_rea_sabado = parseInt($("#mp_rea_sabado_"+lider).val());
 
+                    mc_pro_domingo = parseInt($("#mc_pro_domingo_"+lider).val());
+                    mc_pro_lunes = parseInt($("#mc_pro_lunes_"+lider).val());
+                    mc_pro_martes = parseInt($("#mc_pro_martes_"+lider).val());
+                    mc_pro_miercoles = parseInt($("#mc_pro_miercoles_"+lider).val());
+                    mc_pro_jueves = parseInt($("#mc_pro_jueves_"+lider).val());
+                    mc_pro_viernes = parseInt($("#mc_pro_viernes_"+lider).val());
+                    mc_pro_sabado = parseInt($("#mc_pro_sabado_"+lider).val());
+
+                    mc_rea_domingo = parseInt($("#mc_rea_domingo_"+lider).val());
+                    mc_rea_lunes = parseInt($("#mc_rea_lunes_"+lider).val());
+                    mc_rea_martes = parseInt($("#mc_rea_martes_"+lider).val());
+                    mc_rea_miercoles = parseInt($("#mc_rea_miercoles_"+lider).val());
+                    mc_rea_jueves = parseInt($("#mc_rea_jueves_"+lider).val());
+                    mc_rea_viernes = parseInt($("#mc_rea_viernes_"+lider).val());
+                    mc_rea_sabado = parseInt($("#mc_rea_sabado_"+lider).val());
+
+                    //alert(pro_domingo);
+
+                var dataMp = google.visualization.arrayToDataTable([
+                  ['DAY', 'PROGRAMADO', {type:'number', role:'annotation'}, 'REALIZADO', {type:'number', role:'annotation'}],
+                  ['Dom',  mp_pro_domingo, mp_pro_domingo, mp_rea_domingo, mp_rea_domingo],
+                  ['Lun',  mp_pro_lunes, mp_pro_lunes, mp_rea_lunes, mp_rea_lunes],
+                  ['Mar',  mp_pro_martes, mp_pro_martes, mp_rea_martes, mp_rea_martes],
+                  ['Mie',  mp_pro_miercoles, mp_pro_miercoles, mp_rea_miercoles, mp_rea_miercoles],
+                  ['Jue',  mp_pro_jueves, mp_pro_jueves, mp_rea_jueves, mp_rea_jueves],
+                  ['Vie',  mp_pro_viernes, mp_pro_viernes, mp_rea_viernes, mp_rea_viernes],
+                  ['Sab',  mp_pro_sabado, mp_pro_sabado, mp_rea_sabado, mp_rea_sabado]
+                ]);
+
+                var optionsMp = {
+                  title: 'MP PREVENTIVOS',
+                  //hAxis: {/*title: 'DIA', */ titleTextStyle: {color: '#44c2a6'}},
+                  vAxis: {minValue: 0},
+                  height: 300,
+                  colors: ['#66CCB6', '#5CB85C'],
+                  legend: { position: 'bottom' }
+                };
+
+                var chartMp = new google.visualization.AreaChart(document.getElementById('mp_'+lider));
+                chartMp.draw(dataMp, optionsMp);
+
+
+                
+
+                    
+
+                var dataMc = google.visualization.arrayToDataTable([
+                  ['DAY', 'PROGRAMADO', {type:'number', role:'annotation'}, 'REALIZADO', {type:'number', role:'annotation'}],
+                  ['Dom',  mc_pro_domingo, mc_pro_domingo, mc_rea_domingo, mc_rea_domingo],
+                  ['Lun',  mc_pro_lunes, mc_pro_lunes, mc_rea_lunes, mc_rea_lunes],
+                  ['Mar',  mc_pro_martes, mc_pro_martes, mc_rea_martes, mc_rea_martes],
+                  ['Mie',  mc_pro_miercoles, mc_pro_miercoles, mc_rea_miercoles, mc_rea_miercoles],
+                  ['Jue',  mc_pro_jueves, mc_pro_jueves, mc_rea_jueves, mc_rea_jueves],
+                  ['Vie',  mc_pro_viernes, mc_pro_viernes, mc_rea_viernes, mc_rea_viernes],
+                  ['Sab',  mc_pro_sabado, mc_pro_sabado, mc_rea_sabado, mc_rea_sabado]
+                ]);
+
+                var optionsMc = {
+                  title: 'MP CORRECTIVOS',
+                  hAxis: {/*title: 'DIA', */ titleTextStyle: {color: '#44c2a6'}},
+                  vAxis: {minValue: 0},
+                  height: 300,
+                  colors: ['#F3D93B', '#F0AE4E'],
+                  legend: { position: 'bottom' }
+                };
+
+                var chartMc = new google.visualization.AreaChart(document.getElementById('mc_'+lider));
+                chartMc.draw(dataMc, optionsMc);
+            });
+
+            
+        }
     </script>
 
 
-
-
-<script type="text/javascript">
-    
-    </script>
 
 
 
