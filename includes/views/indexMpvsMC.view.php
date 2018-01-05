@@ -21,6 +21,7 @@
                                         <option value='<?php echo date('Y'); ?>' style="display: none;"><?php echo date('Y'); ?></option>
                                         <option value='2016' ">2016</option>
                                         <option value='2017' ">2017</option>
+                                        <option value='2018' ">2018</option>
                                     </select>
                                 </div>
                                 <button type="button" class="btn btn-success btn-sm" title="Traer registros" id="verDisponibilidad"><i class="fa fa-search"></i>

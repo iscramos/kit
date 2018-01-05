@@ -29,8 +29,8 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 	{
 		$fechaHoy = $fin;
 	}
-	/*echo $inicio;
-	echo "<br>".$fin;*/
+	/*echo "Fecha inicio: ".$fechaHoy;
+	echo "<br>Fecha fin: ".$fin;*/
 
 	//$countPreventivos = Ordenesots::getAllMpByMesAnoCuentaPreventivo($mes, $ano);
 	//$countCorrectivos = Ordenesots::getAllMpByMesAnoCuentaCorrectivo($mes, $ano);
@@ -120,6 +120,11 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 			$futurasPreventivas = 0;
 			$consulta = "";
 
+			$subtotalPreventivas = 0;
+			$subtotalCorrectivas = 0;
+			$subtotalSolicitudes = 0;
+			$subtotalAbiertas = 0;
+
 			$str.="<div class='membership-pricing-table'>";
 						$str.="<div class='row'>";
 							$str.="<input class='hidden form-control'name='cumplimientoGeneral' id='cumplimientoGeneral' value='".$cumplimientoGeneral."'>";
@@ -167,6 +172,10 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 							                	<!--div class='pricing-plan-price'>
 							                    	<sup> > </sup> WK ".$semana."<span></span>
 							                	</div-->
+							                </th>
+
+							                <th class='plan-header plan-header-grisNegro'>
+							                	<div class='pricing-plan-name'>OT TOTAL</div>
 							                </th>
 						                </tr>";
 
@@ -322,32 +331,46 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 										$subtotalActuales = $actualesPreventivas[0]->actuales + $actualesCorrectivas[0]->actuales + $actualesSolicitud[0]->actuales + $actualesAbiertas[0]->actuales;
 										$subtotalFuturas = $futurasPreventivas[0]->futuras + $futurasCorrectivas[0]->futuras + $futurasSolicitud[0]->futuras + $futurasAbiertas[0]->futuras;
 
+										// HACIENDO SUMAS DE LOS SUBTOTALES
+										$subtotalPreventivas = $atrasadasPreventivas[0]->atrasadas + $actualesPreventivas[0]->actuales + $futurasPreventivas[0]->futuras; 
+
+										$subtotalCorrectivas = $atrasadasCorrectivas[0]->atrasadas + $actualesCorrectivas[0]->actuales + $futurasCorrectivas[0]->futuras;
+
+										$subtotalSolicitudes = $atrasadasSolicitud[0]->atrasadas + $actualesSolicitud[0]->actuales + $futurasSolicitud[0]->futuras;
+
+										$subtotalAbiertas = $atrasadasAbiertas[0]->atrasadas + $actualesAbiertas[0]->actuales + $futurasAbiertas[0]->futuras; 
+										// TERMINAN LAS SUMAS
+
 						                $str.="<tr>
 						                    <td>Mantenimiento Preventivo</td>
 						                    <td>".$atrasadasPreventivas[0]->atrasadas."</td>
 						                    <td>".$actualesPreventivas[0]->actuales."</td>
 						                    <td>".$futurasPreventivas[0]->futuras."</td>
+						                    <td class='verde-liga-mx'><b>".$subtotalPreventivas."</b></td>
 						                </tr>";
 						                $str.="<tr>
 						                    <td>Mantenimiento Correctivo</td>
 						                    <td>".$atrasadasCorrectivas[0]->atrasadas."</td>
 						                    <td>".$actualesCorrectivas[0]->actuales."</td>
 						                    <td>".$futurasCorrectivas[0]->futuras."</td>
+						                    <td class='verde-liga-mx'><b>".$subtotalCorrectivas."</b></td>
 						                </tr>";
 						                $str.="<tr>
 						                    <td>Solicitudes de Trabajo</td>
 						                    <td>".$atrasadasSolicitud[0]->atrasadas."</td>
 						                    <td>".$actualesSolicitud[0]->actuales."</td>
 						                    <td>".$futurasSolicitud[0]->futuras."</td>
+						                    <td class='verde-liga-mx'> <b>".$subtotalSolicitudes."</b></td>
 						                </tr>";
 						                $str.="<tr>
 						                    <td>Órdenes abiertas</td>
 						                    <td>".$atrasadasAbiertas[0]->atrasadas."</td>
 						                    <td>".$actualesAbiertas[0]->actuales."</td>
 						                    <td>".$futurasAbiertas[0]->futuras."</td>
+						                    <td class='verde-liga-mx'><b>".$subtotalAbiertas."</b></td>
 						                </tr>";
 						                $str.="<tr style='background:gold;'>
-						                    <td style='text-align:center;' colspan='4'><h4>LÍDERES</h4></td>
+						                    <td style='text-align:center;' colspan='5'><h4>LÍDERES</h4></td>
 						                </tr>";
 
 						                foreach ($lideres as $lider) 
@@ -356,6 +379,11 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 						                	$atrasadasPreventivasLider = 0;
 											$actualesPreventivasLider = 0;
 											$futurasPreventivasLider = 0;
+
+											$subtotalPreventivasLider = 0;
+											$subtotalCorrrectivasLider = 0;
+											$subtotalSolicitudesLider = 0;
+											$subtotalAbiertasLider = 0;
 
 											//echo $cumplimiento_lider."<br>";
 
@@ -580,6 +608,16 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 											echo "cumplimiento:".$cumplimiento_lider;*/
 											#------------------------------------
 
+											// SUBTOTALES PARA LIDER
+											$subtotalPreventivasLider = $atrasadasPreventivasLider[0]->atrasadas + $actualesPreventivasLider[0]->actuales + $futurasPreventivasLider[0]->futuras;
+
+											$subtotalCorrectivasLider = $atrasadasCorrectivasLider[0]->atrasadas + $actualesCorrectivasLider[0]->actuales + $futurasCorrectivasLider[0]->futuras;
+
+											$subtotalSolicitudesLider = $atrasadasSolicitudLider[0]->atrasadas + $actualesSolicitudLider[0]->actuales + $futurasSolicitudLider[0]->futuras;
+
+											$subtotalAbiertasLider = $atrasadasAbiertasLider[0]->atrasadas + $actualesAbiertasLider[0]->actuales + $futurasAbiertasLider[0]->futuras;
+											// ---------------------
+
 						                	$nombre = "";
 						                	if($lider == 41185)
 						                	{
@@ -598,7 +636,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 						                		$nombre = "JOSE ANTONIO VIRGEN";	
 						                	}
 						                	$str.="<tr>
-							                    <td style='text-align:left;' colspan='4'><i class='glyphicon glyphicon-user icon-white'></i><b> ".$nombre."</b>
+							                    <td style='text-align:left;' colspan='5'><i class='glyphicon glyphicon-user icon-white'></i><b> ".$nombre."</b>
 							                    	<input class='form-control hidden lider_".$lider."' name='lider_".$lider."' id='lider_".$lider."' value='".$atrasadasLider[0]->atrasadas."'>
 							                    	<input class='form-control hidden totalCumplimiento_".$lider."' name='totalCumplimiento_".$lider."' id='totalCumplimiento_".$lider."' value='".$cumplimiento_lider."'>
 							                    </td>
@@ -608,24 +646,28 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 							                    <td>".$atrasadasPreventivasLider[0]->atrasadas."</td>
 						                    	<td>".$actualesPreventivasLider[0]->actuales."</td>
 						                    	<td>".$futurasPreventivasLider[0]->futuras."</td>
+						                    	<td class='verde-liga-mx'><b>".$subtotalPreventivasLider."</b></td>
 							                </tr>";
 							                $str.="<tr>
 							                    <td>Mantenimiento Correctivo</td>
 							                    <td>".$atrasadasCorrectivasLider[0]->atrasadas."</td>
 						                    	<td>".$actualesCorrectivasLider[0]->actuales."</td>
 						                    	<td>".$futurasCorrectivasLider[0]->futuras."</td>
+						                    	<td class='verde-liga-mx'><b>".$subtotalCorrectivasLider."</b></td>
 							                </tr>";
 							                $str.="<tr>
 							                    <td>Solicitudes de Trabajo</td>
 							                    <td>".$atrasadasSolicitudLider[0]->atrasadas."</td>
 						                    	<td>".$actualesSolicitudLider[0]->actuales."</td>
 						                    	<td>".$futurasSolicitudLider[0]->futuras."</td>
+						                    	<td class='verde-liga-mx'><b>".$subtotalSolicitudesLider."</b></td>
 							                </tr>";
 							                $str.="<tr>
 							                    <td>Órdenes abiertas</td>
 							                    <td>".$atrasadasAbiertasLider[0]->atrasadas."</td>
 						                    	<td>".$actualesAbiertasLider[0]->actuales."</td>
 						                    	<td>".$futurasAbiertasLider[0]->futuras."</td>
+						                    	<td class='verde-liga-mx'><b>".$subtotalAbiertasLider."</b></td>
 							                </tr>";
 						                }
 
@@ -682,6 +724,17 @@ echo $str;
     color: #fff;
     background-color: #61a1d1;
     border-color: #3989c6
+}
+
+.membership-pricing-table table .plan-header-grisNegro {
+    color: #fff;
+    background-color: #182347;
+    border-color: #3989c6
+}
+
+.verde-liga-mx{
+	background-color: #DFE6C7 !important;
+	border-color: #DFE6C7 !important;
 }
 
 .membership-pricing-table table .plan-header-red {

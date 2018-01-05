@@ -26,7 +26,7 @@
       </div>
 
       <div class="col-md-4 col-sm-4 col-xs-4 tile_stats_count">
-        <span class="count_top"><i class="fa fa-folder-open"></i> Archivo de carga (ordenesots.xlsx)</span>
+        <span class="count_top"><i class="fa fa-folder-open"></i> Archivo de carga (ordenes.xlsx)</span>
         
           <form name="importa" action="importar.php" method="POST" enctype="multipart/form-data">
              <div class='form-group'>
@@ -67,6 +67,7 @@
                             <option value='<?php echo date('Y'); ?>' style="display: none;"><?php echo date('Y'); ?></option>
                             <option value='2016' ">2016</option>
                             <option value='2017' ">2017</option>
+                            <option value='2018' ">2018</option>
                         </select>
                     </div>
                     <button type="button" class="btn btn-success btn-circle btn-sm" title="Traer registros" id="verDisponibilidadGeneral"><i class="fa fa-database"></i>
