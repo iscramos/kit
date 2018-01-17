@@ -136,6 +136,23 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 	                </div>";
 	        $str.="</div>";
 
+	        $str.="<br><div class='row'>";
+				$str.="<div class='col-md-12 col-sm-12'>
+	                    <div class='panel panel-default' style='border-color: #d43f3a !important;'>
+	                        <div class='panel-heading' style='background-color: #d43f3a !important;
+    color: white !important;'>
+	                            MC VS MP DE OT PROGRAMADAS
+	                        </div>
+	                        <!-- /.panel-heading -->
+	                        <div class='panel-body '>
+	                             <div width='100%' id='graficaOTSemanal'></div>
+	                        </div>
+	                        <!-- /.panel-body -->
+	                    </div>
+	                    <!-- /.panel --> 
+	                </div>";
+	        $str.="</div>";
+
 	        /*$str.="<div class='row'>";
 				$str.="<div class='col-md-12 col-sm-12'>
 	                    <div class='panel panel-default' style='border-color: #d43f3a !important;'>
@@ -167,10 +184,9 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 
 		foreach ($meses as $mes) 
 		{
+			
 			$nombre = nombreMes(intval($mes->mes) );
 			$mes = $mes->mes;
-
-			
 
 
 			$str.="<h4 class='text-center'>".$nombre."</h4>";
@@ -206,6 +222,9 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 			$totalMesCorrectivo = 0;
 
 			$posicion = 0; 
+
+			
+					
 			foreach ($semanas as $semana) 
 			{
 				$subCumplimientoMP = 0;
@@ -350,9 +369,9 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 
 				
 
-				$str.="<tr>";
-					$str.="<th class='bg-info'>".$semana->semana."</th>";
-					$str.="<td class='bg-success'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='totalMP' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaProgramadosMP."</td>";
+				$str.="<tr >";
+					$str.="<th class='bg-info ' >".$semana->semana."</th>";
+					$str.="<td class='bg-success'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes mp_programados_wk".$semana->semana."' tipo='totalMP' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaProgramadosMP."</td>";
 					$str.="<td class='bg-success'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='otrosMP' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaOtrosMP."</td>";
 					$str.="<td class='bg-success'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='terminadoMP' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaTerminadosMP."</td>";
 					$str.="<td class='bg-success'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='pendienteMP' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaPendientesMP."</td>";
@@ -368,7 +387,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 					$str.="<td class='bg-success'>".$subCumplimientoMP." % </td>";
 
 
-					$str.="<td class='bg-warning'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='totalMC' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaProgramadosMC."</td>";
+					$str.="<td class='bg-warning'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes mc_programados_wk".$semana->semana."' tipo='totalMC' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaProgramadosMC."</td>";
 					$str.="<td class='bg-warning'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='otrosMC' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaOtrosMC."</td>";
 					$str.="<td class='bg-warning'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='terminadoMC' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaTerminadosMC."</td>";
 					$str.="<td class='bg-warning'> <a title='Ver detalles de órdenes' href='#' class='detallesOrdenes' tipo='pendienteMC' fechaInicio='$fechaInicio' fechaFinalizacion='$fechaFinalizacion'>".$cuentaPendientesMC."</td>";
@@ -639,8 +658,9 @@ echo $str;
     });
 
 
-    google.charts.load("visualization", "1", {packages:["corechart","bar"]});
+    google.charts.load("visualization", "1", {packages:["corechart","bar","line"]});
     google.charts.setOnLoadCallback(drawPorMes);
+    google.charts.setOnLoadCallback(drawOTsemanal); // para graficar los numeros de mantenimientos de mp y mc semanales
     //google.charts.setOnLoadCallback(drawPorHistorico);
       
      
@@ -713,6 +733,59 @@ echo $str;
         var chart = new google.charts.Bar(document.getElementById('graficaActualizada'));
 
         chart.draw(data, google.charts.Bar.convertOptions(options));
+
+	}
+
+	function drawOTsemanal()
+	{
+		var semanitas = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52];
+
+		var constructor = [['WK', 'Preventivos', 'Correctivos']];
+		$.each(semanitas, function( key, value ) 
+		{
+			var semanita = value;
+	
+				var nMP = 0;
+				var nMC = 0;
+
+			
+			   nMP = $(".mp_programados_wk"+semanita).text();
+			   nMC = $(".mc_programados_wk"+semanita).text();
+			   //console.log(porcentajePreventivo);
+			   
+			
+				nMP = parseInt(nMP);
+				nMC = parseInt(nMC);
+
+				constructor.push([semanita, nMP, nMC]);
+		});
+
+		var data = google.visualization.arrayToDataTable(constructor);
+
+        var options = 
+        {
+        	hAxis: {
+          		title: 'WK',
+          		logScale: true,
+          		titleFontSize:12
+        	},
+        		vAxis: {
+          		title: 'No. de mant.',
+          		logScale: false,
+          		format: '#'
+          		
+        	},
+        		height: 315,
+        		//width: 1200,
+        		colors: ['#5cb85c', '#f0ad4e'],
+        		fontSize:12, 
+            	legendFontSize:12, 
+            	titleFontSize:12, 
+            	tooltipFontSize:12, 
+      	};
+
+	      var chart = new google.visualization.LineChart(document.getElementById('graficaOTSemanal'));
+	      chart.draw(data, options);
 
 	}
 	
