@@ -757,7 +757,7 @@ echo $str;
 				nMP = parseInt(nMP);
 				nMC = parseInt(nMC);
 
-				constructor.push([semanita, nMP, nMC]);
+				constructor.push(["S "+semanita, nMP, nMC]);
 		});
 
 		var data = google.visualization.arrayToDataTable(constructor);
@@ -765,13 +765,13 @@ echo $str;
         var options = 
         {
         	hAxis: {
-          		title: 'WK',
+          		//title: 'WK',
           		logScale: true,
           		titleFontSize:12
         	},
         		vAxis: {
           		title: 'No. de mant.',
-          		logScale: false,
+          		//logScale: true,
           		format: '#'
           		
         	},
@@ -781,7 +781,8 @@ echo $str;
         		fontSize:12, 
             	legendFontSize:12, 
             	titleFontSize:12, 
-            	tooltipFontSize:12, 
+            	tooltipFontSize:12,
+            	chartArea: {width: '86%', height: '75%'}
       	};
 
 	      var chart = new google.visualization.LineChart(document.getElementById('graficaOTSemanal'));
