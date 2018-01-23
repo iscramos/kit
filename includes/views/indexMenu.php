@@ -50,6 +50,9 @@
                                 echo "<li>
                                         <a href='indexCumplimientoV2.php'> <i class='fa fa-area-chart' aria-hidden='true'></i> Cumplimiento v2</a>
                                     </li>";
+                                echo "<li>
+                                        <a href='indexAsignadosEquipos.php'> <i class='fa fa-user-secret' aria-hidden='true'></i> Equipos asignados</a>
+                                    </li>";
                                    
                     		} 
                     		elseif ($_SESSION["type"] == 4) // for plásticos
@@ -79,6 +82,8 @@
                                 echo "<li>
                                         <a href='indexCumplimientoV2.php'> <i class='fa fa-area-chart' aria-hidden='true'></i> Cumplimiento v2</a>
                                     </li>";  
+
+
                             }
                             elseif ($_SESSION["type"] == 6) // for taller mecanico
                             {
@@ -107,6 +112,10 @@
                                 echo "<li>
                                         <a href='indexCumplimientoV2.php'> <i class='fa fa-area-chart' aria-hidden='true'></i> Cumplimiento v2</a>
                                     </li>";    
+
+                                echo "<li>
+                                        <a href='indexAsignadosEquipos.php'> <i class='fa fa-user-secret' aria-hidden='true'></i> Equipos asignados</a>
+                                    </li>";
                             }
                             elseif ($_SESSION["type"] == 7) // for taller hidroelectrico
                             {
@@ -135,6 +144,9 @@
                                 echo "<li>
                                         <a href='indexCumplimientoV2.php'> <i class='fa fa-area-chart' aria-hidden='true'></i> Cumplimiento v2</a>
                                     </li>";   
+                                echo "<li>
+                                        <a href='indexAsignadosEquipos.php'> <i class='fa fa-user-secret' aria-hidden='true'></i> Equipos asignados</a>
+                                    </li>";
                             }
                             elseif ($_SESSION["type"] == 8) // for suelos
                             {

@@ -164,6 +164,23 @@
 						                </div>";
 						        $str.="</div>";
 
+						        $str.="<br><div class='row'>";
+									$str.="<div class='col-md-12 col-sm-12'>
+						                    <div class='panel panel-default' style='border-color: #d43f3a !important;'>
+						                        <div class='panel-heading' style='background-color: #d43f3a !important;
+					    color: white !important;'>
+						                            MC VS MP DE OT PROGRAMADAS
+						                        </div>
+						                        <!-- /.panel-heading -->
+						                        <div class='panel-body '>
+						                             <div width='100%' id='graficaOTSemanal'></div>
+						                        </div>
+						                        <!-- /.panel-body -->
+						                    </div>
+						                    <!-- /.panel --> 
+						                </div>";
+						        $str.="</div>";
+
 						       
 
 								$acumuladoMP = $nPendientesAnoAnteriorMP;
@@ -405,7 +422,7 @@
 
 									$str.="<tr>";
 										$str.="<th >".$semana->semana."</th>";
-										$str.="<td class='bg-info'>".$cuentaProgramadosMP."</td>";
+										$str.="<td class='bg-info mp_programados_wk".$semana->semana."'>".$cuentaProgramadosMP."</td>";
 										/*$str.="<td style='background: #5b4282; color:white;'>".$cuentaOtrosMP."</td>";*/
 										$str.="<td class='bg-success'>".$cuentaTerminadosMP."</td>";
 										$str.="<td class='bg-warning'>".$cuentaPendientesMP."</td>";
@@ -413,7 +430,7 @@
 										$str.="<td class='bg-default'>".$subCumplimientoMP." % </td>";
 
 
-										$str.="<td class='bg-info'>".$cuentaProgramadosMC."</td>";
+										$str.="<td class='bg-info mc_programados_wk".$semana->semana."'>".$cuentaProgramadosMC."</td>";
 										/*$str.="<td style='background: #5b4282; color:white;'>".$cuentaOtrosMC."</td>";*/
 										$str.="<td class='bg-success'>".$cuentaTerminadosMC."</td>";
 										$str.="<td class='bg-warning'>".$cuentaPendientesMC."</td>";
@@ -484,8 +501,9 @@
 
             // ----------------------------------------------------------------
 
-    google.charts.load("visualization", "1", {packages:["corechart","bar"]});
+    google.charts.load("visualization", "1", {packages:["corechart","bar","line"]});
     google.charts.setOnLoadCallback(drawPorMes);
+    google.charts.setOnLoadCallback(drawOTsemanal);
      
     
     function drawPorMes()
@@ -558,6 +576,61 @@
         chart.draw(data, google.charts.Bar.convertOptions(options));
 
     }
+
+
+    function drawOTsemanal()
+	{
+		var semanitas = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52];
+
+		var constructor = [['WK', 'Preventivos', 'Correctivos']];
+		$.each(semanitas, function( key, value ) 
+		{
+			var semanita = value;
+	
+				var nMP = 0;
+				var nMC = 0;
+
+			
+			   nMP = $(".mp_programados_wk"+semanita).text();
+			   nMC = $(".mc_programados_wk"+semanita).text();
+			   //console.log(porcentajePreventivo);
+			   
+			
+				nMP = parseInt(nMP);
+				nMC = parseInt(nMC);
+
+				constructor.push(["S "+semanita, nMP, nMC]);
+		});
+
+		var data = google.visualization.arrayToDataTable(constructor);
+
+        var options = 
+        {
+        	hAxis: {
+          		//title: 'WK',
+          		logScale: true,
+          		titleFontSize:12
+        	},
+        		vAxis: {
+          		title: 'No. de mant.',
+          		//logScale: true,
+          		format: '#'
+          		
+        	},
+        		height: 315,
+        		//width: 1200,
+        		colors: ['#5cb85c', '#f0ad4e'],
+        		fontSize:12, 
+            	legendFontSize:12, 
+            	titleFontSize:12, 
+            	tooltipFontSize:12,
+            	chartArea: {width: '86%', height: '75%'}
+      	};
+
+	      var chart = new google.visualization.LineChart(document.getElementById('graficaOTSemanal'));
+	      chart.draw(data, options);
+
+	}
             
             // ----------------------------------------------------------------
 
