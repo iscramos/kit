@@ -1,18 +1,18 @@
 			<!-- sidebar menu -->
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu menu_fixed">
-                      <div class="menu_section">
+                      <div class="menu_section" >
                         <h3>General</h3>
                         <ul class="nav side-menu">
                             
                     	<?php
                     		if ($_SESSION["type"] == 1) // for administrator
                     		{
-                                echo "<li>
+                                /*echo "<li>
                                         <a href='indexMain.php'>
                                             <i class='fa fa-home'></i> Inicio 
                                             <span class='fa fa-chevron-down'></span>
                                         </a>
-                                    </li>";
+                                    </li>";*/
                                 echo "<li><a><i class='fa fa-desktop'></i> Monitoreo <span class='fa fa-chevron-down'></span></a>
                                     <ul class='nav child_menu'>
                                         <li><a href='indexMonitoreo.php?lider=239'>Hidroeléctrico</a></li>
@@ -23,7 +23,7 @@
                                   </li>";
                                 echo "<li>
                                         <a href='indexEquiposCriticosTarget.php'>
-                                            <i class='fa fa-exclamation-triangle'></i> Equipos parados 
+                                            <i class='fa fa-exclamation-triangle'></i> Eq. Parados 
                                             <span class='fa fa-chevron-down'></span>
                                         </a>
                                     </li>";
@@ -48,21 +48,24 @@
                                                 <i class='fa fa-truck' aria-hidden='true'></i> MP vs MC (crítica)</a>
                                             </li>";
                                 echo "<li>
-                                        <a href='indexCumplimientoV2.php'> <i class='fa fa-area-chart' aria-hidden='true'></i> Cumplimiento v2</a>
+                                        <a href='indexCumplimientoV2.php'> <i class='fa fa-area-chart' aria-hidden='true'></i> Cumplim. v2</a>
                                     </li>";
                                 echo "<li>
-                                        <a href='indexAsignadosEquipos.php'> <i class='fa fa-user-secret' aria-hidden='true'></i> Equipos asignados</a>
+                                        <a href='indexAsignadosEquipos.php'> <i class='fa fa-user-secret' aria-hidden='true'></i> Asignación</a>
+                                    </li>";
+                                echo "<li>
+                                        <a href='indexAnalisis.php'> <i class='fa fa-pie-chart' aria-hidden='true'></i> Análisis</a>
                                     </li>";
                                    
                     		} 
                     		elseif ($_SESSION["type"] == 4) // for plásticos
                             {
-                                echo "<li>
+                                /*echo "<li>
                                         <a href='indexMain.php'>
                                             <i class='fa fa-home'></i> Inicio 
                                             <span class='fa fa-chevron-down'></span>
                                         </a>
-                                    </li>";
+                                    </li>";*/
                                 echo "<li><a><i class='fa fa-desktop'></i> Monitoreo <span class='fa fa-chevron-down'></span></a>
                                     <ul class='nav child_menu'>
                                         <li><a href='indexMonitoreo.php?lider=14993'>Plásticos</a></li>
@@ -80,19 +83,19 @@
                                                 <i class='fa fa-truck' aria-hidden='true'></i> MP vs MC (crítica)</a>
                                             </li>";
                                 echo "<li>
-                                        <a href='indexCumplimientoV2.php'> <i class='fa fa-area-chart' aria-hidden='true'></i> Cumplimiento v2</a>
+                                        <a href='indexCumplimientoV2.php'> <i class='fa fa-area-chart' aria-hidden='true'></i> Cumplim. v2</a>
                                     </li>";  
 
 
                             }
                             elseif ($_SESSION["type"] == 6) // for taller mecanico
                             {
-                                echo "<li>
+                                /*echo "<li>
                                         <a href='indexMain.php'>
                                             <i class='fa fa-home'></i> Inicio 
                                             <span class='fa fa-chevron-down'></span>
                                         </a>
-                                    </li>";
+                                    </li>";*/
                                 echo "<li><a><i class='fa fa-desktop'></i> Monitoreo <span class='fa fa-chevron-down'></span></a>
                                     <ul class='nav child_menu'>
                                         <li><a href='indexMonitoreo.php?lider=41185'>Mecánico</a></li>
@@ -110,21 +113,24 @@
                                                 <i class='fa fa-truck' aria-hidden='true'></i> MP vs MC (crítica)</a>
                                             </li>";
                                 echo "<li>
-                                        <a href='indexCumplimientoV2.php'> <i class='fa fa-area-chart' aria-hidden='true'></i> Cumplimiento v2</a>
+                                        <a href='indexCumplimientoV2.php'> <i class='fa fa-area-chart' aria-hidden='true'></i> Cumplim. v2</a>
                                     </li>";    
 
                                 echo "<li>
-                                        <a href='indexAsignadosEquipos.php'> <i class='fa fa-user-secret' aria-hidden='true'></i> Equipos asignados</a>
+                                        <a href='indexAsignadosEquipos.php'> <i class='fa fa-user-secret' aria-hidden='true'></i> Asignación</a>
+                                    </li>";
+                                echo "<li>
+                                        <a href='indexAnalisis.php'> <i class='fa fa-pie-chart' aria-hidden='true'></i> Análisis</a>
                                     </li>";
                             }
                             elseif ($_SESSION["type"] == 7) // for taller hidroelectrico
                             {
-                                echo "<li>
+                                /*echo "<li>
                                         <a href='indexMain.php'>
                                             <i class='fa fa-home'></i> Inicio 
                                             <span class='fa fa-chevron-down'></span>
                                         </a>
-                                    </li>";
+                                    </li>";*/
                                 echo "<li><a><i class='fa fa-desktop'></i> Monitoreo <span class='fa fa-chevron-down'></span></a>
                                     <ul class='nav child_menu'>
                                         <li><a href='indexMonitoreo.php?lider=239'>Hidroeléctrico</a></li>
@@ -142,20 +148,23 @@
                                                 <i class='fa fa-truck' aria-hidden='true'></i> MP vs MC (crítica)</a>
                                             </li>";
                                 echo "<li>
-                                        <a href='indexCumplimientoV2.php'> <i class='fa fa-area-chart' aria-hidden='true'></i> Cumplimiento v2</a>
+                                        <a href='indexCumplimientoV2.php'> <i class='fa fa-area-chart' aria-hidden='true'></i> Cumplim. v2</a>
                                     </li>";   
                                 echo "<li>
-                                        <a href='indexAsignadosEquipos.php'> <i class='fa fa-user-secret' aria-hidden='true'></i> Equipos asignados</a>
+                                        <a href='indexAsignadosEquipos.php'> <i class='fa fa-user-secret' aria-hidden='true'></i> Asignación</a>
+                                    </li>";
+                                echo "<li>
+                                        <a href='indexAnalisis.php'> <i class='fa fa-pie-chart' aria-hidden='true'></i> Análisis</a>
                                     </li>";
                             }
                             elseif ($_SESSION["type"] == 8) // for suelos
                             {
-                                echo "<li>
+                                /*echo "<li>
                                         <a href='indexMain.php'>
                                             <i class='fa fa-home'></i> Inicio 
                                             <span class='fa fa-chevron-down'></span>
                                         </a>
-                                    </li>";
+                                    </li>";*/
                                 echo "<li><a><i class='fa fa-desktop'></i> Monitoreo <span class='fa fa-chevron-down'></span></a>
                                     <ul class='nav child_menu'>
                                         <li><a href='indexMonitoreo.php?lider=15113'>Suelos</a></li>
@@ -173,7 +182,7 @@
                                                 <i class='fa fa-truck' aria-hidden='true'></i> MP vs MC (crítica)</a>
                                             </li>";
                                 echo "<li>
-                                        <a href='indexCumplimientoV2.php'> <i class='fa fa-area-chart' aria-hidden='true'></i> Cumplimiento v2</a>
+                                        <a href='indexCumplimientoV2.php'> <i class='fa fa-area-chart' aria-hidden='true'></i> Cumplim. v2</a>
                                     </li>";   
                             }
                     	?>

@@ -49,7 +49,7 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="index.html" class="site_title">
+                        <a href="indexMain.php" class="site_title">
                             <img width="80%" src="<?php echo $url; ?>dist/img/naturesweet_picture.png">
                         </a>
                     </div>

@@ -151,7 +151,9 @@
 	display:none
 }
 /*-------------*/
-.menu_section{margin-bottom:35px}.menu_section h3{padding-left:15px;color:#fff;text-transform:uppercase;letter-spacing:.5px;font-weight:700;font-size:11px;margin-bottom:0;margin-top:0;text-shadow:1px 1px #000}.menu_section>ul{margin-top:10px}.profile_pic{width:35%;float:left}.img-circle.profile_img{width:70%;background:#fff;margin-left:15%;z-index:1000;position:inherit;margin-top:20px;border:1px solid rgba(52,73,94,.44);padding:4px}.profile_info{padding:25px 10px 10px;width:65%;float:left}.profile_info span{font-size:13px;line-height:30px;color:#BAB8B8}.profile_info h2{font-size:14px;color:#ECF0F1;margin:0;font-weight:300}.profile.img_2{text-align:center}.profile.img_2 .profile_pic{width:100%}.profile.img_2 .profile_pic .img-circle.profile_img{width:50%;margin:10px 0 0}.profile.img_2 .profile_info{padding:15px 10px 0;width:100%;margin-bottom:10px;float:left}
+.menu_section{margin-bottom:35px}
+.menu_section h3{padding-left:15px;color:#fff;text-transform:uppercase;letter-spacing:.5px;font-weight:700;font-size:11px;margin-bottom:0;margin-top:0;text-shadow:1px 1px #000}
+.menu_section>ul{margin-top:0px}.profile_pic{width:35%;float:left}.img-circle.profile_img{width:70%;background:#fff;margin-left:15%;z-index:1000;position:inherit;margin-top:20px;border:1px solid rgba(52,73,94,.44);padding:4px}.profile_info{padding:25px 10px 10px;width:65%;float:left}.profile_info span{font-size:13px;line-height:30px;color:#BAB8B8}.profile_info h2{font-size:14px;color:#ECF0F1;margin:0;font-weight:300}.profile.img_2{text-align:center}.profile.img_2 .profile_pic{width:100%}.profile.img_2 .profile_pic .img-circle.profile_img{width:50%;margin:10px 0 0}.profile.img_2 .profile_info{padding:15px 10px 0;width:100%;margin-bottom:10px;float:left}
 .main_menu span.fa
 {
 	float:right;
@@ -185,7 +187,7 @@ body .container.body .right_col{background:#F7F7F7}
 .nav_title
 {
 	/*width:230px;float:left;background:#F3D93A;border-radius:0;height:57px*/
-	width:70px;float:left;background:#F3D93A;border-radius:0;height:57px
+	width:70px;float:left;background:#F3D93A;border-radius:0;height:5px
 }
 /*-----*/
 .nav-md .menu_section h3,.nav-md .profile,.nav-md .menu_section span.fa
