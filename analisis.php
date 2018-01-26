@@ -78,7 +78,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 					{
 
 						$str.="<tr  >";
-							$str.="<td>".$x."</td> <td>".$topC->clase."</td> <td>".$topC->fallas."</td>";
+							$str.="<td>".$x."</td> <td>".$topC->clase."</td> <td style='text-align:right;'>".$topC->fallas."</td>";
 						$str.="</tr>";
 
 						$x++;
@@ -117,7 +117,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 					{
 
 						$str.="<tr >";
-							$str.="<td>".$y."</td> <td>".$topE->equipo."</td> <td>".$topE->descripcion_equipo."</td> <td>".$topE->fallas."</td>";
+							$str.="<td>".$y."</td> <td>".$topE->equipo."</td> <td>".$topE->descripcion_equipo."</td> <td style='text-align:right;'>".$topE->fallas."</td>";
 						$str.="</tr>";
 
 						$y++;
@@ -156,7 +156,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 					foreach ($topEquiposCriticos as $topCriticos) 
 					{
 						$str.="<tr >";
-							$str.="<td>".$z."</td> <td>".$topCriticos->equipo."</td> <td>".$topCriticos->descripcion_equipo."</td> <td>".$topCriticos->fallas."</td>";
+							$str.="<td>".$z."</td> <td>".$topCriticos->equipo."</td> <td>".$topCriticos->descripcion_equipo."</td> <td style='text-align:right;'>".$topCriticos->fallas."</td>";
 						$str.="</tr>";
 
 						$z++;
@@ -164,6 +164,49 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 				$str.="</tbody>";
 			$str.="</table>";
 		$str.="</div>";
+
+		$consulta = "SELECT SUM(unix_timestamp(ordenesots.fecha_finalizacion) - unix_timestamp(ordenesots.fecha_inicio)) AS horas, ordenesots.equipo, activos_eam.descripcion as descripcion_equipo
+					FROM ordenesots
+					LEFT JOIN activos_eam ON ordenesots.equipo = activos_eam.activo 
+					INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo
+					WHERE ordenesots.fecha_finalizacion_programada 
+						BETWEEN '$inicio' 
+							AND '$fin'
+						AND ordenesots.tipo != 'Mant. preventivo'
+						AND (ordenesots.estado = 'Terminado' OR ordenesots.estado = 'Ejecutado')
+						GROUP BY ordenesots.equipo 
+						ORDER BY horas DESC LIMIT 10";
+
+						//echo $consulta."<br>";
+
+		$topEquiposCriticos_tiempo = Ordenesots::getAllConsulta($consulta);
+
+		$str.="<div class='col-md-7 table-responsive'>";
+			$str.="<br>ACTIVOS CRITICOS + TIEMPO DE PARADA";
+			$str.="<table class='table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action' style='font-size:11px;'>";
+				$str.="<thead>";
+					$str.="<tr>";
+						$str.="<th>#</th> <th>EQUIPO</th> <th>DESCRIPCION</th> <th>T. DE PARADA (HRS)</th>";
+					$str.="</tr>";
+				$str.="</thead>";
+				$str.="<tbody>";
+
+					$z = 1;
+					foreach ($topEquiposCriticos_tiempo as $topCriticos_tiempo) 
+					{
+						$en_horas = 0;
+						$en_horas = $topCriticos_tiempo->horas / 3600; // para la conversion a horas
+
+						$str.="<tr >";
+							$str.="<td>".$z."</td> <td>".$topCriticos_tiempo->equipo."</td> <td>".$topCriticos_tiempo->descripcion_equipo."</td> <td style='text-align:right;'>".$en_horas."</td>";
+						$str.="</tr>";
+
+						$z++;
+					}
+				$str.="</tbody>";
+			$str.="</table>";
+		$str.="</div>";
+
 		/* TERMINA TABLA DE ANALISIS GENERAL*/
 	}
 }

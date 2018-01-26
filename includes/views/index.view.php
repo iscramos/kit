@@ -16,9 +16,11 @@
                    
            
               <img src="<?php echo $url."dist/img/naturesweet_picture.png"; ?>" class="img-responsive" alt="Responsive image" style="margin: 0 auto;">
+              <h1>+</h1>
+              <img src="<?php echo $url."dist/img/infor-logo.png"; ?>" class="img-responsive" alt="Responsive image" style="margin: 0 auto;">
               <hr>
               <h1 class=''>Planta Colima</h1>
-              <h4>Última Actualización: 07/11/2017</h4>
+              <h4>Última Actualización: 25/01/2018</h4>
           
             </div>
 

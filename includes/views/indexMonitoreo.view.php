@@ -371,10 +371,19 @@
                                         //$empleado_nature = Empleados_nature::getAllByAsociado($orden["tecnico"]);
                                         /*if(count($empleado_nature) > 0)
                                         {*/
-                                        foreach ($asociadoData as $aData) 
+                                        if(count($asociadoData) > 0)
                                         {
-                                          echo "<td>".utf8_encode($aData["nombre"])."</td>";
+                                          foreach ($asociadoData as $aData) 
+                                          {
+                                            echo "<td>".utf8_encode($aData["nombre"])."</td>";
+                                          }
+                                          
                                         }
+                                        else
+                                        {
+                                          echo "<td> OTRO / EXTERNO MECA/ NO REGISTRADO</td>";
+                                        }
+                                        
                                         /*}
                                         else
                                         {
@@ -523,9 +532,17 @@
                                         $direccion2 = "http://192.168.167.231/proapp/ws/?asociado=".$orden["tecnico"];
                                         $json_asociado = file_get_contents($direccion2);
                                         $asociadoData = json_decode($json_asociado, true);
-                                        foreach ($asociadoData as $aData) 
+                                        if(count($asociadoData) > 0)
                                         {
-                                          echo "<td>".utf8_encode($aData["nombre"])."</td>";
+                                          foreach ($asociadoData as $aData) 
+                                          {
+                                            echo "<td>".utf8_encode($aData["nombre"])."</td>";
+                                          }
+                                          
+                                        }
+                                        else
+                                        {
+                                          echo "<td> OTRO / EXTERNO MECA/ NO REGISTRADO</td>";
                                         }
 
                                         echo "<td class='bg-danger'>".date("d-M",strtotime($orden["fecha_inicio_programada"]))."</td>";
