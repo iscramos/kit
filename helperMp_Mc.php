@@ -266,11 +266,24 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 
 				/*if($recorreSemana == 1)
 				{*/
-					$primerDia = $semana->fecha_inicio;
-					$ultimoDia = $semana->fecha_fin;
+					if ($ano == 2018 && $semana->semana == 01)
+					{
+						//echo $ano;
+						$primerDia = $semana->fecha_inicio;
+						$ultimoDia = $semana->fecha_fin;
 
-					$fechaInicio = $ano."-".$primerDia;
-					$fechaFinalizacion = $ano."-".$ultimoDia;
+						$fechaInicio = ($ano -1 )."-".$primerDia;
+						$fechaFinalizacion = $ano."-".$ultimoDia;
+					}
+					else
+					{
+						$primerDia = $semana->fecha_inicio;
+						$ultimoDia = $semana->fecha_fin;
+
+						$fechaInicio = $ano."-".$primerDia;
+						$fechaFinalizacion = $ano."-".$ultimoDia;
+					}
+					
 
 
 					//echo $semana->semana." = ".$fechaInicio." >> ". $fechaFinalizacion."<br>";
