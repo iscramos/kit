@@ -653,23 +653,25 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
                             {
                                 foreach ($ordenesmc as $mc) 
                                 {
-                                    if($mc->fecha_inicio_programada <= $fechaHoy)
+
+                                    $fechaHoy = null;
+                                    $fechaHoy = date("Y-m-d H:i:s");
+
+                                    if($mc->fecha_finalizacion_programada <= $fechaHoy)
                                     {
-                                        if($mc->fecha_inicio == "")
+                                    
+                                        if($mc->fecha_inicio == "" )
                                         {
-                                            $fechaHoy = null;
-                                            $fechaHoy = date("Y-m-d H:i:s");
-                                            $timeToRepair = $timeToRepair + getMinutes($mc->fecha_inicio_programada, $fechaHoy);
+                                            $timeToRepair = $timeToRepair + getMinutes($mc->fecha_finalizacion_programada, $fechaHoy);
                                             $cuentaFails ++;    
+                                            
                                         }
-                                        else if($mc->fecha_finalizacion == "" && $mc->fecha_inicio != "") // para cuando no existe aún la fecha de finalización
+                                        else if($mc->fecha_finalizacion == "" && $mc->fecha_inicio != "" ) // para cuando no existe aún la fecha de finalización
                                         {
-                                            $fechaHoy = null;
-                                            $fechaHoy = date("Y-m-d H:i:s");
-                                            $timeToRepair = $timeToRepair + getMinutes($mc->fecha_inicio, $fechaHoy);
+                                            $timeToRepair = $timeToRepair + getMinutes($mc->fecha_inicio, $fechaHoy );
                                             $cuentaFails ++;                            
                                         }
-                                        else
+                                        else if($mc->fecha_finalizacion == "" && $mc->fecha_inicio == "" )
                                         {
                                             
                                             $timeToRepair = $timeToRepair + getMinutes($mc->fecha_inicio, $mc->fecha_finalizacion);

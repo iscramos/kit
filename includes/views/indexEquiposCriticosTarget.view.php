@@ -34,9 +34,10 @@
                                     $json_ordenes = file_get_contents($direccion);
                                     $ordenes = json_decode($json_ordenes, true);
                                     
+                                    //print_r($ordenes);
                                     foreach ($activos_equipos as $critico) 
                                     {
-                                        $no_ot = 0;
+                                        //$no_ot = 0;
                                         $enciendeParado = 0;
                                         $colorEstatus = "";
 
@@ -44,17 +45,21 @@
                                         {
                                             if($ot["equipo"] == $critico->nombre_equipo)
                                             {
-                                                if($ot["estado"] != "Terminado" && ($ot["tipo"] == "Correctivo planeado" || $ot["tipo"] == "Correctivo de emergencia") )
+                                                //echo $ot["tipo"]."<br>";
+                                                if($ot["estado"] != "Terminado" && ($ot["tipo"] == "Correctivo planeado" || $ot["tipo"] == "Correctivo de emergencia"))
                                                 {
+                                                    //echo $ot["equipo"]."<br>";
                                                     $enciendeParado = 1;
                                                 }
 
-                                                $no_ot ++; 
+                                                //$no_ot ++; 
                                             }
                                         }
 
+
                                         if ($enciendeParado == 1)
                                         {
+
                                             $colorEstatus = "bs-callout bs-callout-red";
                                             echo "<div class='col-xs-6 col-sm-2 col-md-2'>";
                                             echo "<div class='thumbnail ".$colorEstatus."' style='padding:5px !important;'>";
