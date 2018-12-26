@@ -1,11 +1,11 @@
 <?php
 @ini_set( 'upload_max_size' , '11M' ); 
 @ini_set( 'post_max_size', '11M'); 
-@ini_set( 'max_execution_time', '300' );
+//@ini_set( 'max_execution_time', '300' );
 ////////////////////////////////////////////////////////////////////////////////
 // Configure the default time zone
 ////////////////////////////////////////////////////////////////////////////////
-date_default_timezone_set('MST');
+date_default_timezone_set('America/Mexico_City');
 
 ////////////////////////////////////////////////////////////////////////////////
 // Configure the default currency
@@ -16,7 +16,12 @@ $url="http://localhost/kit/";
 $content = "content";
 $contentRead = "content/";
 
+$urlFotos="http://192.168.167.231/col2/ch/perfils/";
+
 $lideres = array(41185, 239, 14993, 15113);
+$zonas_norte = array("ZONA D", "ZONA E", "ZONA F", "AREAS COMUNES");
+$zonas_sur = array("ZONA A", "ZONA B", "ZONA C", "ZONA G", "OFICINAS PB", "OFICINAS PA", "COMEDOR SUR", "COMEDOR CENTRAL", "COMEDOR NORTE", "AREAS COMUNES", "EMPAQUE", "EMBARQUES");
+
 //$urlDatos="http://cenedic3.ucol.mx/content/saestuc/";
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -69,3 +74,27 @@ require_once(MODEL_PATH.'almacen_inventario.model.php');
 
 // para dashboard
 require_once(MODEL_PATH.'archivosDashboard.model.php');
+
+// para la big data de disponibilidad
+require_once(MODEL_PATH.'disponibilidad_plantas.model.php');
+require_once(MODEL_PATH.'disponibilidad_anos.model.php');
+require_once(MODEL_PATH.'disponibilidad_meses.model.php');
+require_once(MODEL_PATH.'disponibilidad_semanas.model.php');
+require_once(MODEL_PATH.'disponibilidad_calendarios.model.php');
+require_once(MODEL_PATH.'disponibilidad_activos.model.php');
+require_once(MODEL_PATH.'disponibilidad_toperacional.model.php');
+require_once(MODEL_PATH.'disponibilidad_tiempos.model.php');
+require_once(MODEL_PATH.'disponibilidad_data.model.php');
+require_once(MODEL_PATH.'disponibilidad_logs.model.php');
+
+require_once(MODEL_PATH.'bd_rebombeo.model.php');
+require_once(MODEL_PATH.'tipoMedicion_rebombeo.model.php');
+require_once(MODEL_PATH.'equipos_rebombeo.model.php');
+
+require_once(MODEL_PATH.'recursos_actividades.model.php');
+require_once(MODEL_PATH.'recursos_asociados.model.php');
+require_once(MODEL_PATH.'recursos_bonos_semanal.model.php');
+require_once(MODEL_PATH.'recursos_bonos_apoyos.model.php');
+require_once(MODEL_PATH.'recursos_departamentos.model.php');
+require_once(MODEL_PATH.'recursos_invernaderos.model.php');
+require_once(MODEL_PATH.'recursos_puestos.model.php');

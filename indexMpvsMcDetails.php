@@ -17,7 +17,9 @@ if(($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_SE
 	$fechaFinalizacion = $_GET["fechaFinalizacion"];
 	$ano = $_GET["ano"];
 
-	$ordenes = Ordenesots::getAllInicioFin($fechaInicio, $fechaFinalizacion);
+	$q = "SELECT * FROM Disponibilidad_data WHERE (fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion') ";
+	$ordenes = Disponibilidad_data::getAllByQuery($q);
+
 	//print_r($ordenes);
 	require_once(VIEW_PATH.'indexMpvsMcDetails.view.php');
 }

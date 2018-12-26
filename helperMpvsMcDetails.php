@@ -23,6 +23,7 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 		 	OR estado = 'Espera de equipo'
 		 	OR estado = 'Espera de refacciones'
 		 	OR estado = 'Falta de mano de obra'
+		 	OR estado = 'Condiciones ambientales'
 		 	OR estado = 'Abierta'
 		 	OR estado = 'Programada' 
 		 	OR estado = 'Terminado' )";
@@ -43,6 +44,7 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 		 		OR estado = 'Espera de equipo'
 		 		OR estado = 'Espera de refacciones'
 		 		OR estado = 'Falta de mano de obra'
+		 		OR estado = 'Condiciones ambientales'
 		 		OR estado = 'Abierta')";
 		
 	}
@@ -66,6 +68,7 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 		 	OR estado = 'Espera de equipo'
 		 	OR estado = 'Espera de refacciones'
 		 	OR estado = 'Falta de mano de obra'
+		 	OR estado = 'Condiciones ambientales'
 		 	OR estado = 'Abierta'
 		 	OR estado = 'Programada' 
 		 	OR estado = 'Terminado'
@@ -87,6 +90,7 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 		 		OR estado = 'Espera de equipo'
 		 		OR estado = 'Espera de refacciones'
 		 		OR estado = 'Falta de mano de obra'
+		 		OR estado = 'Condiciones ambientales'
 		 		OR estado = 'Abierta'
 		 		OR estado = 'Solic. de trabajo')";
 	}
@@ -101,14 +105,14 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 	}
 
 	$consulta = "";
- 	$consulta = "SELECT * FROM ordenesots WHERE
+ 	$consulta = "SELECT * FROM disponibilidad_data WHERE
 		 ( fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
 		 $adicional
 		 AND responsable=$lider";
 
 		 //echo $consulta;
 
-	$ordenes = Ordenesots::getAllConsulta($consulta);
+	$ordenes = Disponibilidad_data::getAllByQuery($consulta);
 		 
 
 	$str.="<table class='table table-bordered table-condensed dataTables_wrapper jambo_table bulk_action pagina' style='font-size: 11px;'>
@@ -140,7 +144,7 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 					$fecha_fin_tecnico = date("d-M", strtotime($orden->fecha_finalizacion));
 				}
 				$str.="<tr>";
-					$str.="<th >".$orden->orden_trabajo."</th>";
+					$str.="<th >".$orden->ot."</th>";
 					$str.="<td >".$orden->descripcion."</td>";
 					$str.="<td >".$orden->equipo."</td>";
 					$str.="<td >".$orden->clase."</td>";

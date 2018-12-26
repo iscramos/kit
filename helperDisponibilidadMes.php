@@ -282,6 +282,8 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
                             {
                                 foreach ($ordenesmp as $ordenmp) 
                                 {
+                                     
+
                                     $findA = stripos($ordenmp->descripcion, "TIPO \"A\"");
                                     if ($findA !== false) 
                                     {
@@ -289,7 +291,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 
                                         //$encuentraA = 1;
                                         /*echo $equipo->nombre_equipo."->".$ordenmp->fecha_inicio."..".$ordenmp->fecha_finalizacion."<br>";*/
-                                        if($ordenmp->fecha_inicio == "")
+                                        if($ordenmp->fecha_inicio == "0000-00-00 00:00:00")
                                         {
                                             $fechaHoy = null;
                                             $fechaHoy = date("Y-m-d H:i:s");
@@ -305,7 +307,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
                                             
                                             $encuentraA = 1;
                                         }
-                                        else if($ordenmp->fecha_finalizacion == "" && $ordenmp->fecha_inicio != "")
+                                        else if($ordenmp->fecha_finalizacion == "0000-00-00 00:00:00" && $ordenmp->fecha_inicio != "0000-00-00 00:00:00")
                                         {
                                             
                                             $fechaHoy = null;
@@ -330,7 +332,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
                                     if ($findB !== false) 
                                     {
 
-                                        if($ordenmp->fecha_inicio == "")
+                                        if($ordenmp->fecha_inicio == "0000-00-00 00:00:00")
                                         {
                                             $fechaHoy = null;
                                             $fechaHoy = date("Y-m-d H:i:s");
@@ -345,7 +347,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
                                             
                                             $encuentraB = 1;
                                         }
-                                        else if($ordenmp->fecha_finalizacion == "" && $ordenmp->fecha_inicio != "")
+                                        else if($ordenmp->fecha_finalizacion == "0000-00-00 00:00:00" && $ordenmp->fecha_inicio != "0000-00-00 00:00:00")
                                         {
                                             
                                             $fechaHoy = null;
@@ -368,7 +370,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
                                     $findC = stripos($ordenmp->descripcion, "TIPO \"C\"");
                                     if ($findC !== false) 
                                     {
-                                        if($ordenmp->fecha_inicio == "")
+                                        if($ordenmp->fecha_inicio == "0000-00-00 00:00:00")
                                         {
                                             $fechaHoy = null;
                                             $fechaHoy = date("Y-m-d H:i:s");
@@ -383,7 +385,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
                                             
                                             $encuentraC = 1;
                                         }
-                                        else if($ordenmp->fecha_finalizacion == "" && $ordenmp->fecha_inicio != "")
+                                        else if($ordenmp->fecha_finalizacion == "0000-00-00 00:00:00" && $ordenmp->fecha_inicio != "0000-00-00 00:00:00")
                                         {
                                             
                                             $fechaHoy = null;
@@ -406,7 +408,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
                                     $findD = stripos($ordenmp->descripcion, "TIPO \"D\"");
                                     if ($findD !== false) 
                                     {
-                                        if($ordenmp->fecha_inicio == "")
+                                        if($ordenmp->fecha_inicio == "0000-00-00 00:00:00")
                                         {
                                             $fechaHoy = null;
                                             $fechaHoy = date("Y-m-d H:i:s");
@@ -421,7 +423,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
                                             
                                             $encuentraD = 1;
                                         }
-                                        else if($ordenmp->fecha_finalizacion == "" && $ordenmp->fecha_inicio != "")
+                                        else if($ordenmp->fecha_finalizacion == "0000-00-00 00:00:00" && $ordenmp->fecha_inicio != "0000-00-00 00:00:00")
                                         {
                                             
                                             $fechaHoy = null;
@@ -444,7 +446,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
                                     $findE = stripos($ordenmp->descripcion, "TIPO \"E\"");
                                     if ($findE !== false) 
                                     {
-                                        if($ordenmp->fecha_inicio == "")
+                                        if($ordenmp->fecha_inicio == "0000-00-00 00:00:00")
                                         {
                                             $fechaHoy = null;
                                             $fechaHoy = date("Y-m-d H:i:s");
@@ -457,7 +459,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
                                                 $realE = getMinutes($ordenmp->fecha_inicio_programada, $fechaHoy);
                                             }
                                         }
-                                        else if($ordenmp->fecha_finalizacion == "" && $ordenmp->fecha_inicio != "")
+                                        else if($ordenmp->fecha_finalizacion == "0000-00-00 00:00:00" && $ordenmp->fecha_inicio != "0000-00-00 00:00:00")
                                         {
                                             
                                             $fechaHoy = null;
@@ -480,7 +482,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
                                     $findF = stripos($ordenmp->descripcion, "TIPO \"F\"");
                                     if ($findF !== false) 
                                     {
-                                        if($ordenmp->fecha_inicio == "")
+                                        if($ordenmp->fecha_inicio == "0000-00-00 00:00:00")
                                         {
                                             $fechaHoy = null;
                                             $fechaHoy = date("Y-m-d H:i:s");
@@ -495,7 +497,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
                                             
                                             $encuentraF = 1;
                                         }
-                                        else if($ordenmp->fecha_finalizacion == "" && $ordenmp->fecha_inicio != "")
+                                        else if($ordenmp->fecha_finalizacion == "0000-00-00 00:00:00" && $ordenmp->fecha_inicio != "0000-00-00 00:00:00")
                                         {
                                             
                                             $fechaHoy = null;
@@ -573,9 +575,19 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
                             $str.="<td class='idealTotalTimeMp hidden' >
                                 <button type='button' class='btn btn-success btn-circle btn-md' title='Ideal Total Time Mp'  >".$idealTotalTimeMp."</button>
                             </td>";
-                            $str.="<td class='realTotalTimeMp'>
-                            <button type='button' class='btn btn-warning btn-circle btn-md' title='Real Total Time Mp'  >".$realTotalTimeMp."</button>
-                            </td>"; 
+
+                            if($realTotalTimeMp == 0)
+                            {
+                                $str.="<td class='realTotalTimeMp'>
+                                <button type='button' class='btn btn-default btn-circle btn-md' title='Real Total Time Mp'  >".$realTotalTimeMp."</button>
+                                </td>"; 
+                            }
+                            else
+                            {
+                                $str.="<td class='realTotalTimeMp'>
+                                <button type='button' class='btn btn-warning btn-circle btn-sm' title='Real Total Time Mp'  >".$realTotalTimeMp."</button>
+                                </td>";
+                            }
                             
                             
 
@@ -653,25 +665,27 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
                             {
                                 foreach ($ordenesmc as $mc) 
                                 {
+                                    
 
                                     $fechaHoy = null;
                                     $fechaHoy = date("Y-m-d H:i:s");
 
-                                    if($mc->fecha_finalizacion_programada <= $fechaHoy)
+                                    if($mc->fecha_inicio <= $fechaHoy)
                                     {
+                                        
                                     
-                                        if($mc->fecha_inicio == "" )
+                                        if($mc->fecha_inicio == "0000-00-00 00:00:00" )
                                         {
-                                            $timeToRepair = $timeToRepair + getMinutes($mc->fecha_finalizacion_programada, $fechaHoy);
-                                            $cuentaFails ++;    
+                                            $timeToRepair = $timeToRepair + getMinutes($mc->fecha_inicio_programada, $fechaHoy);
+                                            $cuentaFails ++;  
                                             
                                         }
-                                        else if($mc->fecha_finalizacion == "" && $mc->fecha_inicio != "" ) // para cuando no existe aún la fecha de finalización
+                                        else if($mc->fecha_finalizacion == "0000-00-00 00:00:00" && $mc->fecha_inicio != "0000-00-00 00:00:00" ) // para cuando no existe aún la fecha de finalización
                                         {
                                             $timeToRepair = $timeToRepair + getMinutes($mc->fecha_inicio, $fechaHoy );
                                             $cuentaFails ++;                            
                                         }
-                                        else if($mc->fecha_finalizacion == "" && $mc->fecha_inicio == "" )
+                                        else 
                                         {
                                             
                                             $timeToRepair = $timeToRepair + getMinutes($mc->fecha_inicio, $mc->fecha_finalizacion);

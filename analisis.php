@@ -16,18 +16,11 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 	$fin = "";
 	
 
-	$fechas = Calendario_nature::getAllSemana($semana);
-	$inicio = $ano."-".$fechas[0]->fecha_inicio;
-	$fin = $ano."-".$fechas[0]->fecha_fin;
+	$min_calendario = Disponibilidad_calendarios::getMinDiaByAnoSemana($semana, $ano);    
+    $max_calendario = Disponibilidad_calendarios::getMaxDiaByAnoSemana($semana, $ano);
+    $inicio = $min_calendario[0]->dia;
+   	$fin = $max_calendario[0]->dia;
 	
-	/*echo "Fecha inicio: ".$inicio;
-	echo "<br>Fecha fin: ".$fin;*/
-
-	//$countPreventivos = Ordenesots::getAllMpByMesAnoCuentaPreventivo($mes, $ano);
-	//$countCorrectivos = Ordenesots::getAllMpByMesAnoCuentaCorrectivo($mes, $ano);
-
-	/*$str.="<input type='number' class='hidden' value='".$countPreventivos[0]->nPreventivos."' id='nPreventivos' >";
-	$str.="<input type='number' class='hidden' value='".$countCorrectivos[0]->nCorrectivos."' id='nCorrectivos' >";*/
 
 	function getMinutes($fecha1, $fecha2)
 	{
@@ -46,10 +39,8 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 	
 	if($parametro == "ANALISIS")
 	{
-		/* 	MIS VARIABLES GENERALES */
-
-		$consulta = "SELECT count(*) AS fallas, ordenesots.clase
-					FROM ordenesots
+		$consulta = "SELECT count(*) AS fallas, disponibilidad_data.clase
+					FROM disponibilidad_data
 					WHERE fecha_finalizacion_programada 
 						BETWEEN '$inicio' 
 							AND '$fin'
@@ -59,7 +50,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 
 						//echo $consulta."<br>";
 
-		$topClases = Ordenesots::getAllConsulta($consulta);
+		$topClases = Disponibilidad_data::getAllByQuery($consulta);
 
 		//print_r($topClases);
 
@@ -88,19 +79,19 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 		$str.="</div>";
 
 
-		$consulta = "SELECT count(*) AS fallas, ordenesots.equipo, activos_eam.descripcion as descripcion_equipo
-					FROM ordenesots
-					LEFT JOIN activos_eam ON ordenesots.equipo = activos_eam.activo 
-					WHERE ordenesots.fecha_finalizacion_programada 
+		$consulta = "SELECT count(*) AS fallas, disponibilidad_data.equipo, disponibilidad_activos.descripcion as descripcion_equipo
+					FROM disponibilidad_data
+					LEFT JOIN disponibilidad_activos ON disponibilidad_data.equipo = disponibilidad_activos.activo 
+					WHERE disponibilidad_data.fecha_finalizacion_programada 
 						BETWEEN '$inicio' 
 							AND '$fin'
-						AND ordenesots.tipo != 'Mant. preventivo'
-						GROUP BY ordenesots.equipo 
+						AND disponibilidad_data.tipo != 'Mant. preventivo'
+						GROUP BY disponibilidad_data.equipo 
 						ORDER BY fallas DESC LIMIT 10";
 
 						//echo $consulta."<br>";
 
-		$topEquipos = Ordenesots::getAllConsulta($consulta);
+		$topEquipos = Disponibilidad_data::getAllByQuery($consulta);
 
 		$str.="<div class='col-md-5 table-responsive'>";
 			$str.="TODOS LOS ACTIVOS";
@@ -127,20 +118,20 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 		$str.="</div>";
 
 
-		$consulta = "SELECT count(*) AS fallas, ordenesots.equipo, activos_eam.descripcion as descripcion_equipo
-					FROM ordenesots
-					LEFT JOIN activos_eam ON ordenesots.equipo = activos_eam.activo 
-					INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo
-					WHERE ordenesots.fecha_finalizacion_programada 
+		$consulta = "SELECT count(*) AS fallas, disponibilidad_data.equipo, disponibilidad_activos.descripcion as descripcion_equipo
+					FROM disponibilidad_data
+					LEFT JOIN disponibilidad_activos ON disponibilidad_data.equipo = disponibilidad_activos.activo
+					WHERE disponibilidad_data.fecha_finalizacion_programada 
 						BETWEEN '$inicio' 
 							AND '$fin'
-						AND ordenesots.tipo != 'Mant. preventivo'
-						GROUP BY ordenesots.equipo 
+						AND disponibilidad_data.tipo != 'Mant. preventivo'
+						AND disponibilidad_activos.criticidad = 'Alta'
+						GROUP BY disponibilidad_data.equipo 
 						ORDER BY fallas DESC LIMIT 10";
 
 						//echo $consulta."<br>";
 
-		$topEquiposCriticos = Ordenesots::getAllConsulta($consulta);
+		$topEquiposCriticos = Disponibilidad_data::getAllByQuery($consulta);
 
 		$str.="<div class='col-md-5 table-responsive'>";
 			$str.="ACTIVOS CRITICOS";
@@ -165,21 +156,21 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 			$str.="</table>";
 		$str.="</div>";
 
-		$consulta = "SELECT SUM(unix_timestamp(ordenesots.fecha_finalizacion) - unix_timestamp(ordenesots.fecha_inicio)) AS horas, ordenesots.equipo, activos_eam.descripcion as descripcion_equipo
-					FROM ordenesots
-					LEFT JOIN activos_eam ON ordenesots.equipo = activos_eam.activo 
-					INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo
-					WHERE ordenesots.fecha_finalizacion_programada 
+		$consulta = "SELECT SUM(unix_timestamp(disponibilidad_data.fecha_finalizacion) - unix_timestamp(disponibilidad_data.fecha_inicio)) AS horas, disponibilidad_data.equipo, disponibilidad_activos.descripcion as descripcion_equipo
+					FROM disponibilidad_data
+					LEFT JOIN disponibilidad_activos ON disponibilidad_data.equipo = disponibilidad_activos.activo
+					WHERE disponibilidad_data.fecha_finalizacion_programada 
 						BETWEEN '$inicio' 
 							AND '$fin'
-						AND ordenesots.tipo != 'Mant. preventivo'
-						AND (ordenesots.estado = 'Terminado' OR ordenesots.estado = 'Ejecutado')
-						GROUP BY ordenesots.equipo 
+						AND disponibilidad_data.tipo != 'Mant. preventivo'
+						AND disponibilidad_activos.criticidad = 'Alta'
+						AND (disponibilidad_data.estado = 'Terminado' OR disponibilidad_data.estado = 'Ejecutado')
+						GROUP BY disponibilidad_data.equipo 
 						ORDER BY horas DESC LIMIT 10";
 
 						//echo $consulta."<br>";
 
-		$topEquiposCriticos_tiempo = Ordenesots::getAllConsulta($consulta);
+		$topEquiposCriticos_tiempo = Disponibilidad_data::getAllByQuery($consulta);
 
 		$str.="<div class='col-md-7 table-responsive'>";
 			$str.="<br>ACTIVOS CRITICOS + TIEMPO DE PARADA";

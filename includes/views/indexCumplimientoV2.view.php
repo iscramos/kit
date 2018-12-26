@@ -13,25 +13,31 @@
                         <div class="col-md-8 col-sm-8 col-xs-12  pull-right ">
                             <form class='form-inline pull-right'>
                                 <div class="form-group">
+                                    <?php
+                                        $anos = Disponibilidad_anos::getAllByOrden("ano", "DESC");
+                                    ?>
                                     <label>Generar hasta el A&Ntilde;O </label>
                                     <select class="form-control input-sm" id="ano">
                                         <option value='<?php echo date('Y'); ?>' style="display: none;"><?php echo date('Y'); ?></option>
-                                        <option value='2016' >2016</option>
-                                        <option value='2017' >2017</option>
-                                        <option value='2018' >2018</option>
+                                        <?php
+                                            foreach ($anos as $ano) 
+                                            {
+                                                echo "<option value='".$ano->ano."'>".$ano->ano."</option>";
+                                            }
+                                        ?>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label> WK</label>
                                     <?php
-                                        $fechaConsultaFormateada = date("m-d");
-                                        $semanaActual = Calendario_nature::getSemanaByFecha($fechaConsultaFormateada);
+                                        $fechaConsulta = date("Y-m-d");
+                                        $semanaActual = Disponibilidad_calendarios::getByDia($fechaConsulta);
                                         $semanaHoy = $semanaActual[0]->semana;
                                     ?>
                                     <select class="form-control input-sm" id="semana">
                                         <option value='<?php echo $semanaHoy; ?>' style="display: none;"><?php echo $semanaHoy; ?></option>
                                         <?php
-                                            $semanas = Calendario_nature::getAllByOrden("semana", "ASC");
+                                            $semanas = Disponibilidad_semanas::getAllByOrden("semana", "ASC");
                                             //print_r($semanas);
                                             foreach ($semanas as $semana)
                                             {
@@ -100,7 +106,9 @@
                   
                     $.get("cumplimientoV2.php", {parametro:parametro, semana:semana, ano:ano} ,function(data)
                     {
+                        
                         $("#cumplimiento").html(data);
+                        
                     });
                     
                 });

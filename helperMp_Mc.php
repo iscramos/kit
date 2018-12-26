@@ -11,12 +11,6 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 	//$mes = $_GET['mes'];
 	$ano = $_GET['ano'];
 
-	//$countPreventivos = Ordenesots::getAllMpByMesAnoCuentaPreventivo($mes, $ano);
-	//$countCorrectivos = Ordenesots::getAllMpByMesAnoCuentaCorrectivo($mes, $ano);
-
-	/*$str.="<input type='number' class='hidden' value='".$countPreventivos[0]->nPreventivos."' id='nPreventivos' >";
-	$str.="<input type='number' class='hidden' value='".$countCorrectivos[0]->nCorrectivos."' id='nCorrectivos' >";*/
-
 	function getMinutes($fecha1, $fecha2)
 	{
 	    $fecha1 = str_replace('/', '-', $fecha1);
@@ -72,56 +66,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 	    
 	}
 
-	/*function nombreMesIncrementa($mes)
-	{
-		switch ($mes) 
-	    {
-	    case 1:
-	        $mes = 02;
-	        break;
-	    case 2:
-	        $mes = 03;
-	        break;
-	    case 3:
-	        $mes = 04;
-	        break;
-	    case 4:
-	        $mes = 05;
-	        break;
-	    case 5:
-	        $mes = 06;
-	        break;
-	    case 6:
-	        $mes = 07;
-	        break;
-	    case 7:
-	        $mes = 08;
-	        break;
-	    case 8:
-	        $mes = 09;
-	        break;
-	    case 9:
-	        $mes = 10;
-	        break;
-	    case 10:
-	        $mes = 11;
-	        break;
-	    case 11:
-	        $mes = 12;
-	        break;
-	    case 12:
-	        $mes = 01;
-	        break;
-	    }
-
-	    return $mes;
-	    
-	}*/
-
-	/*$weeks = null;
-	$weeks = Calendario_nature::getAllMesCount($mes);
-	$weeks = $weeks[0]->weeks;*/
-
+	
 
 	$parametro = $_GET['parametro'];
  
@@ -130,7 +75,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 	{
 		
 
-		$meses = Calendario_nature::getAllMeses();
+		$meses = Disponibilidad_meses::getAllByOrden("mes", "ASC");
 		//print_r($meses);
 		// Esto es para traernos los pendientes del otro año
 		//echo $ano;
@@ -143,12 +88,16 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 		if($ano > 2016)
 		{
 
-			$anoAnterior = $ano - 1; 
-			$fechaInicioAnoAnterior = $anoAnterior."-01-01";
-			$fechaFinalizacionAnoAnterior = $anoAnterior."-12-30";
+			$anoAnterior = $ano - 1;
+			$data_min = Disponibilidad_calendarios::getMinDiaByAno($anoAnterior);
+			$fechaInicioAnoAnterior = $data_min[0]->dia;
 
-			$pendientesAnoAnteriorMP = Ordenesots::getAllPendientesMP($fechaInicioAnoAnterior, $fechaFinalizacionAnoAnterior);
-			$pendientesAnoAnteriorMC = Ordenesots::getAllPendientesMC($fechaInicioAnoAnterior, $fechaFinalizacionAnoAnterior);
+			$data_max = Disponibilidad_calendarios::getMaxDiaByAno($anoAnterior);
+			$fechaFinalizacionAnoAnterior = $data_max[0]->dia;
+
+			$pendientesAnoAnteriorMP = Disponibilidad_data::getAllPendientesMP($fechaInicioAnoAnterior, $fechaFinalizacionAnoAnterior);
+			$pendientesAnoAnteriorMC = Disponibilidad_data::getAllPendientesMC($fechaInicioAnoAnterior, $fechaFinalizacionAnoAnterior);
+
 		}
 
 		if($pendientesAnoAnteriorMP != 0 )
@@ -226,14 +175,15 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 
 			$str.="<h4 class='text-center'>".$nombre."</h4>";
 
-			$semanas = Calendario_nature::getAllSemanasByMes($mes);
+			$semanas = Disponibilidad_calendarios::getAllSemanasByMesAno($mes, $ano);
 			$nSemanas = count($semanas);
+			//print_r($semanas);
 
 			$str.="<table class='table table-condensed ".$nombre."' style='font-size:12px'>";
 			$str.="<tr >";
 				$str.="<th class='bg-primary'>SEM</th>
 						<th style='background:#5cb85c; color:white; '>TOTAL MP</th>
-						<th style='background:#5cb85c; color:white; '>OTROS MC</th>
+						<th style='background:#5cb85c; color:white; '>OTROS MP</th>
 						<th style='background:#5cb85c; color:white; '>TERMINADOS MP</th>
 						<th style='background:#5cb85c; color:white; '>PENDIENTES MP</th>
 						<!--th style='background:#5cb85c; color:white; ' title='MP ACUMULADOS'> + MP</th-->
@@ -259,14 +209,22 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 			$posicion = 0; 
 			foreach ($semanas as $semana) 
 			{
+
 				$subCumplimientoMP = 0;
 				$subCumplimientoMC = 0;
 
-				
+				$semanaDia_min = Disponibilidad_calendarios::getMinDiaByAnoSemana($semana->semana, $ano);
+				$semanaDia_max = Disponibilidad_calendarios::getMaxDiaByAnoSemana($semana->semana, $ano);
 
+				$fechaInicio = $semanaDia_min[0]->dia;
+				$fechaFinalizacion = $semanaDia_max[0]->dia;
+
+				//echo $fechaInicio." -- ".$fechaFinalizacion."<br>";
+
+				//echo $fechaInicio." - ". $fechaFinalizacion."<br>";
 				/*if($recorreSemana == 1)
 				{*/
-					if ($ano == 2018 && $semana->semana == 01)
+					/*if ($ano == 2018 && $semana->semana == 01)
 					{
 						//echo $ano;
 						$primerDia = $semana->fecha_inicio;
@@ -282,7 +240,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 
 						$fechaInicio = $ano."-".$primerDia;
 						$fechaFinalizacion = $ano."-".$ultimoDia;
-					}
+					}*/
 					
 
 
@@ -316,7 +274,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 				//}
 
 				// para todas las ordenes MP de la semana
-				$programadosMP = Ordenesots::getAllProgramadosMP($fechaInicio, $fechaFinalizacion);
+				$programadosMP = Disponibilidad_data::getAllProgramadosMP($fechaInicio, $fechaFinalizacion);
 				$cuentaProgramadosMP = 0;
 				if (count($programadosMP) > 0) 
 				{
@@ -325,7 +283,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 				//echo $cuentaProgramadosMP;
 				// para todas las ordenes mp terminados
 				
-				$terminadosMP = Ordenesots::getAllTerminadosMP($fechaInicio, $fechaFinalizacion);
+				$terminadosMP = Disponibilidad_data::getAllTerminadosMP($fechaInicio, $fechaFinalizacion);
 				$cuentaTerminadosMP = 0;
 				if (count($terminadosMP) > 0) 
 				{
@@ -333,7 +291,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 				}
 
 				// para todas las ordenes mp pendientes
-				$pendientesMP = Ordenesots::getAllPendientesMP($fechaInicio, $fechaFinalizacion);
+				$pendientesMP = Disponibilidad_data::getAllPendientesMP($fechaInicio, $fechaFinalizacion);
 				$cuentaPendientesMP = 0;
 				if (count($pendientesMP) > 0) 
 				{
@@ -341,7 +299,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 				}
 
 				// para toas las ordenes MP otros
-				$otrosMP = Ordenesots::getAllOtrosMP($fechaInicio, $fechaFinalizacion);
+				$otrosMP = Disponibilidad_data::getAllOtrosMP($fechaInicio, $fechaFinalizacion);
 				$cuentaOtrosMP = 0;
 				if (count($otrosMP) > 0) 
 				{
@@ -350,7 +308,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 
 
 				// para todas las ordenes MC de la semana
-				$programadosMC = Ordenesots::getAllProgramadosMC($fechaInicio, $fechaFinalizacion);
+				$programadosMC = Disponibilidad_data::getAllProgramadosMC($fechaInicio, $fechaFinalizacion);
 				$cuentaProgramadosMC = 0;
 				if (count($programadosMC) > 0) 
 				{
@@ -358,7 +316,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 				}
 
 				// para todas las ordenes MC terminados
-				$terminadosMC = Ordenesots::getAllTerminadosMC($fechaInicio, $fechaFinalizacion);
+				$terminadosMC = Disponibilidad_data::getAllTerminadosMC($fechaInicio, $fechaFinalizacion);
 				$cuentaTerminadosMC = 0;
 				if (count($terminadosMC) > 0) 
 				{
@@ -366,7 +324,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 				}
 
 				// para toas las ordenes MC pendientes
-				$pendientesMC = Ordenesots::getAllPendientesMC($fechaInicio, $fechaFinalizacion);
+				$pendientesMC = Disponibilidad_data::getAllPendientesMC($fechaInicio, $fechaFinalizacion);
 				$cuentaPendientesMC = 0;
 				if (count($pendientesMC) > 0) 
 				{
@@ -374,7 +332,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 				}
 
 				// para toas las ordenes MC otros
-				$otrosMC = Ordenesots::getAllOtrosMC($fechaInicio, $fechaFinalizacion);
+				$otrosMC = Disponibilidad_data::getAllOtrosMC($fechaInicio, $fechaFinalizacion);
 				$cuentaOtrosMC = 0;
 				if (count($otrosMC) > 0) 
 				{
@@ -539,53 +497,26 @@ echo $str;
 
 
 ?>
-<style type="text/css">
-	.cabecera1
-{
-    text-align: center !important;
-    font-size: 16px !important;
-}
 
-.mpideal
-{
-	color: white;
-    background: #449d44;
-}
-.mpreal
-{
-	color: black;
-    background: #f3d93a;
-}
-
-#disponibilityForFamily button
-{
-	width: 50px !important;
-}
-
-#original button
-{
-	width: 50px !important;
-}
-</style>
 <!-- jQuery -->
-    <script src="<?php echo $url; ?>vendor/jquery/jquery.js"></script>
+    <!--script src="<?php echo $url; ?>vendor/jquery/jquery.js"></script-->
     <!-- DataTables JavaScript -->
-    <script src="<?php echo $url; ?>vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <!--script src="<?php echo $url; ?>vendor/datatables/js/jquery.dataTables.min.js"></script>
     <script src="<?php echo $url; ?>vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-    <script src="<?php echo $url; ?>vendor/datatables-responsive/dataTables.responsive.js"></script>
+    <script src="<?php echo $url; ?>vendor/datatables-responsive/dataTables.responsive.js"></script-->
 
        <!-- Flot Charts JavaScript -->
    
     
 
-    <script src="<?php echo $url; ?>dist/js/bootstrap-popover.js"></script>
+    <!--script src="<?php echo $url; ?>dist/js/bootstrap-popover.js"></script>
     <script src="<?php echo $url; ?>dist/js/bootstrap-tooltip.js"></script>
       
-    <script src="<?php echo $url; ?>dist/js/bootstrap-confirmation.js"></script>
+    <script src="<?php echo $url; ?>dist/js/bootstrap-confirmation.js"></script-->
 
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo $url; ?>vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--script src="<?php echo $url; ?>vendor/bootstrap/js/bootstrap.min.js"></script-->
  
 
 	<script type="text/javascript">

@@ -7,7 +7,19 @@ require_once 'PHPExcel/Classes/PHPExcel.php';
 
 if(isset($_REQUEST["semanaActual"]))
 {
-    $archivo = $contentRead."monitoreo.xlsx";
+    $ano = $ano = date("Y");
+    $semanaActual = $_REQUEST["semanaActual"];
+    $min_calendario = Disponibilidad_calendarios::getMinDiaByAnoSemana($semanaActual, $ano);    
+    $max_calendario = Disponibilidad_calendarios::getMaxDiaByAnoSemana($semanaActual, $ano);
+    $inicio = $min_calendario[0]->dia;
+    $fin = $max_calendario[0]->dia;
+
+    $consulta = "SELECT * FROM disponibilidad_data
+                                  WHERE fecha_inicio_programada >= '$inicio'
+                                    AND fecha_finalizacion_programada <= '$fin'";
+    $contenedor = disponibilidad_data::getAllByQuery($consulta);
+
+    /*$archivo = $contentRead."monitoreo.xlsx";
     //echo $archivo;
     $inputFileType = PHPExcel_IOFactory::identify($archivo);
     $objReader = PHPExcel_IOFactory::createReader($inputFileType);
@@ -90,7 +102,7 @@ if(isset($_REQUEST["semanaActual"]))
                                 "horasEstimadas"=>$horasEstimadas);
             $i++;
         }
-    }
+    }*/
 
     //echo json_encode($contenedor);
     /*echo "<pre>";

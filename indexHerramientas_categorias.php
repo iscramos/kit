@@ -8,7 +8,7 @@ require_once('includes/inc.session.php');
 // Get posts from database
 //echo $_SESSION["school"];
 
-if($_SESSION["type"] == 1)
+if($_SESSION["type"] == 5)
 {
 	$herramientas_categorias = Herramientas_categorias::getAllInnerAlmacen();
 	// Include page view

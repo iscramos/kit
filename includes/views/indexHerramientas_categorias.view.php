@@ -1,40 +1,49 @@
  <?php require_once(VIEW_PATH.'header.inc.php');
-    include(VIEW_PATH.'indexMenu.php');
  ?>
 
             
-            <!-- /.navbar-static-side -->
-        </nav>
-
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <br>
-                    <button class="btn btn-primary btn-md expandir" title="Expandir"> <i class="fa fa-expand" aria-hidden="true"></i> </button>
-
-                    <button class="btn btn-primary btn-md contraer hidden" title="Contraer"> <i class="fa fa-compress" aria-hidden="true"></i> </button>
-                    <h1 class="page-header">Categorías de Herramientas</h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            <div class="row">
-            	<div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading text-right">
-                            <button type="button" class="btn btn-success btn-circle btn-md" title="Nuevo registro" id="agregar"><i class="fa fa-plus"></i>
+         <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="">
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3>Almacenes...</h3>
+                    </div>
+                    <div class="title_right ">
+                        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                          <div class="input-group pull-right">
+                            <button type="button" class="btn btn-success btn-circle btn-sm" title="Nuevo registro" id="agregar">Nuevo
                             </button>
+                          </div>
                         </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                        <div class="table-responsive">
-                            <table width="100%" class="table table-striped table-bordered table-hover dataTables-example" >
-                                <thead>
-                                    <tr>
+                    </div>
+
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2><i class="fa fa-cogs"></i> Registros <small>en el sistema</small></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+
+                                <!-- aqui va el contenido -->
+                                <table class="table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action" >
+                                    <thead>
+                                        <tr>
                                         <th>#</th>
                                         <th>Almacén</th>
                                         <th>Categoría</th>
-                                        <th>Stock</th>
+                                        <th>Elementos</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
@@ -44,7 +53,7 @@
                                         foreach ($herramientas_categorias as $categoria):
                                         {
                                            
-                                            echo "<tr campoid={$categoria->id}>";
+                                            echo "<tr campoid='".$categoria->id."'>";
                                                 echo "<th width='5px' class='spec'>$i</th>";
                                                 echo "<td>".$categoria->descripcion."</td>";
                                                 echo "<td>".$categoria->categoria."</td>";
@@ -57,9 +66,9 @@
                                                 }
                                                 echo "<td> <a> <span class='badge-success'>".$contador."</span></a></td>";
                                                 echo "<td>";
-                                                    echo "<a href='".$url."indexHerramientas_herramientas.php?id_categoria=".$categoria->id."&id_almacen=".$categoria->id_almacen."' type='button' class='btn btn-primary btn-circle btn-md' title='Generar entrada' ><i class='fa fa-cart-plus'></i></a>";
+                                                    echo "<a href='".$url."indexHerramientas_herramientas.php?id_categoria=".$categoria->id."&id_almacen=".$categoria->id_almacen."' type='button' class='btn btn-primary btn-sm' title='Generar entrada' >Cargar herramientas</a>";
 
-                                                    echo " <a type='button' class='btn btn-warning btn-circle btn-md optionEdit' valueEdit='".$categoria->id."' title='Editar registro' ><i class='fa fa-pencil-square-o'></i></a>";
+                                                    echo " <a type='button' class='btn btn-warning btn-sm optionEdit' valueEdit='".$categoria->id."' title='Editar registro' >Editar</a>";
                                                     /*echo " <a type='button' class='btn btn-danger btn-circle btn-md' data-toggle='confirmation' data-btn-ok-label='S&iacute;' data-btn-ok-icon='glyphicon glyphicon-share-alt' data-btn-ok-class='btn-danger' data-btn-cancel-label='No' data-btn-cancel-icon='glyphicon glyphicon-ban-circle' data-btn-cancel-class='btn-default'><span title='Eliminar registro'class='glyphicon glyphicon-remove' aria-hidden='true'></span></a>";
                                                    /* echo " <a class='btn btn-danger btn-circle btn-md' data-toggle='confirmation' data-singleton='true'  title='Eliminar registro'><i class='fa fa-times'></i></a>";*/
                                                 echo "</td>";
@@ -67,23 +76,19 @@
 
                                             $i ++;
                                         }
-                                        endforeach;
-                                    ?>
-                                </tbody>
-                            </table>
+                                            endforeach;
+                                        ?>
+                                    </tbody>
+                                </table>
+                            
                             <!-- /.table-responsive -->
                             </div>
                         </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
+                    </div> <!-- fin class='' -->
                 </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            
+            <div class="clearfix"></div>
         </div>
-        <!-- /#page-wrapper -->
+    </div> 
 
 
   		<!-- Modal -->

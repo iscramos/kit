@@ -13,6 +13,9 @@
     <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- jQuery custom content scroller -->
+    <link href="vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet"/>
     <!-- NProgress -->
     <link href="vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- iCheck -->
@@ -30,6 +33,9 @@
     <!-- bootstrap-daterangepicker -->
     <link href="vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
 
+    <!-- Para el calendario css-->
+    <link href="<?php echo $url; ?>dist/css/bootstrap-datetimepicker.css" rel="stylesheet">
+
     <!-- Custom Theme Style -->
     <link href="build/css/custom.min.css" rel="stylesheet">
 
@@ -46,15 +52,44 @@
 <body class="footer_fixed nav-md"> 
     <div class="container body">
         <div class="main_container">
-            <div class="col-md-3 left_col">
+            <div class="col-md-3 left_col menu_fixed ">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="indexMain.php" class="site_title">
-                            <img width="80%" src="<?php echo $url; ?>dist/img/naturesweet_picture.png">
-                        </a>
+                        <a href="indexMain.php" class="site_title" >
+                            <!--img   src="<?php echo $url; ?>dist/img/naturesweet_picture.png"-->
+                            <img width="50" src="<?php echo $url; ?>dist/img/naturesweet_picture.png"></i>
+                            <span style="color: black; font-size: 14pt;"> KIT </span>
+                        </a> 
+                        
                     </div>
 
+                    <?php 
+                        $email = $_SESSION["login_user"];
+                        $linkFoto = $url."dist/img/usuario.png";
+                        
+                        /*if($email == "orfanelr")
+                        {
+                            $linkFoto = $urlFotos."41185".".JPG";
+                        }
+                        else if($email == "hidro")
+                        {
+                            $linkFoto = $urlFotos."239".".JPG";
+                        }*/
+                        
+                    ?>
+
                     <div class="clearfix"></div>
+                    <!-- menu profile quick info -->
+                    <div class="profile clearfix">
+                      <div class="profile_pic">
+                        <img src="<?php echo $linkFoto; ?>" alt="..." class="img-circle  profile_img">
+                      </div>
+                      <div class="profile_info">
+                        <span>Bienvenido,</span>
+                        <h2><?php echo $_SESSION["usr_nombre"]; ?></h2>
+                      </div>
+                    </div>
+                    <!-- /menu profile quick info -->
                     <br />
 
                     <?php
@@ -78,7 +113,7 @@
                   <ul class="nav navbar-nav navbar-right">
                     <li class="">
                       <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <img src="" alt=""><?php echo $_SESSION["usr_nombre"]; ?>
+                        <img src="<?php echo $linkFoto; ?>" alt=""><?php echo $_SESSION["usr_nombre"]; ?>
                         <span class=" fa fa-angle-down"></span>
                       </a>
                         <ul class="dropdown-menu dropdown-usermenu pull-right">

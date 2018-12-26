@@ -8,7 +8,7 @@ require_once('includes/inc.session.php');
 // Get posts from database
 //echo $_SESSION["school"];
 
-if($_SESSION["type"] == 1)
+if($_SESSION["type"] == 5)
 {
 	if(isset($_GET["id_herramienta"]) && intval($_GET["id_herramienta"]) > 0 )
 	{
@@ -18,6 +18,8 @@ if($_SESSION["type"] == 1)
 		$herramientas = Herramientas_herramientas::getByIdInner($id_herramienta);
 		
 		$herramientas_prestamos = Herramientas_prestamos::getAllByIdHerramienta($id_herramienta);
+
+		$ultimo_estado = Herramientas_prestamos::getAllMaxHerramienta($id_herramienta);
 		//print_r($herramientas_prestamos);
 	}
 	else

@@ -12,10 +12,10 @@ if($_SESSION["type"] == 1 || $_SESSION["type"] == 4 || $_SESSION["type"] == 6 ||
 {	
 	$actualizado = "";
 	$lider = 0;
-	if(isset($_REQUEST["actualizado"]))
+	/*if(isset($_REQUEST["actualizado"]))
 	{	
 		$actualizado = $_REQUEST["actualizado"];
-	}
+	}*/
 
 	if(isset($_REQUEST["lider"]))
 	{

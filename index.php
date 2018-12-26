@@ -13,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Kit NS v2.0</title>
+    <title>Kit NS v3.0</title>
     <link rel="shortcut icon" type="image/png" href="https://1aswz6617n62bekj52vicjtb-wpengine.netdna-ssl.com/wp-content/uploads/2016/07/favicons.png">
 
     <!-- Bootstrap Core CSS -->
@@ -23,6 +23,8 @@
     <link href="dist/css/naturesweet.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="dist/css/sb-admin-2.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -31,91 +33,107 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style type="text/css">
-        
-        body {
-                background-image: url("dist/img/image_main.jpg");
-                background-color: #cccccc;
-                background-repeat: no-repeat;
-                background-attachment: fixed;
-                background-size: cover;
-                background-position: center center;
-
-
-            }
-            .outer
+            body
             {
-                display: table;
-                position: absolute;
-                height: 100%;
-                width: 100%;
+
+
                 display: flex;
-                justify-content: center;
                 align-items: center;
+                padding-top: 40px;
+                padding-bottom: 40px;
+                background-color: #f5f5f5;
+                /*background-color: #272424;*/
+
+                background-image: url("dist/img/mapa.png");
+                /*background-color: #cccccc;*/
+                background-repeat: no-repeat;
+                /*background-attachment: fixed;*/
+                background-size: cover;
+                /*background-position:  inherit;*/
+               
+
             }
-            .middle
+            .formulario 
             {
-                display: table-cell;
-                vertical-align: middle;
-                justify-content: center
+                    width: 100%;
+                    max-width: 330px;
+                    padding: 15px;
+                    margin: auto;
             }
-            .inner
-            {
-                margin-left: auto;
-                margin-right: auto;
-                min-height: 300px;
-                min-width: 320px;
-                /*max-width: 412px;*/
-                width: calc(100% - 40px);
-                padding: 15px;
-                margin-bottom: 28px;
-                background-color: #fff;
-                -webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.55);
-                -moz-box-shadow: 0 2px 3px rgba(0,0,0,0.55);
-                box-shadow: 0 2px 3px rgba(0,0,0,0.55);
-                border: 1px solid #818c94;
-                border: 1px solid rgba(0,0,0,0.4);
+
+           .formulario .form-control 
+           {
+                  position: relative;
+                  box-sizing: border-box;
+                  height: auto;
+                  padding: 10px;
+                  font-size: 16px;
             }
-            .inner img
+
+            .formulario .form-control:focus 
             {
-                width: 60px;
+                  z-index: 2;
             }
-            #pie
+
+            .formulario input[type="text"] {
+              margin-bottom: -1px;
+              border-bottom-right-radius: 0;
+              border-bottom-left-radius: 0;
+            }
+            .formulario input[type="password"] {
+              margin-bottom: 10px;
+              border-top-left-radius: 0;
+              border-top-right-radius: 0;
+            }
+            .linea
             {
-                position: fixed;
-                bottom: 0;
-                width: 100%;
-                overflow: visible;
-                z-index: 99;
+
                 clear: both;
-                background-color: rgba(0,0,0,0.6);
-                color: white;
-                font-size: 12px;
-                text-align: right;
+                margin: 0;
+                height: .15em; 
+                width: 70%;
+
             }
-            #pie span
+
+            .footer 
             {
-                color: #fff;
-                font-size: 12px;
-                line-height: 28px;
-                white-space: nowrap;
-                display: inline-block;
-                margin-left: 16px;
-                margin-right: 16px
+                  position: absolute;
+                  bottom: 0;
+                  width: 100%;
+                  /* Set the fixed height of the footer here */
+                  height: 60px;
+                  background-color: #25733A;
+                  color: white;
             }
+            
+            .container .texto-footer 
+            {
+                  margin: 15px 0;
+            }
+
+            .container .texto-footer a 
+            {
+                  color: white;
+                    padding-right: 10px;
+                    text-decoration: none;
+            }
+            .text-muted 
+            {
+                 margin: 15px 0;
+                color: #6c757d!important;
+            }
+                            
     </style>
 </head>
 
 <body >
 
-    <div class="outer">
-        <div class="middle">
-            <!--div class="row-fluid"-->
-            	
-                <div class="col-md-4 col-md-4 col-md-4-offset inner">
-                	<img src="<?php echo $url."dist/img/naturesweet_picture.png"; ?>"  alt="Responsive image"><b style="color: #969696;"> Planta Colima</b>
-                    <img src="<?php echo $url."dist/img/infor-logo.png"; ?>" class='pull-right' style='width: 36px;'  alt="Responsive image">
-                    <hr>
-                	<h4>Kit de mantenimiento v2</h4>
+    
+            <div class="container text-center">	
+                	<!--b style="color: #969696;"> Planta Colima</b-->
+                    
+                    
+                	
 
                 	<?php
                 		session_start();
@@ -150,37 +168,53 @@
     							//$_SESSION['Login']['id']=0;
     							//session_unset();
     							
-    							echo "<div class='alert alert-danger' role='alert' id='mensaje'>
-    								  <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-    								  <strong>Mensaje!</strong> <br>
-    								  							$email no tiene acceso al sistema
-    								  							<br> o sus datos son incorrectos.
+    							echo "<div class='alert alert-danger' id='mensaje'>
+    								    Verifique sus datos.
     								</div>";
     							//die();
     						}
     					}
     				?>
-                    
-                    <form role="form" action="" method="post">
-                        <fieldset>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Usuario" name="email" type="text" autocomplete="off" required value="" autofocus>
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Password" name="password" type="password" autocomplete="of" required value="">
-                            </div>
-                            <!-- Change this to a button or input when using this as a form -->
-                            <button type="submit" class="btn btn-md btn-success btn-block">Ingresar</button>
-                        </fieldset>
-                   	</form>
-                </div>
-            <!--/div-->
-        </div>
-    </div>
+                    <img src="<?php echo $url."dist/img/logo_2018.png"; ?>" width="img-responsive">
+                    <br>
+                    <img class="linea" src="<?php echo $url."dist/img/home_bkg.png"; ?>" >
+                    <h3 class="text-center" >Kit de mantenimiento v3</h3>
 
-    <div id="pie"> 
-        <span >© 2017 NatureSweet | Planta Colima</span>
-    </div>
+                    <form role="form" action="" method="post" class="text-center formulario">
+                            
+                            <input class="form-control " placeholder="Usuario" name="email" type="text" autocomplete="off" required value="" type="text" autofocus="">
+                            
+                           
+                            <input class="form-control " placeholder="Password" name="password" type="password" autocomplete="off" required value="">
+                            
+                            <!-- Change this to a button or input when using this as a form -->
+                            <button type="submit" class="btn  btn-primary btn-block btn-lg" >Ingresar</button>
+                            <p class="text-muted">© 2018</p>
+                   	</form>
+
+                
+            </div> <!-- cierra container -->
+        
+
+            <footer class="footer">
+                <div class="container">
+                    <p class="texto-footer">
+                        <a  href="mapa.php" title="Ver mapa de fugas" > 
+                            <i class="fa fa-globe fa-2x"> </i> 
+                       </a>
+                       <a  href="layout_invernaderos.php" title="Ver layout invernaderos">
+                            <i class="fa fa-street-view fa-2x"> </i> 
+                        </a>
+                        <a  href="pbi.php" title="Ver análisis pbi">
+                            <i class="fa fa-bar-chart fa-2x"> </i> 
+                        </a>
+                        <a href="https://eam.inforcloudsuite.com/web/base/logindisp?tenant=NATURESWEET_PRD" title="Infor EAM">
+                            <img src="<?php echo $url."dist/img/infor-logo.png"; ?>" class='pull-right' width="36px;">
+                        </a>
+                    </p>
+                        
+                </div>
+            </footer>
 
     <!-- jQuery -->
     <script src="dist/js/jquery.min.js"></script>
@@ -199,7 +233,7 @@
                     });   
                 });
 
-        $(".imagenPrincipal").css("height", "100%");
+        //$("body").css("height", "100%");
                
     });
 </script>

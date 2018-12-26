@@ -1,5 +1,5 @@
 			<!-- sidebar menu -->
-                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu menu_fixed">
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                       <div class="menu_section" >
                         <h3>General</h3>
                         <ul class="nav side-menu">
@@ -21,10 +21,39 @@
                                         <li><a href='indexMonitoreo.php?lider=15113'>Suelos</a></li>
                                     </ul>
                                   </li>";
+
+                                 // para la nueva disponibilidad
+                                echo "<li><a><i class='fa fa-sitemap'></i> Big Data <span class='fa fa-chevron-down'></span></a>
+                                    <ul class='nav child_menu'>
+                                        <li><a href='indexDisponibilidadPlantas.php'>Plantas</a></li>
+                                        <li><a href='indexDisponibilidadAnos.php'>Años</a></li>
+                                        <li><a href='indexDisponibilidadMeses.php'>Meses</a></li>
+                                        <li><a href='indexDisponibilidadSemanas.php'>Semanas</a></li>
+                                        <li><a href='indexDisponibilidadCalendarios.php'>Días</a></li>
+                                        <li><a href='indexDisponibilidadActivos.php'>Activos</a></li>
+                                        <li><a href='indexDisponibilidadToperacional.php'>Tiempo operacional</a></li>
+                                        <li><a href='indexDisponibilidadTestimado.php'>Tiempo estimado</a></li>
+                                        <li><a href='indexDisponibilidadData.php'>Data</a></li>
+                                        <li><a href='indexDisponibilidadCalcular.php'>Calcular disp.</a></li>
+                                    </ul>
+                                  </li>";
+
+                                 // para el pago por actividades
+                                echo "<li><a><i class='fa fa-usd'></i>Actividades <span class='fa fa-chevron-down'></span></a>
+                                    <ul class='nav child_menu'>
+                                        <li><a href='indexRecursosActividades.php'>Actividades</a></li>
+                                        <li><a href='indexRecursosAsociados.php'>Asociados</a></li>
+                                        <li><a href='indexRecursosBonosSemanales.php'>Bono semanal</a></li>
+                                        <li><a href='indexRecursosBonosApoyos.php'>Bono apoyo</a></li>
+                                        <li><a href='indexRecursosDepartamentos.php'>Departamentos</a></li>
+                                        <li><a href='indexRecursosInvernaderos.php'>Invernaderos</a></li>
+                                        <li><a href='indexRecursosPuestos.php'>Puestos</a></li>
+                                    </ul>
+                                  </li>";
+                                 
                                 echo "<li>
                                         <a href='indexEquiposCriticosTarget.php'>
                                             <i class='fa fa-exclamation-triangle'></i> Eq. Parados 
-                                            <span class='fa fa-chevron-down'></span>
                                         </a>
                                     </li>";
                                 echo "<li>
@@ -50,12 +79,16 @@
                                 echo "<li>
                                         <a href='indexCumplimientoV2.php'> <i class='fa fa-area-chart' aria-hidden='true'></i> Cumplim. v2</a>
                                     </li>";
-                                echo "<li>
+                                /*echo "<li>
                                         <a href='indexAsignadosEquipos.php'> <i class='fa fa-user-secret' aria-hidden='true'></i> Asignación</a>
-                                    </li>";
+                                    </li>";*/
                                 echo "<li>
                                         <a href='indexAnalisis.php'> <i class='fa fa-pie-chart' aria-hidden='true'></i> Análisis</a>
                                     </li>";
+
+                                
+
+                                
                                    
                     		} 
                     		elseif ($_SESSION["type"] == 4) // for plásticos
@@ -87,6 +120,15 @@
                                     </li>";  
 
 
+                            }
+                            elseif ($_SESSION["type"] == 5) // for almacen
+                            {
+                                echo "<li><a><i class='fa fa-wrench'></i> Herramientas <span class='fa fa-chevron-down'></span></a>
+                                    <ul class='nav child_menu'>
+                                        <li><a href='indexHerramientas_categorias.php'>Categorías</a></li>
+                                    </ul>
+                                  </li>";
+                                
                             }
                             elseif ($_SESSION["type"] == 6) // for taller mecanico
                             {
@@ -122,6 +164,10 @@
                                 echo "<li>
                                         <a href='indexAnalisis.php'> <i class='fa fa-pie-chart' aria-hidden='true'></i> Análisis</a>
                                     </li>";
+
+                                echo "<li>
+                                        <a href='indexSegregacion.php?lider=41185'> <i class='fa fa-clock-o' aria-hidden='true'></i> Segregación</a>
+                                    </li>";
                             }
                             elseif ($_SESSION["type"] == 7) // for taller hidroelectrico
                             {
@@ -156,6 +202,13 @@
                                 echo "<li>
                                         <a href='indexAnalisis.php'> <i class='fa fa-pie-chart' aria-hidden='true'></i> Análisis</a>
                                     </li>";
+                                echo "<li>
+                                        <a href='indexMedicionesRebombeo.php'> <i class='fa fa-calculator' aria-hidden='true'></i> Mediciones rebombeo</a>
+                                    </li>";
+
+                                echo "<li>
+                                        <a href='indexSegregacion.php?lider=239'> <i class='fa fa-clock-o' aria-hidden='true'></i> Segregación</a>
+                                    </li>";
                             }
                             elseif ($_SESSION["type"] == 8) // for suelos
                             {
@@ -170,7 +223,7 @@
                                         <li><a href='indexMonitoreo.php?lider=15113'>Suelos</a></li>
                                     </ul>
                                   </li>";
-                                echo "<li>
+                                /*echo "<li>
                                             <a href='indexDisponibilidad.php'><i class='fa fa-line-chart' aria-hidden='true'></i>Disponibilidad</a>
                                         </li>";
                                 echo "<li>
@@ -183,10 +236,20 @@
                                             </li>";
                                 echo "<li>
                                         <a href='indexCumplimientoV2.php'> <i class='fa fa-area-chart' aria-hidden='true'></i> Cumplim. v2</a>
-                                    </li>";   
+                                    </li>"; */  
+                                 // para el pago por actividades
+                                echo "<li><a><i class='fa fa-usd'></i>Actividades <span class='fa fa-chevron-down'></span></a>
+                                    <ul class='nav child_menu'>
+                                        
+                                        <li><a href='indexRecursosBonosSemanales.php'>Bono semanal</a></li>
+                                        <li><a href='indexRecursosBonosApoyos.php'>Bono apoyo</a></li>
+                                    </ul>
+                                  </li>";
                             }
                     	?>
                     </ul>
                 </div>
 
             </div><!-- /sidebar menu --> 
+
+           

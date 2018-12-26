@@ -14,14 +14,15 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 	$semanaActual = "0";
 	$inicio = "";
 	$fin = "";
-	$fechaHoyFormateada = date("m-d");
+	//$fechaHoyFormateada = date("m-d");
 	$fechaHoy = date("Y-m-d");
 
-	$fechas = Calendario_nature::getAllSemana($semana);
-	$inicio = $ano."-".$fechas[0]->fecha_inicio;
-	$fin = $ano."-".$fechas[0]->fecha_fin;
+	$min_calendario = Disponibilidad_calendarios::getMinDiaByAnoSemana($semana, $ano);    
+    $max_calendario = Disponibilidad_calendarios::getMaxDiaByAnoSemana($semana, $ano);
+    $inicio = $min_calendario[0]->dia;
+    $fin = $max_calendario[0]->dia;
 
-	$fechasActual = Calendario_nature::getSemanaByFecha($fechaHoyFormateada);
+	$fechasActual = Disponibilidad_calendarios::getByDia($fechaHoy);
 	$semanaActual = $fechasActual[0]->semana;
 	//echo $semanaActual;
 
@@ -67,7 +68,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 
 			$totalOt = 0;
 			$query = "SELECT count(*) AS totalOt
-						FROM ordenesots
+						FROM disponibilidad_data
 						WHERE fecha_finalizacion_programada <= '$fechaHoy'
 							AND (estado = 'Programada'
                 					OR estado = 'Ejecutado' 
@@ -75,14 +76,15 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 							 		OR estado = 'Espera de equipo'
 							 		OR estado = 'Espera de refacciones'
 							 		OR estado = 'Falta mano de obra'
+							 		OR estado = 'Condiciones ambientales'
 							 		OR estado = 'Abierta'
 							 		OR estado = 'Solic. de trabajo'
 							 		OR estado = 'Terminado'
 							 	)";
-			$totalOt = Ordenesots::getAllConsulta($query);
+			$totalOt = disponibilidad_data::getAllByQuery($query);
 
 			$query = "SELECT count(*) AS totalOtAtrasadas
-						FROM ordenesots
+						FROM disponibilidad_data
 						WHERE fecha_finalizacion_programada < '$fechaHoy'
 							AND (estado = 'Programada'
                 					OR estado = 'Ejecutado' 
@@ -90,16 +92,17 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 							 		OR estado = 'Espera de equipo'
 							 		OR estado = 'Espera de refacciones'
 							 		OR estado = 'Falta mano de obra'
+							 		OR estado = 'Condiciones ambientales'
 							 		OR estado = 'Abierta'
 							 		OR estado = 'Solic. de trabajo'
 							 	)";
-			$totalOtAtrasadas = Ordenesots::getAllConsulta($query);
+			$totalOtAtrasadas = disponibilidad_data::getAllByQuery($query);
 
 			$query = "SELECT count(*) AS totalTerminadasOt
-						FROM ordenesots
+						FROM disponibilidad_data
 						WHERE estado = 'Terminado' 
 						AND fecha_finalizacion_programada <= '$fechaHoy'";
-			$totalOtTerminadas = Ordenesots::getAllConsulta($query);
+			$totalOtTerminadas = disponibilidad_data::getAllByQuery($query);
 
 			###################################
 			# SACANDO EL CUMPLIMIENTO GENERAL #
@@ -143,8 +146,8 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 						$str.="</div><br>";
 
 						$str.="<div class='row verDetalles hidden'>";
-							$str.="<div class='col-sm-12'>";
-					            $str.="<table>";
+							$str.="<div class='col-sm-12 col-md-12 col-xs-12'>";
+					            $str.="<table width='100%'>";
 					                $str.="<tbody>";
 						                $str.="<tr>
 						                    <th>
@@ -180,7 +183,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 						                </tr>";
 
 						                $consulta = "SELECT count(*) as atrasadas 
-						                				FROM ordenesots 
+						                				FROM disponibilidad_data 
 						                				WHERE tipo = 'Mant. preventivo' 
 						                				AND (estado = 'Programada'
 						                					OR estado = 'Ejecutado' 
@@ -188,13 +191,14 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 													 		OR estado = 'Espera de equipo'
 													 		OR estado = 'Espera de refacciones'
 													 		OR estado = 'Falta mano de obra'
+													 		OR estado = 'Condiciones ambientales'
 													 		 )
 													 	AND fecha_finalizacion_programada < '$fechaHoy' ";
 										//echo $consulta;
-										$atrasadasPreventivas = Ordenesots::getAllConsulta($consulta);
+										$atrasadasPreventivas = Disponibilidad_data::getAllByQuery($consulta);
 
 										$consulta = "SELECT count(*) as actuales
-						                				FROM ordenesots 
+						                				FROM disponibilidad_data 
 						                				WHERE tipo = 'Mant. preventivo' 
 						                				AND (estado = 'Programada'
 						                					OR estado = 'Ejecutado' 
@@ -202,13 +206,14 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 													 		OR estado = 'Espera de equipo'
 													 		OR estado = 'Espera de refacciones'
 													 		OR estado = 'Falta mano de obra'
+													 		OR estado = 'Condiciones ambientales'
 													 		 )
 													 	AND fecha_finalizacion_programada = '$fechaHoy' ";
 
-										$actualesPreventivas = Ordenesots::getAllConsulta($consulta);
+										$actualesPreventivas = Disponibilidad_data::getAllByQuery($consulta);
 										
 										$consulta = "SELECT count(*) as futuras
-						                				FROM ordenesots 
+						                				FROM disponibilidad_data 
 						                				WHERE tipo = 'Mant. preventivo' 
 						                				AND (estado = 'Programada'
 						                					OR estado = 'Ejecutado' 
@@ -216,17 +221,18 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 													 		OR estado = 'Espera de equipo'
 													 		OR estado = 'Espera de refacciones'
 													 		OR estado = 'Falta mano de obra'
+													 		OR estado = 'Condiciones ambientales'
 													 		 )
 													 	AND fecha_finalizacion_programada > '$fechaHoy' ";
 
-										$futurasPreventivas = Ordenesots::getAllConsulta($consulta);
+										$futurasPreventivas = Disponibilidad_data::getAllByQuery($consulta);
 										
 										/* -- CORRECTIVAS -- */
 										$atrasadasCorrectivas = 0;
 										$actualesCorrectivas = 0;
 										$futurasCorrectivas = 0;
 										$consulta = "SELECT count(*) as atrasadas 
-						                				FROM ordenesots 
+						                				FROM disponibilidad_data 
 						                				WHERE tipo <> 'Mant. preventivo' 
 						                				AND (estado = 'Programada'
 						                					OR estado = 'Ejecutado' 
@@ -234,13 +240,14 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 													 		OR estado = 'Espera de equipo'
 													 		OR estado = 'Espera de refacciones'
 													 		OR estado = 'Falta mano de obra'
+													 		OR estado = 'Condiciones ambientales'
 													 		 )
 													 	AND fecha_finalizacion_programada < '$fechaHoy' ";
 
-										$atrasadasCorrectivas = Ordenesots::getAllConsulta($consulta);
+										$atrasadasCorrectivas = Disponibilidad_data::getAllByQuery($consulta);
 
 										$consulta = "SELECT count(*) as actuales
-						                				FROM ordenesots 
+						                				FROM disponibilidad_data 
 						                				WHERE tipo <> 'Mant. preventivo' 
 						                				AND (estado = 'Programada'
 						                					OR estado = 'Ejecutado' 
@@ -248,13 +255,14 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 													 		OR estado = 'Espera de equipo'
 													 		OR estado = 'Espera de refacciones'
 													 		OR estado = 'Falta mano de obra'
+													 		OR estado = 'Condiciones ambientales'
 													 		 )
 													 	AND fecha_finalizacion_programada = '$fechaHoy' ";
 
-										$actualesCorrectivas = Ordenesots::getAllConsulta($consulta);
+										$actualesCorrectivas = Disponibilidad_data::getAllByQuery($consulta);
 										
 										$consulta = "SELECT count(*) as futuras 
-						                				FROM ordenesots 
+						                				FROM disponibilidad_data 
 						                				WHERE tipo <> 'Mant. preventivo' 
 						                				AND (estado = 'Programada'
 						                					OR estado = 'Ejecutado' 
@@ -262,66 +270,67 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 													 		OR estado = 'Espera de equipo'
 													 		OR estado = 'Espera de refacciones'
 													 		OR estado = 'Falta mano de obra'
+													 		OR estado = 'Condiciones ambientales'
 													 		 )
 													 	AND fecha_finalizacion_programada > '$fechaHoy' ";
 
-										$futurasCorrectivas = Ordenesots::getAllConsulta($consulta);
+										$futurasCorrectivas = Disponibilidad_data::getAllByQuery($consulta);
 
 										/* -- SOLICITUD -- */
 										$atrasadasSolicitud = 0;
 										$actualesSolicitud = 0;
 										$futurasSolicitud = 0;
 										$consulta = "SELECT count(*) as atrasadas
-						                				FROM ordenesots 
+						                				FROM disponibilidad_data 
 						                				WHERE tipo <> 'Mant. preventivo' 
 						                				AND (estado = 'Solic. de trabajo')
 													 	AND fecha_finalizacion_programada < '$fechaHoy'  ";
 
-										$atrasadasSolicitud = Ordenesots::getAllConsulta($consulta);
+										$atrasadasSolicitud = Disponibilidad_data::getAllByQuery($consulta);
 
 										$consulta = "SELECT count(*) as actuales
-						                				FROM ordenesots 
+						                				FROM disponibilidad_data 
 						                				WHERE tipo <> 'Mant. preventivo' 
 						                				AND (estado = 'Solic. de trabajo')
 													 	AND fecha_finalizacion_programada = '$fechaHoy'  ";
 
-										$actualesSolicitud = Ordenesots::getAllConsulta($consulta);
+										$actualesSolicitud = Disponibilidad_data::getAllByQuery($consulta);
 										
 										$consulta = "SELECT count(*) as futuras 
-						                				FROM ordenesots 
+						                				FROM disponibilidad_data 
 						                				WHERE tipo <> 'Mant. preventivo' 
 						                				AND (estado = 'Solic. de trabajo')
 													 	AND fecha_finalizacion_programada > '$fechaHoy' ";
 
-										$futurasSolicitud = Ordenesots::getAllConsulta($consulta);
+										$futurasSolicitud = Disponibilidad_data::getAllByQuery($consulta);
 
 										/* -- ABIERTAS -- */
 										$atrasadasAbiertas = 0;
 										$actualesAbiertas = 0;
 										$futurasAbiertas = 0;
 										$consulta = "SELECT count(*) as atrasadas 
-						                				FROM ordenesots 
+						                				FROM disponibilidad_data 
 						                				WHERE tipo <> 'Mant. preventivo' 
 						                				AND (estado = 'Abierta')
 													 	AND fecha_finalizacion_programada < '$fechaHoy' ";
 
-										$atrasadasAbiertas = Ordenesots::getAllConsulta($consulta);
+										$atrasadasAbiertas = Disponibilidad_data::getAllByQuery($consulta);
 
 										$consulta = "SELECT count(*) as actuales
-						                				FROM ordenesots 
+						                				FROM disponibilidad_data
 						                				WHERE tipo <> 'Mant. preventivo' 
 						                				AND (estado = 'Abierta')
 													 	AND fecha_finalizacion_programada = '$fechaHoy' ";
 
-										$actualesAbiertas = Ordenesots::getAllConsulta($consulta);
+										$actualesAbiertas = Disponibilidad_data::getAllByQuery($consulta);
 										
 										$consulta = "SELECT count(*) as futuras
-						                				FROM ordenesots 
+						                				FROM disponibilidad_data 
 						                				WHERE tipo <> 'Mant. preventivo' 
 						                				AND (estado = 'Abierta')
 													 	AND fecha_finalizacion_programada > '$fechaHoy' ";
 
-										$futurasAbiertas = Ordenesots::getAllConsulta($consulta);
+										$futurasAbiertas = Disponibilidad_data::getAllByQuery($consulta);
 
 										$subtotalAtrasadas = 0;
 										$subtotalActuales = 0;
@@ -388,7 +397,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 											//echo $cumplimiento_lider."<br>";
 
 											$consulta = "SELECT count(*) AS atrasadas
-														FROM ordenesots
+														FROM disponibilidad_data
 														WHERE fecha_finalizacion_programada < '$fechaHoy'
 															AND (estado = 'Programada'
 								                					OR estado = 'Ejecutado' 
@@ -396,15 +405,16 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 															 		OR estado = 'Espera de equipo'
 															 		OR estado = 'Espera de refacciones'
 															 		OR estado = 'Falta mano de obra'
+															 		OR estado = 'Condiciones ambientales'
 															 		OR estado = 'Abierta'
 															 		OR estado = 'Solic. de trabajo'
 															 	)
 															 	AND responsable = $lider";
-											$atrasadasLider = Ordenesots::getAllConsulta($consulta);
+											$atrasadasLider = Disponibilidad_data::getAllByQuery($consulta);
 
 											$consulta = "";
 						                	$consulta = "SELECT count(*) as atrasadas 
-						                				FROM ordenesots 
+						                				FROM disponibilidad_data
 						                				WHERE tipo = 'Mant. preventivo' 
 						                				AND (estado = 'Programada'
 						                					OR estado = 'Ejecutado' 
@@ -412,15 +422,16 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 													 		OR estado = 'Espera de equipo'
 													 		OR estado = 'Espera de refacciones'
 													 		OR estado = 'Falta mano de obra'
+													 		OR estado = 'Condiciones ambientales'
 													 		 )
 													 	
 													 	AND responsable = $lider
 													 	AND fecha_finalizacion_programada < '$fechaHoy' ";
 
-											$atrasadasPreventivasLider = Ordenesots::getAllConsulta($consulta);
+											$atrasadasPreventivasLider = Disponibilidad_data::getAllByQuery($consulta);
 
 											$consulta = "SELECT count(*) as actuales 
-							                				FROM ordenesots 
+							                				FROM disponibilidad_data
 							                				WHERE tipo = 'Mant. preventivo' 
 							                				AND (estado = 'Programada'
 							                					OR estado = 'Ejecutado' 
@@ -428,14 +439,15 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 														 		OR estado = 'Espera de equipo'
 														 		OR estado = 'Espera de refacciones'
 														 		OR estado = 'Falta mano de obra'
+														 		OR estado = 'Condiciones ambientales'
 														 		 )
 														 	AND responsable = $lider
 														 	AND fecha_finalizacion_programada = '$fechaHoy' ";
 
-											$actualesPreventivasLider = Ordenesots::getAllConsulta($consulta);
+											$actualesPreventivasLider = Disponibilidad_data::getAllByQuery($consulta);
 											
 											$consulta = "SELECT count(*) as futuras 
-							                				FROM ordenesots 
+							                				FROM disponibilidad_data
 							                				WHERE tipo = 'Mant. preventivo' 
 							                				AND (estado = 'Programada'
 							                					OR estado = 'Ejecutado' 
@@ -443,18 +455,19 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 														 		OR estado = 'Espera de equipo'
 														 		OR estado = 'Espera de refacciones'
 														 		OR estado = 'Falta mano de obra'
+														 		OR estado = 'Condiciones ambientales'
 														 		 )
 														 	AND responsable = $lider
 														 	AND fecha_finalizacion_programada > '$fechaHoy' ";
 
-											$futurasPreventivasLider = Ordenesots::getAllConsulta($consulta);
+											$futurasPreventivasLider = Disponibilidad_data::getAllByQuery($consulta);
 											
 											/* -- CORRECTIVAS -- */
 											$atrasadasCorrectivasLider = 0;
 											$actualesCorrectivasLider = 0;
 											$futurasCorrectivasLider = 0;
 											$consulta = "SELECT count(*) as atrasadas 
-							                				FROM ordenesots 
+							                				FROM disponibilidad_data 
 							                				WHERE tipo <> 'Mant. preventivo' 
 							                				AND (estado = 'Programada'
 							                					OR estado = 'Ejecutado' 
@@ -462,14 +475,15 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 														 		OR estado = 'Espera de equipo'
 														 		OR estado = 'Espera de refacciones'
 														 		OR estado = 'Falta mano de obra'
+														 		OR estado = 'Condiciones ambientales'
 														 		 )
 														 	AND responsable = $lider
 														 	AND fecha_finalizacion_programada < '$fechaHoy' ";
 
-											$atrasadasCorrectivasLider = Ordenesots::getAllConsulta($consulta);
+											$atrasadasCorrectivasLider = Disponibilidad_data::getAllByQuery($consulta);
 
 											$consulta = "SELECT count(*) as actuales 
-							                				FROM ordenesots 
+							                				FROM disponibilidad_data
 							                				WHERE tipo <> 'Mant. preventivo' 
 							                				AND (estado = 'Programada'
 							                					OR estado = 'Ejecutado' 
@@ -477,14 +491,15 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 														 		OR estado = 'Espera de equipo'
 														 		OR estado = 'Espera de refacciones'
 														 		OR estado = 'Falta mano de obra'
+														 		OR estado = 'Condiciones ambientales'
 														 		 )
 														 	AND responsable = $lider
 														 	AND fecha_finalizacion_programada = '$fechaHoy' ";
 
-											$actualesCorrectivasLider = Ordenesots::getAllConsulta($consulta);
+											$actualesCorrectivasLider = Disponibilidad_data::getAllByQuery($consulta);
 											
 											$consulta = "SELECT count(*) as futuras 
-							                				FROM ordenesots 
+							                				FROM disponibilidad_data
 							                				WHERE tipo <> 'Mant. preventivo' 
 							                				AND (estado = 'Programada'
 							                					OR estado = 'Ejecutado' 
@@ -492,73 +507,74 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 														 		OR estado = 'Espera de equipo'
 														 		OR estado = 'Espera de refacciones'
 														 		OR estado = 'Falta mano de obra'
+														 		OR estado = 'Condiciones ambientales'
 														 		 )
 														 	AND responsable = $lider
 														 	AND fecha_finalizacion_programada > '$fechaHoy' ";
 
-											$futurasCorrectivasLider = Ordenesots::getAllConsulta($consulta);
+											$futurasCorrectivasLider = Disponibilidad_data::getAllByQuery($consulta);
 
 											/* -- SOLICITUD -- */
 											$atrasadasSolicitudLider = 0;
 											$actualesSolicitudLider = 0;
 											$futurasSolicitudLider = 0;
 											$consulta = "SELECT count(*) as atrasadas 
-							                				FROM ordenesots 
+							                				FROM disponibilidad_data 
 							                				WHERE tipo <> 'Mant. preventivo' 
 							                				AND (estado = 'Solic. de trabajo')
 														 	AND responsable = $lider
 														 	AND fecha_finalizacion_programada < '$fechaHoy' ";
 
-											$atrasadasSolicitudLider = Ordenesots::getAllConsulta($consulta);
+											$atrasadasSolicitudLider = Disponibilidad_data::getAllByQuery($consulta);
 
 											$consulta = "SELECT count(*) as actuales
-							                				FROM ordenesots 
+							                				FROM disponibilidad_data
 							                				WHERE tipo <> 'Mant. preventivo' 
 							                				AND (estado = 'Solic. de trabajo')
 														 	AND responsable = $lider
 														 	AND fecha_finalizacion_programada = '$fechaHoy' ";
 
-											$actualesSolicitudLider = Ordenesots::getAllConsulta($consulta);
+											$actualesSolicitudLider = Disponibilidad_data::getAllByQuery($consulta);
 											
 											$consulta = "SELECT count(*) as futuras
-							                				FROM ordenesots 
+							                				FROM disponibilidad_data
 							                				WHERE tipo <> 'Mant. preventivo' 
 							                				AND (estado = 'Solic. de trabajo')
 														 	AND responsable = $lider
 														 	AND fecha_finalizacion_programada > '$fechaHoy' ";
 
-											$futurasSolicitudLider = Ordenesots::getAllConsulta($consulta);
+											$futurasSolicitudLider = Disponibilidad_data::getAllByQuery($consulta);
 
 											/* -- ABIERTAS -- */
 											$atrasadasAbiertasLider = 0;
 											$actualesAbiertasLider = 0;
 											$futurasAbiertasLider = 0;
 											$consulta = "SELECT count(*) as atrasadas 
-							                				FROM ordenesots 
+							                				FROM disponibilidad_data
 							                				WHERE tipo <> 'Mant. preventivo' 
 							                				AND (estado = 'Abierta')
 														 	AND responsable = $lider
 														 	AND fecha_finalizacion_programada < '$fechaHoy' ";
 
-											$atrasadasAbiertasLider = Ordenesots::getAllConsulta($consulta);
+											$atrasadasAbiertasLider = Disponibilidad_data::getAllByQuery($consulta);
 
 											$consulta = "SELECT count(*) as actuales
-							                				FROM ordenesots 
+							                				FROM disponibilidad_data
 							                				WHERE tipo <> 'Mant. preventivo' 
 							                				AND (estado = 'Abierta')
 														 	AND responsable = $lider
 														 	AND fecha_finalizacion_programada = '$fechaHoy' ";
 
-											$actualesAbiertasLider = Ordenesots::getAllConsulta($consulta);
+											$actualesAbiertasLider = Disponibilidad_data::getAllByQuery($consulta);
 											
 											$consulta = "SELECT count(*) as futuras 
-							                				FROM ordenesots 
+							                				FROM disponibilidad_data
 							                				WHERE tipo <> 'Mant. preventivo' 
 							                				AND (estado = 'Abierta')
 														 	AND responsable = $lider
 														 	AND fecha_finalizacion_programada > '$fechaHoy' ";
 
-											$futurasAbiertasLider = Ordenesots::getAllConsulta($consulta);
+											$futurasAbiertasLider = Disponibilidad_data::getAllByQuery($consulta);
 
 											#------------------------------------
 											$totalOt_lider = 0;
@@ -568,7 +584,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 											$totalOt_lider_temporal = 0;
 
 											$query = "SELECT count(*) AS totalOt
-														FROM ordenesots
+														FROM disponibilidad_data
 														WHERE fecha_finalizacion_programada <= '$fechaHoy'
 															AND (estado = 'Programada'
 								                					OR estado = 'Ejecutado' 
@@ -576,20 +592,22 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 															 		OR estado = 'Espera de equipo'
 															 		OR estado = 'Espera de refacciones'
 															 		OR estado = 'Falta mano de obra'
+															 		OR estado = 'Condiciones ambientales'
 															 		OR estado = 'Abierta'
 															 		OR estado = 'Solic. de trabajo'
 															 		OR estado = 'Terminado'
 															 	)
 															 	AND responsable = $lider";
 
-											$totalOt_lider = Ordenesots::getAllConsulta($query);
+											$totalOt_lider = Disponibilidad_data::getAllByQuery($query);
 
 											$query = "SELECT count(*) AS totalTerminadasOt
-														FROM ordenesots
+														FROM disponibilidad_data
 														WHERE estado = 'Terminado' 
 														AND fecha_finalizacion_programada <= '$fechaHoy'
 														AND responsable = $lider";
-											$totalOtTerminadas_lider = Ordenesots::getAllConsulta($query);
+
+											$totalOtTerminadas_lider = Disponibilidad_data::getAllByQuery($query);
 
 											$totalOt_lider_temporal = $totalOt_lider[0]->totalOt;
 											if($totalOt_lider_temporal > 0)
@@ -865,25 +883,56 @@ echo $str;
 
 <script type="text/javascript">
 
-	    google.charts.load("visualization", "1", {'packages':['gauge','corechart','bar']});
+
+
+	$(document).ready(function() 
+	{
+		$(".mostrar").on("click", function(event)
+		{
+			event.preventDefault();
+			$(".verDetalles").removeClass("hidden");
+			$(".ocultar").removeClass("hidden");
+			$(".mostrar").addClass("hidden");
+		});
+
+		$(".ocultar").on("click", function(event)
+		{
+			event.preventDefault();
+			$(".verDetalles").addClass("hidden");
+			$(".ocultar").addClass("hidden");
+			$(".mostrar").removeClass("hidden");
+
+		});
+
+
+
+		
+	});
+
+	
+
+
+
+		google.charts.load("current",  {'packages':['gauge','corechart','bar']});
 	    google.charts.setOnLoadCallback(drawChart);
-	    google.charts.setOnLoadCallback(drawAnnotations);
+	    google.charts.setOnLoadCallback(draw_cumplimiento_atrasada);
 	    google.charts.setOnLoadCallback(draw_cumplimiento_semana);
 
-      	var cumplimientoGeneral = 0;
-      		cumplimientoGeneral = $("#cumplimientoGeneral").val(); 
-      		cumplimientoGeneral = parseFloat(cumplimientoGeneral, 1);
 
-      	var totalOtAtrasadas = 0;
-      		totalOtAtrasadas = $("#totalOtAtrasadas").val();
+      	
 
       	var lideres = [41185, 239,  15113, 14993];
       		
 
       function drawChart() 
       {
+      	var cumplimientoGeneral = 0;
+      		cumplimientoGeneral = $("#cumplimientoGeneral").val(); 
 
-        var data = google.visualization.arrayToDataTable([
+      		
+      		cumplimientoGeneral = parseFloat(cumplimientoGeneral, 1);
+
+        var data = new google.visualization.arrayToDataTable([
           ['Label', 'Value'],
           ['% General', cumplimientoGeneral]
         ]);
@@ -902,17 +951,20 @@ echo $str;
         chart.draw(data, options);
       }
     	
-    	// para los líderes
-    	function drawAnnotations() 
-    	{
-    		var constructor = [['LÍDERES',  'Atrasadas']];
+    	
+
+	    function draw_cumplimiento_atrasada()
+		{
+
+			var constructor = [['',  'Atrasadas']];
+			var cuentaatrasadas = 0;
 			$.each(lideres, function( key, value ) 
 			{
 				var lider = value;
 					//console.log(lider);
 				var nombre = "";
 		
-					var numAtrasadas = 0;
+				var numAtrasadas = 0;
 
 				$( ".lider_"+lider).each(function() 
 				{
@@ -941,35 +993,32 @@ echo $str;
 				
 
 				constructor.push([nombre, numAtrasadas]);
+				cuentaatrasadas = cuentaatrasadas + numAtrasadas;
 			});
-			var data = google.visualization.arrayToDataTable(constructor);
-	      
+			var data = new google.visualization.arrayToDataTable(constructor);
 
-	      
+	        var options = {
+		            chart: {
+		            //title: 'Nature Sweet',
+		            subtitle: cuentaatrasadas+' OT atrasadas por departamento'
 
-	      var options = {
-	      	width: 440, height: 160,
-	        title: 'Panorama general por departamento de OT atrasadas = '+totalOtAtrasadas,
-	        chartArea: {width: '50%'},
-	        annotations: {
-	          alwaysOutside: true,
-	          textStyle: {
-	            fontSize: 12,
-	            auraColor: 'none',
-	            color: '#555'
-	          }
-	        },
-	        hAxis: {
-	          title: 'Órdenes de Trabajo',
-	          minValue: 0,
-	        },
-	        /*vAxis: {
-	          title: 'Líderes'
-	        }*/
-	      };
-	      var chart = new google.visualization.BarChart(document.getElementById('lideres_top_atrasadas'));
-	      chart.draw(data, options);
-	    }
+		          },
+		          bars: 'vertical',
+		           colors: [ '#ec971f'],
+		           height: 160,
+		           vAxis: {
+		                    //title: '% de disponibilidad',
+		                    //format: '#\'%\''
+		                    format:"decimal"
+
+		                    } // Required for Material Bar Charts.
+		        };
+
+	        var chart = new google.charts.Bar(document.getElementById('lideres_top_atrasadas'));
+
+	        chart.draw(data, google.charts.Bar.convertOptions(options));
+
+		}
 
 	    function draw_cumplimiento_semana()
 		{
@@ -1010,7 +1059,7 @@ echo $str;
 				constructor_cumplimiento.push([nombre + " " +porcentajeSemanal, porcentajeSemanal, porcentajeSemanal]);
 			});
 
-			var data = google.visualization.arrayToDataTable(constructor_cumplimiento);
+			var data = new google.visualization.arrayToDataTable(constructor_cumplimiento);
 
 	        var options = {
 		            chart: {
@@ -1034,24 +1083,5 @@ echo $str;
 	        chart.draw(data, google.charts.Bar.convertOptions(options));
 
 		}
-
-	$(document).ready(function() 
-	{
-		$(".mostrar").on("click", function(event)
-		{
-			event.preventDefault();
-			$(".verDetalles").removeClass("hidden");
-			$(".ocultar").removeClass("hidden");
-			$(".mostrar").addClass("hidden");
-		});
-
-		$(".ocultar").on("click", function(event)
-		{
-			event.preventDefault();
-			$(".verDetalles").addClass("hidden");
-			$(".ocultar").addClass("hidden");
-			$(".mostrar").removeClass("hidden");
-
-		});
-	});
+		
 </script>

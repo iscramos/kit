@@ -1361,6 +1361,7 @@ THE SOFTWARE.
         format: false,
         pickDate: true,
         pickTime: true,
+        autoclose: false,
         useMinutes: true,
         useSeconds: false,
         useCurrent: true,

@@ -4,10 +4,13 @@ class Herramientas_prestamos {
 	
 	public $id;
 	public $id_herramienta;
+	public $id_almacen;
+	public $id_categoria;
 	public $fecha_prestamo;
 	public $fecha_regreso;
 	public $estatus;
 	public $noAsociado;
+	public $nombre;
 	public $observacion;
 
 	
@@ -68,11 +71,11 @@ class Herramientas_prestamos {
 	}
 
 
-	public static function getAllMax() {
+	public static function getAllMaxHerramienta($id_herramienta) {
 
 		// Build database query
-		$sql = 'select MAX(id) as id from usuarios';
-		
+		$sql = "SELECT id, estatus FROM herramientas_prestamos WHERE id_herramienta = $id_herramienta ORDER BY id DESC LIMIT 1";
+		//echo $sql;
 		// Return objects
 		return self::getBySql($sql);
 	}
@@ -109,7 +112,7 @@ class Herramientas_prestamos {
 		$result = array();
 		
 		// Build database query
-		$sql = "select * from herramientas_herramientas where id = ?";
+		$sql = "select * from herramientas_prestamos where id = ?";
 		
 		// Open database connection
 		$database = new Database();
@@ -127,7 +130,7 @@ class Herramientas_prestamos {
 			$statement->execute();
 			
 			// Bind variable to prepared statement
-			$statement->bind_result($id, $clave, $id_categoria, $descripcion, $precio_unitario, $fecha_entrada);
+			$statement->bind_result($id, $id_herramienta, $id_almacen, $id_categoria, $fecha_prestamo, $fecha_regreso, $estatus, $noAsociado, $nombre, $observacion);
 			
 			// Populate bind variables
 			$statement->fetch();
@@ -142,11 +145,16 @@ class Herramientas_prestamos {
 		// Build new object
 		$object = new self;
 		$object->id = $id;
-		$object->clave = $clave;
+		$object->id_herramienta = $id_herramienta;
+		$object->id_almacen = $id_almacen;
 		$object->id_categoria = $id_categoria;
-		$object->descripcion = $descripcion;
-		$object->precio_unitario = $precio_unitario;
-		$object->fecha_entrada = $fecha_entrada;
+		$object->fecha_prestamo = $fecha_prestamo;
+		$object->fecha_regreso = $fecha_regreso;
+		$object->estatus = $estatus;
+		$object->noAsociado = $noAsociado;
+		$object->nombre = $nombre;
+		$object->observacion = $observacion;
+
 		return $object;
 	}
 	
@@ -262,7 +270,7 @@ class Herramientas_prestamos {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "insert into herramientas_prestamos (id_herramienta, fecha_prestamo, estatus, noAsociado) values (?, ?, ?, ?)";
+		$sql = "insert into herramientas_prestamos (id_herramienta, id_almacen, id_categoria, fecha_prestamo, estatus, noAsociado, nombre) values (?, ?, ?, ?, ?, ?, ?)";
 		//die("lleog");
 		// Open database connection
 		$database = new Database();
@@ -274,7 +282,7 @@ class Herramientas_prestamos {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('isii', $this->id_herramienta, $this->fecha_prestamo, $this->estatus, $this->noAsociado);
+			$statement->bind_param('iiisiis', $this->id_herramienta, $this->id_almacen, $this->id_categoria, $this->fecha_prestamo, $this->estatus, $this->noAsociado, $this->nombre);
 			
 			// Execute statement
 			$statement->execute();
@@ -299,7 +307,7 @@ class Herramientas_prestamos {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "update herramientas_herramientas set clave = ?, descripcion = ?, precio_unitario = ? where id = ?";
+		$sql = "update herramientas_prestamos set fecha_regreso = ?, estatus = ?, observacion = ? where id = ?";
 		
 		// Open database connection
 		$database = new Database();
@@ -311,7 +319,7 @@ class Herramientas_prestamos {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('sssi', $this->clave, $this->descripcion, $this->precio_unitario, $this->id);
+			$statement->bind_param('sisi', $this->fecha_regreso, $this->estatus, $this->observacion, $this->id);
 			
 			// Execute statement
 			$statement->execute();
@@ -337,7 +345,7 @@ class Herramientas_prestamos {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "delete from users where id = ?";
+		$sql = "delete from herramientas_prestamos where id = ?";
 		
 		// Open database connection
 		$database = new Database();

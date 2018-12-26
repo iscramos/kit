@@ -88,6 +88,173 @@ if( isset($_REQUEST["parametro"]) )
 		echo "</table> ";
 
 	}
+    if ($parametro == "MEDICIONES_REBOMBEO") 
+    {
+        //Inicio de la instancia para la exportación en Excel
+        header('Content-type: application/vnd.ms-excel');
+        header("Content-Disposition: attachment; filename=".$parametro.".xls");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
+        echo "<table border='1' > ";
+        echo "<tr >
+                <td colspan='2'><img src='".$url."dist/img/naturesweet_picture.png"."' width='10%' ></td>
+
+                <td colspan='18' style='text-align: center;'><br><h2>REPORTE DE MEDICIONES DE REBOMBEO</h2><h3> AL ".date("d/m/Y")."</h3></td>
+            </tr>";
+
+        echo "<tr style='font-size: 12px'> ";
+            echo "<th>ACTIVO EAM</th>";
+            echo "<th>DESCRIPCION DEL EQUIPO</th>";
+            echo "<th>MEDICION</th>";
+            echo "<th>FECHA / HORA</th>";
+            echo "<th>SEMANA</th>";
+            echo "<th>VOLT <BR> L1 - L2</th>";
+            echo "<th>VOLT <BR> L2 - L3</th>";
+            echo "<th>VOLT <BR> L1 - L3</th>";
+            echo "<th>AMP <BR> L1</th>";
+            echo "<th>AMP <BR> L2</th>";
+            echo "<th>AMP <BR> L3</th>";
+            echo "<th>CAUDAL</th>";
+            echo "<th>M<SUP>3</SUP> X 10 <BR> CONSUMIDOS</th>";
+            echo "<th>NIVEL <BR> ESTATICO</th>";
+            echo "<th>NIVEL <BR> DINAMICO</th>";
+            echo "<th>HP</th>";
+            echo "<th>VOLTAJE NOMINAL <BR> BAJO</th>";
+            echo "<th>VOLTAJE NOMINAL <BR> ALTO</th>";
+            echo "<th>AMPERAJE <BR> MAXIMO</th>";
+            echo "<th>AMPERAJE <BR> MINIMO</th>";
+        echo "</tr> ";
+
+        $consulta = "SELECT bd_rebombeo.*, disponibilidad_activos.descripcion, tipoMedicion_rebombeo.descripcion as tipoM
+                    FROM bd_rebombeo
+                    INNER JOIN disponibilidad_activos ON bd_rebombeo.equipo = disponibilidad_activos.activo
+                    INNER JOIN tipoMedicion_rebombeo ON bd_rebombeo.tipo = tipoMedicion_rebombeo.id
+                    WHERE disponibilidad_activos.organizacion = 'COL'
+                    ORDER BY bd_rebombeo.fechaLectura DESC";
+
+        $mediciones = Bd_rebombeo::getAllByQuery($consulta);
+
+        foreach ($mediciones as $medicion) 
+        {
+            $colorVoltaje_l1_l2 = "";
+            $colorVoltaje_l2_l3 = "";
+            $colorVoltaje_l1_l3 = "";
+            $colorAmperaje_l1 = "";
+            $colorAmperaje_l2 = "";
+            $colorAmperaje_l3 = "";
+
+            $dia = date("Y-m-d", strtotime($medicion->fechaLectura));
+            $semanas = Disponibilidad_calendarios::getByDia($dia);
+            //print_r($semanas);
+
+            $s = $semanas[0]->semana;
+            
+            if($medicion->voltaje_l1_l2 < $medicion->volt_nomi_bajo || $medicion->voltaje_l1_l2 > $medicion->volt_nomi_alto)
+            {
+                $colorVoltaje_l1_l2 = "#D55551";
+            }
+            else
+            {
+                $colorVoltaje_l1_l2 = "#59BA5F";
+            }
+
+            if($medicion->voltaje_l2_l3 < $medicion->volt_nomi_bajo || $medicion->voltaje_l2_l3 > $medicion->volt_nomi_alto)
+            {
+                $colorVoltaje_l2_l3 = "#D55551";
+            }
+            else
+            {
+                $colorVoltaje_l2_l3 = "#59BA5F";
+            }
+
+            if($medicion->voltaje_l1_l3 < $medicion->volt_nomi_bajo || $medicion->voltaje_l1_l3 > $medicion->volt_nomi_alto)
+            {
+                $colorVoltaje_l1_l3 = "#D55551";
+            }
+            else
+            {
+                $colorVoltaje_l1_l3 = "#59BA5F";
+            }
+
+            // para el amperaje
+            if($medicion->amperaje_l1 < $medicion->amp_min || $medicion->amperaje_l1 > $medicion->amp_max)
+            {
+                $colorAmperaje_l1 = "#D55551";
+            }
+            else
+            {
+                $colorAmperaje_l1 = "#59BA5F";
+            }
+
+            if($medicion->amperaje_l2 < $medicion->amp_min || $medicion->amperaje_l2 > $medicion->amp_max)
+            {
+                $colorAmperaje_l2 = "#D55551";
+            }
+            else
+            {
+                $colorAmperaje_l2 = "#59BA5F";
+            }
+
+            if($medicion->amperaje_l3 < $medicion->amp_min || $medicion->amperaje_l3 > $medicion->amp_max)
+            {
+                $colorAmperaje_l3 = "#D55551";
+            }
+            else
+            {
+                $colorAmperaje_l3 = "#59BA5F";
+            }
+
+            echo "<tr style='font-size: 12px'>";
+                echo "<td>".$medicion->equipo."</td>";
+                echo "<td>".$medicion->descripcion."</td>";
+                echo "<td>".$medicion->tipoM."</td>";
+                echo "<td>".date("d-m-Y H:i", strtotime($medicion->fechaLectura))."</td>";
+                echo "<td>".$s."</td>";
+                if($medicion->tipo == 1)
+                {
+
+
+                    echo "<td style='color:white; background-color: ".$colorVoltaje_l1_l2."'>".$medicion->voltaje_l1_l2."</td>";
+                    echo "<td style='color:white; background-color: ".$colorVoltaje_l2_l3."'>".$medicion->voltaje_l2_l3."</td>";
+                    echo "<td style='color:white; background-color: ".$colorVoltaje_l1_l3."'>".$medicion->voltaje_l1_l3."</td>";
+                    echo "<td style='color:white; background-color: ".$colorAmperaje_l1."'>".$medicion->amperaje_l1."</td>";
+                    echo "<td style='color:white; background-color: ".$colorAmperaje_l2."'>".$medicion->amperaje_l2."</td>";
+                    echo "<td style='color:white; background-color: ".$colorAmperaje_l3."'>".$medicion->amperaje_l3."</td>";
+                }
+                else
+                {
+                    echo "<td style='text-align: center;' > - </td>";
+                    echo "<td style='text-align: center;' > - </td>";
+                    echo "<td style='text-align: center;' > - </td>";
+                    echo "<td style='text-align: center;' > - </td>";
+                    echo "<td style='text-align: center;' > - </td>";
+                    echo "<td style='text-align: center;' > - </td>"; 
+                }
+
+                echo "<td>".$medicion->caudal."</td>";
+                if($medicion->m_consumidos != "")
+                {
+                    echo "<td>".($medicion->m_consumidos * 10)."</td>";
+                }
+                else
+                {
+                   echo "<td>".$medicion->m_consumidos."</td>"; 
+                }
+                                                        
+                echo "<td style='background-color:#f8f0d8'>".$medicion->nivel_estatico."</td>";
+                echo "<td style='background-color:#dff0d8'>".$medicion->nivel_dinamico."</td>";
+                echo "<td>".$medicion->hp."</td>";
+                echo "<td style='background-color:#f8f0d8'>".$medicion->volt_nomi_bajo."</td>";
+                echo "<td style='background-color:#dff0d8'>".$medicion->volt_nomi_alto."</td>";
+                echo "<td style='background-color:#dff0d8'>".$medicion->amp_max."</td>";
+                echo "<td style='background-color:#f8f0d8'>".$medicion->amp_min."</td>";
+            echo "</tr>";
+        }
+
+        echo "</table> ";
+
+    }
     elseif($parametro == "INVENTARIO_MATERIALES")
     {
         //Inicio de la instancia para la exportación en Excel

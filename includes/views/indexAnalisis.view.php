@@ -25,13 +25,14 @@
                                     <label> WK</label>
                                     <?php
                                         $fechaConsultaFormateada = date("m-d");
-                                        $semanaActual = Calendario_nature::getSemanaByFecha($fechaConsultaFormateada);
-                                        $semanaHoy = $semanaActual[0]->semana;
+                                        $dia = date("Y-m-d");
+                                        $calendarios = Disponibilidad_calendarios::getByDia($dia);
+                                        $semanaHoy = $calendarios[0]->semana;
                                     ?>
                                     <select class="form-control input-sm" id="semana">
                                         <option value='<?php echo $semanaHoy; ?>' style="display: none;"><?php echo $semanaHoy; ?></option>
                                         <?php
-                                            $semanas = Calendario_nature::getAllByOrden("semana", "ASC");
+                                            $semanas = Disponibilidad_semanas::getAllByOrden("semana", "ASC");
                                             //print_r($semanas);
                                             foreach ($semanas as $semana)
                                             {

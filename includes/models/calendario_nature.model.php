@@ -65,6 +65,8 @@ class calendario_nature {
 		return self::getBySql($sql);
 	}
 
+	
+
 	public static function getSemanaByFecha($fechaFormateada) 
 	{
 

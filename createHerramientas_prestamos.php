@@ -5,10 +5,13 @@ require_once('includes/inc.session.php');
 
 $id = NULL;
 $id_herramienta = NULL;
+$id_almacen = NULL;
+$id_categoria = NULL;
 $fecha_prestamo = NULL;
 $fecha_regreso = NULL;
 $estatus = NULL;
 $noAsociado = NULL;
+$nombre = NULL;
 $observacion = NULL;
 
 /*echo "<pre>";
@@ -23,22 +26,31 @@ if(isset($_POST["id"]) && intval($_POST["id"]) > 0)
 
 		// request data
 		$id = $_POST["id"];
-		$clave = $_POST["clave"];
-		$id_categoria = $_POST["id_categoria"];
-		$descripcion = $_POST["descripcion"];
-		$precio_unitario = $_POST["precio_unitario"];
-		$id_almacen = $_POST["id_almacen"];
+		$id_herramienta = $_POST["id_herramienta"];
+		//$id_almacen = $_POST["id_almacen"];
+		//$id_categoria = $_POST["id_categoria"];
+		//$fecha_prestamo = $_POST['fecha_prestamo'];
+		$fecha_regreso = $_POST["fecha_regreso"];
+		$estatus = $_POST["estatus"];
+		//$noAsociado = $_POST["noAsociado"];
+		//$nombre = $_POST["nombre"];
+		$observacion = $_POST["observacion"];
 		
 
 		// new object
-		$herramientas = new Herramientas_herramientas();
-		$herramientas->id = $id;
-		$herramientas->clave = $clave;
-		$herramientas->id_categoria = $id_categoria;
-		$herramientas->descripcion = $descripcion;
-		$herramientas->precio_unitario = $precio_unitario;
+		$prestamos = new Herramientas_prestamos();
+		$prestamos->id = $id;
+		$prestamos->id_herramienta = $id_herramienta;
+		//$prestamos->id_almacen = $id_almacen;
+		//$prestamos->id_categoria = $id_categoria;
+		//$prestamos->fecha_prestamo = $fecha_prestamo;
+		$prestamos->fecha_regreso = $fecha_regreso;
+		$prestamos->estatus = $estatus;
+		//$prestamos->noAsociado = $noAsociado;
+		//$prestamos->nombre = $nombre;
+		$prestamos->observacion = $observacion;
 
-		$herramientas->save();
+		$prestamos->save();
 	}	
 }
 else
@@ -48,19 +60,26 @@ else
 		// request data
 		//$id = $_POST["id"];
 		$id_herramienta = $_POST["id_herramienta"];
-		$fecha_prestamo = date("Y-m-d H:i:s", strtotime($_POST['fecha_prestamo']) );
+		$id_almacen = $_POST["id_almacen"];
+		$id_categoria = $_POST["id_categoria"];
+		$fecha_prestamo = $_POST['fecha_prestamo'];
 		//$fecha_regreso = $_POST["fecha_regreso"];
 		$estatus = $_POST["estatus"];
 		$noAsociado = $_POST["noAsociado"];
+		$nombre = $_POST["nombre"];
 		//$observacion = $_POST["observacion"];
 		
 
 		// new object
 		$prestamos = new Herramientas_prestamos();
 		$prestamos->id_herramienta = $id_herramienta;
+		$prestamos->id_almacen = $id_almacen;
+		$prestamos->id_categoria = $id_categoria;
 		$prestamos->fecha_prestamo = $fecha_prestamo;
 		$prestamos->estatus = $estatus;
 		$prestamos->noAsociado = $noAsociado;
+		$prestamos->nombre = $nombre;
+		//$prestamos->fecha_prestamo = $fecha_prestamo;
 
 		$prestamos->save();
 	}

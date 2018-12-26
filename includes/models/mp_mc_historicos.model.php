@@ -106,8 +106,10 @@ class Mp_mc_historicos{
 			//checar si existe el usuario en la base
 			$sql = "SELECT id FROM mp_mc_historicos 
 					WHERE ano=$ano
-					AND mes='$mes'
+					AND mes=$mes
 					AND semana=$semana";
+
+			//echo $sql."<br>";
 
 			// Execute database query
 			$result = $database->query($sql);

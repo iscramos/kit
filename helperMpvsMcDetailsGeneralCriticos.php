@@ -16,42 +16,45 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 	$adicional = "";
 	if ($tipo == "totalMP") 
 	{
-		$adicional = " AND ordenesots.tipo = 'Mant. preventivo' 
-		AND (ordenesots.estado = 'Cierre Lider Mtto'
-		 	OR ordenesots.estado = 'Ejecutado'
-		 	OR ordenesots.estado = 'Espera de equipo'
-		 	OR ordenesots.estado = 'Espera de refacciones'
-		 	OR ordenesots.estado = 'Abierta'
-		 	OR ordenesots.estado = 'Falta de mano de obra'
-		 	OR ordenesots.estado = 'Programada' 
-		 	OR ordenesots.estado = 'Terminado' )";
+		$adicional = " AND disponibilidad_data.tipo = 'Mant. preventivo' 
+		AND (disponibilidad_data.estado = 'Cierre Lider Mtto'
+		 	OR disponibilidad_data.estado = 'Ejecutado'
+		 	OR disponibilidad_data.estado = 'Espera de equipo'
+		 	OR disponibilidad_data.estado = 'Espera de refacciones'
+		 	OR disponibilidad_data.estado = 'Abierta'
+		 	OR disponibilidad_data.estado = 'Falta de mano de obra'
+		 	OR disponibilidad_data.estado = 'Condiciones ambientales'
+		 	OR disponibilidad_data.estado = 'Programada' 
+		 	OR disponibilidad_data.estado = 'Terminado' )";
 	}
 	elseif ($tipo == "terminadoMP") 
 	{
 		//$adicional = " AND tipo='Mant. preventivo' AND estado='Terminado' ";
-		$adicional = "AND ordenesots.tipo = 'Mant. preventivo'
-		 AND (ordenesots.estado = 'Terminado')";
+		$adicional = "AND disponibilidad_data.tipo = 'Mant. preventivo'
+		 AND (disponibilidad_data.estado = 'Terminado')";
 	}
 	elseif ($tipo == "pendienteMP") 
 	{
 		//$adicional = " AND tipo='Mant. preventivo' AND estado <> 'Terminado' ";
-		$adicional = "AND ordenesots.tipo='Mant. preventivo'
-		 AND (ordenesots.estado = 'Programada' 
-		 		OR ordenesots.estado = 'Cierre Lider Mtto'
-		 		OR ordenesots.estado = 'Ejecutado'
-		 		OR ordenesots.estado = 'Espera de equipo'
-		 		OR ordenesots.estado = 'Espera de refacciones'
-		 		OR ordenesots.estado = 'Falta de mano de obra'
-		 		OR ordenesots.estado = 'Abierta')";
+		$adicional = " AND disponibilidad_data.tipo='Mant. preventivo'
+		 AND (disponibilidad_data.estado = 'Programada' 
+		 		OR disponibilidad_data.estado = 'Cierre Lider Mtto'
+		 		OR disponibilidad_data.estado = 'Ejecutado'
+		 		OR disponibilidad_data.estado = 'Espera de equipo'
+		 		OR disponibilidad_data.estado = 'Espera de refacciones'
+		 		OR disponibilidad_data.estado = 'Falta de mano de obra'
+		 		OR disponibilidad_data.estado = 'Condiciones ambientales'
+		 		OR disponibilidad_data.estado = 'Solic. de trabajo'
+		 		OR disponibilidad_data.estado = 'Abierta')";
 		
 	}
 	elseif ($tipo == "otrosMP") 
 	{
 		/*$adicional = " AND (tipo='Correctivo de emergencia' OR tipo='Correctivo planeado') AND estado <> 'Terminado' ";*/
-		$adicional = " AND (ordenesots.tipo='Mant. preventivo')
-		 AND (ordenesots.estado = 'Cancelado'
-		 		OR ordenesots.estado = 'Rechazado'
-		 		OR ordenesots.estado = 'Cerrado sin ejecutar') ";
+		$adicional = " AND (disponibilidad_data.tipo='Mant. preventivo')
+		 AND (disponibilidad_data.estado = 'Cancelado'
+		 		OR disponibilidad_data.estado = 'Rechazado'
+		 		OR disponibilidad_data.estado = 'Cerrado sin ejecutar') ";
 
 	}
 
@@ -59,57 +62,60 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 	elseif ($tipo == "totalMC") 
 	{
 		/*$adicional = " AND (tipo='Correctivo de emergencia' OR  tipo='Correctivo planeado')";*/
-		$adicional = " AND (ordenesots.tipo <> 'Mant. preventivo')
-		 AND (ordenesots.estado = 'Cierre Lider Mtto'
-		 	OR ordenesots.estado = 'Ejecutado'
-		 	OR ordenesots.estado = 'Espera de equipo'
-		 	OR ordenesots.estado = 'Espera de refacciones'
-		 	OR ordenesots.estado = 'Falta de mano de obra'
-		 	OR ordenesots.estado = 'Programada' 
-		 	OR ordenesots.estado = 'Terminado'
-		 	OR ordenesots.estado = 'Solic. de trabajo'
-		 	OR ordenesots.estado = 'Abierta' )";
+		$adicional = " AND (disponibilidad_data.tipo <> 'Mant. preventivo')
+		 AND (disponibilidad_data.estado = 'Cierre Lider Mtto'
+		 	OR disponibilidad_data.estado = 'Ejecutado'
+		 	OR disponibilidad_data.estado = 'Espera de equipo'
+		 	OR disponibilidad_data.estado = 'Espera de refacciones'
+		 	OR disponibilidad_data.estado = 'Falta  de mano de obra'
+		 	OR disponibilidad_data.estado = 'Condiciones ambientales'
+		 	OR disponibilidad_data.estado = 'Programada' 
+		 	OR disponibilidad_data.estado = 'Terminado'
+		 	OR disponibilidad_data.estado = 'Solic. de trabajo'
+		 	OR disponibilidad_data.estado = 'Abierta' )";
 	}
 	elseif ($tipo == "terminadoMC") 
 	{
 		/*$adicional = " AND (tipo='Correctivo de emergencia' OR tipo='Correctivo planeado') AND estado='Terminado' ";*/
-		$adicional = " AND (ordenesots.tipo <> 'Mant. preventivo')
-		 AND (ordenesots.estado = 'Terminado') ";
+		$adicional = " AND (disponibilidad_data.tipo <> 'Mant. preventivo')
+		 AND (disponibilidad_data.estado = 'Terminado') ";
 	}
 	elseif ($tipo == "pendienteMC") 
 	{
 		/*$adicional = " AND (tipo='Correctivo de emergencia' OR tipo='Correctivo planeado') AND estado <> 'Terminado' ";*/
-		$adicional = " AND (ordenesots.tipo <> 'Mant. preventivo')
-		 AND (ordenesots.estado = 'Programada' 
-		 		OR ordenesots.estado = 'Cierre Lider Mtto'
-		 		OR ordenesots.estado = 'Ejecutado'
-		 		OR ordenesots.estado = 'Espera de equipo'
-		 		OR ordenesots.estado = 'Espera de refacciones'
-		 		OR ordenesots.estado = 'Falta de mano de obra'
-		 		OR ordenesots.estado = 'Solic. de trabajo'
-		 		OR ordenesots.estado = 'Abierta')";
+		$adicional = " AND (disponibilidad_data.tipo <> 'Mant. preventivo')
+		 AND (disponibilidad_data.estado = 'Programada' 
+		 		OR disponibilidad_data.estado = 'Cierre Lider Mtto'
+		 		OR disponibilidad_data.estado = 'Ejecutado'
+		 		OR disponibilidad_data.estado = 'Espera de equipo'
+		 		OR disponibilidad_data.estado = 'Espera de refacciones'
+		 		OR disponibilidad_data.estado = 'Falta de mano de obra'
+		 		OR disponibilidad_data.estado = 'Condiciones ambientales'
+		 		OR disponibilidad_data.estado = 'Solic. de trabajo'
+		 		OR disponibilidad_data.estado = 'Abierta')";
 	}
 	elseif ($tipo == "otrosMC") 
 	{
 		/*$adicional = " AND (tipo='Correctivo de emergencia' OR tipo='Correctivo planeado') AND estado <> 'Terminado' ";*/
-		$adicional = " AND (ordenesots.tipo <> 'Mant. preventivo')
-		 AND (ordenesots.estado = 'Cancelado'
-		 		OR ordenesots.estado = 'Rechazado'
-		 		OR ordenesots.estado = 'Cerrado sin ejecutar') ";
+		$adicional = " AND (disponibilidad_data.tipo <> 'Mant. preventivo')
+		 AND (disponibilidad_data.estado = 'Cancelado'
+		 		OR disponibilidad_data.estado = 'Rechazado'
+		 		OR disponibilidad_data.estado = 'Cerrado sin ejecutar') ";
 
 	}
 
 	$consulta = "";
- 	$consulta = "SELECT ordenesots.*, activos_equipos.nombre_equipo  
- 				FROM ordenesots
- 				INNER JOIN activos_equipos ON ordenesots.equipo = activos_equipos.nombre_equipo 
+ 	$consulta = "SELECT disponibilidad_data.*  
+ 				FROM disponibilidad_data
+ 				INNER JOIN disponibilidad_activos ON disponibilidad_data.equipo = disponibilidad_activos.activo 
  				WHERE
-		 ( ordenesots.fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+		 ( disponibilidad_data.fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+		 AND disponibilidad_activos.criticidad = 'Alta'
 		 $adicional";
 
 		 //echo $consulta;
 
-	$ordenes = Ordenesots::getAllConsulta($consulta);
+	$ordenes = Disponibilidad_data::getAllByQuery($consulta);
 		 
 
 	$str.="<table class='table table-bordered table-condensed table-hover dataTables_wrapper jambo_table bulk_action pagina' style='font-size: 11px;'>
@@ -129,15 +135,21 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 						$str.="<th>LIMITE</th>
 						<th>CIERRE</th>
 						<th>MOTIVO</th>
-						<th>Líder</th>";
+						<th>LIDER</th>";
 			$str.="</tr>
 			</thead>
 			</tbody>";
 
 			foreach ($ordenes as $orden) 
 			{
+				$fecha_fin_tecnico = "";
+				if($orden->fecha_finalizacion != null)
+				{
+					$fecha_fin_tecnico = date("d-M", strtotime($orden->fecha_finalizacion));
+				}
+
 				$str.="<tr>";
-					$str.="<th >".$orden->orden_trabajo."</th>";
+					$str.="<th >".$orden->ot."</th>";
 					$str.="<td >".utf8_encode($orden->descripcion)."</td>";
 					$str.="<td >".$orden->equipo."</td>";
 					$str.="<td >".$orden->clase."</td>";
@@ -148,9 +160,9 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 						$str.="<td >".$orden->estado."</td>";
 					}*/
 					$str.="<td >".$orden->estado."</td>";
-
+					
 					$str.="<td class='bg-success'>".date("d-M", strtotime($orden->fecha_finalizacion_programada))."</td>";
-					$str.="<td >".date("d-M", strtotime($orden->fecha_finalizacion))."</td>";
+					$str.="<td >".$fecha_fin_tecnico."</td>";
 					$str.="<td >".$orden->motivo."</td>";
 					$str.="<td >".$orden->responsable."</td>";
 				$str.="</tr>";

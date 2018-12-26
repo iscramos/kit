@@ -11,18 +11,26 @@ $str = "";
 if( isset($_REQUEST["equipo"]) ) 
 {
 	$equipo = $_REQUEST["equipo"];
-    $direccion = $url.$content."/monitoreo.json";
-    $json_ordenes = file_get_contents($direccion);
-    $ordenes = json_decode($json_ordenes, true);
-    $descripcion = "";
+    $consulta = "SELECT * FROM disponibilidad_data
+                    WHERE tipo <> 'Mant. preventivo'
+                    AND equipo = '$equipo'
+                    AND (estado = 'Ejecutado'
+                        
+                            OR estado = 'Programada'
+                            OR estado = 'Abierta'
+                            OR estado = 'Falta mano de obra'
+                            OR estado = 'Espera de refacciones'
+                            OR estado = 'Espera de equipo' )
+                        ORDER BY fecha_inicio_programada ASC";
+
+                        //print_r($consulta);
+
+    $ordenes = Disponibilidad_data::getAllByQuery($consulta); // Para las ordenes no 
     
-    $activos = Activos_equipos::getByEamActivo($equipo);
-    foreach ($activos as $activo) 
-    {
-        $descripcion = $activo->descripcion;
-    }
+    $activos = Disponibilidad_activos::getAllByEquipo($equipo);
+    //print_r($activos);
     
-    $str = "<p><b>Equipo: </b>".$equipo." (".$descripcion.")</p>";
+    $str = "<p><b>Equipo: </b>".$activos[0]->activo." (".$activos[0]->descripcion.")</p>";
     $str.="<table class='table table-bordered jambo_table bulk_action' style='font-size:12px; !important;'>";
                     $str.="<thead >";
                         $str.="<tr >";
@@ -31,24 +39,14 @@ if( isset($_REQUEST["equipo"]) )
                     $str.="</thead>";
                     $str.="<tbody>";
     foreach ($ordenes as $orden) 
-    {
+    {       
+        $str.="<tr>";
+            $str.="<td>".$orden->ot."</td> 
+                    <td>".$orden->descripcion."</td> 
+                    <td>".date("d-M-Y", strtotime($orden->fecha_finalizacion_programada))."</td>
+                    <td>".$orden->estado."</td> ";
+        $str.="</tr>";
         
-        if($orden["equipo"] == $equipo)
-        {
-            if($orden["estado"] != "Terminado" && ($orden["tipo"] == "Correctivo planeado" || $orden["tipo"] == "Correctivo de emergencia") )
-            {
-                
-                        $str.="<tr>";
-                            $str.="<td>".$orden["orden_trabajo"]."</td> 
-                                    <td>".$orden["descripcion"]."</td> 
-                                    <td>".date("d-M-Y", strtotime($orden["fecha_finalizacion_programada"]))."</td>
-                                    <td>".$orden["estado"]."</td> ";
-                        $str.="</tr>";
-                    
-            }
-
-            
-        }
           
     }
 

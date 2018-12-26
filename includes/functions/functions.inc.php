@@ -10,3 +10,5 @@ function redirect_to($url) {
 function sanitize_output($string) {
 	return htmlspecialchars($string);
 }
+
+

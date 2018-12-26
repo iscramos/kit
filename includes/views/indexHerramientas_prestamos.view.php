@@ -1,64 +1,82 @@
  <?php require_once(VIEW_PATH.'header.inc.php');
-    include(VIEW_PATH.'indexMenu.php');
  ?>
 
             
-            <!-- /.navbar-static-side -->
-        </nav>
-
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <br>
-                    <button class="btn btn-primary btn-md expandir" title="Expandir"> <i class="fa fa-expand" aria-hidden="true"></i> </button>
-
-                    <button class="btn btn-primary btn-md contraer hidden" title="Contraer"> <i class="fa fa-compress" aria-hidden="true"></i> </button>
-                    <h1 class="page-header">Detalles de herramienta</h1>
+          <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="">
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3>Mis préstamos o devoluciones...</h3>
                     <?php 
                         if(isset($herramientas->id) )
                         {
                             
                             echo "<p>
-                                    <i class='fa fa-home fa-lg' aria-hidden='true'></i> ".$herramientas->descripcion_almacen." <i class='fa fa-long-arrow-right fa-lg' aria-hidden='true'></i>  <a href='".$url."indexHerramientas_herramientas.php?id_almacen=".$herramientas->id_almacen."&id_categoria=".$herramientas->id_categoria."'>".$herramientas->categoria." </a><i class='fa fa-angle-double-right fa-md' aria-hidden='true'></i> ".$herramientas->descripcion."</p>";
+                                    ".$herramientas->descripcion_almacen." <i class='fa fa-long-arrow-right fa-lg' aria-hidden='true'></i>  <strong><a class='btn btn-success btn-sm' title='Regresar' href='".$url."indexHerramientas_herramientas.php?id_almacen=".$herramientas->id_almacen."&id_categoria=".$herramientas->id_categoria."'>".$herramientas->categoria." </a></strong><i class='fa fa-angle-double-right fa-md' aria-hidden='true'></i> ".$herramientas->descripcion."</p>
+                                    <input class='form-group hidden' id='id_almacen' value='".$herramientas->id_almacen."'>
+                                    <input class='form-group hidden' id='id_categoria' value='".$herramientas->id_categoria."'>
+                                    <input class='form-group hidden' id='id_herramienta' value='".$herramientas->id."'>";
                         }
                     ?>
                 </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            <div class="row">
-            	<div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading text-right">
-                            <button type="button" class="btn btn-success btn-circle btn-md" title="Nuevo registro" id="agregar"><i class="fa fa-plus"></i>
-                            </button>
-                            <input class="form-control hidden" type="number" name="id_herramienta" id="id_herramienta" value="<?php if(isset($herramientas->id)) echo $herramientas->id; ?>">
-                           
+                    <div class="title_right ">
+                        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                          <div class="input-group pull-right">
+                            <?php
+                                if($ultimo_estado[0]->estatus == "" || $ultimo_estado[0]->estatus == 2)
+                                {
+                                    echo "<button type='button' class='btn btn-success btn-sm' title='Nuevo registro' id='agregar'>Nuevo
+                            </button>";
+                                }
+                            ?>
+                            
+                          </div>
                         </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                        <div class="table-responsive">
-                            <table width="100%" class="table table-striped table-bordered table-hover dataTables-example" >
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>No. asociado</th>
-                                        <th>Fecha préstamo</th>
-                                        <th>Fecha regreso</th>
-                                        <th>Estatus</th>
-                                        <th>Observación</th>
-                                        <th>Acción</th>
+                    </div>
+
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2><i class="fa fa-cogs"></i> Registros <small>en el sistema</small></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+
+                                <!-- aqui va el contenido -->
+                                <table class="table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action" >
+                                    <thead>
+                                        <tr> 
+                                        <th>TRACK</th>
+                                        <th>CODIGO</th>
+                                        <th>NOMBRE</th>
+                                        <th>FECHA PRESTAMO</th>
+                                        <th>FECHA REGRESO</th>
+                                        <th>ESTATUS</th>
+                                        <th>OBSERVACION</th>
+                                        <th>ACCION</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                        $i=1;
+                                        //$i=1;
                                         //print_r($herramientas_herramientas);
                                         foreach ($herramientas_prestamos as $prestamos):
                                         {
-                                            echo "<tr campoid={$prestamos->id}>";
-                                                echo "<th width='5px' class='spec'>$i</th>";
+                                            echo "<tr campoid='".$prestamos->id."'>";
+                                                echo "<th width='5px' class='spec'>".$prestamos->id."</th>";
                                                 echo "<td>".$prestamos->noAsociado."</td>";
+                                                echo "<td>".$prestamos->nombre."</td>";
                                                 //echo "<td>".$herramienta->categoria."</td>";
                                                 echo "<td>".date("d-m-Y H:m:s", strtotime($prestamos->fecha_prestamo))."</td>";
 
@@ -68,7 +86,7 @@
                                                 }
                                                 else
                                                 {
-                                                    echo "<td></td>"; 
+                                                    echo "<td class='text-center'> - </td>"; 
                                                 }
 
                                                 if ($prestamos->estatus == 1) 
@@ -76,39 +94,42 @@
                                                     echo "<td style='background: #f0ad4e; color:white;'>EN PRESTAMO</td>"; 
                                                 }
                                                 elseif($prestamos->estatus == 2)
-                                                {                                           echo "<td>REGRESADO</td>"; 
-                                                
+                                                {   
+                                                    echo "<td style='background: #169F85; color:white;'>DEVUELTO</td>";
                                                 }
+
+
                                                 echo "<td>".$prestamos->observacion."</td>";
                                                
-                                                echo "<td>";
-                                                    
-
-                                                    /*echo " <a type='button' class='btn btn-warning btn-circle btn-md optionEdit' valueEdit='".$herramienta->id."' title='Editar registro' ><i class='fa fa-pencil-square-o'></i></a>";
-                                                    echo " <a type='button' class='btn btn-danger btn-circle btn-md' data-toggle='confirmation' data-btn-ok-label='S&iacute;' data-btn-ok-icon='glyphicon glyphicon-share-alt' data-btn-ok-class='btn-danger' data-btn-cancel-label='No' data-btn-cancel-icon='glyphicon glyphicon-ban-circle' data-btn-cancel-class='btn-default'><span title='Eliminar registro'class='glyphicon glyphicon-remove' aria-hidden='true'></span></a>";*/
-                                                   /* echo " <a class='btn btn-danger btn-circle btn-md' data-toggle='confirmation' data-singleton='true'  title='Eliminar registro'><i class='fa fa-times'></i></a>";*/
-                                                echo "</td>";
+                                               if($prestamos->estatus == 1)
+                                                {
+                                                   echo "<td>";
+                                                    echo "<a type='button' class='btn btn-warning btn-sm optionEdit' valueEdit='".$prestamos->id."' title='Editar registro' >Editar</a>";
+                                                    echo " <a type='button' class='btn btn-danger btn-sm' data-toggle='confirmation' data-singleton='true' data-placement='left' title='¿Eliminar registro?'>Eliminar</a>";
+                                                    echo "</td>"; 
+                                                }
+                                                elseif($prestamos->estatus == 2)
+                                                {
+                                                   echo "<td class='text-center'> - </td>";  
+                                                }
+                                                
                                             echo "</tr>";
 
-                                            $i ++;
+                                            //$i ++;
                                         }
                                         endforeach;
                                     ?>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            
                             <!-- /.table-responsive -->
                             </div>
                         </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
+                    </div> <!-- fin class='' -->
                 </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            
+            <div class="clearfix"></div>
         </div>
-        <!-- /#page-wrapper -->
+    </div>
 
 
   		<!-- Modal -->
@@ -145,7 +166,8 @@
                       
                 onConfirm: function(event) {
                   var idR = $(this).parents("tr").attr("campoid");
-                  window.location.href='deleteUser.php?id='+idR;
+                  var id_herramienta = $("#id_herramienta").val();
+                  window.location.href='deleteHerramienta_prestamo.php?id='+idR+'&id_herramienta='+id_herramienta;
                 },
             });
 
@@ -230,7 +252,9 @@
                 "language":{
                     "oPaginate": {
                         "sNext" : "Siguiente",
-                        "sPrevious": "Anterior"
+                        "sPrevious": "Anterior",
+                        
+                    
                     },
                     "search": "Buscar ",
                     "sNext": "Siguiente",
@@ -239,8 +263,11 @@
                     "zeroRecords": "Nada encontrado",
                     "info": "Mostrando página _PAGE_ de _PAGES_",
                     "infoEmpty": "No registros disponibles",
-                    "infoFiltered": "(filtrado de _MAX_ registros totales)"
-                }
+                    "infoFiltered": "(filtrado de _MAX_ registros totales)",
+
+
+                },
+                "aaSorting": [[ 0, "desc" ]],
             });
 
             }); // end ready

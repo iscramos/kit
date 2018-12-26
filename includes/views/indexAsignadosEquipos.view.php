@@ -9,40 +9,6 @@
     <!-- top tiles -->
     <div class="row tile_count">
       
-      <div class="col-md-3 col-sm-3 col-xs-3 tile_stats_count">
-        <span class="count_top"><i class="fa fa-clock-o"></i> Week</span>
-        <?php 
-          $fechaConsulta = date("d/m/Y");
-          $fechaConsultaFormateada = date("m-d");
-          $semanaActual = Calendario_nature::getSemanaByFecha($fechaConsultaFormateada);
-          echo "<div class='count green'>".$semanaActual[0]->semana."</div>";
-          echo "<span class='count_bottom'> ".$fechaConsulta."</span>";
-          
-          echo "<input class='form-control hidden' name='parametroSemana' id='parametroSemana' value='".$semanaActual[0]->semana."'>";
-
-        ?>
-        
- 
-      </div>
-
-      <div class="col-md-6 col-sm-6 col-xs-6 tile_stats_count">
-        <span class="count_top"><i class="fa fa-folder-open"></i> Archivo de carga (activos.xlsx)</span>
-        
-          <form action="loadActivo.php" method="POST" enctype="multipart/form-data" class="form-inline">
-             <div class='form-group'>
-                  <div class='col-sm-10'>  
-                      <input type='file' id='archivo' name='archivo' onChange='extensionCHK(this);' required>
-                      <button type="submit" class="btn btn-success btn-xs"> <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Cargar...</button>
-                  </div>
-              </div>
-              
-              
-          </form>
-  
-      </div>
-
-
-      
     <!-- /top tiles -->
 
     <div class="row loading efecto">
@@ -57,17 +23,9 @@
 
           <div class="col-md-12 col-sm-12 col-xs-12">
             <!-- El contenido -->
-            <?php
-              if($actualizado == "@")
-              {
-                  echo "<audio controls autoplay class='hidden'>
-                          <source src='".$url."content/base.ogg' type='audio/ogg'>
-                        </audio>";
-              }
-            ?>
-            
-              
                   <?php 
+                    
+                  
                     $direccion = $url.$content."/activos.json";
                     //echo $direccion;
                     $json_activos = file_get_contents($direccion);
@@ -99,6 +57,8 @@
                     ?>
                       </tbody>
                     </table>
+
+                    
                           
               </div>
 
@@ -121,41 +81,7 @@
  <?php require_once(VIEW_PATH.'footer.inc.php'); ?>
     
 
-    <script type="text/javascript">
-        function extensionCHK(campo)
-        {
-            var src = campo.value;
-            var log = src.length;
-            
-            /*var pdf = log - 3;
-            var wpdf = src.substring(pdf, log);
-                wpdf = wpdf.toUpperCase();*/
-
-            // para .XLSX
-            var xlsx = log - 4;
-            var wsubc = src.substring(xlsx, log);
-                wsubc = wsubc.toUpperCase();
-          
-          //this.files[0].size gets the size of your file.
-          var tamano = $("#archivo")[0].files[0].size;
-          
-          if (tamano > 10485760)
-          {
-            //alert('El archivo a subir debe ser menor a 1MB');
-            $("#archivo").val("");
-            alert("El archivo pesa más de 10MB.");
-          
-          }
-
-          else if(wsubc!='XLSX')
-          {
-            //alert('El archivo a subir debe ser una imagen JPG, o PDF');
-            $("#archivo").val("");
-            alert("El archivo debe ser un activos.xlsx");
-            
-          }
-        }
-    </script>
+    
           
         <script type="text/javascript">
             

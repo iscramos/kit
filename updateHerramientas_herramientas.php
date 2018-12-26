@@ -17,31 +17,37 @@ if(isset($_GET["id"]))
 		//$description_roles = Description_roles::getAll();
 
 		$str.="<div class='form-group hidden'>
-						<label class='col-sm-4 control-label'>ID</label>
-						<div class='col-sm-8'>
-							<input type='number' class='form-control' id='id' name='id' value='".sanitize_output($id)."' readonly>
-							<input type='number' class='form-control' id='id_categoria' name='id_categoria' value='".sanitize_output($id_categoria)."' readonly>
-							<input type='number' class='form-control' id='id_almacen' name='id_almacen' value='".sanitize_output($id_almacen)."' readonly>
+						<label class='col-sm-4 col-xs-4 control-label'>ID</label>
+						<div class='col-sm-8 col-xs-8'>
+							<input type='number' class='form-control input-sm' id='id' name='id' value='".sanitize_output($id)."' readonly>
+							<input type='number' class='form-control input-sm' id='id_categoria' name='id_categoria' value='".sanitize_output($id_categoria)."' readonly>
+							<input type='number' class='form-control input-sm' id='id_almacen' name='id_almacen' value='".sanitize_output($id_almacen)."' readonly>
 						</div>
 				</div>";
 
+		$str.="<div class='form-group'>
+						<label class='col-sm-4 col-xs-4 control-label'>Imagen</label>
+						<div class='col-sm-8 col-xs-8 text-right'>
+							<img class='img-thumbnail' src='".$contentRead.$herramientas->archivo."' height='120px' width='180px'>
+						</div>
+				</div>";
 		$str.="<div class='form-group has-success'>
-						<label class='col-sm-4 control-label'>Clave</label>
-						<div class='col-sm-8'>
-							<input type='text' class='form-control' id='clave' name='clave' value='".sanitize_output($herramientas->clave)."' autocomplete='off' required='required'>
+						<label class='col-sm-4 col-xs-4 control-label'>Clave</label>
+						<div class='col-sm-8 col-xs-8'>
+							<input type='text' class='form-control input-sm' id='clave' name='clave' value='".sanitize_output($herramientas->clave)."' autocomplete='off' readonly required='required'>
 							<span id='helpBlock2' class='help-block'>Ejemplo: Código de barras... 
 						</div>
 				</div>";
 		$str.="<div class='form-group'>
-						<label class='col-sm-4 control-label'>Descripción</label>
-						<div class='col-sm-8'>
-							<input type='text' class='form-control' id='descripcion' name='descripcion' value='".sanitize_output($herramientas->descripcion)."' autocomplete='off' required='required'>
+						<label class='col-sm-4 col-xs-4 control-label'>Descripción</label>
+						<div class='col-sm-8 col-xs-8'>
+							<input type='text' class='form-control input-sm' id='descripcion' name='descripcion' value='".sanitize_output($herramientas->descripcion)."' autocomplete='off' required='required'>
 						</div>
 				</div>";
 		$str.="<div class='form-group'>
-						<label class='col-sm-4 control-label'>Precio unitario ($)</label>
-						<div class='col-sm-8'>
-							<input type='text' class='form-control' id='precio_unitario' name='precio_unitario' value='".$herramientas->precio_unitario."' autocomplete='off' required='required'>
+						<label class='col-sm-4 col-xs-4 control-label'>Precio unit ($)</label>
+						<div class='col-sm-8 col-xs-8'>
+							<input type='number' step='0.01'  class='form-control input-sm' id='precio_unitario' name='precio_unitario' value='".$herramientas->precio_unitario."' autocomplete='off' required='required'>
 						</div>
 				</div>";
 	}
@@ -49,41 +55,58 @@ if(isset($_GET["id"]))
 	{
 
 		$str.="<div class='form-group hidden'>
-						<label class='col-sm-4 control-label'>ID</label>
-						<div class='col-sm-8'>
-							<input type='number' class='form-control' id='id' name='id' value='".$id."' readonly>
-							<input type='number' class='form-control' id='id_categoria' name='id_categoria' value='".$id_categoria."' readonly>
-							<input type='number' class='form-control' id='id_almacen' name='id_almacen' value='".$id_almacen."' readonly>
+						<label class='col-sm-4 col-xs-4 control-label'>ID</label>
+						<div class='col-sm-8 col-xs-8'>
+							<input type='number' class='form-control input-sm' id='id' name='id' value='".$id."' readonly>
+							<input type='number' class='form-control input-sm' id='id_categoria' name='id_categoria' value='".$id_categoria."' readonly>
+							<input type='number' class='form-control input-sm' id='id_almacen' name='id_almacen' value='".$id_almacen."' readonly>
 						</div>
 				</div>";
 
 		$str.="<div class='form-group has-success'>
-						<label class='col-sm-4 control-label'>Clave</label>
-						<div class='col-sm-8'>
-							<input type='text' class='form-control' id='clave' name='clave' value='' autocomplete='off' required='required'>
+						<label class='col-sm-4 col-xs-4 control-label'>Clave</label>
+						<div class='col-sm-8 col-xs-8'>
+							<input type='text' class='form-control input-sm' id='clave' name='clave' value='' autocomplete='off' required='required'>
 							<span id='helpBlock2' class='help-block'>Ejemplo: Código de barras... 
 						</div>
 				</div>";
 		$str.="<div class='form-group'>
-						<label class='col-sm-4 control-label'>Descripción</label>
-						<div class='col-sm-8 '>
+						<label class='col-sm-4 col-xs-4 control-label'>Descripción</label>
+						<div class='col-sm-8 col-xs-8 '>
 							
-							<input type='text' class='form-control' id='descripcion' name='descripcion' value='' autocomplete='off' required='required'>
+							<input type='text' class='form-control input-sm' id='descripcion' name='descripcion' value='' autocomplete='off' required='required'>
 						</div>
 				</div>";
 		$str.="<div class='form-group'>
-						<label class='col-sm-4 control-label'>Precio unitario ($)</label>
-						<div class='col-sm-8'>
+						<label class='col-sm-4 col-xs-4 control-label'>Precio unit ($)</label>
+						<div class='col-sm-8 col-xs-8'>
 							
-							<input type='text' class='form-control' id='precio_unitario' name='precio_unitario' value='' autocomplete='off' required='required'>
+							<input type='number' step='0.01' class='form-control input-sm' id='precio_unitario' name='precio_unitario' value='' autocomplete='off' required='required'>
 						</div>
 				</div>";
 
+		$str.="<div class='form-group'>
+                            <label class='col-sm-4 col-xs-4 control-label' >Imagen de carga</label>
+                            <div class='col-sm-8 col-xs-8'>  
+                                <input type='file' id='archivo' name='archivo' onChange='extensionCHK(this);' required>
+                                <font size='1' color='gray'>(Archivos soportados: JPG, PNG)</font>
+                                <p><font size='1' color='red'>Tama&ntilde;o m&aacute;ximo: 5 MB.</font></p>
+                            </div>
+                        </div>
+                        <div class='form-group hidden' id='mensaje'>
+                            <label class='col-sm-4 col-xs-4 control-label' ></label>
+                            <div class='col-sm-8 col-xs-8 alert alert-danger' role='alert'>
+                                <span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
+                                <span id='ext'></span>
+                                <span id='tam'></span>
+                            </div>
+                        </div>";
+
 
 		/*$str.="<div class='form-group'>
-						<label class='col-sm-4 control-label'>Almacén</label>
-						<div class='col-sm-8'>
-							<select class='form-control' name='id_almacen' id='id_almacen' required='required'>
+						<label class='col-sm-4 col-xs-4 control-label'>Almacén</label>
+						<div class='col-sm-8 col-xs-8'>
+							<select class='form-control input-sm' name='id_almacen' id='id_almacen' required='required'>
 								<option value='' style='display:none;'>Seleccione un Almacén</option>";
 								foreach ($herramientas_almacenes as $almacen) 
 								{
@@ -103,8 +126,45 @@ echo $str;
 ?>
 
 <script type="text/javascript">
-	$('.password').focus(function () 
+	function extensionCHK(campo)
     {
-       $('.password').attr('type', 'text'); 
-    });
+        var src = campo.value;
+        var log = src.length;
+        
+        var pdf = log - 3;
+        var wpdf = src.substring(pdf, log);
+            wpdf = wpdf.toUpperCase();
+        // para .XLSX
+        /*var xlsx = log - 3;
+        var wsubc = src.substring(xlsx, log);
+            wsubc = wsubc.toUpperCase();*/
+      
+      //this.files[0].size gets the size of your file.
+      var tamano = $("#archivo")[0].files[0].size;
+      
+      if (tamano > 5485760)
+      {
+        //alert('El archivo a subir debe ser menor a 1MB');
+        $("#archivo").val("");
+        $("#mensaje").removeClass("hidden");
+        $("#tam").text("El archivo pesa más de 5MB.");
+      
+      }
+
+      else if(wpdf!='JPG' && wpdf!='PNG')
+      {
+        //alert('El archivo a subir debe ser una imagen JPG, o PDF');
+        $("#archivo").val("");
+        $("#mensaje").removeClass("hidden");
+        $("#ext").text("El archivo debe ser un JPG, PNG");
+        
+      }
+      else
+      {
+        $("#mensaje").addClass("hidden");
+        $("#tam").text("");
+        $("#ext").text("");
+        
+      }
+    }
 </script>

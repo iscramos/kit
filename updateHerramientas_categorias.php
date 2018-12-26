@@ -19,14 +19,14 @@ if(isset($_GET["id"]))
 		$str.="<div class='form-group hidden'>
 						<label class='col-sm-4 control-label'>ID</label>
 						<div class='col-sm-8'>
-							<input type='number' class='form-control' id='id' name='id' value='".$id."' readonly>
+							<input type='number' class='form-control input-sm' id='id' name='id' value='".$id."' readonly>
 						</div>
 				</div>";
 
 		$str.="<div class='form-group'>
 						<label class='col-sm-4 control-label'>Almacén</label>
 						<div class='col-sm-8'>
-							<select class='form-control' name='id_almacen' id='id_almacen' required='required'>";
+							<select class='form-control input-sm' name='id_almacen' id='id_almacen' required='required'>";
 								
 								foreach ($herramientas_almacenes as $almacen) 
 								{
@@ -42,7 +42,7 @@ if(isset($_GET["id"]))
 		$str.="<div class='form-group'>
 						<label class='col-sm-4 control-label'>Categoría</label>
 						<div class='col-sm-8'>
-							<input type='text' class='form-control' id='categoria' name='categoria' value='".$categorias->categoria."' autocomplete='off' required='required'>
+							<input type='text' class='form-control input-sm' id='categoria' name='categoria' value='".$categorias->categoria."' autocomplete='off' required='required'>
 						</div>
 				</div>";
 	}
@@ -53,14 +53,14 @@ if(isset($_GET["id"]))
 		$str.="<div class='form-group hidden'>
 						<label class='col-sm-4 control-label'>ID</label>
 						<div class='col-sm-8'>
-							<input type='number' class='form-control' id='id' name='id' value='".$id."' readonly>
+							<input type='number' class='form-control input-sm' id='id' name='id' value='".$id."' readonly>
 						</div>
 				</div>";
 
 		$str.="<div class='form-group'>
 						<label class='col-sm-4 control-label'>Almacén</label>
 						<div class='col-sm-8'>
-							<select class='form-control' name='id_almacen' id='id_almacen' required='required'>
+							<select class='form-control input-sm' name='id_almacen' id='id_almacen' required='required'>
 								<option value='' style='display:none;'>Seleccione un Almacén</option>";
 								foreach ($herramientas_almacenes as $almacen) 
 								{
@@ -72,7 +72,7 @@ if(isset($_GET["id"]))
 		$str.="<div class='form-group'>
 						<label class='col-sm-4 control-label'>Categoría</label>
 						<div class='col-sm-8'>
-							<input type='text' class='form-control' id='categoria' name='categoria' value='' autocomplete='off' required='required'>
+							<input type='text' class='form-control input-sm' id='categoria' name='categoria' value='' autocomplete='off' required='required'>
 						</div>
 				</div>";
 	}

@@ -22,6 +22,7 @@ class Ordenesots {
 	public $semana;
 	public $motivo;
 	
+
 	public static function getBySql($sql) {
 		
 		// Open database connection
@@ -326,6 +327,7 @@ class Ordenesots {
 		 	OR estado = 'Falta de mano de obra'
 		 	OR estado = 'Programada' 
 		 	OR estado = 'Terminado' )";
+
 		//die($sql);
 		// Return objects
 		return self::getBySql($sql);
@@ -1011,6 +1013,33 @@ class Ordenesots {
 		
 		// Close database connection
 		$database->close();
+
+		// Return affected rows
+		return $affected_rows;			
+	
+	}
+
+	
+
+
+	public function inserta_dura() 
+	{
+
+		// Initialize affected rows
+		$affected_rows = FALSE;
+	
+		// Build database query
+		$sql = "INSERT INTO ordenesots values $this->q";
+
+
+		//echo $sql;
+		//die();
+		
+		// Open database connection
+		$database = new Database();
+		
+		mysqli_query($database, $sql) or die(mysqli_error($database));
+
 
 		// Return affected rows
 		return $affected_rows;			

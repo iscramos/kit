@@ -30,6 +30,22 @@
     border-radius: 10px;
 }
 
+.badge-warning
+{
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: #EBAF53;
+    border-radius: 10px;
+}
+
 .bs-callout {
     padding: 20px;
     margin: 20px 0;
@@ -305,3 +321,5 @@
     display: flex !important;
     justify-content: center !important;
 }
+
+

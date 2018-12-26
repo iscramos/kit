@@ -30,9 +30,16 @@
 
 
                                 <?php
-                                    $direccion = $url.$content."/monitoreo.json";
-                                    $json_ordenes = file_get_contents($direccion);
-                                    $ordenes = json_decode($json_ordenes, true);
+                                    $consulta = "SELECT * FROM disponibilidad_data
+                                                    WHERE tipo <> 'Mant. preventivo'
+                                                        AND (estado = 'Ejecutado'
+                                                            OR estado = 'Programada'
+                                                            OR estado = 'Abierta'
+                                                            OR estado = 'Falta mano de obra'
+                                                            OR estado = 'Espera de refacciones'
+                                                            OR estado = 'Espera de equipo' )
+                                                        ORDER BY fecha_inicio_programada ASC";
+                                    $ordenes = Disponibilidad_data::getAllByQuery($consulta); // Para las ordenes no terminadas
                                     
                                     //print_r($ordenes);
                                     foreach ($activos_equipos as $critico) 
@@ -43,16 +50,12 @@
 
                                         foreach ($ordenes as $ot) 
                                         {
-                                            if($ot["equipo"] == $critico->nombre_equipo)
+                                            if($ot->equipo == $critico->activo)
                                             {
-                                                //echo $ot["tipo"]."<br>";
-                                                if($ot["estado"] != "Terminado" && ($ot["tipo"] == "Correctivo planeado" || $ot["tipo"] == "Correctivo de emergencia"))
-                                                {
-                                                    //echo $ot["equipo"]."<br>";
-                                                    $enciendeParado = 1;
-                                                }
-
-                                                //$no_ot ++; 
+                                                
+                                                //echo $ot["equipo"]."<br>";
+                                                $enciendeParado = 1;
+                                            
                                             }
                                         }
 
@@ -60,14 +63,14 @@
                                         if ($enciendeParado == 1)
                                         {
 
-                                            $colorEstatus = "bs-callout bs-callout-red";
+                                            //$colorEstatus = "bs-callout bs-callout-red";
                                             echo "<div class='col-xs-6 col-sm-2 col-md-2'>";
-                                            echo "<div class='thumbnail ".$colorEstatus."' style='padding:5px !important;'>";
-                                                if(strpos($critico->nombre_equipo, 'CO-TRC') !== false)
+                                            echo "<div  style='margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px;'>";
+                                                if(strpos($critico->activo, 'CO-TRC') !== false)
                                                 {
                                                     echo "<img src='".$url."dist/img/tractor.png' alt='...' class='img-responsive'>";
                                                 }
-                                                else if(strpos($critico->nombre_equipo, 'CO-CAM') !== false)
+                                                else if(strpos($critico->descripcion, 'CO-CAM') !== false)
                                                 {
                                                      echo "<img src='".$url."dist/img/volteo.png' alt='...' class='img-responsive'>";
                                                 }
@@ -75,59 +78,55 @@
                                                 {
                                                     echo "<img src='".$url."dist/img/parihuela.png' alt='...' class='img-responsive'>";
                                                 }
-                                                else if($critico->familia == "FUMIGACION")
-                                                {
-                                                    echo "<img src='".$url."dist/img/parihuela.png' alt='...' class='img-responsive'>";
-                                                }
-                                                else if(strpos($critico->nombre_equipo, 'CO-TOL') !== false)
+                                                else if(strpos($critico->activo, 'CO-TOL') !== false)
                                                 {
                                                      echo "<img src='".$url."dist/img/tolva.png' alt='...' class='img-responsive'>";
                                                 }
-                                                else if(strpos($critico->nombre_equipo, 'CO-GEN') !== false)
+                                                else if(strpos($critico->activo, 'CO-GEN') !== false)
                                                 {
                                                      echo "<img src='".$url."dist/img/generador.png' alt='...' class='img-responsive'>";
                                                 }
-                                                else if(strpos($critico->nombre_equipo, 'CO-TRA-0') !== false)
+                                                else if(strpos($critico->activo, 'CO-TRA-0') !== false)
                                                 {
                                                      echo "<img src='".$url."dist/img/transformador.png' alt='...' class='img-responsive'>";
                                                 }
-                                                else if(strpos($critico->nombre_equipo, 'CO-ENF') !== false)
+                                                else if(strpos($critico->activo, 'CO-ENF') !== false)
                                                 {
                                                      echo "<img src='".$url."dist/img/camara.png' alt='...' class='img-responsive'>";
                                                 }
-                                                else if(strpos($critico->nombre_equipo, 'CO-MON') !== false)
+                                                else if(strpos($critico->activo, 'CO-MON') !== false)
                                                 {
                                                      echo "<img src='".$url."dist/img/montacargas.png' alt='...' class='img-responsive'>";
                                                 }
-                                                else if(strpos($critico->nombre_equipo, 'CO-SEC') !== false)
+                                                else if(strpos($critico->activo, 'CO-SEC') !== false)
                                                 {
                                                      echo "<img src='".$url."dist/img/lavadora.png' alt='...' class='img-responsive'>";
                                                 }
-                                                else if(strpos($critico->nombre_equipo, 'CO-POZ') !== false)
+                                                else if(strpos($critico->activo, 'CO-POZ') !== false)
                                                 {
                                                      echo "<img src='".$url."dist/img/pozo.png' alt='...' class='img-responsive'>";
                                                 }
-                                                else if(strpos($critico->nombre_equipo, 'CO-COR') !== false)
+                                                else if(strpos($critico->activo, 'CO-COR') !== false)
                                                 {
                                                      echo "<img src='".$url."dist/img/controlador.png' alt='...' class='img-responsive'>";
                                                 }
-                                                else if(strpos($critico->nombre_equipo, 'CO-CIS') !== false)
+                                                else if(strpos($critico->activo, 'CO-CIS') !== false)
                                                 {
                                                      echo "<img src='".$url."dist/img/cisterna.png' alt='...' class='img-responsive'>";
                                                 }
-                                                else if(strpos($critico->nombre_equipo, 'CO-TRA-PER') !== false)
+                                                else if(strpos($critico->activo, 'CO-TRA-PER') !== false)
                                                 {
                                                      echo "<img src='".$url."dist/img/tarima_personal.png' alt='...' class='img-responsive'>";
                                                 }
-                                                else if(strpos($critico->nombre_equipo, 'CO-TRA-PLM') !== false)
+                                                else if(strpos($critico->activo, 'CO-TRA-PLM') !== false)
                                                 {
                                                      echo "<img src='".$url."dist/img/tarima_plana.png' alt='...' class='img-responsive'>";
                                                 }
-                                                else if(strpos($critico->nombre_equipo, 'CO-MEZ') !== false)
+                                                else if(strpos($critico->activo, 'CO-MEZ') !== false)
                                                 {
                                                      echo "<img src='".$url."dist/img/mezclador.png' alt='...' class='img-responsive'>";
                                                 }
-                                                else if(strpos($critico->nombre_equipo, 'CO-BMU') !== false)
+                                                else if(strpos($critico->activo, 'CO-BMU') !== false)
                                                 {
                                                      echo "<img src='".$url."dist/img/bomba.png' alt='...' class='img-responsive'>";
                                                 }
@@ -137,10 +136,10 @@
                                                 }
                                                 
                                                 echo "<div class='caption'> ";
-                                                    echo "<p style='font-size:10px;'>".$critico->nombre_equipo."</p>";
+                                                    echo "<p style='font-size:10px;'>".$critico->activo."</p>";
                                                     //echo "<p style='font-size:9px;'>".utf8_encode($critico->descripcion)."</p>";
                                                     echo "<p>
-                                                            <a href='#' class='btn btn-primary btn-xs detalles' equipo='".$critico->nombre_equipo."' role='button' title='".$critico->descripcion."'>Detalles</a> 
+                                                            <a href='#' class='btn btn-primary btn-xs detalles' equipo='".$critico->activo."' role='button' title='".$critico->descripcion."'>Detalles</a> 
                                                             <!--a href='#' class='btn btn-default' role='button'>Button</a-->
                                                         </p>";
                                                 echo "</div>";

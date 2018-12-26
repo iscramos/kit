@@ -1,46 +1,54 @@
  <?php require_once(VIEW_PATH.'header.inc.php');
-    include(VIEW_PATH.'indexMenu.php');
  ?>
 
-            
-            <!-- /.navbar-static-side -->
-        </nav>
-
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <br>
-                    <button class="btn btn-primary btn-md expandir" title="Expandir"> <i class="fa fa-expand" aria-hidden="true"></i> </button>
-
-                    <button class="btn btn-primary btn-md contraer hidden" title="Contraer"> <i class="fa fa-compress" aria-hidden="true"></i> </button>
-                    <h1 class="page-header">Herramientas</h1>
-                    <?php 
+          <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="">
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3>Mis herramientas...</h3>
+                        <?php 
                         if(isset($almacenes->id) && isset($categorias->id))
                         {
                             
                             echo "<p>
-                                    <i class='fa fa-home fa-lg' aria-hidden='true'></i> ".$almacenes->descripcion." <i class='fa fa-long-arrow-right fa-lg' aria-hidden='true'></i>  ".$categorias->categoria."</p>";
+                                    <strong><a class='btn btn-success btn-sm' title='Regresar' href='indexHerramientas_categorias.php'>".$almacenes->descripcion." </a></strong><i class='fa fa-long-arrow-right fa-lg' aria-hidden='true'></i>  ".$categorias->categoria."</p>
+                                <input class='form-control input-sm hidden' id='id_almacen' value='".$almacenes->id."'>
+                                <input class='form-control input-sm hidden' id='id_categoria' value='".$categorias->id."'>";
                         }
                     ?>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            <div class="row">
-            	<div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading text-right">
-                            <button type="button" class="btn btn-success btn-circle btn-md" title="Nuevo registro" id="agregar"><i class="fa fa-plus"></i>
+                    </div>
+                    <div class="title_right ">
+                        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                          <div class="input-group pull-right">
+                            <button type="button" class="btn btn-success btn-circle btn-sm" title="Nuevo registro" id="agregar">Nuevo
                             </button>
-                            <input class="form-control hidden" type="text" name="id_categoria" id="id_categoria" value="<?php if(isset($id_categoria)) echo $id_categoria;?>">
-                            <input class="form-control hidden" type="text" name="id_almacen" id="id_almacen" value="<?php if(isset($id_almacen)) echo $id_almacen;?>">
+                          </div>
                         </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                        <div class="table-responsive">
-                            <table width="100%" class="table table-striped table-bordered table-hover dataTables-example" >
-                                <thead>
-                                    <tr>
+                    </div>
+
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2><i class="fa fa-cogs"></i> Registros <small>en el sistema</small></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+
+                                <!-- aqui va el contenido -->
+                                <table class="table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action" >
+                                    <thead>
+                                        <tr> 
                                         <th>#</th>
                                         <th>Clave</th>
                                         <!--th>Categoría</th-->
@@ -57,20 +65,29 @@
                                         //print_r($herramientas_herramientas);
                                         foreach ($herramientas_herramientas as $herramienta):
                                         {
-                                            echo "<tr campoid={$herramienta->id}>";
+                                            $prestamos = Herramientas_prestamos::getAllMaxHerramienta($herramienta->id);
+                                            
+                                            //print_r($prestamos);
+                                            echo "<tr campoid='".$herramienta->id."' >";
                                                 echo "<th width='5px' class='spec'>$i</th>";
                                                 echo "<td>".$herramienta->clave."</td>";
                                                 //echo "<td>".$herramienta->categoria."</td>";
                                                 echo "<td>".$herramienta->descripcion."</td>";
                                                 echo "<td>".$herramienta->precio_unitario."</td>";
                                                 echo "<td>".date("d-m-Y H:m:s", strtotime($herramienta->fecha_entrada))."</td>";
-                                                echo "<td> - </td>";
+                                                if($prestamos[0]->estatus == "" || $prestamos[0]->estatus == 2 )
+                                                {
+                                                    echo "<td style='background: #169F85; color:white;'>EN ALMACEN</td>";
+                                                }
+                                                else if($prestamos[0]->estatus == 1 )
+                                                {
+                                                    echo "<td style='background: #f0ad4e; color:white;'>EN PRESTAMO</td>";
+                                                }
+                                               
                                                 echo "<td>";
-                                                    echo "<a href='".$url."indexHerramientas_prestamos.php?id_herramienta=".$herramienta->id."' type='button' class='btn btn-primary btn-md btn-circle' title='Detalles...' ><i class='fa fa-share-alt'></i></a>";
+                                                    echo "<a href='".$url."indexHerramientas_prestamos.php?id_herramienta=".$herramienta->id."' type='button' class='btn btn-primary btn-sm ' title='Préstamos o Devoluciones...' >Prestar o devolver</a>";
 
-                                                    echo " <a type='button' class='btn btn-warning btn-circle btn-md optionEdit' valueEdit='".$herramienta->id."' title='Editar registro' ><i class='fa fa-pencil-square-o'></i></a>";
-                                                    echo " <a type='button' class='btn btn-danger btn-circle btn-md' data-toggle='confirmation' data-btn-ok-label='S&iacute;' data-btn-ok-icon='glyphicon glyphicon-share-alt' data-btn-ok-class='btn-danger' data-btn-cancel-label='No' data-btn-cancel-icon='glyphicon glyphicon-ban-circle' data-btn-cancel-class='btn-default'><span title='Eliminar registro'class='glyphicon glyphicon-remove' aria-hidden='true'></span></a>";
-                                                   /* echo " <a class='btn btn-danger btn-circle btn-md' data-toggle='confirmation' data-singleton='true'  title='Eliminar registro'><i class='fa fa-times'></i></a>";*/
+                                                    echo " <a type='button' class='btn btn-warning btn-sm optionEdit' valueEdit='".$herramienta->id."' title='Editar registro' >Editar</a>";
                                                 echo "</td>";
                                             echo "</tr>";
 
@@ -78,21 +95,17 @@
                                         }
                                         endforeach;
                                     ?>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            
                             <!-- /.table-responsive -->
                             </div>
                         </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
+                    </div> <!-- fin class='' -->
                 </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            
+            <div class="clearfix"></div>
         </div>
-        <!-- /#page-wrapper -->
+    </div> 
 
 
   		<!-- Modal -->
@@ -104,7 +117,7 @@
 		        <h4 class="modal-title" id="myModalLabel">Agregar / Modificar herramienta</h4>
 		      </div>
 		      <div class="modal-body">
-                <form name='frmtipo' class="form-horizontal" id="divdestino" method="post" action="<?php echo $url; ?>createHerramientas_herramientas.php">
+                <form name='frmtipo' class="form-horizontal" id="divdestino" method="post" action="<?php echo $url; ?>createHerramientas_herramientas.php" enctype="multipart/form-data">
 		  
 		      </div>
 		      <div class="modal-footer">

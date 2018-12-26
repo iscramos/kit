@@ -8,7 +8,7 @@ require_once('includes/inc.session.php');
 // Get posts from database
 //echo $_SESSION["school"];
 
-if($_SESSION["type"] == 1)
+if($_SESSION["type"] == 5)
 {
 	if(isset($_GET["id_categoria"]) && intval($_GET["id_categoria"]) > 0 && isset($_GET["id_almacen"]) && intval($_GET["id_almacen"]) > 0 )
 	{

@@ -37,48 +37,18 @@
   <div class="right_col" role="main">
     <!-- top tiles -->
     <div class="row tile_count">
-      <div class="col-md-3 col-sm-3 col-xs-3 tile_stats_count">
-        <span class="count_top"><i class="fa fa-file-text"></i> OT atrasadas</span>
-        <div class="count indicaRetraso"><!-- -- EL RETRASO -- --></div>
-        <span class="count_bottom"><i class="green"></i> </span>
-      </div>
-      <div class="col-md-3 col-sm-3 col-xs-3 tile_stats_count">
-        <span class="count_top"><i class="fa fa-clock-o"></i> Week</span>
+      
+     
         <?php 
-          $fechaConsulta = date("d/m/Y");
-          $fechaConsultaFormateada = date("m-d");
-          $semanaActual = Calendario_nature::getSemanaByFecha($fechaConsultaFormateada);
-          echo "<div class='count green'>".$semanaActual[0]->semana."</div>";
-          echo "<span class='count_bottom'> ".$fechaConsulta."</span>";
+          $fechaConsulta = date("Y-m-d");
+          $semanaActual = Disponibilidad_calendarios::getByDia($fechaConsulta);
+          /*echo "<div class='count green'>".$semanaActual[0]->semana."</div>";
+          echo "<span class='count_bottom'> ".date("d-M-Y", strtotime($fechaConsulta))."</span>";*/
           
           echo "<input class='form-control hidden' name='parametroSemana' id='parametroSemana' value='".$semanaActual[0]->semana."'>";
+          echo "<input type='number' class='form-control hidden' name='lider' id='lider' value='".$lider."'>";
 
         ?>
-        
- 
-      </div>
-
-      <div class="col-md-6 col-sm-6 col-xs-6 tile_stats_count">
-        <span class="count_top"><i class="fa fa-folder-open"></i> Archivo de carga (monitoreo.xlsx)</span>
-        
-          <form action="load.php" method="POST" enctype="multipart/form-data" class="form-inline">
-             <div class='form-group'>
-                  <div class='col-sm-10'>  
-                      <input type='file' id='archivo' name='archivo' onChange='extensionCHK(this);' required>
-                      <button type="submit" class="btn btn-success btn-xs"> <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Cargar...</button>
-                  </div>
-              </div>
-              <div class='form-group hidden' >
-                  <label class='col-sm-2 control-label' >Líder</label>
-                  <div class="col-sm-10">
-                      <input type="number" class='form-control hidden' name='lider' id='lider' value='<?php echo $lider; ?>'>
-                  </div>
-              </div>
-              
-          </form>
-  
-      </div>
-
 
       
     <!-- /top tiles -->
@@ -89,7 +59,10 @@
 
           <div class="row x_title">
             <div class="col-md-6">
-              <h3>Monitoreo semanal <small>programación de actividades</small></h3>
+              <h3>Monitoreo semana <?php echo $semanaActual[0]->semana; ?> | 
+                  <small>OT atrasadas 
+                    <b class="red indicaRetraso"><!-- -- EL RETRASO -- --></b>, al <?php echo date("d-M-Y", strtotime($fechaConsulta)); ?></small>
+              </h3>
             </div>
             <div class="col-md-6">
               <div id="" class="pull-right" >
@@ -112,9 +85,9 @@
             ?>
             <section class="variable slider" style="margin-top: 0px;">
               <div class="cargando">
-                  <div id="general" class="col-sm-12"></div> 
-                  <div id="MPgeneral" class="col-sm-6"></div> 
-                  <div id="MCgeneral" class="col-sm-6"></div>
+                  <div id="general" class="col-sm-12 col-xs-12 col-md-12"></div> 
+                  <div id="MPgeneral" class="col-sm-6 col-xs-6 col-md-6"></div> 
+                  <div id="MCgeneral" class="col-sm-6 col-xs-6 col-md-6"></div>
               </div>
 
               <div >
@@ -122,6 +95,9 @@
                     $direccion = $url.$content."/monitoreo.json";
                     //echo $direccion;
                     $json_ordenes = file_get_contents($direccion);
+
+                    
+
                     $ordenes = json_decode($json_ordenes, true);
 
                     $dias = ["DOMINGO", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"];
@@ -132,9 +108,10 @@
                     $ano = date("Y");
                     $nombreDiaHoy = $dias[date('w', strtotime($diaHoy))];
 
-                    $datosSemana = Calendario_nature::getAllSemana($semanaActual[0]->semana);
+
+                    /*$datosSemana = Calendario_nature::getAllSemana($semanaActual[0]->semana);
                     $fecha_inicio = $datosSemana[0]->fecha_inicio;
-                    $fecha_inicio = $ano."-".$fecha_inicio;
+                    $fecha_inicio = $ano."-".$fecha_inicio;*/
                     //echo $fechaInicio;
                   ?>
                   <h3 style="text-align: center;">MONITOREO DEL DIA (<?php echo $nombreDiaHoy; ?>)</h3>
@@ -159,6 +136,7 @@
                       {
                         if( ($lider == $orden["responsable"]) && (date("Y-m-d", strtotime($orden["fecha_finalizacion_programada"])) >= $diaHoy) && (date("Y-m-d", strtotime($orden["fecha_inicio_programada"])) <= $diaHoy) )
                           {
+
                           //echo $orden["responsable"]."<br>";
                           //echo $lider;
                           /*echo "inicio = ".$fecha_inicio;
@@ -225,7 +203,7 @@
 
                                     </div>
                                     <div class='avatar centrar'>
-                                        <img class='' src='".$url."/dist/img/avatar.jpg'>
+                                        <img class='' src='".$url."/dist/img/usuario.png'>
                                     </div>
                                     <div class='info'>
                                         <div class='title'>
@@ -354,7 +332,7 @@
 
                                       echo "<tr  >";
                                         echo "<td>".$i."</td>";
-                                        echo "<td>".$orden["orden_trabajo"]."</td>";
+                                        echo "<td>".$orden["ot"]."</td>";
                                         echo "<td> <i class='fa fa-file-text fa-lg' aria-hidden='true' ".$color_semaforo." ></i> ".$orden["descripcion"]."</td>";
 
                                         
@@ -523,7 +501,7 @@
 
                                       echo "<tr >";
                                         echo "<td>".$i."</td>";
-                                        echo "<td>".$orden["orden_trabajo"]."</td>";
+                                        echo "<td>".$orden["ot"]."</td>";
                                         echo "<td> <i class='fa fa-file-text fa-lg' aria-hidden='true' ".$color_semaforo." ></i> ".$orden["descripcion"]."</td>";
                                         echo "<td>".$orden["equipo"]."</td>";
                                         //echo "<td>".$nombreResponsable."</td>";
@@ -910,14 +888,15 @@
 
                       var options = {
                         title: 'No mantenimientos ('+cuentaTotalGeneral+') , MP = '+promedioCumplimientoMP+' % '+' MC = '+promedioCumplimientoMC +' % ',
-                        is3D: true,
-                        height: 300,
-                         slices: {  
+                        //is3D: true,
+                        pieHole: 0.2,
+                        height: 350,
+                         /*slices: {  
                                     1: {offset: 0.2},
                                     12: {offset: 0.3},
                                     14: {offset: 0.4},
                                     15: {offset: 0.5},
-                                },
+                                },*/
                         
                         colors: ['#5cb85c', '#dc3912']
 
@@ -940,8 +919,8 @@
 
                       var options = {
                         title: 'Mantemientos preventivos ('+cuentaMPgeneral+')',
-                        pieHole: 0.3,
-                        height: 200,
+                        pieHole: 0.2,
+                        height: 250,
                         colors: ['#5cb85c', '#dc3912'],
                       };
 
@@ -961,8 +940,8 @@
 
                       var options = {
                         title: 'Mantemientos correctivos ('+cuentaMCgeneral+')',
-                        pieHole: 0.3,
-                        height: 200,
+                        pieHole: 0.2,
+                        height: 250,
                         colors: ['#5cb85c', '#dc3912']
                       };
 

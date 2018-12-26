@@ -31,7 +31,7 @@
 
                                 <?php
                                     $dias = ["DOMINGO", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"];
-
+                                    //print_r($lideres);
                                     foreach ($lideres as $lider) 
                                     {   
                                         $nombreLider = "";
@@ -68,10 +68,18 @@
                                 </div>
                                 <?php
                                     // ---- para sacar la semana en la que estamos
-                                        $hoy = date("d/m/Y");
-                                        $fechaConsultaFormateada = date("m-d");
-                                        $semanaA = Calendario_nature::getSemanaByFecha($fechaConsultaFormateada);
+                                        $hoy = date("Y-m-d");
+                                        $semanaA = Disponibilidad_calendarios::getByDia($hoy);
                                         $semanaActual = $semanaA[0]->semana;
+
+                                        $consultaDiaPendiente = Disponibilidad_calendarios::getMinDia();
+                                        $diaInicioPendiente = $consultaDiaPendiente[0]->dia;
+                                        $diaFinPendiente = strtotime("-1 day", strtotime($fechaFinalizacion));
+                                        $diaFinPendiente = date("Y-m-d", $diaFinPendiente);
+                                        
+                                        /*echo "Fecha de incio: ".$diaInicioPendiente;
+                                        echo "<br>";
+                                        echo "Fecha de finalizacion: ".$diaFinPendiente;*/
                                     // fin de la semana actual
                                     
                                     foreach ($lideres as $lider) 
@@ -98,9 +106,43 @@
                                         $pendientesMP = 0;
                                         $pendientesMC = 0;
 
+                                        
+                                        $consulta = "SELECT count(ot) AS nPendientesMP 
+                                                        FROM disponibilidad_data 
+                                                        WHERE ( fecha_finalizacion_programada BETWEEN '$diaInicioPendiente' AND '$diaFinPendiente')
+                                                        AND tipo = 'Mant. preventivo'
+                                                        AND (estado = 'Programada' 
+                                                            OR estado = 'Cierre Lider Mtto'
+                                                            OR estado = 'Ejecutado'
+                                                            OR estado = 'Espera de equipo'
+                                                            OR estado = 'Espera de refacciones'
+                                                            OR estado = 'Falta de mano de obra'
+                                                            OR estado = 'Condiciones ambientales'
+                                                            OR estado = 'Abierta')
+                                                        AND responsable = $responsable";
+                                        $pendientesMP = Disponibilidad_data::getAllByQuery($consulta);
 
+                                        $consulta = "SELECT count(ot) AS nPendientesMC 
+                                                            FROM disponibilidad_data 
+                                                            WHERE ( fecha_finalizacion_programada BETWEEN '$diaInicioPendiente' AND '$diaFinPendiente') 
+                                                            AND (tipo <> 'Mant. preventivo') 
+                                                            AND (estado = 'Programada' 
+                                                                OR estado = 'Cierre Lider Mtto' 
+                                                                OR estado = 'Ejecutado' 
+                                                                OR estado = 'Espera de equipo' 
+                                                                OR estado = 'Espera de refacciones'
+                                                                OR estado = 'Falta de mano de obra'
+                                                                OR estado = 'Condiciones ambientales'
+                                                                OR estado = 'Abierta'
+                                                                OR estado = 'Solic. de trabajo')
+                                                            AND responsable = $responsable";
 
-                                        $nuevaSemana = 0;
+                                        $pendientesMC = Disponibilidad_data::getAllByQuery($consulta);  
+                                        
+                                        
+                                        
+                                        
+                                        /*$nuevaSemana = 0;
                                         if($semana == 1)
                                         {
                                             $traerSemana = Calendario_nature::getMaxSemana();
@@ -233,8 +275,7 @@
                                             
 
                                             
-                                        }
-
+                                        }*/
 
                                         if($pendientesMP != 0 )
                                         {
@@ -246,6 +287,12 @@
                                             $nPendientesAnoAnteriorMC = $pendientesMC[0]->nPendientesMC;
                                         }
 
+                                        
+                                        echo "<div class='row text-center'>
+                                                    Mantenimientos preventivos <span class='badge badge-success'>".$nPendientesAnoAnteriorMP."</span>
+                                                    Mantenimientos correctivos <span class='badge badge-warning'>".$nPendientesAnoAnteriorMC." </span>
+                                                    históricos pendentes
+                                                </div>"; 
                                         
                                         // termina acumulado
                                         $mp_pro_domingo = 0;
@@ -298,6 +345,7 @@
                                                     || $orden->estado == 'Espera de equipo'
                                                     || $orden->estado == 'Espera de refacciones'
                                                     || $orden->estado == 'Falta de mano de obra'
+                                                    || $orden->estado == 'Condiciones ambientales'
                                                     || $orden->estado == 'Abierta'
                                                     || $orden->estado == 'Programada' 
                                                     || $orden->estado == 'Terminado' ) 
@@ -346,6 +394,7 @@
                                                     || $orden->estado == 'Espera de equipo'
                                                     || $orden->estado == 'Espera de refacciones'
                                                     || $orden->estado == 'Falta de mano de obra'
+                                                    || $orden->estado == 'Condiciones ambientales'
                                                     || $orden->estado == 'Abierta')
                                                 ) 
                                             {
@@ -361,6 +410,7 @@
                                                     || $orden->estado == 'Espera de equipo'
                                                     || $orden->estado == 'Espera de refacciones'
                                                     || $orden->estado == 'Falta de mano de obra'
+                                                    || $orden->estado == 'Condiciones ambientales'
                                                     || $orden->estado == 'Abierta'
                                                     || $orden->estado == 'Solic. de trabajo'
                                                     || $orden->estado == 'Programada' 
@@ -422,6 +472,7 @@
                                                         || $orden->estado == 'Espera de equipo'
                                                         || $orden->estado == 'Espera de refacciones'
                                                         || $orden->estado == 'Falta de mano de obra'
+                                                        || $orden->estado == 'Condiciones ambientales'
                                                         || $orden->estado == 'Abierta'
                                                         || $orden->estado == 'Solic. de trabajo')
                                                 ) 

@@ -23,6 +23,7 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 					 	OR estado = 'Espera de refacciones'
 					 	OR estado = 'Abierta'
 					 	OR estado = 'Falta de mano de obra'
+					 	OR estado = 'Condiciones ambientales'
 					 	OR estado = 'Programada' 
 					 	OR estado = 'Terminado' )";
 	}
@@ -42,6 +43,7 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 		 		OR estado = 'Espera de equipo'
 		 		OR estado = 'Espera de refacciones'
 		 		OR estado = 'Falta de mano de obra'
+		 		OR estado = 'Condiciones ambientales'
 		 		OR estado = 'Solic. de trabajo'
 		 		OR estado = 'Abierta')";
 		
@@ -66,6 +68,7 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 		 	OR estado = 'Espera de equipo'
 		 	OR estado = 'Espera de refacciones'
 		 	OR estado = 'Falta  de mano de obra'
+		 	OR estado = 'Condiciones ambientales'
 		 	OR estado = 'Programada' 
 		 	OR estado = 'Terminado'
 		 	OR estado = 'Solic. de trabajo'
@@ -87,6 +90,7 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 		 		OR estado = 'Espera de equipo'
 		 		OR estado = 'Espera de refacciones'
 		 		OR estado = 'Falta de mano de obra'
+		 		OR estado = 'Condiciones ambientales'
 		 		OR estado = 'Solic. de trabajo'
 		 		OR estado = 'Abierta') ";
 	}
@@ -101,13 +105,13 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 	}
 
 	$consulta = "";
- 	$consulta = "SELECT * FROM ordenesots WHERE
-		 ( fecha_inicio_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
+ 	$consulta = "SELECT * FROM disponibilidad_data WHERE
+		 ( fecha_finalizacion_programada BETWEEN '$fechaInicio' AND '$fechaFinalizacion')
 		 $adicional ORDER BY responsable ASC";
 
 		 //echo $consulta;
 
-	$ordenes = Ordenesots::getAllConsulta($consulta);
+	$ordenes = disponibilidad_data::getAllByQuery($consulta);
 		 
 
 	$str.="<table class='table table-bordered table-condensed table-hover dataTables_wrapper jambo_table bulk_action pagina' style='font-size: 11px;'>
@@ -127,7 +131,7 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 						$str.="<th>LIMITE</th>
 						<th>CIERRE</th>
 						<th>MOTIVO</th>
-						<th>Líder</th>";
+						<th>LIDER</th>";
 			$str.="</tr>
 			</thead>
 			</tbody>";
@@ -141,7 +145,7 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 				}
 
 				$str.="<tr>";
-					$str.="<th >".$orden->orden_trabajo."</th>";
+					$str.="<th >".$orden->ot."</th>";
 					$str.="<td >".utf8_encode($orden->descripcion)."</td>";
 					$str.="<td >".$orden->equipo."</td>";
 					$str.="<td >".$orden->clase."</td>";
