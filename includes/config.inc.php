@@ -98,3 +98,5 @@ require_once(MODEL_PATH.'recursos_bonos_apoyos.model.php');
 require_once(MODEL_PATH.'recursos_departamentos.model.php');
 require_once(MODEL_PATH.'recursos_invernaderos.model.php');
 require_once(MODEL_PATH.'recursos_puestos.model.php');
+
+require_once(MODEL_PATH.'planner.model.php');

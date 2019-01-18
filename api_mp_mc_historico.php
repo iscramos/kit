@@ -1,7 +1,7 @@
 <?php
 //require_once $_SERVER["DOCUMENT_ROOT"].'/siscohistoraca2/__config.php';
 require_once('includes/config.inc.php');
-require_once('includes/inc.session.php');
+//require_once('includes/inc.session.php');
 
   if( isset($_REQUEST["ano"]) ) 
   {

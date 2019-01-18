@@ -26,6 +26,7 @@
                                 <div class="form-group">
                                     <select class="form-control input-sm" id="equipo" >
                                         <option value="0" style="display: none;">Seleccione un equipo</option>
+                                        <option value="0" >Seleccione un equipo</option>
                                         <?php
                                             foreach ($equipos as $equipo) 
                                             {
@@ -80,21 +81,23 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label> WK</label>
+                                    <label> MES</label>
                                     <?php
                                         $fechaConsultaFormateada = date("m-d");
                                         $dia = date("Y-m-d");
                                         $calendarios = Disponibilidad_calendarios::getByDia($dia);
-                                        $semanaHoy = $calendarios[0]->semana;
+                                        $mes = $calendarios[0]->mes;
+                                        $mes_nombre = $calendarios[0]->mes_nombre;
                                     ?>
-                                    <select class="form-control input-sm" id="semana">
-                                        <option value='<?php echo $semanaHoy; ?>' style="display: none;"><?php echo $semanaHoy; ?></option>
+                                    <select class="form-control input-sm" id="mes">
+                                        <option value='<?php echo $mes; ?>' style="display: none;"><?php echo $mes_nombre; ?></option>
                                         <?php
-                                            $semanas = Disponibilidad_semanas::getAllByOrden("semana", "ASC");
+                                            //$semanas = Disponibilidad_semanas::getAllByOrden("semana", "ASC");
+                                            $meses = Disponibilidad_meses::getAllByOrden("mes", "ASC");
                                             //print_r($semanas);
-                                            foreach ($semanas as $semana)
+                                            foreach ($meses as $m)
                                             {
-                                                echo "<option value='".$semana->semana."' >".$semana->semana."</option>";
+                                                echo "<option value='".$m->mes."' >".$m->mes_nombre."</option>";
                                             }
                                         ?>
                                     </select>
@@ -180,12 +183,16 @@
                 $("#niveles").html("");
                 $("#medidores").html("");
 
+                $(".voltaje").addClass("hidden");
+                $(".nivel").addClass("hidden");
+                $(".medidor").addClass("hidden");
+
                 if(tipo == 1) // voltaje y corriente
                 {   
                     $("#equipo option:first").prop('selected','selected');
 
                     $(".voltaje").removeClass("hidden");
-                    $(".voltaje").removeClass("hidden");
+                   //$(".voltaje").removeClass("hidden");
 
                 }
                 else if(tipo == 2) // niveles
@@ -193,14 +200,14 @@
                     $("#equipo option:first").prop('selected','selected');
 
                     $(".nivel").removeClass("hidden");
-                    $(".nivel").removeClass("hidden");
+                    //$(".nivel").removeClass("hidden");
                 }
                 else if(tipo == 3) // medidores
                 {
                     $("#equipo option:first").prop('selected','selected');
 
                     $(".medidor").removeClass("hidden");
-                    $(".medidor").removeClass("hidden");
+                    //$(".medidor").removeClass("hidden");
                 }
 
             })
@@ -210,7 +217,7 @@
                 $("#verDisponibilidad").on("click", function(event) 
                 {
                     event.preventDefault();
-                    var semana = $("#semana").val();
+                    var mes = $("#mes").val();
                     var ano = $("#ano").val();
                     var equipo = $("#equipo").val();
                     var tipo = $("#tipo").val();
@@ -261,7 +268,7 @@
                             var constructorVoltaje = [['DIA / HORA',  'MIN', 'MAX', 'L1_L2', 'L2_L3', 'L1_L3']];
                             var constructorAmperaje = [['DIA / HORA',  'MIN', 'MAX', 'L1', 'L2', 'L3']];
 
-                            $.getJSON("helperGrafico.php?tipo="+tipo+"&ano="+ano+"&semana="+semana+"&equipo="+equipo, function(result)
+                            $.getJSON("helperGrafico.php?tipo="+tipo+"&ano="+ano+"&mes="+mes+"&equipo="+equipo, function(result)
                             {
                                     
                                 $.each(result, function(i, field)
@@ -351,7 +358,7 @@
                             
                             var constructorNiveles = [['DIA / HORA',  'NIVEL ESTATICO', 'NIVEL DINAMICO']];
 
-                            $.getJSON("helperGrafico.php?tipo="+tipo+"&ano="+ano+"&semana="+semana+"&equipo="+equipo, function(result)
+                            $.getJSON("helperGrafico.php?tipo="+tipo+"&ano="+ano+"&mes="+mes+"&equipo="+equipo, function(result)
                             {
                                     
                                 $.each(result, function(i, field)
@@ -405,7 +412,7 @@
                             
                             var constructorMedidores = [['DIA / HORA',  'METROS CUBICOS CONSUMIDOS', ]];
 
-                            $.getJSON("helperGrafico.php?tipo="+tipo+"&ano="+ano+"&semana="+semana+"&equipo="+equipo, function(result)
+                            $.getJSON("helperGrafico.php?tipo="+tipo+"&ano="+ano+"&mes="+mes+"&equipo="+equipo, function(result)
                             {
                                     
                                 $.each(result, function(i, field)

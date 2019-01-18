@@ -57,6 +57,11 @@
                                         </a>
                                     </li>";
                                 echo "<li>
+                                        <a href='indexPlanner.php'>
+                                            <i class='fa fa-calendar' aria-hidden='true'></i></i> Planner
+                                        </a>
+                                    </li>";
+                                echo "<li>
                                         <a href='indexUsers.php'><i class='fa fa-users fa-fw'></i> Usuarios</a>
                                     </li>";
                                 echo "<li>

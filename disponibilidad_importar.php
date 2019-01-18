@@ -27,17 +27,17 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST')
         $highestColumn = $worksheet->getHighestColumn(); // e.g 'F'
         $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
         $nrColumns = ord($highestColumn) - 64;
-        if ($worksheetTitle == "DATA") {
+        if ($worksheetTitle == "Sheet1") {
             for ($row = 2; $row <= $highestRow; $row++) {
                 $valores = "(null";
-                for ($col = 0; $col <= 20; $col++) {
+                for ($col = 0; $col <= 19; $col++) {
                     $cell = $worksheet->getCellByColumnAndRow($col, $row);
                     $valor = $cell->getCalculatedValue();
-                    if (($col == 9) || ($col == 10)) {
+                    if (($col == 8) || ($col == 9)) {
                         $valor = PHPExcel_Shared_Date::ExcelToPHP($valor);
                         $valor = gmdate("Y-m-d", $valor);
                     }
-                    if (($col >= 13) && ($col <= 15)) {
+                    if (($col >= 12) && ($col <= 14)) {
                         if ($valor != "") {
                             $valor = PHPExcel_Shared_Date::ExcelToPHP($valor);
                             $valor = gmdate("Y-m-d H:i:s", $valor);

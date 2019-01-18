@@ -33,6 +33,7 @@
                                 <button type="button" class="btn btn-success btn-sm" title="Traer registros" id="verDisponibilidad"><i class="fa fa-search"></i>
                             </button>
                             </form>
+
                         </div>
                     </div>
 
@@ -46,9 +47,11 @@
                             <div class="x_title">
                                 <h2><i class="fa fa-cogs"></i> Datos <small>en el sistema</small></h2>
                                 <ul class="nav navbar-right panel_toolbox">
+                                    
                                   <li>
                                     <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                   </li>
+                                  
                                 </ul>
                                 <div class="clearfix"></div>
                             </div>

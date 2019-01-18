@@ -6,7 +6,7 @@
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Bonos semanales...</h3>
+                        <h3>Programación de mantenimientos preventivos...</h3>
                     </div>
                     <div class="title_right ">
                         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -27,32 +27,8 @@
                             <div class="x_title">
                                 <h2><i class="fa fa-cogs"></i> Registros <small>en el sistema</small></h2>
                                 <ul class="nav navbar-right panel_toolbox">
-                                  
                                   <li>
-                                        <form class="form-inline" >
-                                            <div class="form-group">
-                                                
-                                                <select class="form-control input-sm" id="semana">
-                                                    <?php
-                                                    $fechaConsulta = date("Y-m-d");
-                                                    $semanaActual = Disponibilidad_calendarios::getByDia($fechaConsulta);
-                                                    $semanaHoy = $semanaActual[0]->semana;
-
-                                                    echo "<option style='display:none;' value='".$semanaHoy."'>WK ".$semanaHoy."</option>";
-
-                                                        $semanas = Disponibilidad_semanas::getAllByOrden("semana", "ASC");
-                                                        foreach ($semanas as $s) 
-                                                        {
-                                                            echo "<option value='".$s->semana."'>WK ".$s->semana."</option>";
-                                                        }
-                                                        
-                                                    ?>
-                                                </select>
-                                            </div>
-                                            <button type="button" class="btn btn-primary btn-sm" title="Descargar bonos" id="descargar">
-                                                <i class="fa fa-download"></i>
-                                            </button>
-                                      </form>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                   </li>
                                 </ul>
                                 <div class="clearfix"></div>
@@ -65,49 +41,37 @@
                                         <tr>
                                             <!--th>#</th-->
                                             <th>#</th>
-                                            <th>CODIGO</th>
-                                            <th>NOMBRE</th>
-                                            <th>ACTIVIDAD</th>
+                                            <th>EQUIPO</th>
+                                            <th>DESCRIPCION</th>
+                                            <th>TIPO</th>
                                             <th>FECHA</th>
-                                            <th>LIDER</th>
-                                            <th>SURCOS O CAJAS</th>
-                                            <th>TIEMPO</th>
-                                            <th>GH</th>
-                                            <th>PAGO POR</th>
-                                            <th>$ SUBPAGO</th>
+                                            <th>INICIO</th>
+                                            <th>FIN</th>
                                             <th>ACCION</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                            //$i=1;
-                                            foreach ($recursos_bonos_semanal as $bonos):
+                                            $i=1;
+                                            foreach ($planner as $plan):
                                             {
-                                                echo "<tr campoid='".$bonos->id."'>";
-                                                    //echo "<th width='5px' class='spec'>$i</th>";
-                                                    //echo 
-                                                    echo "<td>".$bonos->id."</td>";
-                                                    echo "<td>".$bonos->codigo."</td>";
-                                                    echo "<td>".$bonos->nombre."</td>";
-                                                    echo "<td>".$bonos->nombre_actividad."</td>";
-                                                    echo "<td>".date("d-m-Y", strtotime($bonos->fecha))."</td>";
-                                                    echo "<td>".$bonos->lider."</td>";
-                                                    echo "<td>".$bonos->surcos_cajas."</td>";
-                                                    echo "<td>".$bonos->tiempo."</td>";
-                                                    echo "<td>".$bonos->gh."</td>";
-                                                    echo "<td>".$bonos->pago_por."</td>";
-                                                    echo "<td>".$bonos->subpago."</td>";
+                                                echo "<tr campoid='".$plan->id."'>";
+                                                    echo "<th width='5px' class='spec'>$i</th>";
+                                                    echo "<td>".$plan->equipo."</td>";
+                                                    echo "<td>".$plan->descripcion."</td>";
+                                                    echo "<td>".$plan->frecuencia."</td>";
+                                                    echo "<td>".date("d-M-Y", strtotime($plan->fecha_realizacion))."</td>";
+                                                    echo "<td>".date("h:i A", strtotime($plan->hora_inicio))."</td>";
+                                                    echo "<td>".date("h:i A", strtotime($plan->hora_fin))."</td>";
 
 
                                                     echo "<td>";
-                                                            /*echo "<a type='button' class='btn btn-warning btn-sm optionEdit' valueEdit='".$bonos->id."' title='Editar registro' ><i class='fa fa-pencil-square-o'></i></a>";*/
-                                                            /*echo " <a type='button' class='btn btn-danger btn-circle btn-sm' data-toggle='confirmation'
-                                                            data-placement='left' data-btn-ok-label='S&iacute;' data-btn-ok-icon='glyphicon glyphicon-share-alt' data-btn-ok-class='btn-danger' data-btn-cancel-label='No' data-btn-cancel-icon='glyphicon glyphicon-ban-circle' data-btn-cancel-class='btn-default'><span title='Eliminar registro'class='glyphicon glyphicon-remove' aria-hidden='true'></span></a>";*/
-                                                            echo " <a type='button' class='btn btn-danger btn-sm' data-toggle='confirmation' data-singleton='true' data-placement='left' title='¿Eliminar registro?'><i class='fa fa-times'></i></a>";
+                                                        echo "<a type='button' class='btn btn-warning btn-sm optionEdit' valueEdit='".$plan->id."' title='Editar registro' >Editar</a>";
+                                                        echo " <a type='button' class='btn btn-danger btn-sm' data-toggle='confirmation' data-singleton='true' data-placement='left' title='¿Eliminar registro?'>Eliminar</a>";
                                                     echo "</td>";
                                                 echo "</tr>";
 
-                                                //$i ++;
+                                                $i ++;
                                             }
                                             endforeach;
                                         ?>
@@ -125,15 +89,15 @@
 
 
         <!-- Modal -->
-        <div class="modal fade" id="modalAgregar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+        <div class="modal fade" id="modalAgregar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog " role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Agregar / Modificar Bono Actividad</h4>
+                <h4 class="modal-title" id="myModalLabel">Agregar / Modificar programación</h4>
               </div>
               <div class="modal-body">
-                <form name='frmbono' class="form-horizontal" id="divdestino" method="post" action="<?php echo $url; ?>createRecursoBonoSemanal.php">
+                <form name='frmtipo' class="form-horizontal" id="divdestino" method="post" action="<?php echo $url; ?>createPlanner.php">
           
               </div>
               <div class="modal-footer">
@@ -161,7 +125,7 @@
                 onConfirm: function(event) {
                     //event.preventDefault();
                   var id = $(this).parents("tr").attr("campoid");
-                  window.location.href='deleteRecursoBonoSemanal.php?id='+id;
+                  window.location.href='deletePlanner.php?id='+id;
                 },
             });
 
@@ -188,14 +152,6 @@
                 
                 });
 
-                $("#descargar").on("click", function(event)
-                {
-                    event.preventDefault();
-                    var parametro = "semanal";
-                    var semana = $("#semana").val();
-                    window.open("/kit/helperExcel.php?parametro="+parametro+"&semana="+semana, 'Descarga bonos');
-                    
-                });
                 
 
                 function creaAjax()
@@ -223,7 +179,7 @@
                 {
                     var ajax=creaAjax();
 
-                    ajax.open("GET", "updateRecursoBonoSemanal.php?id="+uID, true);
+                    ajax.open("GET", "updatePlanner.php?id="+uID, true);
                     ajax.onreadystatechange=function() 
                     { 
                         if (ajax.readyState==1)
@@ -249,9 +205,7 @@
                 "language":{
                     "oPaginate": {
                         "sNext" : "Siguiente",
-                        "sPrevious": "Anterior",
-                        
-                    
+                        "sPrevious": "Anterior"
                     },
                     "search": "Buscar ",
                     "sNext": "Siguiente",
@@ -260,11 +214,8 @@
                     "zeroRecords": "Nada encontrado",
                     "info": "Mostrando página _PAGE_ de _PAGES_",
                     "infoEmpty": "No registros disponibles",
-                    "infoFiltered": "(filtrado de _MAX_ registros totales)",
-
-
-                },
-                "aaSorting": [[ 0, "desc" ]],
+                    "infoFiltered": "(filtrado de _MAX_ registros totales)"
+                }
             });
 
             }); // end ready

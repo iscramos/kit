@@ -1,5 +1,11 @@
 <?php  
 	require_once('includes/config.inc.php');
+    $fechaHoy = date("Y-m-d");
+
+    $datos = Disponibilidad_calendarios::getByDia($fechaHoy);
+    
+    $param = "ano=".$datos[0]->ano."&mes=".$datos[0]->mes."&mes_nombre=".$datos[0]->mes_nombre;
+   //echo $param;
 ?>
 
 <!DOCTYPE html>
@@ -33,11 +39,13 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style type="text/css">
+
+
             body
             {
 
 
-                display: flex;
+                /*display: flex;*/
                 align-items: center;
                 padding-top: 40px;
                 padding-bottom: 40px;
@@ -66,14 +74,14 @@
                   position: relative;
                   box-sizing: border-box;
                   height: auto;
-                  padding: 10px;
+                  padding:5px;
                   font-size: 16px;
             }
 
-            .formulario .form-control:focus 
+            /*.formulario .form-control:focus 
             {
                   z-index: 2;
-            }
+            }*/
 
             .formulario input[type="text"] {
               margin-bottom: -1px;
@@ -97,11 +105,11 @@
 
             .footer 
             {
-                  position: absolute;
+                  position: fixed;
                   bottom: 0;
                   width: 100%;
                   /* Set the fixed height of the footer here */
-                  height: 60px;
+                  height: 80px;
                   background-color: #25733A;
                   color: white;
             }
@@ -122,6 +130,13 @@
                  margin: 15px 0;
                 color: #6c757d!important;
             }
+            .listita a
+            {
+                color: white;
+                text-decoration: none;
+            }
+
+
                             
     </style>
 </head>
@@ -188,8 +203,8 @@
                             <input class="form-control " placeholder="Password" name="password" type="password" autocomplete="off" required value="">
                             
                             <!-- Change this to a button or input when using this as a form -->
-                            <button type="submit" class="btn  btn-primary btn-block btn-lg" >Ingresar</button>
-                            <p class="text-muted">© 2018</p>
+                            <button type="submit" class="btn  btn-primary btn-block btn-md" >Ingresar</button>
+                            <p class="text-muted">© 2019</p>
                    	</form>
 
                 
@@ -198,21 +213,38 @@
 
             <footer class="footer">
                 <div class="container">
-                    <p class="texto-footer">
-                        <a  href="mapa.php" title="Ver mapa de fugas" > 
-                            <i class="fa fa-globe fa-2x"> </i> 
-                       </a>
-                       <a  href="layout_invernaderos.php" title="Ver layout invernaderos">
-                            <i class="fa fa-street-view fa-2x"> </i> 
-                        </a>
-                        <a  href="pbi.php" title="Ver análisis pbi">
-                            <i class="fa fa-bar-chart fa-2x"> </i> 
-                        </a>
-                        <a href="https://eam.inforcloudsuite.com/web/base/logindisp?tenant=NATURESWEET_PRD" title="Infor EAM">
-                            <img src="<?php echo $url."dist/img/infor-logo.png"; ?>" class='pull-right' width="36px;">
-                        </a>
-                    </p>
-                        
+                    <div class="col-md-4 col-xs-4">
+                        <p class="texto-footer">
+                            <a  href="mapa.php" title="Ver mapa de fugas" > 
+                                <i class="fa fa-globe fa-2x"> </i> 
+                           </a>
+                           <a  href="layout_invernaderos.php" title="Ver layout invernaderos">
+                                <i class="fa fa-street-view fa-2x"> </i> 
+                            </a>
+                            <a  href="pbi.php" title="Ver análisis pbi">
+                                <i class="fa fa-bar-chart fa-2x"> </i> 
+                            </a>
+                            
+
+                            
+                        </p>
+                     </div> 
+                     <div class="col-md-4 col-xs-4">
+                        <p class="texto-footer">
+                            <ul class="listita">
+                                
+                                <li><a href="historial_mp_mc.php" >Historial de MP y MC</a></li>
+                                <li><a href="planner.php?<?php echo $param; ?>" >Proyección MP</a></li>
+                            </ul>
+                        </p>
+                     </div> 
+                     <div class="col-md-4 col-xs-4">
+                        <p class="texto-footer">
+                            <a href="https://eam.inforcloudsuite.com/web/base/logindisp?tenant=NATURESWEET_PRD" title="Infor EAM">
+                                <img src="<?php echo $url."dist/img/infor-logo.png"; ?>" class='pull-right' width="36px;">
+                            </a>
+                        </p>
+                     </div>  
                 </div>
             </footer>
 

@@ -41,8 +41,8 @@
             <div class="col-md-12 col-xs-12">
               <form class="form-inline text-center"> 
                 <div class="form-group ">
-                    <label>AÑO: 2018 - </label>
-                    <input class="input-sm hidden" type="text" name="ano" id="ano" value="2018" readonly>
+                    <label>AÑO: 2019 - </label>
+                    <input class="input-sm hidden" type="text" name="ano" id="ano" value="2019" readonly>
                 </div>
                 <div class="form-group ">
                     <label>WK</label>

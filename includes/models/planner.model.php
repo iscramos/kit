@@ -1,9 +1,13 @@
 <?php
 
-class Disponibilidad_calendarios {
+class Planner {
 	
 	public $id;
-	public $anos;
+	public $equipo;
+	public $fecha_realizacion;
+	public $hora_inicio;
+	public $hora_fin;
+	public $frecuencia;
 	
 	public static function getBySql($sql) {
 		
@@ -32,7 +36,7 @@ class Disponibilidad_calendarios {
 	public static function getAll() {
 
 		// Build database query
-		$sql = 'select * from disponibilidad_calendarios';
+		$sql = 'select * from planner';
 		
 		// Return objects
 		return self::getBySql($sql);
@@ -47,95 +51,19 @@ class Disponibilidad_calendarios {
 		return self::getBySql($sql);
 	}
 
+	public static function getAllByEquipo($equipo) 
+	{
+
+		// Build database query
+
+		$sql = "SELECT * FROM planner WHERE activo = '$equipo' ";
+		return self::getBySql($sql);
+	}
+
 	public static function getAllByOrden($columna, $orden) {
 
 		// Build database query
-		$sql = "SELECT * FROM disponibilidad_calendarios ORDER BY $columna $orden";
-		//echo $sql;
-		// Return objects
-		return self::getBySql($sql);
-	}
-
-	public static function getByDia($dia) {
-
-		// Build database query
-		$sql = "SELECT disponibilidad_calendarios.*, disponibilidad_meses.mes_nombre
-					FROM disponibilidad_calendarios
-					INNER JOIN disponibilidad_meses on disponibilidad_calendarios.mes = disponibilidad_meses.mes
-				WHERE disponibilidad_calendarios.dia = '$dia' ";
-		//echo $sql;
-		// Return objects
-		return self::getBySql($sql);
-	}
-
-	public static function getMinDiaByAnoSemana($semana, $ano) {
-
-		// Build database query
-		$sql = "SELECT MIN(dia) as dia FROM disponibilidad_calendarios 
-				WHERE ano = $ano 
-					AND semana = $semana";
-		//echo $sql;ECHO "<BR>";
-		// Return objects
-		return self::getBySql($sql);
-	}
-
-	public static function getMaxDiaByAnoSemana($semana, $ano) {
-
-		// Build database query
-		$sql = "SELECT MAX(dia) as dia FROM disponibilidad_calendarios 
-				WHERE ano = $ano 
-					AND semana = $semana";
-		//echo $sql;
-		// Return objects
-		return self::getBySql($sql);
-	}
-
-	public static function getMinDiaByAnoMes($mes, $ano) {
-
-		// Build database query
-		$sql = "SELECT MIN(dia) as dia FROM disponibilidad_calendarios 
-				WHERE ano = $ano 
-					AND mes = $mes";
-		//echo $sql;ECHO "<BR>";
-		// Return objects
-		return self::getBySql($sql);
-	}
-
-	public static function getMaxDiaByAnoMes($mes, $ano) {
-
-		// Build database query
-		$sql = "SELECT MAX(dia) as dia FROM disponibilidad_calendarios 
-				WHERE ano = $ano 
-					AND mes = $mes";
-		//echo $sql;
-		// Return objects
-		return self::getBySql($sql);
-	}
-
-	public static function getMinDiaByAno($ano) {
-
-		// Build database query
-		$sql = "SELECT MIN(dia) as dia FROM disponibilidad_calendarios 
-				WHERE ano = $ano";
-		//echo $sql;
-		// Return objects
-		return self::getBySql($sql);
-	}
-
-	public static function getMaxDiaByAno($ano) {
-
-		// Build database query
-		$sql = "SELECT MAX(dia) as dia FROM disponibilidad_calendarios 
-				WHERE ano = $ano";
-		//echo $sql;
-		// Return objects
-		return self::getBySql($sql);
-	}
-
-	public static function getMinDia() {
-
-		// Build database query
-		$sql = "SELECT MIN(dia) as dia FROM disponibilidad_calendarios";
+		$sql = "SELECT * FROM planner ORDER BY $columna $orden";
 		//echo $sql;
 		// Return objects
 		return self::getBySql($sql);
@@ -163,15 +91,12 @@ class Disponibilidad_calendarios {
 		return self::getBySql($sql);
 	}
 
-	public static function getAllSemanasByMesAno($mes, $ano) 
+	public static function getAllSemanasByMes($mes) 
 	{
 
 		// Build database query
-		$sql = "SELECT * FROM disponibilidad_calendarios 
-					WHERE mes = $mes
-						AND ano = $ano
-					GROUP BY semana";
-		//echo $sql;
+		$sql = "SELECT * FROM calendario_nature WHERE mes=$mes";
+		
 		// Return objects
 		return self::getBySql($sql);
 	}
@@ -194,7 +119,7 @@ class Disponibilidad_calendarios {
 		$result = array();
 		
 		// Build database query
-		$sql = "select * from cat_tipos where id = ?";
+		$sql = "select * from planner where id = ?";
 		
 		// Open database connection
 		$database = new Database();
@@ -212,7 +137,7 @@ class Disponibilidad_calendarios {
 			$statement->execute();
 			
 			// Bind variable to prepared statement
-			$statement->bind_result($id, $etiqueta);
+			$statement->bind_result($id, $equipo, $fecha_realizacion, $hora_inicio, $hora_fin, $frecuencia);
 			
 			// Populate bind variables
 			$statement->fetch();
@@ -227,7 +152,12 @@ class Disponibilidad_calendarios {
 		// Build new object
 		$object = new self;
 		$object->id = $id;
-		$object->etiqueta = $etiqueta;
+		$object->equipo = $equipo;
+		$object->fecha_realizacion = $fecha_realizacion;
+		$object->hora_inicio = $hora_inicio;
+		$object->hora_fin = $hora_fin;
+		$object->frecuencia = $frecuencia;
+
 		return $object;
 	}
 
@@ -266,7 +196,7 @@ class Disponibilidad_calendarios {
 	
 	
 		// Build database query
-		$sql = "insert into cat_agrupado (nombre_del_grupo) values (?)";
+		$sql = "insert into planner (equipo, fecha_realizacion, hora_inicio, hora_fin, frecuencia) values (?, ?, ?, ?, ?)";
 		
 		// Open database connection
 		$database = new Database();
@@ -278,7 +208,7 @@ class Disponibilidad_calendarios {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('s', $this->nombre_del_grupo);
+			$statement->bind_param('sssss', $this->equipo, $this->fecha_realizacion, $this->hora_inicio, $this->hora_fin, $this->frecuencia);
 			
 			// Execute statement
 			$statement->execute();
@@ -303,7 +233,7 @@ class Disponibilidad_calendarios {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "update cat_agrupado set nombre_del_grupo = ? where id = ?";
+		$sql = "update planner set  fecha_realizacion = ?, hora_inicio = ?, hora_fin = ?, frecuencia = ? where id = ?";
 				
 		
 		// Open database connection
@@ -316,7 +246,7 @@ class Disponibilidad_calendarios {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('si', $this->nombre_del_grupo, $this->id);
+			$statement->bind_param('ssssi',  $this->fecha_realizacion, $this->hora_inicio, $this->hora_fin, $this->frecuencia, $this->id);
 			
 			// Execute statement
 			$statement->execute();
@@ -342,7 +272,7 @@ class Disponibilidad_calendarios {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "delete from cat_agrupado where id = ?";
+		$sql = "delete from planner where id = ?";
 		
 		// Open database connection
 		$database = new Database();

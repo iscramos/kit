@@ -11,7 +11,7 @@ if(isset($_GET["id"]))
 	
 	if($id > 0)
 	{
-		$bonos = Recursos_bonos_apoyos::getById($id);
+		$bonos = Recursos_bonos_semanal::getById($id);
 		
 
 		$fechita = date("Y-m-d");
@@ -270,12 +270,12 @@ if(isset($_GET["id"]))
 				</div>";
 
 
-		$str.="<div class='form-group hidden'>
-					<div class='col-md-4 col-xs-4  '>
+		$str.="<div class='form-group '>
+					<div class='col-md-4 col-xs-4  hidden'>
 						<label >Objetivo </label>
 						<input type='number' class='form-control input-sm' name='objetivo_hora' id='objetivo_hora' value='' required readonly>
 					</div>
-					<div class='col-md-4 col-xs-4  '>
+					<div class='col-md-4 col-xs-4  hidden'>
 						<label >Actividad $</label>
 						<input type='number' class='form-control input-sm' name='precio_actividad' id='precio_actividad' value='' required readonly>
 					</div>
@@ -310,10 +310,10 @@ if(isset($_GET["id"]))
 					
 				</div>";
 
-		$str.="<div class='form-group hidden'>
+		$str.="<div class='form-group '>
 					
 					
-					<div class='col-md-4 col-xs-4  '>
+					<div class='col-md-4 col-xs-4  hidden'>
 						<label >Surcos reales</label>
 						<input type='number' step='0.01' class='form-control input-sm' name='surcos_reales' id='surcos_reales' value='' readonly required>
 					</div>
@@ -582,6 +582,13 @@ echo $str;
 						  	$("#objetivo_hora").val(objetivo_hora);
 						  	$("#precio_actividad").val(precio_actividad);
 
+
+						  	$("#surcos_hora").val(null);
+			    			$("#eficiencia").val(null);
+			    			$("#subpago").val(null);
+			    			$("#surcos_reales").val(null);
+			    			$("#gh option:first").prop('selected','selected');
+
 						  	if(pago_por == "EFICIENCIA")
 						  	{
 						  		
@@ -591,6 +598,16 @@ echo $str;
 						  		
 						  		$("#hora_inicio").val(null);
 						  		$("#hora_fin").val(null);
+						  		$("#hora_inicio").attr("required", "required");
+						  		$("#hora_inicio").removeAttr("readonly");
+						  		$("#hora_fin").attr("required", "required");
+						  		$("#hora_fin").removeAttr("readonly");
+
+						  		$("#tiempo").val(null);
+						  		$("#tiempo").attr("required", "required");
+						  		$("#tiempo").removeAttr("readonly");
+						  		/*$("#hora_inicio").val(null);
+						  		$("#hora_fin").val(null);
 						  		$("#hora_inicio").attr("readonly", "true");
 						  		$("#hora_inicio").removeAttr("required");
 						  		$("#hora_fin").attr("readonly", "true");
@@ -598,7 +615,7 @@ echo $str;
 
 						  		$("#tiempo").val(null);
 						  		$("#tiempo").removeAttr("required");
-						  		$("#tiempo").attr("readonly", "true");
+						  		$("#tiempo").attr("readonly", "true");*/
 						  	}
 						  	else if(pago_por == "TIEMPO")
 						  	{
@@ -613,7 +630,7 @@ echo $str;
 						  		$("#hora_fin").attr("required", "required");
 						  		$("#hora_fin").removeAttr("readonly");
 
-						  		$("#tiempo").val(tiempo);
+						  		$("#tiempo").val(null);
 						  		$("#tiempo").attr("required", "required");
 						  		$("#tiempo").removeAttr("readonly");
 						  	}
@@ -643,9 +660,9 @@ echo $str;
 	    			//$("#tiempo").val(null);
 	    			//$("#hora_inicio").val(null);
 	    			//$("#hora_fin").val(null);
-	    			$("#surcos_hora").val(null);
+	    			/*$("#surcos_hora").val(null);
 	    			$("#eficiencia").val(null);
-	    			$("#subpago").val(null);
+	    			$("#subpago").val(null);*/
 
 	    			var pago_por = $("#pago_por").val();
 
@@ -680,30 +697,36 @@ echo $str;
 						    var n = str.split("&");
 						        
 						    var surcos_reales = n[0];
-						    var conversion = parseFloat(surcos_reales) * parseFloat(surcos_cajas);
-						    	conversion = conversion.toFixed(2)
-							  	$("#surcos_reales").val(conversion);
+						    	surcos_reales = parseFloat(surcos_reales) * parseFloat(surcos_cajas);
+						    	surcos_reales = surcos_reales.toFixed(2)
+							  	$("#surcos_reales").val(surcos_reales);
 
 							/* --- llenando variables --- */
+								//alert(surcos_reales + " / " + tiempo);
 							var surcos_hora = parseFloat(surcos_reales) / parseFloat(tiempo);
-				    			surcos_hora = surcos_hora.toFixed(2);
+								//alert(surcos_reales / tiempo)
 				    			$("#surcos_hora").val(surcos_hora);
+				    			
+				    			//alert(surcos_hora);
 
 				    			var eficiencia = parseFloat(surcos_hora) / parseFloat(objetivo_hora);
-				    				eficiencia = eficiencia.toFixed(2)
+				    				eficiencia = eficiencia.toFixed(2) * 100;
 				    			$("#eficiencia").val(eficiencia);
 
 				    		/* --- llenando variables --- */
 
 							if(pago_por == "EFICIENCIA")
 							{
-								var subpago = (parseFloat(surcos_reales) * parseFloat(surcos_cajas) ) * parseFloat(precio_actividad);
+								var subpago = parseFloat(surcos_reales)  * parseFloat(precio_actividad);
 								//alert(surcos_reales + " --- " + surcos_cajas+ " ::: "+ precio_actividad);
-			    					if(eficiencia >=1)
+			    					if(eficiencia < 100)
 			    					{
-			    						subpago = parseFloat(subpago * 1);
+			    						subpago = 0.00;
 			    					}
-			    					subpago = subpago.toFixed(2);
+			    					
+			    						//subpago = "-";	
+			    						
+			    					
 
 			    				$("#subpago").val(subpago);
 							}
@@ -728,7 +751,7 @@ echo $str;
 					alert("CAPTURA EL CAMPO 'SURCOS O CAJAS' O LA HORA DE INICIO, FIN; SEGUN CORRESPONDA... ")
 				}
 				
-	    	})
+	    	});
 
 
 		$("#hora_inicio").on("change", function()
@@ -775,6 +798,11 @@ echo $str;
 
 	    $("#surcos_cajas").on("keyup", function(){
 	    	$("#gh option:first").prop('selected','selected');
+	    	$("#surcos_hora").val(null);
+			$("#eficiencia").val(null);
+			$("#subpago").val(null);
+			$("#surcos_reales").val(null);
+
 	    })
 
 
@@ -784,40 +812,7 @@ echo $str;
 
     	
 
-    	$("#metros_lineales_reales").on("keyup", function(){
-    		var metros_lineales_estandar = null;
-    		var metros_lineales_reales = null;
-    		var surco_real = 0;
-
-    			metros_lineales_reales = $(this).val();
-    			metros_lineales_estandar = $("#metros_lineales_estandar").val();
-    			//console.log(metros_lineales_estandar);
-    			//console.log(metros_lineales_reales);
-    			surco_real = parseFloat(metros_lineales_estandar) / parseFloat(metros_lineales_reales);
-
-    			$("#surco_real").val(surco_real);
-    	})
-
     	
-
-        $('#datetimepicker1').datetimepicker({
-        	 format: 'HH:mm:ss',
-        	 pickDate: false,
-        	 pickTime: true,
-        	 //format: 'LT',
-        	 //autoclose: true,
-        	 
-        });
-
-        $('#datetimepicker2').datetimepicker({
-        	 format: 'HH:mm:ss',
-        	 pickDate: false,
-        	 pickTime: true,
-        	 //pick12HourFormat: false,
-        	 //format: 'LT',
-        	 //autoclose: true,
-        	 
-        });
 
 
        

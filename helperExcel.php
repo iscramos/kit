@@ -341,7 +341,123 @@ if( isset($_REQUEST["parametro"]) )
         echo "</table>";
 
         
-    }   
+    } 
+    elseif ($parametro == "semanal") 
+    {
+        $semana = $_REQUEST['semana'];
+        $ano = date("Y");
+        //Inicio de la instancia para la exportación en Excel
+        //header('Content-type: application/vnd.ms-excel');
+        header('application/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        
+        header("Content-Disposition: attachment; filename=Preparacion Captura ".$semana.".xls");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
+        echo "<table border='0'> ";
+
+        echo "<tr style='background-color:#AED6F1; height:40px;'> ";
+            echo "<td>Codigo</td>";
+            echo "<td>Nombre</td>";
+            echo "<td>Semana</td>";
+            echo "<td># de <br> actividad</td>";
+            echo "<td>Actividad</td>";
+            echo "<td>Pago por</td>";
+            echo "<td>Pago <br> especial</td>";
+            echo "<td>Fecha</td>";
+            echo "<td>Surcos o <br> Cajas</td>";
+            echo "<td>Tiempo</td>";
+            echo "<td>Inv</td>";
+            echo "<td>Zona</td>";
+            echo "<td>Surcos <br> reales</td>";
+            echo "<td>Surcos por <br> hora</td>";
+            echo "<td>Objetivo por <br> hora</td>";
+            echo "<td>Eficiencia</td>";
+            echo "<td>Precio por <br>actividad</td>";
+            echo "<td>Subpago</td>";
+            echo "<td>Lider</td>";
+            echo "<td>Tiempo <br>muerto</td>";
+            echo "<td>Observacion</td>";
+
+        echo "</tr> ";
+
+        $consulta = "SELECT * FROM recursos_bonos_semanal
+                        WHERE semana = $semana
+                            AND (YEAR(fecha) = $ano)
+                        ORDER BY fecha DESC";
+        //ECHO $consulta;
+        $bonos = Recursos_bonos_semanal::getAllByQuery($consulta);
+        foreach ($bonos as $b) 
+        {
+            $nombre_lider = "-";
+            $q = "SELECT nombre FROM recursos_asociados
+                    WHERE codigo = $b->lider
+                    LIMIT 1";
+            $lideres = Recursos_asociados::getAllByQuery($q);
+            if(!empty($lideres))
+            {
+                $nombre_lider = $lideres[0]->nombre;
+            }
+
+            /*$ano = date("Y", strtotime($b->fecha));
+            $anoActual = date("Y");*/
+
+           
+            echo "<tr>";
+                
+                echo "<td>".$b->codigo."</td>";
+                echo "<td style='background-color:#DAF7A6; '>".utf8_encode($b->nombre)."</td>";
+                echo "<td style=' text-align:center;'>".$b->semana."</td>";
+                echo "<td style=' text-align:center;'>".$b->id_actividad."</td>";
+                echo "<td style='background-color:#DAF7A6; '>".utf8_encode($b->nombre_actividad)."</td>";
+                echo "<td style='background-color:#DAF7A6; '>".$b->pago_por."</td>";
+                
+                if($b->pago_especial == 0)
+                {
+                    echo "<td style='text-align:center;'> - </td>";
+                }
+                else
+                {
+                    echo "<td>".$b->pago_especial."</td>";
+                }
+                echo "<td>".date("d/m/Y", strtotime($b->fecha))."</td>";
+                echo "<td>".$b->surcos_cajas."</td>";
+                echo "<td>".$b->tiempo."</td>";
+                echo "<td>".$b->gh."</td>";
+                echo "<td style='background-color:#DAF7A6; text-align:center;'>".$b->zona."</td>";
+                echo "<td style='background-color:#DAF7A6; text-align:center;'>".$b->surcos_reales."</td>";
+
+                echo "<td style='background-color:#DAF7A6; text-align:center;'>".$b->surcos_hora."</td>";
+                echo "<td style='background-color:#DAF7A6; text-align:center;'>".$b->objetivo_hora."</td>";
+                if($b->pago_por == "EFICIENCIA")
+                {
+                    echo "<td style='background-color:#DAF7A6; text-align:center;'>".$b->eficiencia." %</td>";
+                }
+                else
+                {
+                    echo "<td style='background-color:red; text-align:center;'> - </td>";
+                }
+                
+                echo "<td style='background-color:#DAF7A6; text-align:right;'>$ ".$b->precio_actividad."</td>";
+                echo "<td style='background-color:#DAF7A6; text-align:right;'>$ ".$b->subpago."</td>";
+                echo "<td style='background-color:#DAF7A6; text-align:center;'>".$nombre_lider."</td>";
+
+                if($b->tiempo_muerto == 0)
+                {
+                    echo "<td style='text-align:center;'> - </td>";
+                }
+                else
+                {
+                    echo "<td>".$b->tiempo_muerto."</td>";
+                }
+                
+                echo "<td>".utf8_encode($b->observacion)."</td>";
+                               
+            echo "</tr>";
+        }
+
+        echo "</table>" ;
+    }  
 }
 else
 {
