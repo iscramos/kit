@@ -1,7 +1,7 @@
 <?php
 //require_once $_SERVER["DOCUMENT_ROOT"].'/siscohistoraca2/__config.php';
 require_once('includes/config.inc.php');
-require_once('includes/inc.session.php');
+//require_once('includes/inc.session.php');
 
 
 
@@ -20,7 +20,8 @@ if( isset($_REQUEST["equipo"]) )
                             OR estado = 'Abierta'
                             OR estado = 'Falta mano de obra'
                             OR estado = 'Espera de refacciones'
-                            OR estado = 'Espera de equipo' )
+                            OR estado = 'Espera de equipo'
+                            OR estado = 'Solic. de trabajo' )
                         ORDER BY fecha_inicio_programada ASC";
 
                         //print_r($consulta);

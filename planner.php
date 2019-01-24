@@ -142,13 +142,13 @@
                       echo "<thead>";
                         echo "<tr>";
                           echo "<th>W</th>";
-                          echo "<th>DOMINGO</th>";
-                          echo "<th>LUNES</th>";
-                          echo "<th>MARTES</th>";
-                          echo "<th>MIERCOLES</th>";
-                          echo "<th>JUEVES</th>";
-                          echo "<th>VIERNES</th>";
-                          echo "<th>SABADO</th>";
+                          echo "<th width='14.28%'>DOMINGO</th>";
+                          echo "<th width='14.28%'>LUNES</th>";
+                          echo "<th width='14.28%'>MARTES</th>";
+                          echo "<th width='14.28%'>MIERCOLES</th>";
+                          echo "<th width='14.28%'>JUEVES</th>";
+                          echo "<th width='14.28%'>VIERNES</th>";
+                          echo "<th width='14.28%'>SABADO</th>";
                         
                         echo "</tr>";
                       echo "</thead>";
@@ -175,11 +175,11 @@
                                   FROM  planner
                                   INNER JOIN disponibilidad_activos ON planner.equipo = disponibilidad_activos.activo
                                   WHERE planner.fecha_realizacion = '$dia_actual'
-                                  ORDER BY planner.hora_inicio, planner.hora_fin ASC";  
+                                  ORDER BY planner.hora_inicio, planner.hora_fin ASC LIMIT 5";  
 
                             //echo $consulta;
                             $plan = Planner::getAllByQuery($consulta);
-
+                                 
 
                             if($d->dia == $dia )
                             {

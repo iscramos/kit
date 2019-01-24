@@ -59,7 +59,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST')
     }
 
     
-    //echo $query;
+    
     // Execute database query
     $disponibilidad_trunca = new Disponibilidad_data();   
     $disponibilidad_trunca->truncate();    
