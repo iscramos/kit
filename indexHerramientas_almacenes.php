@@ -10,9 +10,9 @@ require_once('includes/inc.session.php');
 
 if($_SESSION["type"] == 5)
 {
-	$herramientas_categorias = Herramientas_categorias::getAll();
+	$herramientas_almacenes = Herramientas_almacenes::getAll();
 	// Include page view
-	require_once(VIEW_PATH.'indexHerramientas_categorias.view.php');
+	require_once(VIEW_PATH.'indexHerramientas_almacenes.view.php');
 }
 else
 {

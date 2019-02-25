@@ -1,5 +1,6 @@
 <?php  
 	require_once('includes/config.inc.php');
+    
     $fechaHoy = date("Y-m-d");
 
     $datos = Disponibilidad_calendarios::getByDia($fechaHoy);
@@ -210,6 +211,7 @@
                 
             </div> <!-- cierra container -->
         
+            
 
             <footer class="footer">
                 <div class="container">
@@ -258,6 +260,10 @@
     
 
 <script type="text/javascript">
+
+
+    
+
     $(document).ready(function(){
         $("#mensaje").show(function showAlert() {
                     $(".alert").alert();

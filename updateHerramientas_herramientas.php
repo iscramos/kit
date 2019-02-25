@@ -14,14 +14,17 @@ if(isset($_GET["id"]))
 	if($id > 0)
 	{
 		$herramientas = Herramientas_herramientas::getById($id);
+		$almacenes = Herramientas_almacenes::getById($herramientas->id_almacen);
+		$categorias = Herramientas_categorias::getById($herramientas->id_categoria);
+
+
+		$proveedores = Herramientas_proveedores::getAll();
 		//$description_roles = Description_roles::getAll();
 
 		$str.="<div class='form-group hidden'>
 						<label class='col-sm-4 col-xs-4 control-label'>ID</label>
 						<div class='col-sm-8 col-xs-8'>
 							<input type='number' class='form-control input-sm' id='id' name='id' value='".sanitize_output($id)."' readonly>
-							<input type='number' class='form-control input-sm' id='id_categoria' name='id_categoria' value='".sanitize_output($id_categoria)."' readonly>
-							<input type='number' class='form-control input-sm' id='id_almacen' name='id_almacen' value='".sanitize_output($id_almacen)."' readonly>
 						</div>
 				</div>";
 
@@ -39,6 +42,33 @@ if(isset($_GET["id"]))
 						</div>
 				</div>";
 		$str.="<div class='form-group'>
+						<label class='col-sm-4 col-xs-4 control-label'>Almacén</label>
+						<div class='col-sm-8 col-xs-8'>
+							<input type='text' class='form-control input-sm' id='descripcion' name='descripcion' value='".sanitize_output($almacenes->descripcion)."' readonly>
+						</div>
+				</div>";
+		$str.="<div class='form-group'>
+						<label class='col-sm-4 col-xs-4 control-label'>Categoría</label>
+						<div class='col-sm-8 col-xs-8'>
+							<input type='text' class='form-control input-sm' id='descripcion' name='descripcion' value='".sanitize_output($categorias->categoria)."' readonly>
+						</div>
+				</div>";
+		$str.="<div class='form-group'>
+						<label class='col-sm-4 col-xs-4 control-label'>Marca</label>
+						<div class='col-sm-8 col-xs-8'>
+						<select class='form-control' name='id_marca' id='id_marca'>";
+						foreach ($proveedores as $proveedor) 
+						{
+							if($proveedor->id == $herramientas->id_marca)
+							{
+								$str.="<option value='".$proveedor->id."' selected>".$proveedor->descripcion."</option>";
+							}
+							$str.="<option value='".$proveedor->id."'>".$proveedor->descripcion."</option>";
+						}
+						$str.="</select>
+						</div>
+				</div>";
+		$str.="<div class='form-group'>
 						<label class='col-sm-4 col-xs-4 control-label'>Descripción</label>
 						<div class='col-sm-8 col-xs-8'>
 							<input type='text' class='form-control input-sm' id='descripcion' name='descripcion' value='".sanitize_output($herramientas->descripcion)."' autocomplete='off' required='required'>
@@ -53,6 +83,9 @@ if(isset($_GET["id"]))
 	}
 	else
 	{
+		$almacenes = Herramientas_almacenes::getAllByOrden("descripcion", "ASC");
+		$categorias = Herramientas_categorias::getAllByOrden("categoria", "ASC");
+		$proveedores = Herramientas_proveedores::getAllByOrden("descripcion", "ASC");
 
 		$str.="<div class='form-group hidden'>
 						<label class='col-sm-4 col-xs-4 control-label'>ID</label>
@@ -102,19 +135,44 @@ if(isset($_GET["id"]))
                             </div>
                         </div>";
 
+        $str.="<div class='form-group'>
+						<label class='col-sm-4 col-xs-4 control-label'>Marca</label>
+						<div class='col-sm-8 col-xs-8'>
+							<select class='form-control input-sm' name='id_marca' id='id_marca' required='required'>
+								<option value='' style='display:none;'>Seleccione una marca</option>";
+								foreach ($proveedores as $proveedor) 
+								{
+									$str.="<option value='".$proveedor->id."'>".$proveedor->descripcion."</option>";
+								}
+							$str.="</select>
+						</div>
+				</div>";
 
-		/*$str.="<div class='form-group'>
+		$str.="<div class='form-group'>
 						<label class='col-sm-4 col-xs-4 control-label'>Almacén</label>
 						<div class='col-sm-8 col-xs-8'>
 							<select class='form-control input-sm' name='id_almacen' id='id_almacen' required='required'>
-								<option value='' style='display:none;'>Seleccione un Almacén</option>";
-								foreach ($herramientas_almacenes as $almacen) 
+								<option value='' style='display:none;'>Seleccione un almacén</option>";
+								foreach ($almacenes as $almacen) 
 								{
 									$str.="<option value='".$almacen->id."'>".$almacen->descripcion."</option>";
 								}
 							$str.="</select>
 						</div>
-				</div>";*/
+				</div>";
+
+		$str.="<div class='form-group'>
+						<label class='col-sm-4 col-xs-4 control-label'>Categoría</label>
+						<div class='col-sm-8 col-xs-8'>
+							<select class='form-control input-sm' name='id_categoria' id='id_categoria' required='required'>
+								<option value='' style='display:none;'>Seleccione una categoría</option>";
+								foreach ($categorias as $categoria) 
+								{
+									$str.="<option value='".$categoria->id."'>".$categoria->categoria."</option>";
+								}
+							$str.="</select>
+						</div>
+				</div>";
 	}
 }
 else

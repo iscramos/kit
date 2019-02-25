@@ -68,6 +68,18 @@ class Disponibilidad_calendarios {
 		return self::getBySql($sql);
 	}
 
+
+	public static function getDaysBySemanaAno($semana, $ano) {
+
+		// Build database query
+		$sql = "SELECT dia FROM disponibilidad_calendarios 
+				WHERE ano = $ano 
+					AND semana = $semana";
+		//echo $sql;ECHO "<BR>";
+		// Return objects
+		return self::getBySql($sql);
+	}
+
 	public static function getMinDiaByAnoSemana($semana, $ano) {
 
 		// Build database query

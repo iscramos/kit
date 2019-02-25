@@ -12,18 +12,16 @@ if(isset($_GET["id"]))
 	
 	if($id > 0)
 	{
-		$herramienta = Herramientas_herramientas::getById($id_herramienta);
+		
 		$prestamo = Herramientas_prestamos::getById($id);
-
+		$herramienta = Herramientas_herramientas::getById($prestamo->id_herramienta);
 		//print_r($herramienta);
 		//echo $id_herramienta;
 		$str.="<div class='form-group hidden'>
 						<label class='col-sm-4 col-xs-4 control-label'>ID</label>
 						<div class='col-sm-8 col-xs-8'>
 							<input type='number' class='form-control input-sm' id='id' name='id' value='".$id."' readonly>
-							<input type='number' class='form-control input-sm' id='id_herramienta' name='id_herramienta' value='".$id_herramienta."' readonly>
-							<input type='number' class='form-control input-sm' id='id_almacen' name='id_almacen' value='".$herramienta->id_almacen."' readonly>
-							<input type='number' class='form-control input-sm' id='id_categoria' name='id_categoria' value='".$herramienta->id_categoria."' readonly>
+							<input type='number' class='form-control input-sm' id='id_herramienta' name='id_herramienta' value='".$herramienta->id."' readonly>
 						</div>
 				</div>";
 
@@ -44,18 +42,18 @@ if(isset($_GET["id"]))
 
 		$str.="<div class='form-group'>
 					
-					<div class='col-md-5 col-xs-6  '>
+					<div class='col-md-3 col-xs-3  '>
 						<label >Código</label>
 		                <input type='number' class='form-control input-sm' name='noAsociado' id='noAsociado' value='".$prestamo->noAsociado."' required readonly>
 		                
 		            </div>
-		            <div class='col-md-7 col-xs-6  '>
+		            <div class='col-md-9 col-xs-9  '>
 						<label >Nombre</label>
 						<input type='text' class='form-control input-sm' name='nombre' id='nombre' value='".$prestamo->nombre."' required readonly>
 					</div>
 				</div>";
 		$str.="<div class='form-group'>
-						<div class='col-md-5 col-xs-6  '>
+						<div class='col-md-6 col-xs-6  '>
 						<label >Fecha de préstamo</label>
 						<div class='input-group date' id='datetimepicker1'>
 		                    <input type='text' name='fecha_prestamo' id='fecha_prestamo' class='form-control input-sm' value='".$prestamo->fecha_prestamo."' required autocomplete='off'>
@@ -64,13 +62,12 @@ if(isset($_GET["id"]))
 		                    </span>
 			            </div>
 					</div>
-						<div class='col-md-7 col-xs-6  '>
+						<div class='col-md-6 col-xs-6  hidden'>
 							<label >Estatus</label>
 				            <input type='number' name='estatus' id='estatus' class='form-control input-sm' value='2' required readonly> 
 						</div>
-				</div>";
-		$str.="<div class='form-group'>
-						<div class='col-md-5 col-xs-6  '>
+
+					<div class='col-md-6 col-xs-6  '>
 						<label >Fecha de devolución</label>
 						<div class='input-group date' id='datetimepicker2'>
 		                    <input type='text' name='fecha_regreso' id='fecha_regreso' class='form-control input-sm' value='' required autocomplete='off'>
@@ -79,7 +76,10 @@ if(isset($_GET["id"]))
 		                    </span>
 			            </div>
 					</div>
-						<div class='col-md-7 col-xs-6  '>
+				</div>";
+		$str.="<div class='form-group'>
+						
+						<div class='col-md-12 col-xs-12  '>
 							<label >Observación</label>
 				            <input type='text' name='observacion' id='observacion' class='form-control input-sm' value='' autocomplete='off' > 
 						</div>
@@ -132,7 +132,7 @@ if(isset($_GET["id"]))
 					</div>
 				</div>";
 		$str.="<div class='form-group'>
-						<div class='col-md-5 col-xs-6  '>
+						<div class='col-md-6 col-xs-6  '>
 						<label >Fecha de préstamo</label>
 						<div class='input-group date' id='datetimepicker1'>
 		                    <input type='text' name='fecha_prestamo' id='fecha_prestamo' class='form-control input-sm' value='' required autocomplete='off'>
@@ -141,7 +141,7 @@ if(isset($_GET["id"]))
 		                    </span>
 			            </div>
 					</div>
-						<div class='col-md-7 col-xs-6  '>
+						<div class='col-md-6 col-xs-6  hidden'>
 							<label >Estatus</label>
 				            <input type='number' name='estatus' id='estatus' class='form-control input-sm' value='1' required readonly> 
 						</div>

@@ -1,4 +1,6 @@
  <?php require_once(VIEW_PATH.'header.inc.php');
+
+      require_once(SITE_ROOT.'proapp_top_ten.php'); // para el envío del correo de mayor incidencia de equipos críticos.
     //include(VIEW_PATH.'indexMenu.php');
  ?>
 
@@ -28,8 +30,34 @@
           <br />
 
   
-
+          <div id="modalBodyCentroCarga"></div> 
 
  <?php require_once(VIEW_PATH.'footer.inc.php'); ?>
+
+  <script type="text/javascript">
+    // codigo para el envío de correos
+    function mandarMails() 
+    {
+      //alert("hola");
+      asunto = 'RESUMEN SEMANAL EQUIPOS CRITICOS';
+      body = '<?php echo $variableHTML; ?>';
+      mails = <?php echo json_encode($arrays); ?>;
+      subTitulo = '<?php echo "Mantenimiento"; ?>';
+      if(body == "NO SEND")
+      {
+        return true;
+      }
+      else
+      {
+        $.post("http://192.168.167.231/ns/mails/index.php",
+              {mails: mails, asunto: asunto, body: body, subTitulo: subTitulo}, function (data) {
+          $("#modalBodyCentroCarga").html(data);
+          //console.log("Correo enviado");
+      });
+      }
+      
+    }
+    mandarMails();
+  </script>
   </body>
 </html>

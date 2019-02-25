@@ -6,12 +6,14 @@ require_once('includes/inc.session.php');
 $id = NULL;
 $clave = NULL;
 $id_categoria = NULL;
+$id_marca = NULL;
 $descripcion = NULL;
 $precio_unitario = NULL;
 $fecha_entrada = NULL;
 
 $id_almacen = NULL;
 $archivo = NULL;
+
 
 /*echo "<pre>";
 	print_r($_POST);
@@ -25,7 +27,8 @@ if(isset($_POST["id"]) && intval($_POST["id"]) > 0)
 
 		// request data
 		$id = $_POST["id"];
-		$id_categoria = $_POST["id_categoria"];
+		$id_marca = $_POST["id_marca"];
+
 		$descripcion = $_POST["descripcion"];
 		$precio_unitario = $_POST["precio_unitario"];
 		$id_almacen = $_POST["id_almacen"];
@@ -34,7 +37,7 @@ if(isset($_POST["id"]) && intval($_POST["id"]) > 0)
 		// new object
 		$herramientas = new Herramientas_herramientas();
 		$herramientas->id = $id;
-		$herramientas->id_categoria = $id_categoria;
+		$herramientas->id_marca = $id_marca;
 		$herramientas->descripcion = $descripcion;
 		$herramientas->precio_unitario = $precio_unitario;
 
@@ -49,6 +52,7 @@ else
 		//$id = $_POST["id"];
 		$clave = $_POST["clave"];
 		$id_categoria = $_POST["id_categoria"];
+		$id_marca = $_POST["id_marca"];
 		$descripcion = $_POST["descripcion"];
 		$precio_unitario = $_POST["precio_unitario"];
 		$id_almacen = $_POST["id_almacen"];
@@ -108,6 +112,7 @@ else
 		$herramientas->clave = $clave;
 		$herramientas->id_almacen = $id_almacen;
 		$herramientas->id_categoria = $id_categoria;
+		$herramientas->id_marca = $id_marca;
 		$herramientas->descripcion = $descripcion;
 		$herramientas->precio_unitario = $precio_unitario;
 		$herramientas->fecha_entrada = date("Y-m-d H:i:s");
@@ -117,6 +122,6 @@ else
 	}
 }
 
-redirect_to('indexHerramientas_herramientas.php?id_categoria='.$id_categoria.'&id_almacen='.$id_almacen);
+redirect_to('indexHerramientas_herramientas.php');
 
 ?>

@@ -128,11 +128,22 @@
                             }
                             elseif ($_SESSION["type"] == 5) // for almacen
                             {
-                                echo "<li><a><i class='fa fa-wrench'></i> Herramientas <span class='fa fa-chevron-down'></span></a>
+                                echo "<li><a><i class='fa fa-wrench'></i> ADMIN <span class='fa fa-chevron-down'></span></a>
                                     <ul class='nav child_menu'>
+                                        <li><a href='indexHerramientas_almacenes.php'>Almacenes</a></li>
                                         <li><a href='indexHerramientas_categorias.php'>Categorías</a></li>
+                                        <li><a href='indexHerramientas_proveedores.php'>Proveedores</a></li>
+                                        <li><a href='indexHerramientas_herramientas.php'>Artículos</a></li>
                                     </ul>
                                   </li>";
+
+                                  echo "<li>
+                                            <a href='indexHerramientas_articulos.php'><i class='fa fa-suitcase' aria-hidden='true'></i>Artículos</a>
+                                        </li>";
+
+                                    echo "<li>
+                                            <a href='indexHerramientas_prestamos.php'><i class='fa fa-credit-card' aria-hidden='true'></i>Préstamos</a>
+                                        </li>";
                                 
                             }
                             elseif ($_SESSION["type"] == 6) // for taller mecanico

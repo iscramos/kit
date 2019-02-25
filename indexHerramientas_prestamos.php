@@ -14,19 +14,16 @@ if($_SESSION["type"] == 5)
 	{
 		$id_herramienta = $_GET['id_herramienta'];
 		//echo $id_herramienta;
-
 		$herramientas = Herramientas_herramientas::getByIdInner($id_herramienta);
 		
 		$herramientas_prestamos = Herramientas_prestamos::getAllByIdHerramienta($id_herramienta);
-
 		$ultimo_estado = Herramientas_prestamos::getAllMaxHerramienta($id_herramienta);
 		//print_r($herramientas_prestamos);
 	}
 	else
 	{
-		$herramientas_prestamos = Herramientas_prestamos::getAll();
+		$herramientas_prestamos = Herramientas_prestamos::getAllInnerHerramientas();
 	}
-
 	// Include page view
 	require_once(VIEW_PATH.'indexHerramientas_prestamos.view.php');
 	

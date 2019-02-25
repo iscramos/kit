@@ -10,7 +10,7 @@
     $activos_equipos = Disponibilidad_activos::getAllByQuery($query);
     //include(VIEW_PATH.'indexMenu.php');
 
-    $arrays = array("orfanelr@naturesweet.com", "fherrera@naturesweet.com", "lramos@naturesweet.com");
+    $arrays = array("orfanelr@naturesweet.com", "sbarajas@naturesweet.com", "lramos@naturesweet.com");
 
 $q = "SELECT  disponibilidad_data.ot, disponibilidad_data.descripcion AS descripcion, disponibilidad_activos.descripcion AS descripcion_equipo
         FROM disponibilidad_data
@@ -31,6 +31,7 @@ $q = "SELECT  disponibilidad_data.ot, disponibilidad_data.descripcion AS descrip
 
 $ots = Disponibilidad_data::getAllByQuery($q);
 //print_r($ots);
+
 $HTML = "NO SEND";
 if(!empty($ots))
 {
@@ -43,7 +44,7 @@ if(!empty($ots))
     $HTML.= '<style type="text/css">';
     $HTML.='body{background: #EDEDED;}';
       $HTML.='.contiene{display: flex; justify-content: center; width: 100%;   height: 100%; padding: 0px;}';
-      $HTML.='.principal{border: 1px solid rgba(221,221,221,.78); width: 50%; border-spacing: 0; border-collapse: collapse; font-family: "Helvetica Neue",Roboto,Arial,"Droid Sans",sans-serif;}'; 
+      $HTML.='.principal{border: 1px solid rgba(221,221,221,.78); width: 60%; border-spacing: 0; border-collapse: collapse; font-family: "Helvetica Neue",Roboto,Arial,"Droid Sans",sans-serif;}'; 
       $HTML.='.header{background: #25733A; height: 100px; color: white; display: flex; justify-content: center; align-items: center;}';
       $HTML.='.principal img{ width: 80px; float: left; padding-top: 0px; padding-bottom: 10px; }';
       $HTML.='.principal tbody tr td{padding: 40px; background: white; }';
@@ -77,7 +78,7 @@ if(!empty($ots))
               $HTML.='<td>';
                   $HTML.='<img src="../../kit/dist/img/logo_2018_peque.png">';
                   $HTML.='<p class="fecha">';
-                    $HTML.='<b>Fecha: 24/11/2019</b>';
+                    $HTML.='<b>Fecha de envío: '.date("d-m-Y").'</b>';
                     
                   $HTML.='</p>';
                   $HTML.='<table class="tablita">';

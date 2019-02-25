@@ -6,6 +6,7 @@ class Herramientas_herramientas {
 	public $clave;
 	public $id_almacen;
 	public $id_categoria;
+	public $id_marca;
 	public $descipcion;
 	public $precio_unitario;
 	//public $id_responsable;
@@ -41,6 +42,24 @@ class Herramientas_herramientas {
 
 		// Build database query
 		$sql = 'select * from herramientas_herramientas';
+		
+		// Return objects
+		return self::getBySql($sql);
+	}
+
+	public static function getAllByQuery($consulta) 
+	{
+
+		// Build database query
+
+		$sql = $consulta;
+		return self::getBySql($sql);
+	}
+
+	public static function getAllByOrden($campo, $orden) {
+
+		// Build database query
+		$sql = "SELECT * FROM herramientas_herramientas ORDER BY $campo $orden";
 		
 		// Return objects
 		return self::getBySql($sql);
@@ -129,7 +148,7 @@ class Herramientas_herramientas {
 			$statement->execute();
 			
 			// Bind variable to prepared statement
-			$statement->bind_result($id, $clave, $id_almacen, $id_categoria, $descripcion, $precio_unitario, $fecha_entrada, $archivo);
+			$statement->bind_result($id, $clave, $id_almacen, $id_categoria, $id_marca, $descripcion, $precio_unitario, $fecha_entrada, $archivo);
 			
 			// Populate bind variables
 			$statement->fetch();
@@ -147,6 +166,7 @@ class Herramientas_herramientas {
 		$object->clave = $clave;
 		$object->id_almacen = $id_almacen;
 		$object->id_categoria = $id_categoria;
+		$object->id_marca = $id_marca;
 		$object->descripcion = $descripcion;
 		$object->precio_unitario = $precio_unitario;
 		$object->fecha_entrada = $fecha_entrada;
@@ -160,10 +180,11 @@ class Herramientas_herramientas {
 		$result = array();
 		
 		// Build database query
-		$sql = "SELECT herramientas_herramientas.*, herramientas_categorias.categoria as categoria, herramientas_almacenes.descripcion as descripcion_almacen
+		$sql = "SELECT herramientas_herramientas.*, herramientas_categorias.categoria as categoria, herramientas_almacenes.descripcion as descripcion_almacen, herramientas_proveedores.descripcion AS proveedor
 				FROM herramientas_herramientas
 				INNER JOIN herramientas_categorias ON herramientas_herramientas.id_categoria = herramientas_categorias.id
 				INNER JOIN herramientas_almacenes ON herramientas_herramientas.id_almacen = herramientas_almacenes.id
+				INNER JOIN herramientas_proveedores ON herramientas_herramientas.id_marca = herramientas_proveedores.id
 				WHERE herramientas_herramientas.id = ?";
 				//die($sql);
 		
@@ -183,7 +204,7 @@ class Herramientas_herramientas {
 			$statement->execute();
 			
 			// Bind variable to prepared statement
-			$statement->bind_result($id, $clave, $id_almacen, $id_categoria, $descripcion, $precio_unitario, $fecha_entrada, $archivo, $categoria, $descripcion_almacen);
+			$statement->bind_result($id, $clave, $id_almacen, $id_categoria, $id_marca, $descripcion, $precio_unitario, $fecha_entrada, $archivo, $categoria, $descripcion_almacen, $proveedor);
 			
 			// Populate bind variables
 			$statement->fetch();
@@ -201,12 +222,14 @@ class Herramientas_herramientas {
 		$object->clave = $clave;
 		$object->id_almacen = $id_almacen;
 		$object->id_categoria = $id_categoria;
+		$object->id_categoria = $id_marca;
 		$object->descripcion = $descripcion;
 		$object->precio_unitario = $precio_unitario;
 		$object->fecha_entrada = $fecha_entrada;
 		$object->categoria = $categoria;
 		$object->descripcion_almacen = $descripcion_almacen;
 		$object->archivo = $archivo;
+		$object->proveedor = $proveedor;
 		return $object;
 	}
 	
@@ -322,7 +345,7 @@ class Herramientas_herramientas {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "insert into herramientas_herramientas (clave, id_almacen, id_categoria, descripcion, precio_unitario, fecha_entrada, archivo) values (?, ?, ?, ?, ?, ?, ?)";
+		$sql = "insert into herramientas_herramientas (clave, id_almacen, id_categoria, id_marca, descripcion, precio_unitario, fecha_entrada, archivo) values (?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		// Open database connection
 		$database = new Database();
@@ -334,7 +357,7 @@ class Herramientas_herramientas {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('siissss', $this->clave, $this->id_almacen, $this->id_categoria, $this->descripcion, $this->precio_unitario, $this->fecha_entrada, $this->archivo);
+			$statement->bind_param('siiissss', $this->clave, $this->id_almacen, $this->id_categoria, $this->id_marca, $this->descripcion, $this->precio_unitario, $this->fecha_entrada, $this->archivo);
 			
 			// Execute statement
 			$statement->execute();
@@ -359,7 +382,7 @@ class Herramientas_herramientas {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "update herramientas_herramientas set descripcion = ?, precio_unitario = ? where id = ?";
+		$sql = "update herramientas_herramientas set id_marca = ?, descripcion = ?, precio_unitario = ? where id = ?";
 		
 		// Open database connection
 		$database = new Database();
@@ -371,7 +394,7 @@ class Herramientas_herramientas {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('ssi',  $this->descripcion, $this->precio_unitario, $this->id);
+			$statement->bind_param('issi', $this->id_marca, $this->descripcion, $this->precio_unitario, $this->id);
 			
 			// Execute statement
 			$statement->execute();

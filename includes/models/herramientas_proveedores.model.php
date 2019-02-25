@@ -1,17 +1,9 @@
 <?php
 
-class Herramientas_prestamos {
+class Herramientas_proveedores {
 	
 	public $id;
-	public $id_herramienta;
-	public $id_almacen;
-	public $id_categoria;
-	public $fecha_prestamo;
-	public $fecha_regreso;
-	public $estatus;
-	public $noAsociado;
-	public $nombre;
-	public $observacion;
+	public $descripcion;
 
 	
 	public static function getBySql($sql) {
@@ -41,54 +33,41 @@ class Herramientas_prestamos {
 	public static function getAll() {
 
 		// Build database query
-		$sql = 'select * from herramientas_prestamos';
+		$sql = 'select * from herramientas_proveedores ORDER BY descripcion ASC';
 		
 		// Return objects
 		return self::getBySql($sql);
 	}
 
-	public static function getAllByIdHerramienta($id_herramienta) 
+	public static function getAllByOrden($campo, $orden) {
+
+		// Build database query
+		$sql = "SELECT * FROM herramientas_proveedores ORDER BY $campo $orden";
+		
+		// Return objects
+		return self::getBySql($sql);
+	}
+
+	public static function getAllInnerAlmacen() 
 	{
 
 		// Build database query
-		$sql = "SELECT herramientas_prestamos.*, herramientas_herramientas.descripcion as descripcion
-				FROM herramientas_prestamos
-				INNER JOIN herramientas_herramientas ON herramientas_prestamos.id_herramienta = herramientas_herramientas.id
-				WHERE herramientas_prestamos.id_herramienta = $id_herramienta ORDER BY herramientas_prestamos.id DESC";
+		$sql = "SELECT herramientas_categorias.*, herramientas_proveedores.descripcion as descripcion
+				FROM herramientas_categorias
+				INNER JOIN herramientas_proveedores ON herramientas_categorias.id_almacen = herramientas_proveedores.id";
 		//die($sql);
 		// Return objects
 		return self::getBySql($sql);
 	}
 
-	public static function getAllInnerHerramientas() 
-	{
+	
+	
+
+	public static function getAllMax() {
 
 		// Build database query
-		$sql = "SELECT herramientas_prestamos.*, herramientas_herramientas.descripcion as descripcion
-				FROM herramientas_prestamos
-				INNER JOIN herramientas_herramientas ON herramientas_prestamos.id_herramienta = herramientas_herramientas.id
-				ORDER BY herramientas_prestamos.id DESC";
-		//die($sql);
-		// Return objects
-		return self::getBySql($sql);
-	}
-
-	public static function getAllByCategoriaCount($id_categoria) 
-	{
-
-		// Build database query
-		$sql = "SELECT count(*) AS nStock FROM herramientas_herramientas WHERE id_categoria=$id_categoria";
-		//die($sql);
-		// Return objects
-		return self::getBySql($sql);
-	}
-
-
-	public static function getAllMaxHerramienta($id_herramienta) {
-
-		// Build database query
-		$sql = "SELECT id, estatus FROM herramientas_prestamos WHERE id_herramienta = $id_herramienta ORDER BY id DESC LIMIT 1";
-		//echo $sql;
+		$sql = 'select MAX(id) as id from usuarios';
+		
 		// Return objects
 		return self::getBySql($sql);
 	}
@@ -125,7 +104,7 @@ class Herramientas_prestamos {
 		$result = array();
 		
 		// Build database query
-		$sql = "select * from herramientas_prestamos where id = ?";
+		$sql = "select * from herramientas_proveedores where id = ?";
 		
 		// Open database connection
 		$database = new Database();
@@ -143,7 +122,7 @@ class Herramientas_prestamos {
 			$statement->execute();
 			
 			// Bind variable to prepared statement
-			$statement->bind_result($id, $id_herramienta, $id_almacen, $id_categoria, $fecha_prestamo, $fecha_regreso, $estatus, $noAsociado, $nombre, $observacion);
+			$statement->bind_result($id, $descripcion);
 			
 			// Populate bind variables
 			$statement->fetch();
@@ -158,16 +137,7 @@ class Herramientas_prestamos {
 		// Build new object
 		$object = new self;
 		$object->id = $id;
-		$object->id_herramienta = $id_herramienta;
-		$object->id_almacen = $id_almacen;
-		$object->id_categoria = $id_categoria;
-		$object->fecha_prestamo = $fecha_prestamo;
-		$object->fecha_regreso = $fecha_regreso;
-		$object->estatus = $estatus;
-		$object->noAsociado = $noAsociado;
-		$object->nombre = $nombre;
-		$object->observacion = $observacion;
-
+		$object->descripcion = $descripcion;
 		return $object;
 	}
 	
@@ -283,8 +253,8 @@ class Herramientas_prestamos {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "insert into herramientas_prestamos (id_herramienta, id_almacen, id_categoria, fecha_prestamo, estatus, noAsociado, nombre) values (?, ?, ?, ?, ?, ?, ?)";
-		//die("lleog");
+		$sql = "insert into herramientas_proveedores (descripcion) values (?)";
+		
 		// Open database connection
 		$database = new Database();
 		
@@ -295,7 +265,7 @@ class Herramientas_prestamos {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('iiisiis', $this->id_herramienta, $this->id_almacen, $this->id_categoria, $this->fecha_prestamo, $this->estatus, $this->noAsociado, $this->nombre);
+			$statement->bind_param('s', $this->descripcion);
 			
 			// Execute statement
 			$statement->execute();
@@ -320,7 +290,7 @@ class Herramientas_prestamos {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "update herramientas_prestamos set fecha_regreso = ?, estatus = ?, observacion = ? where id = ?";
+		$sql = "update herramientas_proveedores set descripcion = ? where id = ?";
 		
 		// Open database connection
 		$database = new Database();
@@ -332,7 +302,7 @@ class Herramientas_prestamos {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('sisi', $this->fecha_regreso, $this->estatus, $this->observacion, $this->id);
+			$statement->bind_param('si', $this->descripcion, $this->id);
 			
 			// Execute statement
 			$statement->execute();
@@ -358,7 +328,7 @@ class Herramientas_prestamos {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "delete from herramientas_prestamos where id = ?";
+		$sql = "delete from herramientas_proveedores where id = ?";
 		
 		// Open database connection
 		$database = new Database();

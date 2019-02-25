@@ -7,7 +7,7 @@
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Categorías...</h3>
+                        <h3>Almacenes...</h3>
                     </div>
                     <div class="title_right ">
                         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -41,22 +41,23 @@
                                     <thead>
                                         <tr>
                                         <th>#</th>
-                                        <th>Categoría</th>
+                                        <th>Descripción</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                         $i=1;
-                                        foreach ($herramientas_categorias as $categoria):
+                                        foreach ($herramientas_almacenes as $almacen):
                                         {
                                            
-                                            echo "<tr campoid='".$categoria->id."'>";
+                                            echo "<tr campoid='".$almacen->id."'>";
                                                 echo "<th width='5px' class='spec'>$i</th>";
-                                                echo "<td>".$categoria->categoria."</td>";
+                                                echo "<td>".$almacen->descripcion."</td>";
+
                                                 echo "<td>";
 
-                                                    echo " <a type='button' class='btn btn-warning btn-sm optionEdit' valueEdit='".$categoria->id."' title='Editar registro' >Editar</a>";
+                                                    echo " <a type='button' class='btn btn-warning btn-sm optionEdit' valueEdit='".$almacen->id."' title='Editar registro' >Editar</a>";
                                                     /*echo " <a type='button' class='btn btn-danger btn-circle btn-md' data-toggle='confirmation' data-btn-ok-label='S&iacute;' data-btn-ok-icon='glyphicon glyphicon-share-alt' data-btn-ok-class='btn-danger' data-btn-cancel-label='No' data-btn-cancel-icon='glyphicon glyphicon-ban-circle' data-btn-cancel-class='btn-default'><span title='Eliminar registro'class='glyphicon glyphicon-remove' aria-hidden='true'></span></a>";
                                                    /* echo " <a class='btn btn-danger btn-circle btn-md' data-toggle='confirmation' data-singleton='true'  title='Eliminar registro'><i class='fa fa-times'></i></a>";*/
                                                 echo "</td>";
@@ -85,10 +86,10 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Agregar / Modificar herramienta</h4>
+		        <h4 class="modal-title" id="myModalLabel">Agregar / Modificar almacén</h4>
 		      </div>
 		      <div class="modal-body">
-                <form name='frmtipo' class="form-horizontal" id="divdestino" method="post" action="<?php echo $url; ?>createHerramientas_categorias.php">
+                <form name='frmtipo' class="form-horizontal" id="divdestino" method="post" action="<?php echo $url; ?>createHerramientas_almacenes.php">
 		  
 		      </div>
 		      <div class="modal-footer">
@@ -170,7 +171,7 @@
                 {
                     var ajax=creaAjax();
 
-                    ajax.open("GET", "updateHerramientas_categorias.php?id="+uID, true);
+                    ajax.open("GET", "updateHerramientas_almacenes.php?id="+uID, true);
                     ajax.onreadystatechange=function() 
                     { 
                         if (ajax.readyState==1)

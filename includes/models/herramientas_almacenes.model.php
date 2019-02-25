@@ -39,6 +39,15 @@ class Herramientas_almacenes {
 		return self::getBySql($sql);
 	}
 
+	public static function getAllByOrden($campo, $orden) {
+
+		// Build database query
+		$sql = "SELECT * FROM herramientas_almacenes ORDER BY $campo $orden";
+		
+		// Return objects
+		return self::getBySql($sql);
+	}
+
 	public static function getAllInnerAlmacen() 
 	{
 
@@ -244,7 +253,7 @@ class Herramientas_almacenes {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "insert into users (name, created, updated, email, password, type) values (?, ?, ?, ?, ?, ?)";
+		$sql = "insert into herramientas_almacenes (descripcion) values (?)";
 		
 		// Open database connection
 		$database = new Database();
@@ -256,7 +265,7 @@ class Herramientas_almacenes {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('sssssi', $this->name, $this->created, $this->updated, $this->email, $this->password, $this->type);
+			$statement->bind_param('s', $this->descripcion);
 			
 			// Execute statement
 			$statement->execute();
@@ -281,7 +290,7 @@ class Herramientas_almacenes {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "update users set name = ?, updated = ?, email = ?, password = ?, type = ? where id = ?";
+		$sql = "update herramientas_almacenes set descripcion = ? where id = ?";
 		
 		// Open database connection
 		$database = new Database();
@@ -293,7 +302,7 @@ class Herramientas_almacenes {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('ssssii', $this->name, $this->updated, $this->email, $this->password, $this->type, $this->id);
+			$statement->bind_param('si', $this->descripcion, $this->id);
 			
 			// Execute statement
 			$statement->execute();
@@ -319,7 +328,7 @@ class Herramientas_almacenes {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "delete from users where id = ?";
+		$sql = "delete from herramientas_almacenes where id = ?";
 		
 		// Open database connection
 		$database = new Database();

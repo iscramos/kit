@@ -10,7 +10,6 @@ require_once('includes/inc.session.php');
 
 if($_SESSION["type"] == 5)
 {
-	
 	$consulta = "SELECT herramientas_herramientas.*, 
 					(SELECT herramientas_prestamos.estatus
 						FROM herramientas_prestamos 
@@ -20,11 +19,12 @@ if($_SESSION["type"] == 5)
 					)  AS estatus
 				FROM herramientas_herramientas";
 	$herramientas_herramientas = Herramientas_herramientas::getAllByQuery($consulta);
+	//print_r($herramientas_herramientas);
 
-	
-	//$herramientas_herramientas = Herramientas_herramientas::getAllByOrden("descripcion", "ASC");
-	
-	require_once(VIEW_PATH.'indexHerramientas_herramientas.view.php');
+	$herramientas_categorias = Herramientas_categorias::getAllByOrden("categoria", "ASC");
+	$herramientas_proveedores = Herramientas_proveedores::getAllByOrden("descripcion", "ASC");
+	// Include page view
+	require_once(VIEW_PATH.'indexHerramientas_articulos.view.php');
 	
 	
 }

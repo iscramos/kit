@@ -35,7 +35,16 @@ class Herramientas_categorias {
 	public static function getAll() {
 
 		// Build database query
-		$sql = 'select * from users';
+		$sql = 'select * from herramientas_categorias';
+		
+		// Return objects
+		return self::getBySql($sql);
+	}
+
+	public static function getAllByOrden($campo, $orden) {
+
+		// Build database query
+		$sql = "SELECT * FROM herramientas_categorias ORDER BY $campo $orden";
 		
 		// Return objects
 		return self::getBySql($sql);
@@ -112,7 +121,7 @@ class Herramientas_categorias {
 			$statement->execute();
 			
 			// Bind variable to prepared statement
-			$statement->bind_result($id, $id_almacen, $categoria, $stock);
+			$statement->bind_result($id, $categoria);
 			
 			// Populate bind variables
 			$statement->fetch();
@@ -127,9 +136,7 @@ class Herramientas_categorias {
 		// Build new object
 		$object = new self;
 		$object->id = $id;
-		$object->id_almacen = $id_almacen;
 		$object->categoria = $categoria;
-		$object->stock = $stock;
 		return $object;
 	}
 	
@@ -245,7 +252,7 @@ class Herramientas_categorias {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "insert into herramientas_categorias (id_almacen, categoria, stock) values (?, ?, ?)";
+		$sql = "insert into herramientas_categorias (categoria) values (?)";
 		
 		// Open database connection
 		$database = new Database();
@@ -261,7 +268,7 @@ class Herramientas_categorias {
 			echo $this->categoria;
 			echo $this->stock;*/
 
-			$statement->bind_param('isi', $this->id_almacen, $this->categoria, $this->stock);
+			$statement->bind_param('s', $this->categoria);
 			
 			// Execute statement
 			$statement->execute();
@@ -286,7 +293,7 @@ class Herramientas_categorias {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "update Herramientas_categorias set id_almacen = ?, categoria = ? where id = ?";
+		$sql = "update Herramientas_categorias set categoria = ? where id = ?";
 		
 		// Open database connection
 		$database = new Database();
@@ -298,7 +305,7 @@ class Herramientas_categorias {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('isi', $this->id_almacen, $this->categoria, $this->id);
+			$statement->bind_param('si', $this->categoria, $this->id);
 			
 			// Execute statement
 			$statement->execute();

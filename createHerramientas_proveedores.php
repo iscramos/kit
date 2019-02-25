@@ -4,7 +4,7 @@ require_once('includes/config.inc.php');
 require_once('includes/inc.session.php');
 
 $id = NULL;
-$categoria = NULL;
+$descripcion = NULL;
 
 /*echo "<pre>";
 	print_r($_POST);
@@ -18,14 +18,14 @@ if(isset($_POST["id"]) && intval($_POST["id"]) > 0)
 
 		// request data
 		$id = $_POST["id"];
-		$categoria = $_POST["categoria"];
+		$descripcion = $_POST["descripcion"];
 		
 
 		// new object
-		$categorias = new Herramientas_categorias();
-		$categorias->id = $id;
-		$categorias->categoria = $categoria;
-		$categorias->save();
+		$proveedores = new Herramientas_proveedores();
+		$proveedores->id = $id;
+		$proveedores->descripcion = $descripcion;
+		$proveedores->save();
 	}	
 }
 else
@@ -34,17 +34,17 @@ else
 	{
 		// request data
 		//$id = $_POST["id"];
-		$categoria = $_POST["categoria"];
+		$descripcion = $_POST["descripcion"];
 		
 
 		// new object
-		$categorias = new Herramientas_categorias();
+		$proveedores = new Herramientas_proveedores();
 		//$categoria->id = $id;
-		$categorias->categoria = $categoria;
-		$categorias->save();
+		$proveedores->descripcion = $descripcion;
+		$proveedores->save();
 	}
 }
 
-redirect_to('indexHerramientas_categorias.php');
+redirect_to('indexHerramientas_proveedores.php');
 
 ?>

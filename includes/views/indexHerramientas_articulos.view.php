@@ -8,19 +8,8 @@
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Mis préstamos o devoluciones...</h3>
-                        <?php 
-                        if(isset($herramientas->id) )
-                        {
-                            
-                            echo "<p style='color:#1ABB9C;'>
-                            <i class='fa fa-bug fa-lg' aria-hidden='true'> </i> 
-                                     ".$herramientas->descripcion_almacen." 
-                                    <b style='font-size:14px; color:gray;'> / </b> ".$herramientas->categoria." 
-                                    <b style='font-size:14px; color:gray;'> / </b> ".$herramientas->descripcion." 
-                                </p>";
-                        }
-                    ?>
+                        <h3>Mis artículos...</h3>
+                    
                 </div>
                     <div class="title_right ">
                         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -35,15 +24,75 @@
 
                 <div class="clearfix"></div>
 
-               
+                <div class="d-none d-lg-block">
+                    <div class="col-12" >
+                        <nav >
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item ">
+                                    <a href="#" >Inicio</a>
+                                </li>
+                                <li class="breadcrumb-item active categoriaActiva">
+
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
 
 
                 <div class="row">
-                    
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="x_panel">
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <div id="filtro-productos-md" class="second-level-navbar">
+
+                            <div class="list-group noborder" >
+                                <h5 class="list-group-title pt-0" >CATEGORIAS</h5>
+                                <?php
+                                    foreach ($herramientas_categorias as $categoria) 
+                                    {
+                                        echo "<a class='list-group-item categoria' href='#' >".$categoria->categoria."</a>";
+                                    }
+                                ?>
+                            </div>
+
+                            <div class="list-group noborder" id="filtro-marcas" >
+                                <h5 class="list-group-title" >Filtrar por marca</h5>
+                                <div class=" scrollbar" id="style-3"  >
+                                    <div class="list-group-items force-overflow"  >
+
+                                        <?php
+                                            foreach ($herramientas_proveedores as $marcas) 
+                                            {
+                                                echo "<div class='list-group-item' >";
+                                                    echo "<div class='radio'>";
+                                                        echo "<label>";
+                                                            echo "<input type='radio' name='optionsRadios' id='optionsRadios2' value='option2'>
+                                                                ".$marcas->descripcion;
+                                                        echo "</label>";
+                                                    echo "</div>";
+                                                echo "</div>";
+                                            }
+                                        ?>
+                                        
+                                                          
+                                                          
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="list-group noborder" >
+                                <h5 class="list-group-title pt-0" >TOP TEN</h5>
+                                <?php
+                                    
+                                ?>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-10 col-sm-10 col-xs-10">
+                        <div class="x_panel" style="margin-bottom: 40px;">
                             <div class="x_title">
-                                <h2><i class="fa fa-cogs"></i> Préstamos <small>en el sistema</small></h2>
+                                <h2><i class="fa fa-cogs"></i> Artículos <small>en el sistema</small></h2>
                                 <ul class="nav navbar-right panel_toolbox">
                                   <li>
                                     <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -53,81 +102,39 @@
                             </div>
                             <div class="x_content">
 
-                               
+                                <?php
+                                    foreach ($herramientas_herramientas as $articulo) 
+                                    {
+                                        echo "<div class='col-sm-2 col-md-3'>
+                                            <div class='thumbnail' style=' padding:0px!important'>
+                                              <img style='width:140; height:100px;'  src='content/".$articulo->archivo."' >
+                                                <div class='caption' style='height:90px; padding: 3px 3px !important;'>
+                                                    <h5 style='margin-bottom:0px; margin-top:0px;'>".$articulo->clave."</h5>
+                                                    <p style='font-size:11px;'>".$articulo->descripcion."</p>
+                                                    <br>
+                                                    <p style='margin-bottom:15px !important;'>";
+                                                        
 
-                                <!-- aqui va el contenido -->
-                                <table class="table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action" >
-                                    <thead>
-                                        <tr> 
-                                        <th>TRACK</th>
-                                        <th>CODIGO</th>
-                                        <th>NOMBRE</th>
-                                        <th>HERRAMIENTA</th>
-                                        <th>FECHA PRESTAMO</th>
-                                        <th>FECHA REGRESO</th>
-                                        <th>ESTATUS</th>
-                                        <th>ACCION</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                        //$i=1;
-                                        
-                                        foreach ($herramientas_prestamos as $prestamos):
-                                        {
-                                            echo "<tr campoid='".$prestamos->id."'>";
-                                                echo "<th width='5px' class='spec'>".$prestamos->id."</th>";
-                                                echo "<td>".$prestamos->noAsociado."</td>";
-                                                echo "<td>".$prestamos->nombre."</td>";
-                                                echo "<td>".$prestamos->descripcion."</td>";
-                                                echo "<td>".date("d-m-Y H:m:s", strtotime($prestamos->fecha_prestamo))."</td>";
+                                                        if($articulo->estatus != 1)
+                                                        {
+                                                            echo "<a href='#' class='btn btn-success btn-xs pull-right prestar' id_herramienta='".$articulo->id."' role='button' title='Prestar Articulo'>PRESTAR
+                                                            </a>";
+                                                        }
+                                                        echo "<a href='indexHerramientas_prestamos.php?id_herramienta=".$articulo->id."' class='btn btn-warning btn-xs pull-right ' role='button' title='Ver préstamos'>HISTORIAL
+                                                        </a>";
+                                                    echo "</p> 
+                                                  </div>
+                                            </div>
+                                        </div>";
+                                    }
 
-                                                if($prestamos->fecha_regreso != NULL)
-                                                {
-                                                   echo "<td>".date("d-m-Y H:m:s", strtotime($prestamos->fecha_regreso))."</td>"; 
-                                                }
-                                                else
-                                                {
-                                                    echo "<td class='text-center'> - </td>"; 
-                                                }
+                                ?>
 
-                                                if ($prestamos->estatus == 1) 
-                                                {
-                                                    echo "<td style='background: #f0ad4e; color:white;'>EN PRESTAMO</td>"; 
-                                                }
-                                                elseif($prestamos->estatus == 2)
-                                                {   
-                                                    echo "<td style='background: #169F85; color:white;'>DEVUELTO</td>";
-                                                }
-
-
-                                                
-                                               
-                                               if($prestamos->estatus == 1)
-                                                {
-                                                   echo "<td>";
-                                                    echo "<a type='button' class='btn btn-warning btn-sm optionEdit' valueEdit='".$prestamos->id."' title='Devolver artículo' >Devolver</a>";
-                                                    echo " <a type='button' class='btn btn-danger btn-sm' data-toggle='confirmation' data-singleton='true' data-placement='left' title='¿Eliminar registro?'>Eliminar</a>";
-                                                    echo "</td>"; 
-                                                }
-                                                elseif($prestamos->estatus == 2)
-                                                {
-                                                   echo "<td class='text-center'> - </td>";  
-                                                }
-                                                
-                                            echo "</tr>";
-
-                                            //$i ++;
-                                        }
-                                        endforeach;
-                                    ?>
-                                    </tbody>
-                                </table>
-                            
-                            <!-- /.table-responsive -->
+                                
                             </div>
                         </div>
                     </div> <!-- fin class='' -->
+
                 </div>
             <div class="clearfix"></div>
         </div>
@@ -140,15 +147,15 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Devolver artículo</h4>
+		        <h4 class="modal-title" id="myModalLabel">Prestar artículo</h4>
 		      </div>
 		      <div class="modal-body">
                 <form name='frmtipo' class="form-horizontal" id="divdestino" method="post" action="<?php echo $url; ?>createHerramientas_prestamos.php">
 		  
 		      </div>
 		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-		        <button type="submit" class="btn btn-warning">Devolver</button>
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+		        <button type="submit" class="btn btn-primary">Prestar</button>
 		      </div>
                 </form>
 		    </div>
@@ -176,21 +183,31 @@
 
             $(document).ready(function()
             {
-                
+                $(".prestar").on("click", function(event) 
+                { 
+                    event.preventDefault();
+                    var v = 0;
+                    var id_herramienta = 0;
+                        id_herramienta = $(this).attr("id_herramienta");
 
-                $(".optionEdit").on("click", function(event) 
+                    ajaxCargaDatos("divdestino", v, id_herramienta);
+                
+                });
+
+                /*$(".optionEdit").on("click", function(event) 
                 { 
                     event.preventDefault();
                     var v = 0;
                         v = $(this).attr("valueEdit");
 
                     var id_herramienta = 0;
+                        id_herramienta = $("#id_herramienta").val();
 
                         //console.log(v);
 
                     ajaxCargaDatos("divdestino", v, id_herramienta);
                 
-                });
+                });*/
 
 
                 $(".categoria").on("click", function()

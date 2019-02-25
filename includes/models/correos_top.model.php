@@ -1,10 +1,9 @@
 <?php
 
-class Disponibilidad_semanas {
+class Correos_top {
 	
-	public $id;
-	public $anos;
-	
+	public $fecha_envio;
+
 	public static function getBySql($sql) {
 		
 		// Open database connection
@@ -32,73 +31,41 @@ class Disponibilidad_semanas {
 	public static function getAll() {
 
 		// Build database query
-		$sql = 'select * from disponibilidad_semanas';
+		$sql = 'select * from correos_top';
 		
 		// Return objects
+		return self::getBySql($sql);
+	}
+	
+	public static function getAllByQuery($consulta) 
+	{
+
+		// Build database query
+
+		$sql = $consulta;
+		
+		
 		return self::getBySql($sql);
 	}
 
 	public static function getAllByOrden($columna, $orden) {
 
 		// Build database query
-		$sql = "SELECT * FROM disponibilidad_semanas ORDER BY $columna $orden";
+		$sql = "SELECT * FROM correos_top ORDER BY $columna $orden";
 		//echo $sql;
 		// Return objects
 		return self::getBySql($sql);
 	}
 
 
-	public static function getMaxSemana() 
-	{
-
-		// Build database query
-		$sql = "SELECT * FROM calendario_nature 
-				WHERE semana = (SELECT MAX(semana) FROM calendario_nature)";
-		
-		// Return objects
-		return self::getBySql($sql);
-	}
-
-
-	public static function getAllMesCount($mes) 
-	{
-
-		// Build database query
-		$sql = "SELECT COUNT(semana) as weeks FROM calendario_nature WHERE mes=$mes GROUP BY mes";
-		
-		// Return objects
-		return self::getBySql($sql);
-	}
-
-	public static function getAllSemanasByMes($mes) 
-	{
-
-		// Build database query
-		$sql = "SELECT * FROM calendario_nature WHERE mes=$mes";
-		
-		// Return objects
-		return self::getBySql($sql);
-	}
-
-	public static function getAllInner() {
-
-		// Build database query
-		$sql = 'select cat_informes. * , cat_tipos.etiqueta from cat_informes INNER JOIN cat_tipos ON(cat_informes.id_cat_tipos=cat_tipos.id) order by cat_informes.nombre';
-		
-		
-		// Return objects
-		return self::getBySql($sql);
-	}
-
-
 	
-	public static function getById($id) {
+	public static function getByFechaEnvio($fecha_envio) {
 	
 		// Initialize result array
 		$result = array();
 		
 		// Build database query
-		$sql = "select * from cat_tipos where id = ?";
+		$sql = "select fecha_envio from correos_top where fecha_envio = ?";
 		
 		// Open database connection
 		$database = new Database();
@@ -110,13 +77,13 @@ class Disponibilidad_semanas {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('i', $id);
+			$statement->bind_param('s', $fecha_envio);
 			
 			// Execute statement
 			$statement->execute();
 			
 			// Bind variable to prepared statement
-			$statement->bind_result($id, $etiqueta);
+			$statement->bind_result($fecha_envio);
 			
 			// Populate bind variables
 			$statement->fetch();
@@ -130,81 +97,12 @@ class Disponibilidad_semanas {
 		
 		// Build new object
 		$object = new self;
-		$object->id = $id;
-		$object->etiqueta = $etiqueta;
-		return $object;
-	}
-
-
-	public static function getByFecha($fecha) {
-	
-		// Initialize result array
-		$result = array();
-		
-		// Build database query
-		$sql = "select * from disponibilidad_semanas where fecha = ?";
-		
-		// Open database connection
-		$database = new Database();
-		
-		// Get instance of statement
-		$statement = $database->stmt_init();
-		
-		// Prepare query
-		if ($statement->prepare($sql)) {
-			
-			// Bind parameters
-			$statement->bind_param('s', $fecha);
-			
-			// Execute statement
-			$statement->execute();
-			
-			// Bind variable to prepared statement
-			$statement->bind_result($fecha);
-			
-			// Populate bind variables
-			$statement->fetch();
-		
-			// Close statement
-			$statement->close();
-		}
-		
-		// Close database connection
-		$database->close();
-		
-		// Build new object
-		$object = new self;
-		$object->fecha = $fecha;
+		$object->fecha_envio = $fecha_envio;
 		return $object;
 	}
 
 
 
-	public static function porGrupo($idGrupo) {
-
-		// Open database connection
-		$database = new Database();
-
-		// Build database query  --left join comentarios co on li.id=co.idLinea
-		$sql = "select * from cat_agrupado where id=$idGrupo";
-		
-		// Execute database query		
-		$result = $database->query($sql);
-		
-		// Initialize object array
-		$objects = array();
-		
-		// Fetch objects from database cursor
-		while ($object = $result->fetch_object()) {
-			$objects[] = $object;
-		}
-		
-		// Close database connection
-		$database->close();
-
-		// Return objects
-		return $objects;
-	}
 
 	public function insert() {
 		
@@ -213,7 +111,7 @@ class Disponibilidad_semanas {
 	
 	
 		// Build database query
-		$sql = "insert into cat_agrupado (nombre_del_grupo) values (?)";
+		$sql = "insert into correos_top (fecha_envio) values (?)";
 		
 		// Open database connection
 		$database = new Database();
@@ -225,7 +123,7 @@ class Disponibilidad_semanas {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('s', $this->nombre_del_grupo);
+			$statement->bind_param('s', $this->fecha_envio);
 			
 			// Execute statement
 			$statement->execute();
@@ -320,6 +218,30 @@ class Disponibilidad_semanas {
 		return $affected_rows;			
 	
 	}
+
+	public function inserta_dura() 
+	{
+
+		// Initialize affected rows
+		$affected_rows = FALSE;
+	
+		// Build database query
+		$sql = "INSERT INTO correos_top values $this->q";
+
+		//echo $sql;
+		
+		// Open database connection
+		$database = new Database();
+		
+		mysqli_query($database, $sql) or die(mysqli_error($database));
+
+
+		// Return affected rows
+		return $affected_rows;			
+	
+	}
+
+
 
 	public function save() {
 	

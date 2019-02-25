@@ -6,17 +6,8 @@
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Mis herramientas...</h3>
-                        <?php 
-                        if(isset($almacenes->id) && isset($categorias->id))
-                        {
-                            
-                            echo "<p>
-                                    <strong><a class='btn btn-success btn-sm' title='Regresar' href='indexHerramientas_categorias.php'>".$almacenes->descripcion." </a></strong><i class='fa fa-long-arrow-right fa-lg' aria-hidden='true'></i>  ".$categorias->categoria."</p>
-                                <input class='form-control input-sm hidden' id='id_almacen' value='".$almacenes->id."'>
-                                <input class='form-control input-sm hidden' id='id_categoria' value='".$categorias->id."'>";
-                        }
-                    ?>
+                        <h3>Mis artículos...</h3>
+                        
                     </div>
                     <div class="title_right ">
                         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -65,7 +56,7 @@
                                         //print_r($herramientas_herramientas);
                                         foreach ($herramientas_herramientas as $herramienta):
                                         {
-                                            $prestamos = Herramientas_prestamos::getAllMaxHerramienta($herramienta->id);
+                                            //$prestamos = Herramientas_prestamos::getAllMaxHerramienta($herramienta->id);
                                             
                                             //print_r($prestamos);
                                             echo "<tr campoid='".$herramienta->id."' >";
@@ -73,19 +64,22 @@
                                                 echo "<td>".$herramienta->clave."</td>";
                                                 //echo "<td>".$herramienta->categoria."</td>";
                                                 echo "<td>".$herramienta->descripcion."</td>";
-                                                echo "<td>".$herramienta->precio_unitario."</td>";
+                                                echo "<td>$ ".$herramienta->precio_unitario."</td>";
                                                 echo "<td>".date("d-m-Y H:m:s", strtotime($herramienta->fecha_entrada))."</td>";
-                                                if($prestamos[0]->estatus == "" || $prestamos[0]->estatus == 2 )
-                                                {
-                                                    echo "<td style='background: #169F85; color:white;'>EN ALMACEN</td>";
-                                                }
-                                                else if($prestamos[0]->estatus == 1 )
-                                                {
-                                                    echo "<td style='background: #f0ad4e; color:white;'>EN PRESTAMO</td>";
-                                                }
-                                               
+
+
+                                                
+                                                    if($herramienta->estatus == "" || $herramienta->estatus == 2 )
+                                                    {
+                                                        echo "<td style='background: #169F85; color:white;'>EN ALMACEN</td>";
+                                                    }
+                                                    else if($herramienta->estatus == 1 )
+                                                    {
+                                                        echo "<td style='background: #f0ad4e; color:white;'>EN PRESTAMO</td>";
+                                                    }
+                                                
+                                                
                                                 echo "<td>";
-                                                    echo "<a href='".$url."indexHerramientas_prestamos.php?id_herramienta=".$herramienta->id."' type='button' class='btn btn-primary btn-sm ' title='Préstamos o Devoluciones...' >Prestar o devolver</a>";
 
                                                     echo " <a type='button' class='btn btn-warning btn-sm optionEdit' valueEdit='".$herramienta->id."' title='Editar registro' >Editar</a>";
                                                 echo "</td>";

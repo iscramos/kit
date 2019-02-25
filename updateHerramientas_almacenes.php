@@ -11,25 +11,25 @@ if(isset($_GET["id"]))
 	
 	if($id > 0)
 	{
-		$categorias = Herramientas_categorias::getById($id);
+		$almacenes = Herramientas_almacenes::getById($id);
 
 		$str.="<div class='form-group hidden'>
 						<label class='col-sm-4 control-label'>ID</label>
 						<div class='col-sm-8'>
-							<input type='number' class='form-control input-sm' id='id' name='id' value='".$categorias->id."' readonly>
+							<input type='number' class='form-control input-sm' id='id' name='id' value='".$almacenes->id."' readonly>
 						</div>
 				</div>";
 
 		$str.="<div class='form-group'>
-						<label class='col-sm-4 control-label'>Categoría</label>
+						<label class='col-sm-4 control-label'>Descripción</label>
 						<div class='col-sm-8'>
-							<input type='text' class='form-control input-sm' id='categoria' name='categoria' value='".$categorias->categoria."' autocomplete='off' required='required'>
+							<input type='text' class='form-control input-sm' id='descripcion' name='descripcion' value='".$almacenes->descripcion."' autocomplete='off' required='required'>
 						</div>
 				</div>";
 	}
 	else
 	{
-		
+		$herramientas_almacenes = Herramientas_almacenes::getAll();
 
 		$str.="<div class='form-group hidden'>
 						<label class='col-sm-4 control-label'>ID</label>
@@ -37,10 +37,11 @@ if(isset($_GET["id"]))
 							<input type='number' class='form-control input-sm' id='id' name='id' value='' readonly>
 						</div>
 				</div>";
+
 		$str.="<div class='form-group'>
-						<label class='col-sm-4 control-label'>Categoría</label>
+						<label class='col-sm-4 control-label'>Descripción</label>
 						<div class='col-sm-8'>
-							<input type='text' class='form-control input-sm' id='categoria' name='categoria' value='' autocomplete='off' required='required'>
+							<input type='text' class='form-control input-sm' id='descripcion' name='descripcion' value='' autocomplete='off' required='required'>
 						</div>
 				</div>";
 	}

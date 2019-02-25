@@ -63,6 +63,7 @@ require_once(MODEL_PATH.'mpIdeales.model.php');
 require_once(MODEL_PATH.'calendario_nature.model.php');
 require_once(MODEL_PATH.'herramientas_herramientas.model.php');
 require_once(MODEL_PATH.'herramientas_categorias.model.php');
+require_once(MODEL_PATH.'herramientas_proveedores.model.php');
 require_once(MODEL_PATH.'herramientas_almacenes.model.php');
 require_once(MODEL_PATH.'herramientas_prestamos.model.php');
 require_once(MODEL_PATH.'mediciones_camara_fria.model.php');
@@ -102,3 +103,4 @@ require_once(MODEL_PATH.'recursos_puestos.model.php');
 require_once(MODEL_PATH.'planner.model.php');
 
 require_once(MODEL_PATH.'correos_ots.model.php');
+require_once(MODEL_PATH.'correos_top.model.php');
