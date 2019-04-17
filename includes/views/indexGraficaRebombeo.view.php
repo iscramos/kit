@@ -46,14 +46,7 @@
                                                     echo "<option value='".$equipo->activo."' class='medidor modoActiva hidden' >".$equipo->descripcion."</option>";
                                                 }
 
-                                                $buscarEstacion = "CO-EME";
-                                                $resultado = strpos($equipo->activo, $buscarEstacion);
-                                                 
-                                                if($resultado !== FALSE)
-                                                {
-                                                    echo "<option value='".$equipo->activo."' class='voltaje modoActiva hidden' >".$equipo->descripcion."</option>";
-                                                }
-
+                                                
                                                 $buscarPozo = "CO-POZ";
                                                 $resultado = strpos($equipo->activo, $buscarPozo);
                                                  

@@ -12,7 +12,6 @@ if($_SESSION["type"] == 1 || $_SESSION["type"] == 4 || $_SESSION["type"] == 6 ||
 {	
 	$consulta = "SELECT * FROM disponibilidad_activos WHERE activo LIKE 'CO-BMU%'
 											OR activo LIKE 'CO-COM%'
-											OR activo LIKE 'CO-EME%'
 											OR activo LIKE 'CO-POZ%'
 											AND organizacion = 'COL' ORDER BY activo ASC";
 

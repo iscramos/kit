@@ -14,7 +14,6 @@ if(isset($_GET["id"]))
 		$medicion = Bd_rebombeo::getById($id);
 		$q = "SELECT * FROM disponibilidad_activos WHERE activo LIKE 'CO-BMU%'
 											OR activo LIKE 'CO-COM%'
-											OR activo LIKE 'CO-EME%'
 											OR activo LIKE 'CO-POZ%'
 											AND organizacion = 'COL' ORDER BY activo ASC";
 
@@ -215,7 +214,6 @@ if(isset($_GET["id"]))
 	{
 		$q = "SELECT * FROM disponibilidad_activos WHERE activo LIKE 'CO-BMU%'
 											OR activo LIKE 'CO-COM%'
-											OR activo LIKE 'CO-EME%'
 											OR activo LIKE 'CO-POZ%'
 											AND organizacion = 'COL' ORDER BY activo ASC";
 
@@ -279,13 +277,7 @@ if(isset($_GET["id"]))
 									    $str.="<option value='".$activo->activo."' class='medidor modoActiva hidden' >".$activo->descripcion."</option>";
 									}
 
-									$buscarEstacion = "CO-EME";
-									$resultado = strpos($activo->activo, $buscarEstacion);
-									 
-									if($resultado !== FALSE)
-									{
-									    $str.="<option value='".$activo->activo."' class='voltaje modoActiva hidden' >".$activo->descripcion."</option>";
-									}
+									
 
 									$buscarPozo = "CO-POZ";
 									$resultado = strpos($activo->activo, $buscarPozo);
