@@ -15,7 +15,7 @@ if($_SESSION["type"] == 1 || $_SESSION["type"] == 7) // para admin y hidroelectr
 					INNER JOIN disponibilidad_activos ON bd_rebombeo.equipo = disponibilidad_activos.activo
 					INNER JOIN tipoMedicion_rebombeo ON bd_rebombeo.tipo = tipoMedicion_rebombeo.id
 					WHERE disponibilidad_activos.organizacion = 'COL'
-					ORDER BY bd_rebombeo.fechaLectura DESC";
+					ORDER BY bd_rebombeo.fechaLectura DESC, disponibilidad_activos.descripcion ASC, tipoMedicion_rebombeo.descripcion ASC";
 	$mediciones = Bd_rebombeo::getAllByQuery($consulta);
 	// Include page view
 	require_once(VIEW_PATH.'indexMedicionesRebombeo.view.php');
