@@ -30,7 +30,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST')
         if ($worksheetTitle == "Sheet1") {
             for ($row = 2; $row <= $highestRow; $row++) {
                 $valores = "(null";
-                for ($col = 0; $col <= 19; $col++) {
+                for ($col = 0; $col <= 22; $col++) {
                     $cell = $worksheet->getCellByColumnAndRow($col, $row);
                     $valor = $cell->getCalculatedValue();
                     if (($col == 8) || ($col == 9)) {
