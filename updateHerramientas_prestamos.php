@@ -103,7 +103,7 @@ if(isset($_GET["id"]))
 		$str.="<div class='row'>
 			  <div class='col-sm-12 col-xs-12'>
 			    <div class='thumbnail' style='height:auto !important;'>
-			      <img class='text-center' src='".$contentRead.$herramienta->archivo."' height='120px' width='180px'>
+			      <img class='text-center' src='".$contentRead.$herramienta->archivo."' height='140px' width='140px'>
 			      <div class='caption bg-primary' >
 			        <h4> Clave: ".$herramienta->clave."</h4>
 			        <p> Descripción: ".$herramienta->descripcion."</p>
@@ -114,10 +114,16 @@ if(isset($_GET["id"]))
 		
 
 		
-
+		$str.="<div class='form-group' style='float:left;'>
+				<div class='col-md-4 col-xs-4 '>
+					    <img  class='text-center imagenPerfil' src='dist/img/avatar.jpg' width='120px'; height='120px;'>
+					    
+		            </div>
+		</div>";
 		$str.="<div class='form-group'>
 					
-					<div class='col-md-5 col-xs-6  '>
+					
+		            <div class='col-md-4 col-xs-6 '>
 						<label >Código</label>
 		                <div class='input-group'>
 		                    <input type='number' class='form-control input-sm' name='noAsociado' id='noAsociado' value='' required autocomplete='off'>
@@ -126,13 +132,7 @@ if(isset($_GET["id"]))
 		                    </span> 
 		                </div>
 		            </div>
-		            <div class='col-md-7 col-xs-6  '>
-						<label >Nombre</label>
-						<input type='text' class='form-control input-sm' name='nombre' id='nombre' value='' required readonly>
-					</div>
-				</div>";
-		$str.="<div class='form-group'>
-						<div class='col-md-6 col-xs-6  '>
+		           	<div class='col-md-5 col-xs-6  '>
 						<label >Fecha de préstamo</label>
 						<div class='input-group date' id='datetimepicker1'>
 		                    <input type='text' name='fecha_prestamo' id='fecha_prestamo' class='form-control input-sm' value='' required autocomplete='off'>
@@ -141,11 +141,33 @@ if(isset($_GET["id"]))
 		                    </span>
 			            </div>
 					</div>
-						<div class='col-md-6 col-xs-6  hidden'>
-							<label >Estatus</label>
-				            <input type='number' name='estatus' id='estatus' class='form-control input-sm' value='1' required readonly> 
-						</div>
-				</div>";
+		            <div class='col-md-9 col-xs-12 '>
+						<label >Nombre</label>
+						<input type='text' class='form-control input-sm ' name='nombre' id='nombre' value='' required readonly>
+						
+		            </div>
+		            
+		            
+		 	</div>";
+
+
+		$str.="<div class='form-group'>
+			            <!--div class='col-md-6 col-xs-6  '>
+						<label >Fecha de préstamo</label>
+						<div class='input-group date' id='datetimepicker1'>
+		                    <input type='text' name='fecha_prestamo' id='fecha_prestamo' class='form-control input-sm' value='' required autocomplete='off'>
+		                    <span class='input-group-addon'>
+		                        <span class='glyphicon glyphicon-calendar'></span>
+		                    </span>
+			            </div>
+					</div-->
+					<div class='col-md-6 col-xs-6  hidden'>
+						<label >Estatus</label>
+			            <input type='number' name='estatus' id='estatus' class='form-control input-sm' value='1' required readonly> 
+					</div>
+		 	</div>";
+
+
 	}
 }
 else
@@ -183,11 +205,12 @@ echo $str;
 		return objetoAjax;
 	}
 
-	
+	//../col2/ch/perfils/10327.jpg
 	$("#buscar").on("click", function()
 	{	
 		var noAsociado = null;
     		noAsociado = $("#noAsociado").val();
+    		$(".imagenPerfil").attr("src", "dist/img/load_2019.gif");
     	if(noAsociado > 0)
     	{	
 			var ajax=creaAjax();
@@ -214,10 +237,14 @@ echo $str;
 					  	alert("NO ENCONTRADO, REVISAR EL CATALOGO...");
 					  	$("#nombre").val(null);
 					  	$("#noAsociado").val(null);
+					  	$(".labelNombre").text("Nombre");
+					  	$(".imagenPerfil").attr("src", "dist/img/avatar.jpg");
 				  	}
 					else
 					{
 					  	$("#nombre").val(nombre);
+					  	$(".labelNombre").text(nombre);
+					  	$(".imagenPerfil").attr("src", "../col2/ch/perfils/"+noAsociado+".jpg");
 					  	
 					} 		  
 				  

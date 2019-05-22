@@ -1,14 +1,10 @@
 <?php
 
-class Equipos_rebombeo {
+class Zancos_acciones {
 	
 	public $id;
-	public $equipo;
-	public $hp;
-	public $voltaje_minimo;
-	public $voltaje_maximo;
-	public $amperaje_minimo;
-	public $amperaje_maximo;
+	public $descripcion;
+
 	
 	public static function getBySql($sql) {
 		
@@ -37,29 +33,78 @@ class Equipos_rebombeo {
 	public static function getAll() {
 
 		// Build database query
-		$sql = 'select * from equipos_rebombeo';
+		$sql = 'select * from zancos_acciones ORDER BY accion ASC';
 		
 		// Return objects
 		return self::getBySql($sql);
 	}
 
-	public static function getAllByOrden($columna, $orden) {
+	public static function getAllByOrden($campo, $orden) {
 
 		// Build database query
-		$sql = "SELECT * FROM equipos_rebombeo ORDER BY $columna $orden";
-		//echo $sql;
+		$sql = "SELECT * FROM zancos_acciones ORDER BY $campo $orden";
+		
+		// Return objects
+		return self::getBySql($sql);
+	}
+
+	public static function getAllInnerAlmacen() 
+	{
+
+		// Build database query
+		$sql = "SELECT herramientas_categorias.*, zancos_acciones.descripcion as descripcion
+				FROM herramientas_categorias
+				INNER JOIN zancos_acciones ON herramientas_categorias.id_almacen = zancos_acciones.id";
+		//die($sql);
 		// Return objects
 		return self::getBySql($sql);
 	}
 
 	
+	
+
+	public static function getAllMax() {
+
+		// Build database query
+		$sql = 'select MAX(id) as id from usuarios';
+		
+		// Return objects
+		return self::getBySql($sql);
+	}
+
+	public static function getAllInformeValidador($informe) 
+	{
+
+		// Build database query
+		$sql = "SELECT usuarios . * , usuario_cat_informe . * 
+				FROM usuarios
+				INNER JOIN usuario_cat_informe ON usuarios.id = usuario_cat_informe.ID_usuario
+				WHERE usuario_cat_informe.id_cat_informe =$informe";
+		
+		// Return objects
+		return self::getBySql($sql);
+	}
+
+	public static function getAllUsuarioCatInfo($idU) {
+
+		// Build database query
+		$sql = 'SELECT usuarios.*, usuario_cat_informe.id as iduc, usuario_cat_informe.id_cat_informe as idci, usuario_cat_informe.ID_usuario, cat_informes.id as idi, cat_informes.nombreCorto
+				FROM usuarios
+				INNER JOIN usuario_cat_informe on usuarios.id = usuario_cat_informe.ID_usuario
+				LEFT JOIN cat_informes on usuario_cat_informe.id_cat_informe = cat_informes.id
+				where usuarios.id=$idU';
+		
+		// Return objects
+		return self::getBySql($sql);
+	}
+
 	public static function getById($id) {
 	
 		// Initialize result array
 		$result = array();
 		
 		// Build database query
-		$sql = "select * from equipos_rebombeo where id = ?";
+		$sql = "select * from zancos_acciones where id = ?";
 		
 		// Open database connection
 		$database = new Database();
@@ -77,7 +122,7 @@ class Equipos_rebombeo {
 			$statement->execute();
 			
 			// Bind variable to prepared statement
-			$statement->bind_result($id, $etiqueta);
+			$statement->bind_result($id, $accion);
 			
 			// Populate bind variables
 			$statement->fetch();
@@ -92,67 +137,50 @@ class Equipos_rebombeo {
 		// Build new object
 		$object = new self;
 		$object->id = $id;
-		$object->etiqueta = $etiqueta;
+		$object->accion = $accion;
 		return $object;
 	}
-
-	public static function getByEquipo($equipo) {
 	
-		// Initialize result array
-		$result = array();
-		
-		// Build database query
-		$sql = "select * from equipos_rebombeo where equipo = ?";
-		
+	
+	public static function buscaUsuarioByEmail($correo){
 		// Open database connection
 		$database = new Database();
-		
-		// Get instance of statement
-		$statement = $database->stmt_init();
-		
-		// Prepare query
-		if ($statement->prepare($sql)) {
-			
-			// Bind parameters
-			$statement->bind_param('s', $equipo);
-			
-			// Execute statement
-			$statement->execute();
-			
-			// Bind variable to prepared statement
-			$statement->bind_result($id, $equipo, $hp, $voltaje_minimo, $voltaje_maximo, $amperaje_minimo, $amperaje_maximo, $latitud, $longitud);
-			
-			// Populate bind variables
-			$statement->fetch();
-		
-			// Close statement
-			$statement->close();
-		}
-		
-		// Close database connection
-		$database->close();
-		
-		// Build new object
-		$object = new self;
-		$object->id = $id;
-		$object->equipo = $equipo;
-		$object->hp = $hp;
-		$object->voltaje_minimo = $voltaje_minimo;
-		$object->voltaje_maximo = $voltaje_maximo;
-		$object->amperaje_minimo = $amperaje_minimo;
-		$object->amperaje_maximo = $amperaje_maximo;
 
-		return $object;
+		//checar si existe el usuario en la base
+		$sql = "SELECT id, name, email, type FROM users WHERE email='".$correo."'";
+
+		// Execute database query
+		$result = $database->query($sql);
+
+		//$result = $this->sql->query($sql);
+		if ($result->num_rows > 0){
+			// Initialize object array
+			$objects = array();
+			
+			// Fetch objects from database cursor
+			while ($object = $result->fetch_object()) {
+				$objects[] = $object;
+			}
+			
+			// Close database connection
+			$database->close();
+
+			// Return objects
+			return $objects;
+		}
+		else 
+			return 0;
 	}
 
+
+		
 	public function insert() {
 		
 		// Initialize affected rows
 		$affected_rows = FALSE;
 	
-	
 		// Build database query
-		$sql = "insert into equipos_rebombeo (descripcion) values (?)";
+		$sql = "insert into zancos_acciones (accion) values (?)";
 		
 		// Open database connection
 		$database = new Database();
@@ -164,7 +192,7 @@ class Equipos_rebombeo {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('s', $this->descripcion);
+			$statement->bind_param('s', $this->accion);
 			
 			// Execute statement
 			$statement->execute();
@@ -189,8 +217,7 @@ class Equipos_rebombeo {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "update equipos_rebombeo set descripcion = ? where id = ?";
-				
+		$sql = "update zancos_acciones set accion = ? where id = ?";
 		
 		// Open database connection
 		$database = new Database();
@@ -202,7 +229,7 @@ class Equipos_rebombeo {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('si', $this->descripcion, $this->id);
+			$statement->bind_param('si', $this->accion, $this->id);
 			
 			// Execute statement
 			$statement->execute();
@@ -228,7 +255,7 @@ class Equipos_rebombeo {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "delete from equipos_rebombeo where id = ?";
+		$sql = "delete from zancos_acciones where id = ?";
 		
 		// Open database connection
 		$database = new Database();
@@ -259,7 +286,7 @@ class Equipos_rebombeo {
 		return $affected_rows;			
 	
 	}
-
+	
 	public function save() {
 	
 		// Check object for id
@@ -274,5 +301,4 @@ class Equipos_rebombeo {
 			return $this->insert();
 		}
 	}	
-
 }

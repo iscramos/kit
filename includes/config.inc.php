@@ -104,3 +104,11 @@ require_once(MODEL_PATH.'planner.model.php');
 
 require_once(MODEL_PATH.'correos_ots.model.php');
 require_once(MODEL_PATH.'correos_top.model.php');
+
+require_once(MODEL_PATH.'zancos_acciones.model.php');
+require_once(MODEL_PATH.'zancos_ghs.model.php');
+require_once(MODEL_PATH.'zancos_tamanos.model.php');
+require_once(MODEL_PATH.'zancos_lideres.model.php');
+require_once(MODEL_PATH.'zancos_problemas.model.php');
+require_once(MODEL_PATH.'zancos_bd.model.php');
+require_once(MODEL_PATH.'zancos_movimientos.model.php');

@@ -8,7 +8,7 @@ require_once('includes/inc.session.php');
 // Get posts from database
 //echo $_SESSION["school"];
 
-if($_SESSION["type"] == 1 || $_SESSION["type"] == 3 || $_SESSION["type"] == 4 || $_SESSION["type"] == 5 || $_SESSION["type"] == 6 || $_SESSION["type"] == 7 || $_SESSION["type"] == 8) // para administrador, embarque
+if($_SESSION["type"] == 1 || $_SESSION["type"] == 3 || $_SESSION["type"] == 4 || $_SESSION["type"] == 5 || $_SESSION["type"] == 6 || $_SESSION["type"] == 7 || $_SESSION["type"] == 8 || $_SESSION["type"] == 9) // para administrador, embarque
 {
 	// Include page view
 	require_once(VIEW_PATH.'index.view.php');

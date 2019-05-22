@@ -262,6 +262,35 @@
                                     </ul>
                                   </li>";
                             }
+
+                            elseif ($_SESSION["type"] == 9) // for zancos
+                            {
+                                echo "<li><a><i class='fa fa-wrench'></i> ADMIN <span class='fa fa-chevron-down'></span></a>
+                                    <ul class='nav child_menu'>
+                                        <li><a href='indexZancos_acciones.php'>Acciones</a></li>
+                                        <li><a href='indexZancos_ghs.php'>GH</a></li>
+                                        <li><a href='indexZancos_lideres.php'>Líderes</a></li>
+                                        <li><a href='indexZancos_tamanos.php'>Tamaños</a></li>
+                                        <li><a href='indexZancos_problemas.php'>Problemas</a></li>
+                                        <li><a href='indexZancos_bd.php'>BD</a></li>
+                                    </ul>
+                                  </li>";
+
+                                  echo "<li>
+                                            <a href='indexZancos_movimientos.php'><i class='fa fa-arrows' aria-hidden='true'></i>Movimientos</a>
+                                        </li>";
+                                echo "<li><a><i class='fa fa-file-text'></i> REPORTES <span class='fa fa-chevron-down'></span></a>
+                                    <ul class='nav child_menu'>
+                                        <li><a href='indexZancos_reportes_mayor.php'> > 1.5 años</a></li>
+                                        <li><a href='indexZancos_reportes_desfase.php'>Desfasados</a></li>
+                                    </ul>
+                                  </li>";
+
+                                echo "<li>
+                                            <a href='indexZancos_dashboard.php'><i class='fa fa-desktop' aria-hidden='true'></i>Dashboard</a>
+                                        </li>";
+                                
+                            }
                     	?>
                     </ul>
                 </div>
