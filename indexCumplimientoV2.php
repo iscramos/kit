@@ -8,7 +8,7 @@ require_once('includes/inc.session.php');
 // Get posts from database
 //echo $_SESSION["school"];
 
-if($_SESSION["type"] == 1 || $_SESSION["type"] == 6 || $_SESSION["type"] == 7) // for admin, taller mecanico, taller hidroelectrico
+if($_SESSION["type"] == 1 || $_SESSION["type"] == 6 || $_SESSION["type"] == 7 || $_SESSION["type"] == 4) // for admin, taller mecanico, taller hidroelectrico
 {
 	//$disponibilidad = Ordenesos::getAllByMes();
 	// Include page view

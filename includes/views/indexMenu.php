@@ -110,16 +110,10 @@
                                     </ul>
                                   </li>";
                                 echo "<li>
-                                            <a href='indexDisponibilidad.php'><i class='fa fa-line-chart' aria-hidden='true'></i>Disponibilidad</a>
-                                        </li>";
-                                echo "<li>
                                         <a href='indexMpvsMc.php'>
                                                 <i class='fa fa-bar-chart' aria-hidden='true'></i>MP vs MC (*)</a>
                                             </li>";
-                                echo "<li>
-                                                <a href='indexMpvsMcCritica.php'>
-                                                <i class='fa fa-truck' aria-hidden='true'></i> MP vs MC (crítica)</a>
-                                            </li>";
+                               
                                 echo "<li>
                                         <a href='indexCumplimientoV2.php'> <i class='fa fa-area-chart' aria-hidden='true'></i> Cumplim. v2</a>
                                     </li>";  
