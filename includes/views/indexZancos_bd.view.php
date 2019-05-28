@@ -316,27 +316,39 @@
                 {
                     event.preventDefault();
                     var no_zanco = null;
+                    var tamano = null;
                         no_zanco = $("#no_zanco").val()
+                        tamano = $("#tamano").val()
                         consulta = "EXISTE_ZANCO";
                     
                     var respuesta = null;
-                    $.get("helper_zancos.php", {consulta:consulta, no_zanco:no_zanco} ,function(data)
+
+                    if (no_zanco >= 0 && tamano > 0) 
                     {
-                        
-                        respuesta = data;
-                        if(respuesta == "SI")
+                        $.get("helper_zancos.php", {consulta:consulta, no_zanco:no_zanco} ,function(data)
                         {
-                            alert("ESTE ZANCO YA EXISTE EN LA BD...");
-                            $("#no_zanco").focus();
                             
-                            return false;
-                        }
-                        else
-                        {
-                           $("form:first").submit();
-                        }
-                        
-                    });
+                            respuesta = data;
+                            if(respuesta == "SI")
+                            {
+                                alert("ESTE ZANCO YA EXISTE EN LA BD...");
+                                $("#no_zanco").focus();
+                                
+                                return false;
+                            }
+                            else
+                            {
+                               $("form:first").submit();
+                            }
+                            
+                        });
+                    }
+                    else
+                    {
+                        alert("Llene los campos correspondientes...");
+                        return false;
+                    }
+                    
 
                     
 
@@ -391,6 +403,7 @@
 
                 $('.dataTables-example').DataTable({
                 //responsive: true,
+                "lengthMenu": [[20, 100, 100, -1], [20, 100, 200, "Todo"]], 
                 "language":{
                     "oPaginate": {
                         "sNext" : "Siguiente",

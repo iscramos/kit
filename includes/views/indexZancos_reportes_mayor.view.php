@@ -48,10 +48,6 @@
                                         <th>Zona</th>
                                         <th>GH</th>
                                         
-                                        <th>F. salida</th>
-                                        <th>F. entrega</th>
-                                        <th>F. servicio</th>
-                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -67,15 +63,15 @@
                                                     $d_dias = date_diff($fechaHoy, $f_activacion);
                                                     $d_dias = $d_dias->format('%a');
                                                     $anos_limite = 1.5;
-                                                    $anos_convertidos = $d_dias / 365;
-                                                    $anos_convertidos = round($anos_convertidos, 1);
+                                                    $anos_convertidos = $d_dias / 365.25;
+                                                   // $anos_convertidos = round($anos_convertidos, 1);
                                            
                                            if($anos_convertidos > $anos_limite)
                                             {
                                                 echo "<tr >";
                                                     echo "<td >".$m->no_zanco."</td>";
                                                     echo "<td>".$m->tamano_descripcion."</td>";
-                                                    echo "<td style='text-align:center; background:#C9302C; color: white;'>".$anos_convertidos."</td>"; 
+                                                    echo "<td style='text-align:center; background:#C9302C; color: white;'>".round($anos_convertidos, 2)."</td>"; 
                                                     echo "<td>".$m->id_registro."</td>";
                                                     echo "<td>".$m->zona."</td>";
                                                     echo "<td>".$m->gh."</td>";
@@ -83,32 +79,7 @@
                                                             
                                                        
                                                     
-                                                    if($m->fecha_salida > 0)
-                                                    {
-                                                        echo "<td style='text-align: center;'>".date("d-m-Y", strtotime($m->fecha_salida))."</td>";   
-                                                    }
-                                                    else
-                                                    {
-                                                        echo "<td style='text-align: center;'> - </td>";
-                                                    }
-
-                                                    if($m->fecha_entrega > 0)
-                                                    {
-                                                        echo "<td>".date("d-m-Y", strtotime($m->fecha_entrega))."</td>";   
-                                                    }
-                                                    else
-                                                    {
-                                                        echo "<td style='text-align: center;'> - </td>";
-                                                    }
                                                     
-                                                    if($m->fecha_servicio > 0)
-                                                    {
-                                                        echo "<td>".date("d-m-Y", strtotime($m->fecha_servicio))."</td>";   
-                                                    }
-                                                    else
-                                                    {
-                                                        echo "<td style='text-align: center;'> - </td>";
-                                                    }
                                                    
                                                 echo "</tr>";
                                             }

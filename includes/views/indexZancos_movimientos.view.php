@@ -434,6 +434,7 @@
                         } );
                     },
                     "order": [[ 0, 'desc' ]],
+                    "lengthMenu": [[50, 100, 100, -1], [50, 100, 200, "Todo"]], 
                     "language":{
                     "oPaginate": {
                         "sNext" : "Siguiente",

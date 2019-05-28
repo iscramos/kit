@@ -34,42 +34,34 @@ if($_SESSION["type"] == 9)
 			  AND m.tipo_movimiento = 2";
 	$zancos_retirados = Zancos_movimientos::getAllByQuery($consulta); 
 	
-	$consulta = "SELECT m.*, zancos_tamanos.tamano AS tamano_descripcion 
-					
-				 /*(SELECT zancos_movimientos.fecha_activacion_o_baja 
-				 		FROM zancos_movimientos
-				 		WHERE zancos_movimientos.tipo_movimiento = 1
-				 		AND zancos_movimientos.no_zanco = m.no_zanco
-				 ) AS f_activacion
-				 ,
-				 (SELECT (DATEDIFF('$fecha_hoy', zancos_movimientos.fecha_activacion_o_baja) )
-				 		FROM zancos_movimientos
-				 		WHERE zancos_movimientos.tipo_movimiento = 1
-				 		AND zancos_movimientos.no_zanco = m.no_zanco
-				 ) AS dif_dias*/
+	$consulta = "SELECT m.*, zancos_tamanos.tamano AS tamano_descripcion, zancos_tamanos.limite_semana, zancos_bd.id AS id, zancos_acciones.accion AS accion_descripcion, zancos_acciones.id AS id_accion, m2.fecha_activacion_o_baja as f_activacion
 
 			FROM zancos_movimientos m
 			INNER JOIN
 			(
-			    SELECT max(id_registro) reg, no_zanco
+			    SELECT max(id_registro) reg, no_zanco, fecha_activacion_o_baja
 			    FROM zancos_movimientos
+                
 			    GROUP BY no_zanco
 			) m2
 			  ON m.no_zanco = m2.no_zanco
+			  INNER JOIN zancos_acciones ON m.tipo_movimiento = zancos_acciones.id
 			  INNER JOIN zancos_tamanos ON m.tamano = zancos_tamanos.id
+			  INNER JOIN zancos_bd ON m.no_zanco = zancos_bd.no_zanco
 			  AND m.id_registro = m2.reg
-			  AND m.tipo_movimiento = 1
-			  AND (DATEDIFF('$fecha_hoy', m.fecha_activacion_o_baja) ) > 548
-			order by m.id_registro desc";
+              AND m.tipo_movimiento <> 2
+			  AND (DATEDIFF('$fecha_hoy', m2.fecha_activacion_o_baja) ) > (547.88)
+			  order by m.id_registro desc";
 		//echo $consulta;		
 	$zancos_mayores = Zancos_movimientos::getAllByQuery($consulta);
+	//print_r($zancos_mayores);
 
 	$consulta = "SELECT * FROM zancos_bd
 					WHERE no_zanco NOT IN 
 						(SELECT no_zanco
                        		FROM zancos_movimientos
                        	)
-                    AND no_zanco > 0";
+                    /*AND no_zanco > 0*/";
 	$zancos_stock = Zancos_bd::getAllByQuery($consulta);
 
 	//echo "<pre>"; print_r($zancos_stock); echo "</pre>";
@@ -105,7 +97,9 @@ if($_SESSION["type"] == 9)
 			  INNER JOIN zancos_tamanos ON m.tamano = zancos_tamanos.id
 			  AND m.id_registro = m2.reg
 			  AND m.tipo_movimiento = 3
-			  AND m.fecha_entrega = 0";
+			  AND m.fecha_entrega = 0
+			  AND (DATEDIFF('$fecha_hoy', m.fecha_salida) ) > (m.tiempo_limite * 7)";
+
 	$zancos_desfase = Zancos_bd::getAllByQuery($consulta);
 
 	$consulta = "SELECT m.*, zancos_tamanos.tamano AS tamano_descripcion

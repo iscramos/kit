@@ -22,17 +22,30 @@ if(isset($_GET["id"]))
 						</div>
 				</div>";
 
-		$str.="<div class='form-group'>
+		if($bd->no_zanco == 0)
+		{
+			$str.="<div class='form-group'>
+						<label class='col-sm-4 control-label'>No zanco</label>
+						<div class='col-sm-8'>
+							<input type='number' class='form-control input-sm' id='no_zanco' name='no_zanco' value='".$bd->no_zanco."' autocomplete='off' required='required' >
+						</div>
+				</div>";
+		}
+		else
+		{
+			$str.="<div class='form-group'>
 						<label class='col-sm-4 control-label'>No zanco</label>
 						<div class='col-sm-8'>
 							<input type='number' class='form-control input-sm' id='no_zanco' name='no_zanco' value='".$bd->no_zanco."' autocomplete='off' required='required' readonly>
 						</div>
 				</div>";
+		}
+		
 
 		$str.="<div class='form-group'>
 						<label class='col-sm-4 control-label'>Tamaño</label>
 						<div class='col-sm-8'>
-							<select class='form-control input-sm' name='tamano' id='tamano' required>
+							<select class='form-control input-sm' name='tamano' id='tamano' required='required'>
 								<option value='' style='display:none;'>Seleccione un tamaño</option>";
 								foreach ($tamanos as $t) 
 								{
@@ -57,9 +70,11 @@ if(isset($_GET["id"]))
 							<input type='number' class='form-control input-sm' id='id' name='id' value='' readonly>
 						</div>
 				</div>";
-
 		$str.="<div class='form-group'>
-						<label class='col-sm-4 control-label'>No zanco</label>
+						<p style='color: red;'>* Colocar 0, para stock.</p>
+				</div>";
+		$str.="<div class='form-group'>
+						<label class='col-sm-4 control-label'>No zanco </label>
 						<div class='col-sm-8'>
 							<input type='number' class='form-control input-sm' id='no_zanco' name='no_zanco' value='' autocomplete='off' required='required'>
 						</div>
@@ -68,7 +83,7 @@ if(isset($_GET["id"]))
 		$str.="<div class='form-group'>
 						<label class='col-sm-4 control-label'>Tamaño</label>
 						<div class='col-sm-8'>
-							<select class='form-control input-sm' name='tamano' id='tamano' required>
+							<select class='form-control input-sm' name='tamano' id='tamano' required='required'>
 								<option value='' style='display:none;'>Seleccione un tamaño</option>";
 								foreach ($tamanos as $t) 
 								{

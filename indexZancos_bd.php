@@ -20,6 +20,8 @@ if($_SESSION["type"] == 9)
 				 		FROM zancos_movimientos
 				 		WHERE zancos_movimientos.tipo_movimiento = 1
 				 		AND zancos_movimientos.no_zanco = m.no_zanco
+
+			  
 				 ) AS id_reg_activacion
 
 			FROM zancos_movimientos m
@@ -33,9 +35,13 @@ if($_SESSION["type"] == 9)
 			  INNER JOIN zancos_acciones ON m.tipo_movimiento = zancos_acciones.id
 			  INNER JOIN zancos_tamanos ON m.tamano = zancos_tamanos.id
 			  INNER JOIN zancos_bd ON m.no_zanco = zancos_bd.no_zanco
-			  AND m.id_registro = m2.reg";
+			  AND m.id_registro = m2.reg
+			  AND m.no_zanco > 0";
 				
 	$zancos_bd = Zancos_bd::getAllByQuery($consulta);
+	
+	
+	
 	$consulta = "SELECT zancos_bd.*, zancos_tamanos.limite_semana, zancos_tamanos.tamano AS tamano_descripcion FROM zancos_bd
 					INNER JOIN zancos_tamanos ON zancos_bd.tamano = zancos_tamanos.id
 					WHERE no_zanco NOT IN 

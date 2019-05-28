@@ -12,18 +12,12 @@ if($_SESSION["type"] == 9)
 {
 	$fecha_hoy = date("Y-m-d");
 	
-	$q = "SELECT m.*, zancos_tamanos.tamano AS tamano_descripcion, 
-				
-				 (SELECT zancos_movimientos.fecha_salida 
-				 		FROM zancos_movimientos
-				 		WHERE zancos_movimientos.tipo_movimiento = 3
-				 		AND zancos_movimientos.no_zanco = m.no_zanco
-				 ) AS f_salida
+	$q = "SELECT m.*, zancos_tamanos.tamano AS tamano_descripcion
 
 			FROM zancos_movimientos m
 			INNER JOIN
 			(
-			    SELECT max(id_registro) reg, no_zanco
+			    SELECT max(id_registro) reg, no_zanco, fecha_salida
 			    FROM zancos_movimientos
 			    GROUP BY no_zanco
 			) m2
@@ -32,7 +26,12 @@ if($_SESSION["type"] == 9)
 			  AND m.id_registro = m2.reg
 			  AND m.tipo_movimiento = 3
 			  AND m.fecha_entrega = 0
+			  AND (DATEDIFF('$fecha_hoy', m.fecha_salida) ) > (m.tiempo_limite * 7)
 			order by m.id_registro desc";
+
+
+	
+			  
 				
 	$zancos_movimientos = Zancos_movimientos::getAllByQuery($q);
 	//echo $q;

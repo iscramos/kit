@@ -49,8 +49,6 @@
                                         <th>GH <br> ACTUAL</th>
                                         
                                         <th>FECHA <br> SALIDA</th>
-                                        <th>FECHA <br> ENTREGA</th>
-                                        <th>FECHA <br> SERVICIO</th>
                                         
                                     </tr>
                                 </thead>
@@ -62,16 +60,16 @@
                                            $ban = 0;
                                            // aquí sacamos los años, para ver si son mayores a 1.5 años
                                             $fechaHoy = date_create(date("Y-m-d"));
-                                            $f_salida = date_create($m->f_salida);
+                                            $fecha_salida = date_create($m->fecha_salida);
 
-                                                    $d_dias = date_diff($fechaHoy, $f_salida);
+                                                    $d_dias = date_diff($fechaHoy, $fecha_salida);
                                                     $d_dias = $d_dias->format('%a');
                                                     $semanas_limite = $m->tiempo_limite;
                                                     $semanas_convertidas = $d_dias / 7;
                                                     $semanas_convertidas = round($semanas_convertidas, 2);
                                            
-                                           if($semanas_convertidas > $semanas_limite)
-                                            {
+                                           /*if($semanas_convertidas > $semanas_limite)
+                                            {*/
                                                 $diferencia_semanas = $semanas_convertidas - $semanas_limite;
 
                                                 echo "<tr >";
@@ -94,26 +92,10 @@
                                                         echo "<td style='text-align: center;'> - </td>";
                                                     }
 
-                                                    if($m->fecha_entrega > 0)
-                                                    {
-                                                        echo "<td>".date("d-m-Y", strtotime($m->fecha_entrega))."</td>";   
-                                                    }
-                                                    else
-                                                    {
-                                                        echo "<td style='text-align: center;'> - </td>";
-                                                    }
                                                     
-                                                    if($m->fecha_servicio > 0)
-                                                    {
-                                                        echo "<td>".date("d-m-Y", strtotime($m->fecha_servicio))."</td>";   
-                                                    }
-                                                    else
-                                                    {
-                                                        echo "<td style='text-align: center;'> - </td>";
-                                                    }
                                                    
                                                 echo "</tr>";
-                                            }
+                                            //}
 
                                             $i ++;
                                         }

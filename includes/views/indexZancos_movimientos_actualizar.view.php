@@ -1042,7 +1042,13 @@
                                 if(str == '*NO ENCONTRADO*')
                                 {
                                     $("#nombre_lider_salida").val(null);
+                                    $("#ns_salida_lider").val(null);
                                     $(".imagenPerfil").attr("src", "dist/img/avatar.jpg");
+                                    $("#departamento").text("Departamento: ");
+                                    $("#puesto").text("Puesto: ");
+                                    $("#lider").text("Líder: ");
+                                    $("#estatus").text("Estatus: ");
+                                    alert("Asociado no encontrado...");
                                 }
                                 else
                                 {
@@ -1105,7 +1111,13 @@
                                     if(str == '*NO ENCONTRADO*')
                                     {
                                         $("#nombre_lider_salida").val(null);
+                                        $("#ns_salida_lider").val(null);
                                         $(".imagenPerfil").attr("src", "dist/img/avatar.jpg");
+                                        $("#departamento").text("Departamento: ");
+                                        $("#puesto").text("Puesto: ");
+                                        $("#lider").text("Líder: ");
+                                        $("#estatus").text("Estatus: ");
+                                        alert("Asociado no encontrado...");
                                     }
                                     else
                                     {
