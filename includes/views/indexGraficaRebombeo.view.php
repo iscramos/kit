@@ -215,6 +215,8 @@
                     var equipo = $("#equipo").val();
                     var tipo = $("#tipo").val();
 
+                    var medicion_dia_pasado = 0;
+
                     if(tipo == 0)
                     {
                         alert("¡SELECCIONE UNA MEDICION!");
@@ -248,7 +250,14 @@
                                     google.charts.setOnLoadCallback(drawNiveles);
                               }
                               else // para los medidores
-                              { //Añadimos la imagen de carga en el contenedor
+                              { 
+                              //Añadimos la imagen de carga en el contenedor
+
+                                $.get("apiMedidor.php", {consulta:"CONSULTA_MEDICION", tipo:tipo, ano:ano, mes:mes, equipo:equipo} ,function(data)
+                                            {
+                                                medicion_dia_pasado = data;
+                                                //alert(medicion_dia_pasado);
+                                            }); 
                                 $('#medidores').html('<div style="text-align:center;"><img src="dist/img/loading.gif"/></div>');
                                     google.charts.setOnLoadCallback(drawMedidores);
                               }
@@ -401,22 +410,34 @@
 
                         function drawMedidores()
                         {
-
                             
-                            var constructorMedidores = [['DIA / HORA',  'METROS CUBICOS CONSUMIDOS', ]];
+
+                            var constructorMedidores = [['DIA / HORA',  'METROS CUBICOS CONSUMIDOS', {type:'number', role:'annotation'}]];
 
                             $.getJSON("helperGrafico.php?tipo="+tipo+"&ano="+ano+"&mes="+mes+"&equipo="+equipo, function(result)
                             {
-                                    
                                 $.each(result, function(i, field)
                                 {
-                                    dia = field['fechaLectura'] ;
+                                   
+                                    var valor_consumo = 0;
+                                    dia = field['fechaLectura'];
+                                    convertida = new Date(dia);
+                                    dia_formato = convertida.format("d/m/Y");
                                     m_consumidos = parseFloat(field['m_consumidos'] * 10 );
 
+                                    if(m_consumidos > medicion_dia_pasado)
+                                    {
+                                        valor_consumo = m_consumidos - medicion_dia_pasado;
+                                    }
+                                    else
+                                    {
+                                        valor_consumo = medicion_dia_pasado - m_consumidos;
+                                    }
 
+                                    //console.log(valor_consumo);
+                                    constructorMedidores.push([dia_formato, valor_consumo, valor_consumo]);
                                     
-                                    constructorMedidores.push([dia, m_consumidos]);
-                                
+                                    medicion_dia_pasado = m_consumidos;
                                     /*console.log("v_min = "+field['v_min'] +" v_max= " + field['v_max'] + " l1_l2 = "+field['voltaje_l1_l2']);*/
                                 });// fin de each result
 
@@ -445,7 +466,7 @@
                                
 
                                 //var chart = new google.charts.Line(document.getElementById('amperaje'));
-                                var chart = new google.visualization.LineChart(document.getElementById('medidores'));
+                                var chart = new google.visualization.AreaChart(document.getElementById('medidores'));
 
                                     chart.draw(dataMedidores, optionsMedidores);
 

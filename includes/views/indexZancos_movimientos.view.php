@@ -130,7 +130,7 @@
                                                 }
                                                 
                                                 echo "<td>".$m->ns_salida_lider."</td>";
-                                                echo "<td>".$m->nombre_lider_salida."</td>";
+                                                echo "<td>".utf8_encode($m->nombre_lider_salida)."</td>";
 
                                                 if($m->tipo_movimiento == 1) // activacion
                                                 {
@@ -392,24 +392,7 @@
                     ajax.send(null);
                 }
 
-                /*$('.dataTables-example').DataTable({
-                //responsive: true,
-                "order": [[ 0, 'desc' ]],
-                "language":{
-                    "oPaginate": {
-                        "sNext" : "Siguiente",
-                        "sPrevious": "Anterior"
-                    },
-                    "search": "Buscar ",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior",
-                    "lengthMenu": "_MENU_ Registros por página",
-                    "zeroRecords": "Nada encontrado",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
-                    "infoEmpty": "No registros disponibles",
-                    "infoFiltered": "(filtrado de _MAX_ registros totales)"
-                }
-            });*/
+                
 
                 $('.dataTables-example').DataTable( 
                 {
@@ -433,22 +416,23 @@
                             } );
                         } );
                     },
-                    "order": [[ 0, 'desc' ]],
-                    "lengthMenu": [[50, 100, 100, -1], [50, 100, 200, "Todo"]], 
+                    //"order": [[ 0, 'desc' ]],
+                    "ordering": false,
+                    "lengthMenu": [[20, 100, 100, -1], [20, 100, 200, "Todo"]], 
                     "language":{
                     "oPaginate": {
                         "sNext" : "Siguiente",
                         "sPrevious": "Anterior"
                     },
-                    "search": "Buscar ",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior",
-                    "lengthMenu": "_MENU_ Registros por página",
-                    "zeroRecords": "Nada encontrado",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
-                    "infoEmpty": "No registros disponibles",
-                    "infoFiltered": "(filtrado de _MAX_ registros totales)"
-                }
+                        "search": "Buscar ",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior",
+                        "lengthMenu": "_MENU_ Registros por página",
+                        "zeroRecords": "Nada encontrado",
+                        "info": "Mostrando página _PAGE_ de _PAGES_",
+                        "infoEmpty": "No registros disponibles",
+                        "infoFiltered": "(filtrado de _MAX_ registros totales)"
+                    }
                 } );
 
             }); // end ready

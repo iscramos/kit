@@ -403,6 +403,8 @@
 
                 $('.dataTables-example').DataTable({
                 //responsive: true,
+                //"order": [[ 0, 'desc' ]],
+                "ordering": false,
                 "lengthMenu": [[20, 100, 100, -1], [20, 100, 200, "Todo"]], 
                 "language":{
                     "oPaginate": {

@@ -36,11 +36,10 @@ if($_SESSION["type"] == 9)
 			  INNER JOIN zancos_tamanos ON m.tamano = zancos_tamanos.id
 			  INNER JOIN zancos_bd ON m.no_zanco = zancos_bd.no_zanco
 			  AND m.id_registro = m2.reg
-			  AND m.no_zanco > 0";
+			  AND m.no_zanco > 0
+			  ORDER BY m.no_zanco DESC";
 				
 	$zancos_bd = Zancos_bd::getAllByQuery($consulta);
-	
-	
 	
 	$consulta = "SELECT zancos_bd.*, zancos_tamanos.limite_semana, zancos_tamanos.tamano AS tamano_descripcion FROM zancos_bd
 					INNER JOIN zancos_tamanos ON zancos_bd.tamano = zancos_tamanos.id
