@@ -1,37 +1,6 @@
  <?php require_once(VIEW_PATH.'header.inc.php');
  ?>
-
-    <style type="text/css">
-        @-webkit-keyframes invalid 
-        {
-            from { background-color: #C82333; }
-            to { background-color: inherit; }
-        }
-        @-moz-keyframes invalid 
-        {
-            from { background-color: #C82333; }
-            to { background-color: inherit; }
-        }
-        @-o-keyframes invalid 
-        {
-          from { background-color: #C82333; }
-          to { background-color: inherit; }
-        }
-        @keyframes invalid 
-        {
-          from { background-color: #C82333; }
-          to { background-color: inherit; }
-        }
-        
-        .invalid
-        {
-          -webkit-animation: invalid 1s infinite; /* Safari 4+ */
-          -moz-animation:    invalid 1s infinite; /* Fx 5+ */
-          -o-animation:      invalid 1s infinite; /* Opera 12+ */
-          animation:         invalid 1s infinite; /* IE 10+ */
-        }
-
-       
+   
     </style>        
          <!-- page content -->
         <div class="right_col" role="main">
@@ -85,7 +54,7 @@
                                             <i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i>
                                         </td>
                                         <td>
-                                            <table class="table table-bordered">
+                                            <table class="table table-bordered table-condensed">
                                                 <?php 
                                                     foreach ($zancos_tamanos as $t) 
                                                     {
@@ -106,7 +75,7 @@
                                                                     $x++;
                                                                 }
                                                             }
-                                                            echo "<td style='text-align:right;'>".$x."</td>";
+                                                            echo "<td style='text-align:right;'><button class='btn btn-sm' style='background: #2DB67C; color:white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
                                                 ?>
@@ -129,7 +98,7 @@
                                             <i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i>
                                         </td>
                                         <td>
-                                            <table class="table table-bordered" >
+                                            <table class="table table-bordered table-condensed" >
                                                 <?php 
                                                     foreach ($zancos_tamanos as $t) 
                                                     {
@@ -143,7 +112,7 @@
                                                                     $x++;
                                                                 }
                                                             }
-                                                            echo "<td style='text-align:right;'>".$x."</td>";
+                                                            echo "<td style='text-align:right;'><button class='btn btn-sm ver' style='background: #218838; color:white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
                                                 ?>
@@ -166,7 +135,7 @@
                                             <i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i>
                                         </td>
                                         <td>
-                                            <table class="table table-bordered">
+                                            <table class="table table-bordered table-condensed">
                                                 <?php 
                                                     foreach ($zancos_tamanos as $t) 
                                                     {
@@ -180,7 +149,7 @@
                                                                     $x++;
                                                                 }
                                                             }
-                                                            echo "<td style='text-align:right;'>".$x."</td>";
+                                                            echo "<td style='text-align:right;'><button class='btn btn-sm ver' style='background: #E0A800; color: black; width:50px; ' title='Ver zancos'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
                                                 ?>
@@ -270,7 +239,7 @@
                                             <i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i>
                                         </td>
                                         <td>
-                                            <table class="table table-bordered">
+                                            <table class="table table-bordered table-condensed">
                                                 <?php 
                                                     foreach ($zancos_tamanos as $t) 
                                                     {
@@ -284,7 +253,7 @@
                                                                     $x++;
                                                                 }
                                                             }
-                                                            echo "<td style='text-align:right;'>".$x."</td>";
+                                                            echo "<td style='text-align:right;'><button class='btn btn-sm ver' style='background: #C82333; color:white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
                                                 ?>
@@ -344,7 +313,7 @@
 
                                                                 if($w > 0)
                                                                 {
-                                                                    echo "<td  class='invalid'style=' background: #F8D7DA; color: black;' >".$w."</td>";
+                                                                    echo "<td style=' background: #F8D7DA; color: black;' >".$w."</td>";
                                                                 }
                                                                 else
                                                                 {
@@ -375,7 +344,7 @@
                                             <i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i>
                                         </td>
                                         <td>
-                                            <table class="table table-bordered">
+                                            <table class="table table-bordered table-condensed">
                                                 <?php 
                                                     foreach ($zancos_tamanos as $t) 
                                                     {
@@ -389,7 +358,7 @@
                                                                     $x++;
                                                                 }
                                                             }
-                                                            echo "<td style='text-align:right;'>".$x."</td>";
+                                                            echo "<td style='text-align:right;'><button class='btn btn-sm ver' style='background: #0069D9; color: white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
                                                 ?>
@@ -413,7 +382,7 @@
                                             <i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i>
                                         </td>
                                         <td>
-                                            <table class="table table-bordered">
+                                            <table class="table table-bordered table-condensed">
                                                 <?php 
                                                     foreach ($zancos_tamanos as $t) 
                                                     {
@@ -427,7 +396,7 @@
                                                                     $x++;
                                                                 }
                                                             }
-                                                            echo "<td style='text-align:right;'>".$x."</td>";
+                                                            echo "<td style='text-align:right;'><button class='btn btn-sm ver' style='background: #5A6268; color: white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
                                                 ?>
@@ -451,7 +420,7 @@
                                             <i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i>
                                         </td>
                                         <td>
-                                            <table class="table table-bordered">
+                                            <table class="table table-bordered table-condensed">
                                                 <?php 
                                                     foreach ($zancos_tamanos as $t) 
                                                     {
@@ -466,7 +435,7 @@
                                                                     $x++;
                                                                 }
                                                             }
-                                                            echo "<td style='text-align:right;'>".$x."</td>";
+                                                            echo "<td style='text-align:right;'><button class='btn btn-sm ver' style='background: #138496; color: white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
                                                 ?>
@@ -490,7 +459,7 @@
                                             <i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i>
                                         </td>
                                         <td>
-                                            <table class="table table-bordered">
+                                            <table class="table table-bordered table-condensed">
                                                 <?php 
                                                     foreach ($zancos_tamanos as $t) 
                                                     {
@@ -505,7 +474,7 @@
                                                                     $x++;
                                                                 }
                                                             }
-                                                            echo "<td style='text-align:right;'>".$x."</td>";
+                                                            echo "<td style='text-align:right;'><button class='btn btn-sm ver' style='background: #563D7C; color: white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
                                                 ?>
@@ -526,22 +495,19 @@
 
 
   		<!-- Modal -->
-		<div class="modal fade" id="modalAgregar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		  <div class="modal-dialog" role="document">
+		<div class="modal fade bs-example-modal-lg" id="modalAgregar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog modal-lg" role="document">
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Agregar / Modificar zanco</h4>
+		        <h4 class="modal-title" id="myModalLabel">Zancos</h4>
 		      </div>
 		      <div class="modal-body">
-                <form name='frmtipo' class="form-horizontal" id="divdestino" method="post" action="<?php echo $url; ?>createZancos_bd.php">
-		  
+                    <div id="divdestino">
+		            </div>
 		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-		        <button type="submit" class="btn btn-primary">Guardar</button>
-		      </div>
-                </form>
+		      
+                
 		    </div>
 		  </div>
 		</div>
@@ -565,31 +531,17 @@
 
             $(document).ready(function()
             {
-                $("#agregar").on("click", function(event) 
+                $(".ver").on("click", function(event) 
                 { 
                     event.preventDefault();
-                    var v = 0;
+                    var consulta = null;
+                        consulta = "NUEVO";
 
-                    ajaxCargaDatos("divdestino", v );
+                    ajaxCargaDatos("divdestino", consulta );
                 
                 });
 
-                $(".optionEdit").on("click", function(event) 
-                { 
-                    event.preventDefault();
-                    var v = 0;
-                        v = $(this).attr("valueEdit");
-
-                        console.log(v);
-
-                    ajaxCargaDatos("divdestino", v );
                 
-                });
-
-                $('.password').focus(function () 
-                {
-                   $('.password').attr('type', 'text'); 
-                });
 
                 function creaAjax()
                 {
@@ -612,11 +564,11 @@
                     return objetoAjax;
                 }
 
-                function ajaxCargaDatos(divdestino, uID)
+                function ajaxCargaDatos(divdestino, c)
                 {
                     var ajax=creaAjax();
 
-                    ajax.open("GET", "updateZancos_bd.php?id="+uID, true);
+                    ajax.open("GET", "helper_zancos_details.php?consulta="+c, true);
                     ajax.onreadystatechange=function() 
                     { 
                         if (ajax.readyState==1)

@@ -416,8 +416,8 @@
                             } );
                         } );
                     },
-                    //"order": [[ 0, 'desc' ]],
-                    "ordering": false,
+                    "order": [[ 0, 'desc' ]],
+                    //"ordering": true,
                     "lengthMenu": [[20, 100, 100, -1], [20, 100, 200, "Todo"]], 
                     "language":{
                     "oPaginate": {

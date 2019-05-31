@@ -128,7 +128,7 @@
 
                                         <div class="form-group col-sm-4">
                                             <label >Zona</label>
-                                            <input type="text" class="form-control" name="zona" id="zona" value="" autocomplete="" required="required" readonly="true">
+                                            <input type="text" class="form-control" name="zona" id="zona" value=""  required="required" readonly="true">
                                         </div>
 
                                         <!-- TERCERA LINEA -->
@@ -137,7 +137,7 @@
                                             <div class='col-sm-4'>
                                                 <label >Fecha activación / baja</label>
                                                 <div class='input-group date' id='datetimepicker1'>
-                                                    <input type='text' name='fecha_activacion_o_baja' id='fecha_activacion_o_baja' class='form-control' value="">
+                                                    <input type='text' name='fecha_activacion_o_baja' id='fecha_activacion_o_baja' class='form-control' value="" autocomplete="off">
                                                     <span class='input-group-addon'>
                                                         <span class='glyphicon glyphicon-calendar'></span>
                                                     </span>
@@ -174,7 +174,7 @@
                                                 <div class='col-sm-4'>
                                                     <label >Fecha salida</label>
                                                     <div class='input-group date' id='datetimepicker2'>
-                                                        <input type='text' name='fecha_salida' id='fecha_salida' class='form-control' value="">
+                                                        <input type='text' name='fecha_salida' id='fecha_salida' class='form-control' value="" autocomplete="off">
                                                         <span class='input-group-addon'>
                                                             <span class='glyphicon glyphicon-calendar'></span>
                                                         </span>
@@ -198,7 +198,7 @@
                                                 <div class='col-sm-4'>
                                                     <label >Fecha entrega</label>
                                                     <div class='input-group date' id='datetimepicker3'>
-                                                        <input type='text' name='fecha_entrega' id='fecha_entrega' class='form-control' value="">
+                                                        <input type='text' name='fecha_entrega' id='fecha_entrega' class='form-control' value="" autocomplete="off">
                                                         <span class='input-group-addon'>
                                                             <span class='glyphicon glyphicon-calendar'></span>
                                                         </span>
@@ -215,7 +215,7 @@
                                                 <div class='col-sm-4'>
                                                     <label >Fecha servicio</label>
                                                     <div class='input-group date' id='datetimepicker4'>
-                                                        <input type='text' name='fecha_servicio' id='fecha_servicio' class='form-control' value="">
+                                                        <input type='text' name='fecha_servicio' id='fecha_servicio' class='form-control' value="" autocomplete="off">
                                                         <span class='input-group-addon'>
                                                             <span class='glyphicon glyphicon-calendar'></span>
                                                         </span>
@@ -310,7 +310,7 @@
                                                 <div class='col-sm-4'>
                                                     <label >Fecha activación / baja</label>
                                                     <div class='input-group date' id='datetimepicker1'>
-                                                        <input type='text' name='fecha_activacion_o_baja' id='fecha_activacion_o_baja' class='form-control' value="<?php echo $zancos_movimientos[0]->fecha_activacion_o_baja; ?>">
+                                                        <input type='text' name='fecha_activacion_o_baja' id='fecha_activacion_o_baja' class='form-control' value="<?php echo $zancos_movimientos[0]->fecha_activacion_o_baja; ?>" autocomplete="off">
                                                         <span class='input-group-addon'>
                                                             <span class='glyphicon glyphicon-calendar'></span>
                                                         </span>
@@ -345,7 +345,7 @@
 
                                             <div class="form-group col-sm-4">
                                                 <label >Fecha salida</label>
-                                                <input type='text' name='fecha_salida' id='fecha_salida' class='form-control' value="" readonly="true">
+                                                <input type='text' name='fecha_salida' id='fecha_salida' class='form-control' value="" readonly="true" autocomplete="off">
                                                         
                                             </div>
 
@@ -364,7 +364,7 @@
                                             <div class="form-group col-sm-4">
                                                 
                                                 <label >Fecha entrega</label>
-                                                <input type='text' name='fecha_entrega' id='fecha_entrega' class='form-control' value="" readonly="true">
+                                                <input type='text' name='fecha_entrega' id='fecha_entrega' class='form-control' value="" readonly="true" autocomplete="off">
                                                         
                                             </div>
 
@@ -375,7 +375,7 @@
 
                                             <div class="form-group col-sm-4">
                                                 <label >Fecha servicio</label>
-                                                <input type='text' name='fecha_servicio' id='fecha_servicio' class='form-control' value="" readonly="true">
+                                                <input type='text' name='fecha_servicio' id='fecha_servicio' class='form-control' value="" readonly="true" autocomplete="off">
                                                 
                                             </div>
                                             
@@ -397,7 +397,7 @@
                                                 <div class='col-sm-4'>
                                                     <label >Fecha activación / baja</label>
                                                     <div class='input-group date' id='datetimepicker1'>
-                                                        <input type='text' name='fecha_activacion_o_baja' id='fecha_activacion_o_baja' class='form-control' value="<?php echo $zancos_movimientos[0]->fecha_activacion_o_baja; ?>">
+                                                        <input type='text' name='fecha_activacion_o_baja' id='fecha_activacion_o_baja' class='form-control' value="<?php echo $zancos_movimientos[0]->fecha_activacion_o_baja; ?>" autocomplete="off">
                                                         <span class='input-group-addon'>
                                                             <span class='glyphicon glyphicon-calendar'></span>
                                                         </span>
@@ -432,7 +432,7 @@
 
                                             <div class="form-group col-sm-4">
                                                 <label >Fecha salida</label>
-                                                <input type='text' name='fecha_salida' id='fecha_salida' class='form-control' value="" readonly="true">
+                                                <input type='text' name='fecha_salida' id='fecha_salida' class='form-control' value="" readonly="true" autocomplete="off">
                                                         
                                             </div>
 
@@ -451,7 +451,7 @@
                                             <div class="form-group col-sm-4">
                                                 
                                                 <label >Fecha entrega</label>
-                                                <input type='text' name='fecha_entrega' id='fecha_entrega' class='form-control' value="" readonly="true">
+                                                <input type='text' name='fecha_entrega' id='fecha_entrega' class='form-control' value="" readonly="true" autocomplete="off">
                                                         
                                             </div>
 
@@ -462,7 +462,7 @@
 
                                             <div class="form-group col-sm-4">
                                                 <label >Fecha servicio</label>
-                                                <input type='text' name='fecha_servicio' id='fecha_servicio' class='form-control' value="" readonly="true">
+                                                <input type='text' name='fecha_servicio' id='fecha_servicio' class='form-control' value="" readonly="true" autocomplete="off">
                                                 
                                             </div>
                                             
@@ -483,7 +483,7 @@
 
                                             <div class="form-group col-sm-4">
                                                 <label >Fecha activación / baja</label>
-                                                <input type='text' name='fecha_activacion_o_baja' id='fecha_activacion_o_baja' class='form-control' value="" readonly="true">
+                                                <input type='text' name='fecha_activacion_o_baja' id='fecha_activacion_o_baja' class='form-control' value="" readonly="true" autocomplete="off">
                                             </div>
 
                                             <div class="form-group col-sm-4">
@@ -540,7 +540,7 @@
                                                 <div class='col-sm-4'>
                                                     <label >Fecha salida</label>
                                                     <div class='input-group date' id='datetimepicker2'>
-                                                        <input type='text' name='fecha_salida' id='fecha_salida' class='form-control' value="<?php echo $f_salida; ?>">
+                                                        <input type='text' name='fecha_salida' id='fecha_salida' class='form-control' value="<?php echo $f_salida; ?>" autocomplete="off">
                                                         <span class='input-group-addon'>
                                                             <span class='glyphicon glyphicon-calendar'></span>
                                                         </span>
@@ -605,7 +605,7 @@
                                                 <div class='col-sm-4'>
                                                     <label >Fecha entrega</label>
                                                     <div class='input-group date' id='datetimepicker3'>
-                                                        <input type='text' name='fecha_entrega' id='fecha_entrega' class='form-control' value="<?php echo $f_entrega; ?>">
+                                                        <input type='text' name='fecha_entrega' id='fecha_entrega' class='form-control' value="<?php echo $f_entrega; ?>" autocomplete="off">
                                                         <span class='input-group-addon'>
                                                             <span class='glyphicon glyphicon-calendar'></span>
                                                         </span>
@@ -622,7 +622,7 @@
                                                 <div class='col-sm-4'>
                                                     <label >Fecha servicio</label>
                                                     <div class='input-group date' id='datetimepicker4'>
-                                                        <input type='text' name='fecha_servicio' id='fecha_servicio' class='form-control' value="<?php echo $f_servicio; ?>">
+                                                        <input type='text' name='fecha_servicio' id='fecha_servicio' class='form-control' value="<?php echo $f_servicio; ?>" autocomplete="off">
                                                         <span class='input-group-addon'>
                                                             <span class='glyphicon glyphicon-calendar'></span>
                                                         </span>
@@ -666,7 +666,7 @@
                                         <div class="col-sm-12" style="text-align: center;">
                                             <br>
                                             <a class="btn btn-default" href="indexZancos_movimientos.php">Cancelar</a>
-                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                            <button type="submit" id="guardar" class="btn btn-primary">Guardar</button>
                                         </div>
                                      </div>
                             
@@ -1219,6 +1219,15 @@
                     });
                 });
 
+
+                $("#divdestino").submit(function() 
+                {
+                    //var data = $("#login_form :input").serializeArray();
+                    //alert('Registro guardado...');
+                    $("#guardar").attr("disabled", "true");
+                    //return false;  // <- cancel event
+                });
+
             
 
                 
@@ -1254,6 +1263,7 @@
 
                 $('.dataTables-example').DataTable({
                 //responsive: true,
+
                 "language":{
                     "oPaginate": {
                         "sNext" : "Siguiente",
