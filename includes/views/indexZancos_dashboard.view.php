@@ -1,7 +1,6 @@
  <?php require_once(VIEW_PATH.'header.inc.php');
  ?>
-   
-    </style>        
+        
          <!-- page content -->
         <div class="right_col" role="main">
             <div class="">
@@ -533,6 +532,9 @@
 
             $(document).ready(function()
             {
+                
+       
+
                 $(".ver").on("click", function(event) 
                 { 
                     event.preventDefault();
@@ -544,6 +546,7 @@
                         titulo = consulta.toLowerCase();
 
                     ajaxCargaDatos("divdestino", consulta, tamano, titulo);
+
                 
                 });
 
@@ -580,7 +583,7 @@
                         if (ajax.readyState==1)
                         {
                           // Mientras carga ponemos un letrerito que dice "Verificando..."
-                          $('#'+divdestino).html='Cargando...';
+                          $('#'+divdestino).html("<img src='dist/img/load_2019.gif'>");
                         }
                         if (ajax.readyState==4)
                         {
@@ -599,6 +602,9 @@
                 
 
             }); // end ready
+
+            
+
         </script>
 </body>
 

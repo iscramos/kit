@@ -41,11 +41,11 @@
                                     <thead>
                                         <tr>
                                         
-                                        <th>Zanco</th>
-                                        <th>Tamaño</th>
-                                        <th>Años</th>
-                                        <th>últ. reg</th>
-                                        <th>Zona</th>
+                                        <th>ZANCO</th>
+                                        <th>TAMAÑO</th>
+                                        <th>AÑOS</th>
+                                        <th>ÚLT. REG</th>
+                                        <th>ZONA</th>
                                         <th>GH</th>
                                         
                                     </tr>

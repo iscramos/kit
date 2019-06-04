@@ -49,6 +49,7 @@
                                         <th>GH <br> ACTUAL</th>
                                         
                                         <th>FECHA <br> SALIDA</th>
+                                        <th>DATOS DE ASOCIADO</th>
                                         
                                     </tr>
                                 </thead>
@@ -92,7 +93,7 @@
                                                         echo "<td style='text-align: center;'> - </td>";
                                                     }
 
-                                                    
+                                                    echo "<td> (".$m->ns_salida_lider.") ".utf8_encode($m->nombre_lider_salida)."</td>";
                                                    
                                                 echo "</tr>";
                                             //}
