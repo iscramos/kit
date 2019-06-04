@@ -112,7 +112,7 @@
                                                                     $x++;
                                                                 }
                                                             }
-                                                            echo "<td style='text-align:right;'><button class='btn btn-sm ver' style='background: #218838; color:white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
+                                                            echo "<td style='text-align:right;'><button consulta='DISPONIBLES' tamano='".$t->id."' class='btn btn-sm ver' style='background: #218838; color:white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
                                                 ?>
@@ -149,7 +149,8 @@
                                                                     $x++;
                                                                 }
                                                             }
-                                                            echo "<td style='text-align:right;'><button class='btn btn-sm ver' style='background: #E0A800; color: black; width:50px; ' title='Ver zancos'>".$x."</button></td>";
+                                                            echo "<td style='text-align:right;'><button consulta='CAMPO' tamano='".$t->id."' 
+                                                            class='btn btn-sm ver' style='background: #E0A800; color: black; width:50px; ' title='Ver zancos'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
                                                 ?>
@@ -253,7 +254,7 @@
                                                                     $x++;
                                                                 }
                                                             }
-                                                            echo "<td style='text-align:right;'><button class='btn btn-sm ver' style='background: #C82333; color:white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
+                                                            echo "<td style='text-align:right;'><button consulta='DESFASE' tamano='".$t->id."' class='btn btn-sm ver' style='background: #C82333; color:white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
                                                 ?>
@@ -358,7 +359,7 @@
                                                                     $x++;
                                                                 }
                                                             }
-                                                            echo "<td style='text-align:right;'><button class='btn btn-sm ver' style='background: #0069D9; color: white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
+                                                            echo "<td style='text-align:right;'><button consulta='SERVICIO' tamano='".$t->id."' class='btn btn-sm ver' style='background: #0069D9; color: white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
                                                 ?>
@@ -396,7 +397,7 @@
                                                                     $x++;
                                                                 }
                                                             }
-                                                            echo "<td style='text-align:right;'><button class='btn btn-sm ver' style='background: #5A6268; color: white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
+                                                            echo "<td style='text-align:right;'><button consulta='STOCK' tamano='".$t->id."' class='btn btn-sm ver' style='background: #5A6268; color: white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
                                                 ?>
@@ -435,7 +436,7 @@
                                                                     $x++;
                                                                 }
                                                             }
-                                                            echo "<td style='text-align:right;'><button class='btn btn-sm ver' style='background: #138496; color: white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
+                                                            echo "<td style='text-align:right;'><button consulta='MAYOR A 1.5 AÑOS' tamano='".$t->id."' class='btn btn-sm ver' style='background: #138496; color: white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
                                                 ?>
@@ -474,7 +475,7 @@
                                                                     $x++;
                                                                 }
                                                             }
-                                                            echo "<td style='text-align:right;'><button class='btn btn-sm ver' style='background: #563D7C; color: white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
+                                                            echo "<td style='text-align:right;'><button consulta='RETIRADOS' tamano='".$t->id."' class='btn btn-sm ver' style='background: #563D7C; color: white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
                                                 ?>
@@ -506,8 +507,9 @@
                     <div id="divdestino">
 		            </div>
 		      </div>
-		      
-                
+		      <div class="modal-footer" style="text-align: center;">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
+              </div>
 		    </div>
 		  </div>
 		</div>
@@ -535,9 +537,13 @@
                 { 
                     event.preventDefault();
                     var consulta = null;
-                        consulta = "NUEVO";
+                    var tamano = null;
+                    var titulo = null;
+                        consulta = $(this).attr("consulta");
+                        tamano = $(this).attr("tamano");
+                        titulo = consulta.toLowerCase();
 
-                    ajaxCargaDatos("divdestino", consulta );
+                    ajaxCargaDatos("divdestino", consulta, tamano, titulo);
                 
                 });
 
@@ -564,11 +570,11 @@
                     return objetoAjax;
                 }
 
-                function ajaxCargaDatos(divdestino, c)
+                function ajaxCargaDatos(divdestino, c, t, nombre)
                 {
                     var ajax=creaAjax();
 
-                    ajax.open("GET", "helper_zancos_details.php?consulta="+c, true);
+                    ajax.open("GET", "helper_zancos_details.php?consulta="+c+"&tamano="+t, true);
                     ajax.onreadystatechange=function() 
                     { 
                         if (ajax.readyState==1)
@@ -580,7 +586,8 @@
                         {
                           // Cuando ya terminó, ponemos el resultado
                             var str =ajax.responseText; 
-                                        
+                            
+                            $("#myModalLabel").text("Zancos "+ nombre);                        
                             $('#'+divdestino).html(''+str+'');
                             $("#modalAgregar").modal("show");
                 
