@@ -367,6 +367,270 @@ if(isset($_REQUEST["parametro"]))
 			$pdf.="NO DATA";
 		}
 	}
+	if($parametro == "SISPA")
+		{
+			
+			if(isset($_REQUEST['semana']) && isset($_REQUEST['fecha']) && isset($_REQUEST['realizo']) && isset($_REQUEST['supervisor']) && isset($_REQUEST['ano']) && isset($_REQUEST['observacion']) )
+			{
+				$semana = $_REQUEST["semana"];
+				$fecha = date("d/m/Y", strtotime($_REQUEST["fecha"]));
+				$realizo = $_REQUEST["realizo"];
+				$supervisor = $_REQUEST["supervisor"];
+				$ano = $_REQUEST["ano"];
+				$observacion = $_REQUEST["observacion"];
+
+				$inicio = "";
+				$fin = "";
+				
+
+				$min_calendario = Disponibilidad_calendarios::getMinDiaByAnoSemana($semana, $ano);    
+			    $max_calendario = Disponibilidad_calendarios::getMaxDiaByAnoSemana($semana, $ano);
+			    $fechasDias = Disponibilidad_calendarios::getDaysBySemanaAno($semana, $ano);
+			    $inicio = $min_calendario[0]->dia;
+			   	$fin = $max_calendario[0]->dia;
+
+			   	$consulta = "SELECT * FROM disponibilidad_activos WHERE activo LIKE 'CO-BMU%'
+											OR activo LIKE 'CO-COM%'
+											OR activo LIKE 'CO-POZ%'
+											AND organizacion = 'COL' ORDER BY activo ASC";
+				$equipos = Disponibilidad_activos::getAllByQuery($consulta);
+
+				$pdf.="<table style=' border-collapse:collapse;' border='0'>
+					      	<tr>
+					          <th width='900' colspan='9' style='font-size:12px; text-align:center;'>NatureSweet Invernaderos S. de R.L. de C.V.</th>
+					        </tr>
+					        <tr>
+					        	<th width='100' style='text-align:right;'> </th>
+					        	<th width='100' style='text-align:right;'> </th>
+					        	<th width='100' style='text-align:right;'> </th>
+					        	<th width='100' style='text-align:right;'> </th>
+					        	<th width='100' style='text-align:right;'> </th>
+					        	<th width='100' style='text-align:right;'> </th>
+					        	<th width='100' style='text-align:right;'> </th>
+					          	<th width='100' style='text-align:right; font-size:12px;'>FECHA: </th>
+					          	<td width='100' style='font-size:12px; text-align:right; border-bottom:1 solid black;'>".$fecha."</td>
+					        </tr>
+					       	<tr>
+					          <td width='400' colspan='4' style='text-align:center; font-size:12px;'>Planta Colima </td>
+					          <td width='200' colspan='2' style='font-size:12px; text-align:left;'><b>SAC-FO-GM-048</b></td>
+					          <td width='100' style='text-align:center;'></td>
+					          <td width='100' style='text-align:center;'></td>
+					          <td width='100' style='text-align:center;'></td>
+					        </tr>
+					        <tr>
+					        	<td width='100' style='text-align:center;'></td>
+					        	<td width='100' style='text-align:center;'></td>
+					          <td width='100'  style='text-align:center;'></td>
+					          <td width='100' style='text-align:center;'></td>
+					          <td width='100' style='text-align:center; font-size:12px;'>Ver. 2</td>
+					          <td width='100' style='text-align:center;'></td>
+					          <td width='100' style='text-align:center;'></td>
+					          <td width='100' style='text-align:right; font-size:12px;'><b> SEMANA: </b></td>
+					          <td width='100' style='font-size:12px; text-align:right; border-bottom:1 solid black;'>".$semana."</td>
+					        </tr>
+					        <tr>
+					          <td width='100'><img style='width:120;' src='".$url."dist/img/naturesweet_picture.png'></td> 
+					          <td width='700' colspan='7'  style='font-size:14px; text-align:center;'>FORMATO DE TOMA DE LECTURAS DEL CONSUMO DE AGUA EN LA PLANTA</td>
+					          <td width='100'> </td>
+					        </tr>
+				      	</table>";
+				$pdf.="<br>";
+
+				$consulta = "SELECT * 
+						FROM bd_rebombeo 
+							WHERE tipo = 3
+								AND ( DATE(fechaLectura) BETWEEN '".$inicio."' AND '".$fin."')";
+
+				$mediciones = Disponibilidad_data::getAllByQuery($consulta);
+
+				//print_r($segregaciones);
+				
+				
+					
+			$pdf.="<table style='font-size:12px; border-collapse:collapse;'  border='1'>";
+				$pdf.="<thead>";
+				$pdf.="<tr>";
+							$pdf.="<td width='200'  colspan='2'  rowspan='2' style='text-align:right;'>FECHA </td>
+					          <td width='700' colspan='7' style='font-size:12px; text-align:center;'><b>TOMA DE LECTURAS</b></td>";
+					$pdf.="</tr>";
+					$pdf.="<tr>";
+					foreach ($fechasDias as $fechas) 
+					{
+						$pdf.="<td width='100' style='text-align:center;'>".date("d-m-Y", strtotime($fechas->dia))."</td>";
+					}
+					$pdf.="</tr>";
+					$pdf.="<tr>";
+						$pdf.="<th width='145' height='30' style='text-align:center; background: #D4D4D4;'>UBICACION</th> 
+								<th width='55' height='30' style='text-align:center; background: #D4D4D4;'>MEDIDOR</th> 
+								<th width='100' height='30' style='text-align:center; background: #D4D4D4;'>DOMINGO</th>  
+								<th width='100' height='30' style='text-align:center; background: #D4D4D4;'>LUNES</th> 
+								<th width='100' height='30' style='text-align:center; background: #D4D4D4;'>MARTES</th> 
+								<th width='100' height='30' style='text-align:center; background: #D4D4D4;'>MIERCOLES</th> 
+								<th width='100' height='30' style='text-align:center; background: #D4D4D4;'>JUEVES</th> 
+								<th width='100' height='30' style='text-align:center; background: #D4D4D4;'>VIERNES</th> 
+								<th width='100' height='30' style='text-align:center; background: #D4D4D4;'>SABADO</th> ";
+					$pdf.="</tr>";
+				$pdf.="</thead>";
+				$pdf.="<tbody>";
+
+					$dias = ["DOMINGO", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"];
+					//$nombreDiaHoy = $dias[date('w', strtotime($diaHoy))];
+
+					$sumaZonaNorte = 0;
+					$sumaZonaSur = 0;
+					$sumatotal = 0;
+					foreach ($equipos as $equipo) 
+					{
+						$dom = 0;
+						$lun = 0;
+						$mar = 0;
+						$mie = 0;
+						$jue = 0;
+						$vie = 0;
+						$sab = 0;
+
+						foreach ($mediciones as $medicion) 
+						{
+							if($equipo->activo == $medicion->equipo)
+							{	
+								$diaCompara = $dias[date('w', strtotime($medicion->fechaLectura))];
+
+								//echo $diaCompara;
+								
+								if($diaCompara == "DOMINGO")
+								{
+									$dom = $dom + ($medicion->m_consumidos * 10 );
+								}
+								if($diaCompara == "LUNES")
+								{
+									$lun = $lun + ($medicion->m_consumidos * 10 );
+								}
+								if($diaCompara == "MARTES")
+								{
+									$mar = $mar + ($medicion->m_consumidos * 10 );
+								}
+								if($diaCompara == "MIERCOLES")
+								{
+									$mie = $mie + ($medicion->m_consumidos * 10 );
+								}
+								if($diaCompara == "JUEVES")
+								{
+									$jue = $jue + ($medicion->m_consumidos * 10 );
+								}
+								if($diaCompara == "VIERNES")
+								{
+									$vie = $vie + ($medicion->m_consumidos * 10 );
+								}
+								if($diaCompara == "SABADO")
+								{
+									$sab = $sab + ($medicion->m_consumidos * 10 );
+								}
+							}
+							
+						}
+						
+						$pdf.="<tr>";
+							$pdf.="<td width='145' style='text-align:left; font-size:9px;'>".$equipo->descripcion."</td> 
+									<td width='55' style='text-align:left; font-size:9px;'>".$equipo->medidor."</td> 
+									<td width='100' style='text-align:right; '>".$dom."</td> 
+									<td width='100' style='text-align:right; '>".$lun."</td> 
+									<td width='100' style='text-align:right; '>".$mar."</td> 
+									<td width='100' style='text-align:right; '>".$mie."</td> 
+									<td width='100' style='text-align:right; '>".$jue."</td> 
+									<td width='100' style='text-align:right; '>".$vie."</td> 
+									<td width='100' style='text-align:right; '>".$sab."</td>";
+						$pdf.="</tr>";
+					}
+					
+					
+					
+				$pdf.="</tbody>";
+			$pdf.="</table>";
+
+					$pdf.="<br>
+							<table style='text-align:center; font-size:12; ' border='0'>
+							<tr>
+					      		<td colspan='9' width='900' style='text-align:center;'><b>OBSERVACIONES</b></td>
+					      	</tr>
+							<tr >
+					      		<td colspan='9' width='900' style='border:1 solid black; text-align:justity;'>".$observacion."</td>
+					      	</tr>
+					      	<tr>
+					      		<td width='100'><br><br></td>
+					      		<td width='100'><br><br></td>
+					      		<td width='100'><br><br></td>
+					      		<td width='100'><br><br></td>
+					      		<td width='100'><br><br></td>
+					      		<td width='100'><br><br></td>
+					      		<td width='100'><br><br></td>
+					      		<td width='100'><br><br></td>
+					      		<td width='100'><br><br></td>
+					      	</tr>
+					        <tr>
+					          <td width='200' colspan='2'></td> 
+					          <td width='200' colspan='2'>______________________________</td>
+					          <td width='100' ></td>
+					          <td width='200' colspan='2'>______________________________</td>
+					          <td width='200' colspan='2'></td> 
+					        </tr>
+					        <tr>
+					          <td width='200' colspan='2'></td> 
+					          <td width='200' colspan='2'>Realizó</td>
+					          <td width='100' ></td>
+					          <td width='200' colspan='2'>Supervisor</td>
+					          <td width='200' colspan='2'></td> 
+					        </tr>
+					        <tr>
+					          <td width='200' colspan='2'></td> 
+					          <td width='200' colspan='2'><b>".$realizo."</b></td>
+					          <td width='100' ></td>
+					          <td width='200' colspan='2'><b>".$supervisor."</b></td>
+					          <td width='200' colspan='2'></td>
+					        </tr>
+				      	</table>";
+
+				require_once(dirname(__FILE__).'/pdf/html2pdf.class.php');
+				ob_start();
+				$contentFinal="<page backtop='15mm' backbottom='15mm' backleft='20mm' backright='20mm'>
+				  <page_header > 
+
+				  </page_header> 
+				  <page_footer>  
+				        <table  >
+				          <tr >
+				              <td>P&aacute;gina [[page_cu]]/[[page_nb]]</td>
+				            
+				          </tr>
+				        </table> 
+
+				       
+				  </page_footer>".$pdf."</page>";
+
+
+					  /*echo $contentFinal;
+					  die();*/
+
+					try
+					{
+
+					    $content = ob_get_clean(); 
+					    $html2pdf = new HTML2PDF('L', 'A4', 'fr');
+					    $html2pdf->pdf->SetDisplayMode('fullpage');
+					    $html2pdf->writeHTML($contentFinal, isset($_GET['vuehtml']));
+					    $html2pdf->Output($parametro.".pdf","false"); 
+					}
+					catch(HTML2PDF_exception $e) 
+					{
+					    echo $e;
+					    exit;
+					}
+			}
+			else
+			{
+				$pdf.="NO DATA";
+			}
+		}
+		
 }		
 else
 {

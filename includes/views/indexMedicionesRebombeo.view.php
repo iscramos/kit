@@ -12,6 +12,8 @@
                     <div class="title_right ">
                         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                           <div class=" pull-right">
+                                    <a href="indexMedidoresSispa.php" type="button" class="btn btn-default btn-circle btn-sm" title="SISPA" >SISPA
+                                    </a>
                                 <div class="btn-group">
                                     <a href="indexGraficaMedidores.php" type="button" class="btn btn-default btn-circle btn-sm" title="Ver mapa de medidores" ><i class="fa fa-globe " aria-hidden="true"></i>
                                     </a>
