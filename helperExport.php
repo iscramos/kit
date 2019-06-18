@@ -542,8 +542,6 @@ if(isset($_REQUEST["parametro"]))
 						$pdf.="</tr>";
 					}
 					
-					
-					
 				$pdf.="</tbody>";
 			$pdf.="</table>";
 

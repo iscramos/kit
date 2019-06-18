@@ -9,9 +9,15 @@
                         <h3>Zancos (dashboard)...</h3>
                     </div>
                     <div class="title_right pull-right">
-                        
-                          
-                       
+                        <a href="indexZancos_bd.php" class="btn btn-default">
+                            <i class="fa fa-plus" aria-hidden="true"></i> Zanco
+                        </a>
+                        <a href="indexZancos_movimientos.php" class="btn btn-default" title="Ver historial de movimientos">
+                            <i class="fa fa-eye" aria-hidden="true"></i> Historial
+                        </a>
+                        <a href="indexZancos_movimientos_actualizar.php?action=NEW&reg=0&mov=0" class="btn btn-default">
+                            <i class="fa fa-plus" aria-hidden="true"></i> Movimiento
+                        </a>
                     </div>
 
                 </div>

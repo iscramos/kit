@@ -65,6 +65,7 @@
                             </div>
                             <div class="x_content">
 
+
                                 <!-- aqui va el contenido -->
                                 <table class="table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action" >
                                     <thead>
@@ -73,10 +74,10 @@
                                         <th>Zanco</th>
                                         
                                         <th style="text-align: center;">Tamaño</th>
-                                        <th style='text-align: center;  border-right: 1px dashed;'>WK <br> Límite</th>
+                                        <!--th style='text-align: center;  border-right: 1px dashed;'>WK <br> Límite</th-->
                                         <th style="text-align: center;">Movimiento</th>
                                         <th style="text-align: center;">Gh</th>
-                                        <th style="text-align: center;">Zona</th>
+                                        <!--th style="text-align: center;">Zona</th-->
                                         <th style="text-align: center;">Fecha Act.<br> Baja</th>
                                         <th style="text-align: center;">Líder</th>
                                         <th style="text-align: center;">Nombre</th>
@@ -101,7 +102,7 @@
                                                 echo "<td style='text-align: center; color:red;'>".$m->id_registro."</td>";
                                                 echo "<td style='text-align: right;'>".$m->no_zanco."</td>";
                                                 echo "<td style='text-align: center;'>".$m->descripcion_tamano."</td>";
-                                                echo "<td style='text-align: center; border-right: 1px dashed;'>".$m->limite_semana."</td>";
+                                                //echo "<td style='text-align: center; border-right: 1px dashed;'>".$m->limite_semana."</td>";
                                                 
                                                 $estilo = "";
                                                 if($m->tipo_movimiento == 1) // activacion
@@ -118,7 +119,7 @@
                                                 }
                                                 echo "<td style='text-align: center; $estilo' >".$m->accion."</td>";
                                                 echo "<td style='text-align: center;'>".$m->gh."</td>";
-                                                echo "<td style='text-align: center;'>".$m->zona."</td>";
+                                               //echo "<td style='text-align: center;'>".$m->zona."</td>";
 
                                                 if($m->fecha_activacion_o_baja > 0)
                                                 {
@@ -235,8 +236,8 @@
                                                 
                                                 echo "<td>";
 
-                                                    echo " <a type='button' href='indexZancos_movimientos_actualizar.php?action=EDIT&reg=$m->id_registro&mov=$m->tipo_movimiento' class='btn btn-warning btn-sm'  title='Editar registro' >Editar</a>";
-                                                    /*echo " <a type='button' class='btn btn-danger btn-circle btn-md' data-toggle='confirmation' data-btn-ok-label='S&iacute;' data-btn-ok-icon='glyphicon glyphicon-share-alt' data-btn-ok-class='btn-danger' data-btn-cancel-label='No' data-btn-cancel-icon='glyphicon glyphicon-ban-circle' data-btn-cancel-class='btn-default'><span title='Eliminar registro'class='glyphicon glyphicon-remove' aria-hidden='true'></span></a>";
+                                                    echo " <a type='button' href='indexZancos_movimientos_actualizar.php?action=EDIT&reg=$m->id_registro&mov=$m->tipo_movimiento' class='btn btn-warning btn-xs'  title='Editar registro' >Editar</a>";
+                                                    /*echo " <a type='button' class='btn btn-danger btn-circle btn-xs' data-toggle='confirmation' data-btn-ok-label='S&iacute;' data-btn-ok-icon='glyphicon glyphicon-share-alt' data-btn-ok-class='btn-danger' data-btn-cancel-label='No' data-btn-cancel-icon='glyphicon glyphicon-ban-circle' data-btn-cancel-class='btn-default'><span title='Eliminar registro'class='glyphicon glyphicon-remove' aria-hidden='true'></span></a>";*/
                                                    /* echo " <a class='btn btn-danger btn-circle btn-md' data-toggle='confirmation' data-singleton='true'  title='Eliminar registro'><i class='fa fa-times'></i></a>";*/
                                                 echo "</td>";
                                             echo "</tr>";
@@ -251,10 +252,10 @@
                                             <th></th>
                                             <th></th>
                                             <th></th>
+                                            <!--th></th-->
                                             <th></th>
                                             <th></th>
-                                            <th></th>
-                                            <th></th>
+                                            <!--th></th-->
                                             <th></th>
                                             <th></th>
                                             <th></th>
@@ -418,7 +419,9 @@
                     },
                     "order": [[ 0, 'desc' ]],
                     //"ordering": true,
-                    "lengthMenu": [[20, 100, 100, -1], [20, 100, 200, "Todo"]], 
+                    "processing": true,
+                    //"serverSide": true,
+                    "lengthMenu": [[15, 100, 100, -1], [15, 100, 200, "Todo"]], 
                     "language":{
                     "oPaginate": {
                         "sNext" : "Siguiente",
@@ -433,7 +436,7 @@
                         "infoEmpty": "No registros disponibles",
                         "infoFiltered": "(filtrado de _MAX_ registros totales)"
                     }
-                } );
+                } );                
 
             }); // end ready
         </script>

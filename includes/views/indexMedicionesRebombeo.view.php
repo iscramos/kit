@@ -66,9 +66,9 @@
                                                 <th>AMP <BR> L1</th>
                                                 <th>AMP <BR> L2</th>
                                                 <th>AMP <BR> L3</th>
-                                                <th>NIVEL <BR> ESTATICO</th>
+                                                <!---th>NIVEL <BR> ESTATICO</th>
                                                 <th>NIVEL <BR> DINAMICO</th>
-                                                <th>CAUDAL</th>
+                                                <th>CAUDAL</th-->
                                                 <th>M<SUP>3</SUP> X 10 <BR> CONSUMIDOS</th>
                                                 <th>ACCION</th>
                                             </tr>
@@ -168,9 +168,9 @@
                                                         }
 
 
-                                                        echo "<td>".$medicion->nivel_estatico."</td>";
-                                                        echo "<td>".$medicion->nivel_dinamico."</td>";
-                                                        echo "<td>".$medicion->caudal."</td>";
+                                                        //echo "<td>".$medicion->nivel_estatico."</td>";
+                                                        //echo "<td>".$medicion->nivel_dinamico."</td>";
+                                                        //echo "<td>".$medicion->caudal."</td>";
 
                                                         if($medicion->m_consumidos != "")
                                                         {

@@ -18,6 +18,7 @@ if($_SESSION["type"] == 9)
 			ORDER BY zancos_movimientos.id_registro DESC";
 			
 	$zancos_movimientos = Zancos_movimientos::getAllByQuery($q);
+	
 	// Include page view
 	require_once(VIEW_PATH.'indexZancos_movimientos.view.php');
 }
