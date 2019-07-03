@@ -11,14 +11,9 @@ require_once('includes/inc.session.php');
 if($_SESSION["type"] == 5)
 {
 	
-	$consulta = "SELECT herramientas_herramientas.*, 
-					(SELECT herramientas_prestamos.estatus
-						FROM herramientas_prestamos 
-							WHERE id_herramienta = herramientas_herramientas.id 
-								ORDER BY herramientas_herramientas.id 
-									DESC LIMIT 1
-					)  AS estatus
-				FROM herramientas_herramientas";
+	$consulta = "SELECT *
+				FROM herramientas_herramientas
+				ORDER BY id DESC";
 	$herramientas_herramientas = Herramientas_herramientas::getAllByQuery($consulta);
 
 	

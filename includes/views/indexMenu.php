@@ -136,7 +136,7 @@
                                         </li>";
 
                                     echo "<li>
-                                            <a href='indexHerramientas_prestamos.php'><i class='fa fa-credit-card' aria-hidden='true'></i>Préstamos</a>
+                                            <a href='indexHerramientas_movimientos.php'><i class='fa fa-credit-card' aria-hidden='true'></i>Movimientos</a>
                                         </li>";
                                 
                             }

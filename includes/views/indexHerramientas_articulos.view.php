@@ -12,11 +12,15 @@
                     
                 </div>
                     <div class="title_right ">
-                        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                          <div class="input-group pull-right">
-                            
-                            
-                          </div>
+                        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right">
+                            <div class="input-group">
+                                <input type="text" name="clave" id="clave" class="form-control" value="">
+                                <span class="input-group-btn">
+                                    <button type='button' class='btn btn-primary' id='buscar_articulo' title='Buscar artículo'> 
+                                        <span class='glyphicon glyphicon-search'></span> 
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </div>
 
@@ -25,7 +29,7 @@
                 <div class="clearfix"></div>
 
                 <div class="d-none d-lg-block">
-                    <div class="col-12" >
+                    <div class="col-sm-12" >
                         <nav >
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item ">
@@ -49,15 +53,15 @@
                                 <?php
                                     foreach ($herramientas_categorias as $categoria) 
                                     {
-                                        echo "<a class='list-group-item categoria' href='#' >".$categoria->categoria."</a>";
+                                        echo "<a class='list-group-item categoria' href='#' id_categoria='".$categoria->id."' >".$categoria->categoria."</a>";
                                     }
                                 ?>
                             </div>
 
                             <div class="list-group noborder" id="filtro-marcas" >
-                                <h5 class="list-group-title" >Filtrar por marca</h5>
+                                <h5 class="list-group-title" > FILTRAR POR MARCA</h5>
                                 <div class=" scrollbar" id="style-3"  >
-                                    <div class="list-group-items force-overflow"  >
+                                    <div class="list-group-items force-overflow id="marcas">
 
                                         <?php
                                             foreach ($herramientas_proveedores as $marcas) 
@@ -65,7 +69,7 @@
                                                 echo "<div class='list-group-item' >";
                                                     echo "<div class='radio'>";
                                                         echo "<label>";
-                                                            echo "<input type='radio' name='optionsRadios' id='optionsRadios2' value='option2'>
+                                                            echo "<input type='radio' name='radioMarcas' class='marquitas' value='".$marcas->id."'>
                                                                 ".$marcas->descripcion;
                                                         echo "</label>";
                                                     echo "</div>";
@@ -78,13 +82,8 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="list-group noborder" >
-                                <h5 class="list-group-title pt-0" >TOP TEN</h5>
-                                <?php
-                                    
-                                ?>
-                            </div>
+                            <br>
+                            
 
                         </div>
 
@@ -93,6 +92,7 @@
                         <div class="x_panel" style="margin-bottom: 40px;">
                             <div class="x_title">
                                 <h2><i class="fa fa-cogs"></i> Artículos <small>en el sistema</small></h2>
+
                                 <ul class="nav navbar-right panel_toolbox">
                                   <li>
                                     <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -100,35 +100,7 @@
                                 </ul>
                                 <div class="clearfix"></div>
                             </div>
-                            <div class="x_content">
-
-                                <?php
-                                    foreach ($herramientas_herramientas as $articulo) 
-                                    {
-                                        echo "<div class='col-sm-2 col-md-3'>
-                                            <div class='thumbnail' style=' padding:0px!important'>
-                                              <img style='width:140; height:100px;'  src='content/".$articulo->archivo."' >
-                                                <div class='caption' style='height:90px; padding: 3px 3px !important;'>
-                                                    <h5 style='margin-bottom:0px; margin-top:0px;'>".$articulo->clave."</h5>
-                                                    <p style='font-size:11px;'>".$articulo->descripcion."</p>
-                                                    <br>
-                                                    <p style='margin-bottom:15px !important;'>";
-                                                        
-
-                                                        if($articulo->estatus != 1)
-                                                        {
-                                                            echo "<a href='#' class='btn btn-success btn-xs pull-right prestar' id_herramienta='".$articulo->id."' role='button' title='Prestar Articulo'>PRESTAR
-                                                            </a>";
-                                                        }
-                                                        echo "<a href='indexHerramientas_prestamos.php?id_herramienta=".$articulo->id."' class='btn btn-warning btn-xs pull-right ' role='button' title='Ver préstamos'>HISTORIAL
-                                                        </a>";
-                                                    echo "</p> 
-                                                  </div>
-                                            </div>
-                                        </div>";
-                                    }
-
-                                ?>
+                            <div class="x_content" id="contenedor" style="text-align: center;">
 
                                 
                             </div>
@@ -212,10 +184,67 @@
 
                 $(".categoria").on("click", function()
                 {
+                    var id_categoria = null;
                     var categoria = null;
-                        categoria = $(this).text();
 
+                        id_categoria = $(this).attr("id_categoria");
+                        categoria = $(this).text();
+                        consulta = "PRODUCTOS_CATEGORIA";
+
+                        $('input[name="radioMarcas"]').prop('checked', false);
                         $(".categoriaActiva").text(categoria);
+                        $("#contenedor").html("<img style='text-align:center;' src='dist/img/load_2019.gif'>");
+
+                        $.post( "helper_herramientas.php", { consulta: consulta, id_categoria: id_categoria })
+                          .done(function( data ) 
+                          {
+                            $("#contenedor").html(data);
+                        });
+                });
+
+                $(".marquitas").on("click", function()
+                {
+                    var id_marca = null;
+                    var marca = null;
+
+                        id_marca = $(this).val();
+                        marca = $(this).parents("label").text().trim();
+                        consulta = "PRODUCTOS_MARCA";
+
+                        $(".categoriaActiva").text(marca);
+                        $("#contenedor").html("<img style='text-align:center;' src='dist/img/load_2019.gif'>");
+
+                        $.post( "helper_herramientas.php", { consulta: consulta, id_marca: id_marca })
+                          .done(function( data ) 
+                          {
+                            $("#contenedor").html(data);
+                        });
+                });
+
+
+                $("#buscar_articulo").on("click", function()
+                {   
+                    var clave = null;
+                        clave = $("#clave").val();
+                        consulta = "ARTICULO";
+                    
+                    if (clave != "") 
+                    {
+                        $(".categoriaActiva").text("");
+                        $('input[name="radioMarcas"]').prop('checked', false);
+                        $("#contenedor").html("<img style='text-align:center;' src='dist/img/load_2019.gif'>");
+
+                        $.post( "helper_herramientas.php", { consulta: consulta, clave:clave })
+                          .done(function( data ) 
+                          {
+                            $("#contenedor").html(data);
+                        });
+                    }
+                    else
+                    {
+                        alert("CAPTURE LA CLAVE DEL ARTICULO...");
+                    }
+                    
                 });
                 
 

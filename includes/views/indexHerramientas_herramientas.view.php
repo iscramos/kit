@@ -40,16 +40,16 @@
                                 <table class="table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action" >
                                     <thead>
                                         <tr> 
-                                        <th>#</th>
-                                        <th>Clave</th>
-                                        <!--th>Categoría</th-->
-                                        <th>Descripción</th>
-                                        <th>Precio unitario</th>
-                                        <th>Fecha de entrada</th>
-                                        <th>Estatus</th>
-                                        <th>Acción</th>
-                                    </tr>
-                                </thead>
+                                            <th>#</th>
+                                            <th>Clave</th>
+                                            <!--th>Categoría</th-->
+                                            <th>Descripción</th>
+                                            <th>Precio unitario</th>
+                                            <!--th>Fecha de entrada</th-->
+                                            
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
                                 <tbody>
                                     <?php
                                         $i=1;
@@ -65,10 +65,10 @@
                                                 //echo "<td>".$herramienta->categoria."</td>";
                                                 echo "<td>".$herramienta->descripcion."</td>";
                                                 echo "<td>$ ".$herramienta->precio_unitario."</td>";
-                                                echo "<td>".date("d-m-Y H:m:s", strtotime($herramienta->fecha_entrada))."</td>";
-
-
                                                 
+
+
+                                                    /*
                                                     if($herramienta->estatus == "" || $herramienta->estatus == 2 )
                                                     {
                                                         echo "<td style='background: #169F85; color:white;'>EN ALMACEN</td>";
@@ -76,7 +76,7 @@
                                                     else if($herramienta->estatus == 1 )
                                                     {
                                                         echo "<td style='background: #f0ad4e; color:white;'>EN PRESTAMO</td>";
-                                                    }
+                                                    }*/
                                                 
                                                 
                                                 echo "<td>";
@@ -116,7 +116,7 @@
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-		        <button type="submit" class="btn btn-primary">Guardar</button>
+		        <button type="submit" class="btn btn-primary" id="mandar">Guardar</button>
 		      </div>
                 </form>
 		    </div>
@@ -171,6 +171,72 @@
 
                     ajaxCargaDatos("divdestino", v, id_categoria, id_almacen);
                 
+                });
+
+                $("#mandar").on("click", function(event) 
+                {
+                    event.preventDefault();
+                    var clave = null;
+                    var descripcion = null;
+                    var precio_unitario = null;
+                    var archivo = null;
+                    var id_marca = null;
+                    var id_almacen = null;
+                    var id_categoria = null;
+                    var id = null;
+
+                        clave = $("#clave").val()
+                        descripcion = $("#descripcion").val();
+                        precio_unitario = $("#precio_unitario").val();
+                        archivo = $("#archivo").val();
+                        id_marca = $("#id_marca").val();
+                        id_almacen = $("#id_almacen").val();
+                        id_categoria = $("#id_categoria").val();
+                        consulta = "EXISTE_CLAVE";
+                        id = $("#id").val();
+
+                        /*alert("clave"+clave);
+                        alert("descripcion"+descripcion);
+                        alert("precio_unitario"+precio_unitario);
+                        alert("archivo"+archivo);
+                        alert("id_marca"+id_marca);
+                        alert("id_almacen"+id_almacen);
+                        alert("id_categoria"+id_categoria);*/
+                    
+
+                    var respuesta = null;
+                    
+
+                    if ( (clave != 0) && (descripcion != "") && (precio_unitario > 0) && (archivo != "") && (id_marca > 0) && (id_almacen > 0) && (id_categoria > 0) ) 
+                    {
+                        $.get("helper_herramientas.php", {consulta:consulta, clave:clave} ,function(data)
+                        {
+                            
+                            respuesta = data;
+                            if(respuesta == "SI" && id < 0)
+                            {
+                                alert("ESTE ARTICULO YA EXISTE EN LA BD...");
+                                $("#clave").focus();
+                                
+                                return false;
+                            }
+                            else
+                            {
+                               $("form:first").submit();
+                            }
+                            
+                        });
+                    }
+                    else
+                    {
+                        alert("Llene los campos correspondientes...");
+                        return false;
+                    }
+                    
+
+                    
+
+
                 });
 
                 

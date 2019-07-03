@@ -174,6 +174,89 @@ class Herramientas_herramientas {
 		return $object;
 	}
 
+	public static function buscaClave($clave)
+	{
+		// Open database connection
+		$database = new Database();
+
+		//checar si existe el usuario en la base
+		$sql = "SELECT clave FROM herramientas_herramientas WHERE clave = '$clave' ";
+		
+		// Execute database query
+		$result = $database->query($sql);
+
+		//$result = $this->sql->query($sql);
+		if ($result->num_rows > 0){
+			// Initialize object array
+			$objects = array();
+			
+			// Fetch objects from database cursor
+			while ($object = $result->fetch_object()) {
+				$objects[] = $object;
+			}
+			
+			// Close database connection
+			$database->close();
+
+			// Return objects
+			return $objects;
+		}
+		else
+		{ 
+			return 0;
+		}
+	}
+
+	public static function getByClave($clave) {
+	
+		// Initialize result array
+		$result = array();
+		
+		// Build database query
+		$sql = "select * from herramientas_herramientas where clave = ?";
+		
+		// Open database connection
+		$database = new Database();
+		
+		// Get instance of statement
+		$statement = $database->stmt_init();
+		
+		// Prepare query
+		if ($statement->prepare($sql)) {
+			
+			// Bind parameters
+			$statement->bind_param('s', $clave);
+			
+			// Execute statement
+			$statement->execute();
+			
+			// Bind variable to prepared statement
+			$statement->bind_result($id, $clave, $id_almacen, $id_categoria, $id_marca, $descripcion, $precio_unitario, $fecha_entrada, $archivo);
+			
+			// Populate bind variables
+			$statement->fetch();
+		
+			// Close statement
+			$statement->close();
+		}
+		
+		// Close database connection
+		$database->close();
+		
+		// Build new object
+		$object = new self;
+		$object->id = $id;
+		$object->clave = $clave;
+		$object->id_almacen = $id_almacen;
+		$object->id_categoria = $id_categoria;
+		$object->id_marca = $id_marca;
+		$object->descripcion = $descripcion;
+		$object->precio_unitario = $precio_unitario;
+		$object->fecha_entrada = $fecha_entrada;
+		$object->archivo = $archivo;
+		return $object;
+	}
+
 	public static function getByIdInner($id) {
 	
 		// Initialize result array

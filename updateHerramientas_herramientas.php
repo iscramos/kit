@@ -24,13 +24,16 @@ if(isset($_GET["id"]))
 		$str.="<div class='form-group hidden'>
 						<label class='col-sm-4 col-xs-4 control-label'>ID</label>
 						<div class='col-sm-8 col-xs-8'>
-							<input type='number' class='form-control input-sm' id='id' name='id' value='".sanitize_output($id)."' readonly>
+							<input type='number' class='form-control input-sm' id='id' name='id' value='".sanitize_output($herramientas->id)."' readonly>
+							<input type='number' class='form-control input-sm' id='id_categoria' name='id_categoria' value='".sanitize_output($herramientas->id_categoria)."' readonly>
+							<input type='number' class='form-control input-sm' id='id_almacen' name='id_almacen' value='".sanitize_output($herramientas->id_almacen)."' readonly>
 						</div>
 				</div>";
 
 		$str.="<div class='form-group'>
 						<label class='col-sm-4 col-xs-4 control-label'>Imagen</label>
 						<div class='col-sm-8 col-xs-8 text-right'>
+							<input name='archivo' id='archivo' class='form-control hidden' value='".$herramientas->archivo."'>
 							<img class='img-thumbnail' src='".$contentRead.$herramientas->archivo."' height='120px' width='180px'>
 						</div>
 				</div>";
@@ -90,9 +93,8 @@ if(isset($_GET["id"]))
 		$str.="<div class='form-group hidden'>
 						<label class='col-sm-4 col-xs-4 control-label'>ID</label>
 						<div class='col-sm-8 col-xs-8'>
-							<input type='number' class='form-control input-sm' id='id' name='id' value='".$id."' readonly>
-							<input type='number' class='form-control input-sm' id='id_categoria' name='id_categoria' value='".$id_categoria."' readonly>
-							<input type='number' class='form-control input-sm' id='id_almacen' name='id_almacen' value='".$id_almacen."' readonly>
+							<input type='number' class='form-control input-sm' id='id' name='id' value='' readonly>
+							
 						</div>
 				</div>";
 
