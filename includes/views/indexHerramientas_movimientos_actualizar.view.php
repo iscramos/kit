@@ -6,7 +6,7 @@
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Zancos (movimientos)...</h3>
+                        <h3>Herramientas (movimientos)...</h3>
                     </div>
                     <div class="title_right ">
                         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -44,13 +44,16 @@
 
                                         
                                         <div class="row">
-                                            
-                                            <div class="form-group col-sm-offset-4 col-sm-4">
-                                                <label >NO. ZANCO</label>
+                                            <div class="form-group col-sm-4 imagenArt" style="text-align: center;">
+                                                <img src='dist/img/no_disponible.png ' width='100px' height='90px'>
+                                                
+                                            </div>
+                                            <div class="form-group  col-sm-8">
+                                                <label >CLAVE / CODIGO DE BARRAS</label>
                                                 <div class="input-group " style="margin-bottom: 0px;">
-                                                    <input type="number" name="no_zanco" id="no_zanco" class="form-control" value="" required="required">
+                                                    <input type="text" name="clave" id="clave" class="form-control" value="" required="required" onkeyup="javascript:this.value=this.value.toUpperCase();">
                                                     <span class="input-group-btn">
-                                                        <button type="button" class="btn btn-primary" id="buscar" title="Buscar zanco"> <span class='glyphicon glyphicon-search'></span> </button>
+                                                        <button type="button" class="btn btn-primary" id="buscar" title="Buscar artículo"> <span class='glyphicon glyphicon-search'></span> </button>
                                                     </span>
                                                 </div>
                                             </div>
@@ -462,7 +465,7 @@
                                                 <div class='col-sm-4'>
                                                     <label >Fecha salida</label>
                                                     <div class='input-group date' id='datetimepicker2'>
-                                                        <input type='text' name='fecha_salida' id='fecha_salida' class='form-control' value="<?php echo $f_salida; ?>" autocomplete="off">
+                                                        <input type='text' name='fecha_salida' id='fecha_salida' class='form-control' value="<?php echo $f_salida; ?>" autocomplete="off" required>
                                                         <span class='input-group-addon'>
                                                             <span class='glyphicon glyphicon-calendar'></span>
                                                         </span>
@@ -642,7 +645,6 @@
  <?php require_once(VIEW_PATH.'footer.inc.php'); ?>
 
         <script type="text/javascript">
-            
 
             function creaAjax()
             {
@@ -668,18 +670,19 @@
             $("#buscar").on("click", function(e)
                 {
                     e.preventDefault();
-                    var no_zanco = null;
-                        no_zanco = $("#no_zanco").val();
+                    var clave = null;
+                        clave = $("#clave").val();
                         $("#tamano").val(null);
                         $("#descripcion").val(null);
                         $("#tiempo_limite").val(null);
 
-                    if(no_zanco > 0)
+                    if(clave != "")
                     {
                        
                         $("#recibeData").html("<img style='text-align:center;' src='dist/img/load_2019.gif'>");
+                        $(".imagenArt").html("<img style='text-align:center;' src='dist/img/load_2019.gif'>");
                         var ajax = creaAjax();
-                        ajax.open("GET", "helper_zancos.php?consulta=NUEVO&no_zanco="+no_zanco, true);
+                        ajax.open("GET", "helper_herramientas.php?consulta=NUEVO&clave="+clave, true);
                         ajax.onreadystatechange=function() 
                         { 
                             if (ajax.readyState==1)
@@ -692,16 +695,21 @@
                                 // Cuando ya terminó, ponemos el resultado
                                 var str = ajax.responseText;
                                 
-                              
                                 if(str == '*NO ENCONTRADO*')
                                 {
-                                    $("#recibeData").text("Al parecer este zanco no está registrado en la Base de Datos...");
+                                    $("#recibeData").text("Al parecer este artículo no está registrado en la Base de Datos...");
+                                    $(".imagenArt").html("<img src='dist/img/no_disponible.png' width='100px' height='90px'>");
                                     //return false;
                                 }
                                 else
                                 {
+                                    $.get("helper_herramientas.php", {consulta:"IMAGEN", clave:clave} ,function(data)
+                                    { 
+                                        $(".imagenArt").html(data);
+                                    });
+
                                     $("#recibeData").html(str);
-                                     $("#guardar").removeClass("hidden");
+                                    $("#guardar").removeClass("hidden");
                                     //return false;
                                 }         
                               
@@ -716,7 +724,7 @@
                 });
 
             // para buscar zancos por enter
-            $( "#no_zanco" ).keypress(function( event ) 
+            $("#clave").keypress(function( event ) 
             {
                 
               if (event.which == 13) 
@@ -725,146 +733,8 @@
               }
             });
 
-            
-
             $(document).ready(function()
             {
-                
-                $("#tipo_movimiento").on("change", function()
-                {
-                    var tipo_movimiento = null;
-                        tipo_movimiento = $(this).val();
-
-                        if(tipo_movimiento == 1) // activacion
-                {
-                    $("#fecha_activacion_o_baja").attr("required", "required");
-                    $("#ns_salida_lider").attr("required", "required");
-                    $("#nombre_lider_salida").attr("required", "required");
-
-                    $("#fecha_salida").removeAttr("required");
-                    $("#fecha_salida").attr("readonly", true);
-                    $('#datetimepicker2').css('pointer-events','none');
-                    $("#fecha_salida").val(null);
-
-
-                    $("#wk_salida").removeAttr("required");
-                    $("#wk_salida").val(null);
-
-
-                    $("#desfase").removeAttr("required");
-                    $("#desfase").val(null);
-
-
-                    $("#fecha_entrega").removeAttr("required");
-                    $("#fecha_entrega").attr("readonly", true);
-                    $('#datetimepicker3').css('pointer-events','none');
-                    $("#fecha_entrega").val(null);
-
-                    $("#wk_entrega").removeAttr("required");
-                    $("#wk_entrega").val(null);
-
-                    $("#fecha_servicio").removeAttr("required");
-                    $("#fecha_servicio").attr("readonly", true);
-                    $('#datetimepicker4').css('pointer-events','none');
-                    $("#fecha_servicio").val(null);
-
-
-                    $("#descripcion_problema").removeAttr("required");
-                    $("#descripcion_problema").val(null);
-                    $("#descripcion_problema").attr("readonly", true);
-                    $("#descripcion_problema").css('pointer-events','none');
-
-                    
-                }
-                else if(tipo_movimiento == 2) // baja
-                {
-                    
-                    $("#fecha_activacion_o_baja").attr("required", "required");
-                    $("#fecha_activacion_o_baja").attr("readonly", false);
-                    $('#datetimepicker1').css('pointer-events','auto');
-                    $("#fecha_activacion_o_baja").val(null);
-
-                    $("#ns_salida_lider").attr("required", "required");
-                    $("#nombre_lider_salida").attr("required", "required");
-
-                    $("#fecha_salida").removeAttr("required");
-                    $("#fecha_salida").attr("readonly", true);
-                    $('#datetimepicker2').css('pointer-events','none');
-                    $("#fecha_salida").val(null);
-
-
-                    $("#wk_salida").removeAttr("required");
-                    $("#wk_salida").val(null);
-
-
-                    $("#desfase").removeAttr("required");
-                    $("#desfase").val(null);
-
-
-                    $("#fecha_entrega").removeAttr("required");
-                    $("#fecha_entrega").attr("readonly", true);
-                    $('#datetimepicker3').css('pointer-events','none');
-                    $("#fecha_entrega").val(null);
-
-                    $("#wk_entrega").removeAttr("required");
-                    $("#wk_entrega").val(null);
-
-                    $("#fecha_servicio").removeAttr("required");
-                    $("#fecha_servicio").attr("readonly", true);
-                    $('#datetimepicker4').css('pointer-events','none');
-                    $("#fecha_servicio").val(null);
-
-
-                    $("#descripcion_problema").removeAttr("required");
-                    $("#descripcion_problema").val(null);
-                    $("#descripcion_problema").attr("readonly", true);
-                    $("#descripcion_problema").css('pointer-events','none');
-                }
-                else if(tipo_movimiento == 3) // salida
-                {
-                    $("#fecha_activacion_o_baja").removeAttr("required");
-                    $("#fecha_activacion_o_baja").attr("readonly", true);
-                    $('#datetimepicker1').css('pointer-events','none');
-                    $("#fecha_activacion_o_baja").val(null);
-
-                    $("#ns_salida_lider").attr("required", "required");
-                    $("#nombre_lider_salida").attr("required", "required");
-
-                    $("#fecha_salida").attr("required", "required");
-                    $("#fecha_salida").attr("readonly", false);
-                    $('#datetimepicker2').css('pointer-events','auto');
-                    $("#fecha_salida").val(null);
-
-
-                    $("#wk_salida").removeAttr("required");
-                    $("#wk_salida").val(null);
-
-
-                    $("#desfase").removeAttr("required");
-                    $("#desfase").val(null);
-
-
-                    $("#fecha_entrega").removeAttr("required");
-                    $("#fecha_entrega").attr("readonly", false);
-                    $('#datetimepicker3').css('pointer-events','auto');
-                    $("#fecha_entrega").val(null);
-
-                    $("#wk_entrega").removeAttr("required");
-                    $("#wk_entrega").val(null);
-
-                    $("#fecha_servicio").removeAttr("required");
-                    $("#fecha_servicio").attr("readonly", false);
-                    $('#datetimepicker4').css('pointer-events','auto');
-                    $("#fecha_servicio").val(null);
-
-
-                    $("#descripcion_problema").removeAttr("required");
-                    $("#descripcion_problema").val(null);
-                    $("#descripcion_problema").attr("readonly", false);
-                    $("#descripcion_problema").css('pointer-events','auto');
-
-                }
-                });
 
                 $("#gh").on('change', function(event) 
                 {
@@ -942,18 +812,13 @@
 
                 $("#ns_salida_lider").keypress(function(event)
                 {   
-                    
                     if (event.which == 13) 
                     {
-                        
                         return false;
-                        
                     }
                     
                 });
 
-
-                
 
                 $("#datetimepicker2").on("change", function() 
                 {
@@ -962,18 +827,14 @@
                         fecha_salida = $("#fecha_salida").val();
                     
                     $.get("helper_herramientas.php", {consulta:consulta, fecha:fecha_salida} ,function(data)
-                    {
-                        
+                    { 
                         $("#wk_salida").val(data);
                     });
 
                     var tiempo_limite = $("#tiempo_limite").val();
                     var day = $("#fechaActual").text();
                     var diferencia =  Math.floor(( Date.parse(day) - Date.parse(fecha_salida) ) / (1000 * 60 * 60 * 24));
-                        /*if(diferencia < 0)
-                        {
-                            diferencia = diferencia*(-1);
-                        }*/  
+                          
                     var semanitas = (diferencia / 7);
                     var desfase = 0.0; 
                     if(tiempo_limite < semanitas)
@@ -1031,63 +892,8 @@
 
                 $("#divdestino").submit(function() 
                 {
-                    //var data = $("#login_form :input").serializeArray();
-                    //alert('Registro guardado...');
                     $("#guardar").attr("disabled", "true");
-                    //return false;  // <- cancel event
                 });
-
-            
-
-                
-
-                
-
-                
-
-                function ajaxCargaDatos(divdestino, uID)
-                {
-                    var ajax=creaAjax();
-
-                    ajax.open("GET", "updateZancos_bd.php?id="+uID, true);
-                    ajax.onreadystatechange=function() 
-                    { 
-                        if (ajax.readyState==1)
-                        {
-                          // Mientras carga ponemos un letrerito que dice "Verificando..."
-                          $('#'+divdestino).html='Cargando...';
-                        }
-                        if (ajax.readyState==4)
-                        {
-                          // Cuando ya terminó, ponemos el resultado
-                            var str =ajax.responseText; 
-                                        
-                            $('#'+divdestino).html(''+str+'');
-                            $("#modalAgregar").modal("show");
-                
-                        } 
-                    }
-                    ajax.send(null);
-                }
-
-                $('.dataTables-example').DataTable({
-                //responsive: true,
-
-                "language":{
-                    "oPaginate": {
-                        "sNext" : "Siguiente",
-                        "sPrevious": "Anterior"
-                    },
-                    "search": "Buscar ",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior",
-                    "lengthMenu": "_MENU_ Registros por página",
-                    "zeroRecords": "Nada encontrado",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
-                    "infoEmpty": "No registros disponibles",
-                    "infoFiltered": "(filtrado de _MAX_ registros totales)"
-                }
-            });
 
             }); // end ready
         </script>

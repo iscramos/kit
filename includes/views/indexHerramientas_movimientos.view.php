@@ -41,8 +41,15 @@
                     <div class="title_right ">
                         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                           <div class="input-group pull-right">
-                            <a href='indexZancos_movimientos_actualizar.php?action=NEW&reg=0&mov=0' type="button" class="btn btn-success btn-circle btn-sm" title="Nuevo movimiento" >Nuevo
-                            </a>
+                            <?php
+                                if(!isset($clave) )
+                                {
+                                    echo "<a href='indexHerramientas_movimientos_actualizar.php?action=NEW&reg=0&mov=0&clave=0' type='button' class='btn btn-success btn-circle btn-sm' title='Nuevo movimiento' >Nuevo
+                                     </a>";
+                                }
+                                
+                            ?>
+                            
                           </div>
                         </div>
                     </div>
@@ -75,7 +82,7 @@
                                         
                                         
                                         
-                                        <th style="text-align: center;">Movimiento</th>
+                                        <!--th style="text-align: center;">Movimiento</th-->
                                         <th style="text-align: center;">Gh</th>
                                        
                                         <th style="text-align: center;">Fecha Act.<br> Baja</th>
@@ -100,11 +107,11 @@
                                             echo "<tr campoid='".$m->id_registro."'>";
                                                 
                                                 echo "<td style='text-align: center; color:red;'>".$m->id_registro."</td>";
-                                                echo "<td style='text-align: right;'>".$m->clave."</td>";
+                                                echo "<td style='text-align: right; border-right: 1px dashed;'>".$m->clave."</td>";
                                                 
                                                 //echo "<td style='text-align: center; border-right: 1px dashed;'>".$m->limite_semana."</td>";
                                                 
-                                                $estilo = "";
+                                                /*$estilo = "";
                                                 if($m->tipo_movimiento == 1) // activacion
                                                 {
                                                     $estilo = "background: #286090; color: white; ";
@@ -117,7 +124,7 @@
                                                 {
                                                     $estilo = "background: #EC971F; color: white; ";
                                                 }
-                                                echo "<td style='text-align: center; $estilo' >".$m->accion."</td>";
+                                                echo "<td style='text-align: center; $estilo' >".$m->accion."</td>";*/
                                                 echo "<td style='text-align: center;'>".$m->gh."</td>";
                                                //echo "<td style='text-align: center;'>".$m->zona."</td>";
 
@@ -133,7 +140,7 @@
                                                 echo "<td>".$m->ns_salida_lider."</td>";
                                                 echo "<td>".utf8_encode($m->nombre_lider_salida)."</td>";
 
-                                                if($m->tipo_movimiento == 1) // activacion
+                                                /*if($m->tipo_movimiento == 1) // activacion
                                                 {
                                                     echo "<td style='text-align:center;'> - </td>";
                                                     echo "<td style='text-align:center;'> - </td>";
@@ -156,8 +163,8 @@
                                                     echo "<td style='text-align:center;'> - </td>";
                                                     echo "<td style='text-align:center;'> - </td>";
                                                     echo "<td style='text-align:center;'> - </td>";
-                                                }
-                                                elseif($m->tipo_movimiento == 3) // salida
+                                                }*/
+                                                if($m->tipo_movimiento == 3) // salida
                                                 {
                                                     if($m->fecha_salida > 0)
                                                     {
@@ -248,12 +255,12 @@
                                         ?>
                                     </tbody>
                                     <tfoot>
-                                        <tr style="background: #405467;">
+                                        <tr style="background: #ededed;">
                                             <th></th>
                                             <th></th>
                                             
                                             <!--th></th-->
-                                            <th></th>
+                                            <!--th></th-->
                                             <th></th>
                                             <!--th></th-->
                                             <th></th>
@@ -398,7 +405,7 @@
                 $('.dataTables-example').DataTable( 
                 {
                     initComplete: function () {
-                        this.api().columns([0, 1, 6 ]).every( function () {
+                        this.api().columns([0, 1, 5 ]).every( function () {
                             var column = this;
                             var select = $('<select class="form-control input-sm"><option value="">All</option></select>')
                                 .appendTo( $(column.footer()).empty() )

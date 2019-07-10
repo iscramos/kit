@@ -1,6 +1,22 @@
  <?php require_once(VIEW_PATH.'header.inc.php');
  ?>
 
+ <style type="text/css">
+     
+    #arriba 
+    {
+        display:none;
+        
+        background:#024959;
+        font-size:14px;
+        color:#fff;
+        cursor:pointer;
+        position: fixed;
+        bottom:100px;
+        right:20px;
+    }
+ </style>
+
 <link href="dist/css/scrolito.css" rel="stylesheet">
             
           <!-- page content -->
@@ -61,7 +77,7 @@
                             <div class="list-group noborder" id="filtro-marcas" >
                                 <h5 class="list-group-title" > FILTRAR POR MARCA</h5>
                                 <div class=" scrollbar" id="style-3"  >
-                                    <div class="list-group-items force-overflow id="marcas">
+                                    <div class="list-group-items force-overflow" id="marcas">
 
                                         <?php
                                             foreach ($herramientas_proveedores as $marcas) 
@@ -103,6 +119,11 @@
                             <div class="x_content" id="contenedor" style="text-align: center;">
 
                                 
+                            </div>
+                            <div>
+                                <a  id="arriba" class="btn">
+                                    <i class="fa fa-arrow-circle-up fa-lg" aria-hidden="true"></i>
+                                </a>
                             </div>
                         </div>
                     </div> <!-- fin class='' -->
@@ -155,6 +176,22 @@
 
             $(document).ready(function()
             {
+                $("#arriba").click(function()
+                {
+                    $("body, html").animate({
+                        scrollTop: '0px'
+                    }, 300);
+                });
+
+                $(window).scroll(function()
+                {
+                    if( $(this).scrollTop() > 0 ){
+                        $("#arriba").slideDown(300);
+                    } else {
+                        $("#arriba").slideUp(300);
+                    }
+                });
+
                 $(".prestar").on("click", function(event) 
                 { 
                     event.preventDefault();

@@ -180,7 +180,7 @@ class Herramientas_herramientas {
 		$database = new Database();
 
 		//checar si existe el usuario en la base
-		$sql = "SELECT clave FROM herramientas_herramientas WHERE clave = '$clave' ";
+		$sql = "SELECT clave, archivo FROM herramientas_herramientas WHERE clave = '$clave' ";
 		
 		// Execute database query
 		$result = $database->query($sql);
