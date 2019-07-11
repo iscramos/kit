@@ -64,6 +64,7 @@ require_once(MODEL_PATH.'calendario_nature.model.php');
 require_once(MODEL_PATH.'herramientas_herramientas.model.php');
 require_once(MODEL_PATH.'herramientas_categorias.model.php');
 require_once(MODEL_PATH.'herramientas_proveedores.model.php');
+require_once(MODEL_PATH.'herramientas_udm.model.php');
 require_once(MODEL_PATH.'herramientas_almacenes.model.php');
 require_once(MODEL_PATH.'herramientas_movimientos.model.php');
 require_once(MODEL_PATH.'mediciones_camara_fria.model.php');

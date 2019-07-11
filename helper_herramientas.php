@@ -303,6 +303,144 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
   			$str = "<img src='dist/img/no_disponible.png' width='100px' height='90px'>";
   		}
 	}
+	elseif ($consulta == "BUSQUEDA_POR_ASOCIADO") 
+	{
+		$ns = $_REQUEST['ns'];
+
+		$consulta = "SELECT herramientas_movimientos.*, zancos_problemas.descripcion AS problema_descripcion
+						FROM herramientas_movimientos
+							LEFT JOIN zancos_problemas ON herramientas_movimientos.descripcion_problema = zancos_problemas.id
+						WHERE herramientas_movimientos.ns_salida_lider = $ns
+						ORDER BY herramientas_movimientos.id_registro DESC";
+		$datos = Herramientas_movimientos::getAllByQuery($consulta);
+
+		if(isset($datos[0]))
+  		{
+  			$str.="<h4>TRANSACCIONES</h4>";
+  			$str.= "<table class='table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action'>";
+  				$str.= "<thead>";
+  					$str.= "<tr>";
+  						$str.="<th style='text-align: center;'>Reg</th>";
+                        $str.="<th>Clave</th>";
+                        $str.="<th style='text-align: center;'>Gh</th>";
+                        $str.="<th style='text-align: center;'>Fecha Act.<br> Baja</th>";
+                        //$str.="<th style='text-align: center;'>Líder</th>";
+                        $str.="<th style='text-align: center;'>Nombre</th>";
+                        $str.="<th style='text-align: center;'>Fecha <br> Salida</th>";
+                        $str.="<th style='text-align: center;'>WK <br> Salida</th>";
+                        $str.="<th style='text-align: center;'>Desfase <br> (WK) </th>";
+                        $str.="<th style='text-align: center;'>Fecha <br> Entrega</th>";
+                        $str.="<th style='text-align: center;'>WK <br> Entrega</th>";
+                        $str.="<th style='text-align: center;'>Fecha <br> Servicio</th>";
+                        $str.="<th style='text-align: center;'>Problema</th>";
+  					$str.= "</tr>";
+  				$str.= "</thead>";
+  				$str.= "<tbody>";
+  					foreach ($datos as $m) 
+  					{
+  						$str.="<tr>";
+	  						$str.="<td style='text-align: center; color:red;'>".$m->id_registro."</td>";
+	                        $str.="<td style='text-align: right; border-right: 1px dashed;'>".$m->clave."</td>";
+	                          
+	                        $str.="<td style='text-align: center;'>".$m->gh."</td>";
+
+	                        if($m->fecha_activacion_o_baja > 0)
+	                        {
+	                            $str.="<td style='text-align:center;'>".date("d/m/Y", strtotime($m->fecha_activacion_o_baja))."</td>";
+	                        }
+	                        else
+	                        {
+	                            $str.="<td style='text-align:center;'> - </td>";
+	                        }
+	                                                
+	                        
+	                        $str.="<td>".utf8_encode($m->nombre_lider_salida)."</td>";
+	                        if($m->tipo_movimiento == 3) // salida
+	                        {
+	                            if($m->fecha_salida > 0)
+	                            {
+	                                $str.="<td style='text-align:center;'>".date("d/m/Y", strtotime($m->fecha_salida))."</td>";
+	                                $str.="<td style='text-align:center;'>".$m->wk_salida."</td>";
+	                            }
+	                            else
+	                            {
+	                                $str.="<td style='text-align:center;'> - </td>";
+	                                $str.="<td style='text-align:center;'> - </td>";
+	                            }
+
+	                            // aquí sacamos el desfase
+	                            $fechaHoy = date_create(date("Y-m-d"));
+	                            $f_salida = date_create($m->fecha_salida);
+
+	                            
+	                            if($m->fecha_entrega > 0 && $m->fecha_salida > 0)
+	                            {
+	                                $str.="<td style='text-align:center;'> - </td>";
+	                            }
+	                            else
+	                            {
+	                                $d_dias = date_diff($fechaHoy, $f_salida);
+	                                $d_dias = $d_dias->format('%a');
+	                                $semanas_limite = 0;/*$m->limite_semana;*/
+	                                $semanas_convertidas = $d_dias / 7;
+	                                $semanas_convertidas = round($semanas_convertidas, 2);
+	                                
+	                                if($semanas_convertidas > $semanas_limite)
+	                                {
+	                                    $diferencia_semanas = $semanas_convertidas - $semanas_limite;
+	                                    $str.="<td class='invalid' style='text-align:center; background:#C9302C; color: white;'>".$diferencia_semanas."</td>";    
+	                                }
+	                                else
+	                                {
+	                                    $str.="<td style='text-align:center; '> - </td>";
+	                                }
+
+	                                
+	                                
+	                                
+	                            }
+	                            
+	                            
+	                            if($m->fecha_entrega > 0)
+	                            {
+	                                $str.="<td style='text-align:center;'>".date("d/m/Y", strtotime($m->fecha_entrega))."</td>";
+	                                $str.="<td style='text-align:center;'>".$m->wk_entrega."</td>";
+	                            }
+	                            else
+	                            {
+	                                $str.="<td style='text-align:center;'> - </td>";
+	                                $str.="<td style='text-align:center;'> - </td>";
+	                            }
+	                            
+
+	                            if($m->fecha_servicio > 0)
+	                            {
+	                                $str.="<td style='text-align:center;'>".date("d/m/Y", strtotime($m->fecha_servicio))."</td>";
+	                            }
+	                            else
+	                            {
+	                                $str.="<td style='text-align:center;'> - </td>";
+	                            }
+	                            
+	                            if($m->descripcion_problema > 0)
+	                            {
+	                                $str.="<td style='text-align:center;'>".$m->problema_descripcion."</td>";
+	                            }
+	                            else
+	                            {
+	                                $str.="<td style='text-align:center;'> - </td>";
+	                            }
+	                        }
+	                    $str.="</tr>";
+  					}
+  				$str.= "</tbody>";
+  			$str.= "</table>";
+  		}
+  		else
+  		{
+  			$str = "<table>";
+  		}
+	}
 	elseif($consulta == "NUEVO")
 	{
 		$clave = $_REQUEST['clave'];

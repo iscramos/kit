@@ -127,6 +127,7 @@
                                         <li><a href='indexHerramientas_almacenes.php'>Almacenes</a></li>
                                         <li><a href='indexHerramientas_categorias.php'>Categorías</a></li>
                                         <li><a href='indexHerramientas_proveedores.php'>Proveedores</a></li>
+                                        <li><a href='indexHerramientas_udm.php'>Unidades de medida</a></li>
                                         <li><a href='indexHerramientas_herramientas.php'>Artículos</a></li>
                                     </ul>
                                   </li>";
@@ -138,7 +139,10 @@
                                     echo "<li>
                                             <a href='indexHerramientas_movimientos.php'><i class='fa fa-credit-card' aria-hidden='true'></i>Movimientos</a>
                                         </li>";
-                                
+                                    
+                                    echo "<li>
+                                            <a href='indexHerramientas_asociado.php'><i class='fa fa-search' aria-hidden='true'></i>Asociado</a>
+                                        </li>";
                             }
                             elseif ($_SESSION["type"] == 6) // for taller mecanico
                             {
