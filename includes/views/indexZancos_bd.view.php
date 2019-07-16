@@ -74,12 +74,12 @@
                                         <th style="text-align: center;">Tamaño</th>
                                         <th style='text-align: center;  border-right: 1px dashed;'>Límite <br> WK</th>
                                         <th style="text-align: center;">Último <br> Registro</th>
-                                        <th style="text-align: center;">Gh <br> Actual</th>
+                                        <!--th style="text-align: center;">Gh <br> Actual</th>
                                         <th style="text-align: center;">Zona <br> Actual</th>
                                         <th style="text-align: center;">Activación <br> Registro</th>
                                         <th style="text-align: center;">Fecha Act.<br> Registro</th>
                                         <th style="text-align: center;">Años <br> vida</th>
-                                        <th style="text-align: center;">WK <br> Desfase</th>
+                                        <th style="text-align: center;">WK <br> Desfase</th-->
                                         <th style="text-align: center;">Último <br> Movimiento</th>
                                         <th style="text-align: center;">Fecha <br> Salida</th>
                                         <th style="text-align: center;">Fecha <br> Regreso</th>
@@ -99,32 +99,32 @@
                                                 echo "<td style='text-align: center;'>".$bd->tamano_descripcion."</td>";
                                                 echo "<td style='text-align: center; color:red; border-right: 1px dashed;'>".$bd->limite_semana."</td>";
                                                 echo "<td style='text-align:center;'>".$bd->id_registro."</td>";
-                                                echo "<td style='text-align: center;'>".$bd->gh."</td>";
+                                                /*echo "<td style='text-align: center;'>".$bd->gh."</td>";
                                                 echo "<td style='text-align: center;'>".$bd->zona."</td>";
                                                 echo "<td style='text-align: center;'>".$bd->id_reg_activacion."</td>";
-                                                echo "<td style='text-align: center;'>".date("d-m-Y", strtotime($bd->f_activacion))."</td>";
+                                                echo "<td style='text-align: center;'>".date("d-m-Y", strtotime($bd->f_activacion))."</td>";*/
 
-                                                $fechaHoy = date_create(date("Y-m-d"));
+                                                /*$fechaHoy = date_create(date("Y-m-d"));
                                                 $f_activacion = date_create($bd->f_activacion);
 
                                                     $d_dias = date_diff($fechaHoy, $f_activacion);
                                                     $d_dias = $d_dias->format('%a');
                                                     
                                                     $anos_convertidos = $d_dias / 365.25;
-                                                    $anos_convertidos = round($anos_convertidos, 1);
+                                                    $anos_convertidos = round($anos_convertidos, 1);*/
 
-                                                if($anos_convertidos > 1.5)
+                                                /*if($anos_convertidos > 1.5)
                                                 {
                                                     echo "<td style='text-align: center;' >".$anos_convertidos."</td>";
                                                 }
                                                 else
                                                 {
                                                     echo "<td style='text-align: center;' >".$anos_convertidos."</td>";
-                                                }
+                                                }*/
                                                 
                                                 
 
-                                                if( ($bd->id_accion == 1) || ($bd->id_accion == 2) )
+                                                /*if( ($bd->id_accion == 1) || ($bd->id_accion == 2) )
                                                 {
                                                     echo "<td style='text-align:center; '> - </td>";
                                                 } 
@@ -148,7 +148,7 @@
                                                         echo "<td style='text-align: center;'> - </td>";
                                                     }
                                                 }
-                                                
+                                                */
                                                 echo "<td>".$bd->accion_descripcion."</td>";
 
 
@@ -214,12 +214,12 @@
                                                 echo "<th style='text-align: right;'>".$stock->no_zanco."</th>";
                                                 echo "<td style='text-align: center;'>".$stock->tamano_descripcion."</td>";
                                                 echo "<td style='text-align: center; color:red; border-right: 1px dashed;'>".$stock->limite_semana."</td>";
+                                                /*echo "<td style='text-align:center;'> - </td>";
                                                 echo "<td style='text-align:center;'> - </td>";
                                                 echo "<td style='text-align:center;'> - </td>";
                                                 echo "<td style='text-align:center;'> - </td>";
                                                 echo "<td style='text-align:center;'> - </td>";
-                                                echo "<td style='text-align:center;'> - </td>";
-                                                echo "<td style='text-align:center;'> - </td>";
+                                                echo "<td style='text-align:center;'> - </td>";*/
                                                 echo "<td style='text-align:center;'> - </td>";
                                                 echo "<td style='text-align:center;'> - </td>";
                                                 echo "<td style='text-align:center;'> - </td>";
@@ -329,7 +329,7 @@
                         {
                             
                             respuesta = data;
-                            if(respuesta == "SI")
+                            if(respuesta == "SI" && id < 0)
                             {
                                 alert("ESTE ZANCO YA EXISTE EN LA BD...");
                                 $("#no_zanco").focus();

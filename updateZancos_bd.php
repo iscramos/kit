@@ -45,6 +45,21 @@ if(isset($_GET["id"]))
 		$str.="<div class='form-group'>
 						<label class='col-sm-4 control-label'>Tamaño</label>
 						<div class='col-sm-8'>
+							<select class='form-control input-sm' name='tamano' id='tamano' required='required' readonly>";
+								foreach ($tamanos as $t) 
+								{
+									if($t->id == $bd->tamano)
+									{
+										$str.="<option value='".$t->id."' style='display:none;' selected>".$t->tamano."</option>";	
+									}
+									/*$str.="<option value='".$t->id."' >".$t->tamano."</option>";*/
+								}
+							$str.="</select>
+						</div>
+				</div>";
+		/*$str.="<div class='form-group'>
+						<label class='col-sm-4 control-label'>Tamaño</label>
+						<div class='col-sm-8'>
 							<select class='form-control input-sm' name='tamano' id='tamano' required='required'>
 								<option value='' style='display:none;'>Seleccione un tamaño</option>";
 								foreach ($tamanos as $t) 
@@ -57,7 +72,7 @@ if(isset($_GET["id"]))
 								}
 							$str.="</select>
 						</div>
-				</div>";
+				</div>";*/
 	}
 	else
 	{
