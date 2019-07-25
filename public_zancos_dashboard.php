@@ -166,15 +166,10 @@
   $zancos_total = Zancos_bd::getAllByQuery($consulta);
     //print_r($años);
  ?>
-  <style type="text/css">
-    #graficaHistorica
-    {
-      padding: 10px;
-    }
-  </style>     
+      
             
         <!-- page content -->
-        <div class="right_col" role="main">
+        <div class="" role="main" >
           
           <div class='container text-center'>
             <h3 class="text-center" > Zancos (dashboard)</h3>
@@ -644,6 +639,8 @@
             </div>
           </div>  
         </div>
+
+
           
         <!-- Modal -->
         <div class="modal fade bs-example-modal-lg" id="modalAgregar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

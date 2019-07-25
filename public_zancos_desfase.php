@@ -25,15 +25,10 @@
           
     $zancos_movimientos = Zancos_movimientos::getAllByQuery($q);
  ?>
-  <style type="text/css">
-    #graficaHistorica
-    {
-      padding: 10px;
-    }
-  </style>     
+      
             
         <!-- page content -->
-        <div class="right_col" role="main" style="min-height: 0px !important;">
+        <div class="" role="main" >
           
           <div class='container text-center'>
             <h3 class="text-center" > Zancos reporte (desfase)</h3>
@@ -117,6 +112,7 @@
                 </table>
             
             <!-- /.table-responsive -->
+
               
                 </div>
               </div>

@@ -36,7 +36,7 @@
   </style>     
             
         <!-- page content -->
-        <div class="right_col" role="main" style="min-height: 0px !important;">
+        <div class="" role="main" style="min-height: 800px !important;">
           
           <div class='container text-center'>
             <h3 class="text-center" > Zancos reporte (> 1.5 años)</h3>
