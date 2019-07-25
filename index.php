@@ -215,7 +215,7 @@
 
             <footer class="footer">
                 <div class="container">
-                    <div class="col-md-4 col-xs-4">
+                    <div class="col-md-3 col-xs-3">
                         <p class="texto-footer">
                             <a  href="mapa.php" title="Ver mapa de fugas" > 
                                 <i class="fa fa-globe fa-2x"> </i> 
@@ -231,7 +231,7 @@
                             
                         </p>
                      </div> 
-                     <div class="col-md-4 col-xs-4">
+                     <div class="col-md-3 col-xs-3">
                         <p class="texto-footer">
                             <ul class="listita">
                                 
@@ -241,7 +241,16 @@
                             </ul>
                         </p>
                      </div> 
-                     <div class="col-md-4 col-xs-4">
+                     <div class="col-md-3 col-xs-3">
+                        <p class="texto-footer">
+                            <ul class="listita">
+                                <li><a href="public_zancos_dashboard.php" >Zancos dashboard</a></li>
+                                <li><a href="public_zancos_desfase.php" >Zancos desfase</a></li>
+                                <li><a href="public_zancos_mayor.php" >Zancos > 1.5 años</a></li>
+                            </ul>
+                        </p>
+                     </div> 
+                     <div class="col-md-3 col-xs-3">
                         <p class="texto-footer">
                             <a href="https://eam.inforcloudsuite.com/web/base/logindisp?tenant=NATURESWEET_PRD" title="Infor EAM">
                                 <img src="<?php echo $url."dist/img/infor-logo.png"; ?>" class='pull-right' width="36px;">
