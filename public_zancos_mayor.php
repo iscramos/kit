@@ -40,7 +40,9 @@
           
           <div class='container text-center'>
             <h3 class="text-center" > Zancos reporte (> 1.5 años)</h3>
-              
+            <?php
+              include(VIEW_PATH.'indexMenu_public_zancos.php')
+            ?>
           </div>
           
             

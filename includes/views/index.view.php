@@ -1,6 +1,8 @@
  <?php require_once(VIEW_PATH.'header.inc.php');
 
       require_once(SITE_ROOT.'proapp_top_ten.php'); // para el envío del correo de mayor incidencia de equipos críticos.
+      require_once(SITE_ROOT.'proapp_zancos.php'); // para el envío del correo de zancos desfasados.
+
     //include(VIEW_PATH.'indexMenu.php');
  ?>
 
@@ -36,7 +38,7 @@
 
   <script type="text/javascript">
     // codigo para el envío de correos
-    function mandarMails() 
+    function mandarMails_top_ten() 
     {
       //alert("hola");
       asunto = 'RESUMEN SEMANAL EQUIPOS CRITICOS';
@@ -52,12 +54,38 @@
         $.post("http://192.168.167.231/ns/mails/index.php",
               {mails: mails, asunto: asunto, body: body, subTitulo: subTitulo}, function (data) {
           $("#modalBodyCentroCarga").html(data);
+          console.log("Correo enviado");
+      });
+      }
+      
+    }
+
+    function mandarMails_zancos() 
+    {
+      //alert("hola");
+      asunto = 'RESUMEN SEMANAL DE ZANCOS EN DESFASE';
+      body = '<?php echo $variableHTML_ZANCOS; ?>';
+      mails = <?php echo json_encode($arrays_zancos); ?>;
+      subTitulo = '<?php echo "Mantenimiento"; ?>';
+      if(body == "NO SEND")
+      {
+        return true;
+      }
+      else
+      {
+        $.post("http://192.168.167.231/ns/mails/index.php",
+              {mails: mails, asunto: asunto, body: body, subTitulo: subTitulo}, function (data) {
+          $("#modalBodyCentroCarga").html(data);
           //console.log("Correo enviado");
       });
       }
       
     }
-    //mandarMails();
+
+    
+    mandarMails_top_ten();
+    mandarMails_zancos();
+
   </script>
   </body>
 </html>

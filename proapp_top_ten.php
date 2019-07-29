@@ -44,6 +44,7 @@
     $d_max = $days_max[0]->dia;
 
     $nombre_fecha_hoy = get_nombre_dia($fechaHoy);
+    //$nombre_fecha_hoy = "MARTES";
     
     $correo_enviado = Correos_top::getByFechaEnvio($fechaHoy);
 

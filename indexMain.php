@@ -20,7 +20,7 @@ else
 }
 
 
-function vistas($vUsuario, $vId, $vCorreo, $cicloEscolar)
+/*function vistas($vUsuario, $vId, $vCorreo, $cicloEscolar)
 {
 	$laip = $_SERVER['REMOTE_ADDR'];
 	$perfil = "";
@@ -45,4 +45,4 @@ function vistas($vUsuario, $vId, $vCorreo, $cicloEscolar)
 		$estadistica->cicloEscolar = $cicloEscolar;
 		$estadistica->save();
 	}
-}
+}*/

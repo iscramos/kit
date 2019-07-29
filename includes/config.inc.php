@@ -67,6 +67,8 @@ require_once(MODEL_PATH.'herramientas_proveedores.model.php');
 require_once(MODEL_PATH.'herramientas_udm.model.php');
 require_once(MODEL_PATH.'herramientas_almacenes.model.php');
 require_once(MODEL_PATH.'herramientas_movimientos.model.php');
+require_once(MODEL_PATH.'herramientas_entradas.model.php');
+require_once(MODEL_PATH.'herramientas_stock.model.php');
 require_once(MODEL_PATH.'mediciones_camara_fria.model.php');
 
 require_once(MODEL_PATH.'mp_mc_historicos.model.php');
@@ -105,6 +107,7 @@ require_once(MODEL_PATH.'planner.model.php');
 
 require_once(MODEL_PATH.'correos_ots.model.php');
 require_once(MODEL_PATH.'correos_top.model.php');
+require_once(MODEL_PATH.'correos_zancos.model.php');
 
 require_once(MODEL_PATH.'zancos_acciones.model.php');
 require_once(MODEL_PATH.'zancos_ghs.model.php');
