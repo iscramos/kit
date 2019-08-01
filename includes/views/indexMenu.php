@@ -128,12 +128,17 @@
                                         <li><a href='indexHerramientas_categorias.php'>Categorías</a></li>
                                         <li><a href='indexHerramientas_proveedores.php'>Proveedores</a></li>
                                         <li><a href='indexHerramientas_udm.php'>Unidades de medida</a></li>
-                                        <li><a href='indexHerramientas_herramientas.php'>Artículos</a></li>
+                                        <li><a href='indexHerramientas_herramientas.php'>Artículos / piezas</a></li>
+                                        <li><a href='indexHerramientas_entradas.php'>Entrada piezas</a></li>
                                     </ul>
                                   </li>";
 
                                   echo "<li>
-                                            <a href='indexHerramientas_articulos.php'><i class='fa fa-suitcase' aria-hidden='true'></i>Artículos</a>
+                                            <a href='indexHerramientas_articulos.php'><i class='fa fa-suitcase' aria-hidden='true'></i>Artículos préstamo</a>
+                                        </li>";
+
+                                    echo "<li>
+                                            <a href='indexHerramientas_salidas.php'><i class='fa fa-shopping-bag' aria-hidden='true'></i>Artículos salidas</a>
                                         </li>";
 
                                     echo "<li>
@@ -281,6 +286,7 @@
                                     <ul class='nav child_menu'>
                                         <li><a href='indexZancos_reportes_mayor.php'> > 1.5 años</a></li>
                                         <li><a href='indexZancos_reportes_desfase.php'>Desfasados</a></li>
+                                        <li><a href='indexZancos_reportes_historial.php'>Piezas</a></li>
                                     </ul>
                                   </li>";
 
