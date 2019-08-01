@@ -116,3 +116,5 @@ require_once(MODEL_PATH.'zancos_lideres.model.php');
 require_once(MODEL_PATH.'zancos_problemas.model.php');
 require_once(MODEL_PATH.'zancos_bd.model.php');
 require_once(MODEL_PATH.'zancos_movimientos.model.php');
+require_once(MODEL_PATH.'zancos_partes.model.php');
+require_once(MODEL_PATH.'zancos_historial_piezas.model.php');

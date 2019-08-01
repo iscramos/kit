@@ -1,35 +1,6 @@
  <?php require_once(VIEW_PATH.'header.inc.php');
  ?>
-    <style type="text/css">
-        @-webkit-keyframes invalid 
-        {
-            from { background-color: #C82333; }
-            to { background-color: inherit; }
-        }
-        @-moz-keyframes invalid 
-        {
-            from { background-color: #C82333; }
-            to { background-color: inherit; }
-        }
-        @-o-keyframes invalid 
-        {
-          from { background-color: #C82333; }
-          to { background-color: inherit; }
-        }
-        @keyframes invalid 
-        {
-          from { background-color: #C82333; }
-          to { background-color: inherit; }
-        }
-        
-        .invalid
-        {
-          -webkit-animation: invalid 1s infinite; /* Safari 4+ */
-          -moz-animation:    invalid 1s infinite; /* Fx 5+ */
-          -o-animation:      invalid 1s infinite; /* Opera 12+ */
-          animation:         invalid 1s infinite; /* IE 10+ */
-        }
-    </style>
+    
             
          <!-- page content -->
         <div class="right_col" role="main">
@@ -78,15 +49,15 @@
                                         <th style="text-align: center;">Movimiento</th>
                                         <th style="text-align: center;">Gh</th>
                                         <!--th style="text-align: center;">Zona</th-->
-                                        <th style="text-align: center;">Fecha Act.<br> Baja</th>
+                                        <th style="text-align: center;">Act / Baja</th>
                                         <th style="text-align: center;">Líder</th>
                                         <th style="text-align: center;">Nombre</th>
-                                        <th style="text-align: center;">Fecha <br> Salida</th>
-                                        <th style="text-align: center;">WK <br> Salida</th>
-                                        <th style="text-align: center;">Desfase <br> (WK) </th>
-                                        <th style="text-align: center;">Fecha <br> Entrega</th>
-                                        <th style="text-align: center;">WK <br> Entrega</th>
-                                        <th style="text-align: center;">Fecha <br> Servicio</th>
+                                        <th style="text-align: center;">Salida</th>
+                                        <th style="text-align: center;">WK S</th>
+                                        <!--th style="text-align: center;">Desfase <br> (WK) </th-->
+                                        <th style="text-align: center;">Entrega</th>
+                                        <th style="text-align: center;">WK E</th>
+                                        <th style="text-align: center;">Servicio</th>
                                         <th style="text-align: center;">Problema</th>
                                         <th style="text-align: center;">Acción</th>
                                     </tr>
@@ -137,7 +108,7 @@
                                                 {
                                                     echo "<td style='text-align:center;'> - </td>";
                                                     echo "<td style='text-align:center;'> - </td>";
-                                                    echo "<td style='text-align:center;'> - </td>";
+                                                    //echo "<td style='text-align:center;'> - </td>";
                                                     
                                                     
                                                     echo "<td style='text-align:center;'> - </td>";
@@ -149,7 +120,7 @@
                                                 {
                                                     echo "<td style='text-align:center;'> - </td>";
                                                     echo "<td style='text-align:center;'> - </td>";
-                                                    echo "<td style='text-align:center;'> - </td>";
+                                                    //echo "<td style='text-align:center;'> - </td>";
                                                     
                                                     
                                                     echo "<td style='text-align:center;'> - </td>";
@@ -175,7 +146,7 @@
                                                     $f_salida = date_create($m->fecha_salida);
 
                                                     
-                                                    if($m->fecha_entrega > 0 && $m->fecha_salida > 0)
+                                                    /*if($m->fecha_entrega > 0 && $m->fecha_salida > 0)
                                                     {
                                                         echo "<td style='text-align:center;'> - </td>";
                                                     }
@@ -200,7 +171,7 @@
                                                         
                                                         
                                                         
-                                                    }
+                                                    }*/
                                                     
                                                     
                                                     if($m->fecha_entrega > 0)
@@ -261,7 +232,7 @@
                                             <th></th>
                                             <th></th>
                                             <th></th>
-                                            <th></th>
+                                            <!--th></th-->
                                             <th></th>
                                             <th></th>
                                             <th></th>
@@ -398,7 +369,7 @@
                 $('.dataTables-example').DataTable( 
                 {
                     initComplete: function () {
-                        this.api().columns([0, 1, 9 ]).every( function () {
+                        this.api().columns([ 1, 7]).every( function () {
                             var column = this;
                             var select = $('<select class="form-control input-sm"><option value="">All</option></select>')
                                 .appendTo( $(column.footer()).empty() )
@@ -421,6 +392,7 @@
                     //"ordering": true,
                     "processing": true,
                     //"serverSide": true,
+                    //"paging": false,
                     "lengthMenu": [[15, 100, 100, -1], [15, 100, 200, "Todo"]], 
                     "language":{
                     "oPaginate": {

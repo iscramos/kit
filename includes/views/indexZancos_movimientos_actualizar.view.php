@@ -1,6 +1,30 @@
  <?php require_once(VIEW_PATH.'header.inc.php');
  ?>
 
+<style type="text/css">
+    
+    
+#zoom {
+    position: relative;
+    width: 640px;
+    height: auto;
+    margin: 20px auto;
+    border: 12px solid #fff;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px rgba(50,50,50 0.5);
+}
+
+/*.zoom img:hover{
+  transform:scale(1.5);
+  -moz-transform: scale(1.5);
+  -webkit-transform:scale(1.5);
+}*/
+       
+.zoom
+{      
+  overflow:hidden;
+}
+</style>
          <!-- page content -->
         <div class="right_col" role="main">
             <div class="">
@@ -32,7 +56,7 @@
                             </div>
                             <div class="x_content">
 
-
+                                <div class="row">
                                 <!-- aqui va el contenido -->
                                <form class="col-sm-8 col-sm-offset-2" name="frmtipo" id="divdestino" method="post" action="<?php echo $url; ?>createZancos_movimientos.php">
                                     
@@ -576,11 +600,75 @@
 
                             
                                 </form>
+                                </div>
+                                <?php 
+                                    if(isset($zancos_movimientos[0]->no_zanco))
+                                    {
+                                        ?>
+                                <div class="row">
+                                    <hr>
+                                
+                                    <div class="col-sm-4 text-center zoom">
+                                        <h4>MODEL IV</h4> 
+                                        <img id="zoom_zanco" class="img img-thumbnail" src="content/partes_zancos/model4.jpg" width="100%">
+                                    </div>
+                                    <!-- COMIENZA EL HISTORAL DE PIEZAS DAÑADAS -->
+                                    <div class="col-sm-8 ">
+                                        
+                                        <i>HISTORIAL DE PIEZAS</i>
+                                        <button class="btn btn-sm btn-primary pull-right" title="Añadir detalle de piezas" id="agregaPieza">
+                                            <span class='glyphicon glyphicon-plus'></span>
+                                        </button>
+                                        <table class="table table-condensed table-bordered table-striped  table-hover dataTables_wrapper jambo_table bulk_action" id="piezas_tabla">
+                                            <thead>
+                                                <tr>
+                                                    <th>REGISTRO</th>
+                                                    <th>PIEZA</th>
+                                                    <th>DESCRIPCION</th>
+                                                    <th>PROBLEMA</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php 
+                                                    
+                                                        $zanco_temporal = $zancos_movimientos[0]->no_zanco;
+                                                        $consulta_historial = "SELECT zancos_historial_piezas.*, zancos_problemas.descripcion AS descripcion_problema, zancos_partes.descripcion AS descripcion_pieza 
+                                                                FROM zancos_historial_piezas
+                                                                    INNER JOIN zancos_problemas ON zancos_historial_piezas.problema = zancos_problemas.id
+                                                                    INNER JOIN zancos_partes ON zancos_historial_piezas.parte = zancos_partes.parte
+                                                                            WHERE zancos_historial_piezas.no_zanco = $zanco_temporal";
+                                                        //echo $consulta_historial;
+                                                        $zancos_historial = Zancos_historial_piezas::getAllByQuery($consulta_historial);
+
+                                                        foreach ($zancos_historial as $historial) 
+                                                        {
+                                                            echo "<tr>";
+                                                                echo "<td>".$historial->id_registro."</td>";
+                                                                echo "<td>".$historial->parte."</td>";
+                                                                echo "<td>".$historial->descripcion_pieza."</td>";
+                                                                echo "<td>".$historial->descripcion_problema."</td>";
+                                                            echo "</tr>";
+                                                        }
+                                                     
+                                                    
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- TERMINA EL HISTORAL DE PIEZAS DAÑADAS -->
+                                </div>
+                                <?php 
+                                }
+                                ?>
 
                             </div>
                         </div>
                     </div> <!-- fin class='' -->
                 </div>
+                 <br>
+                 <br>
+                            
+                            
             <div class="clearfix"></div>
         </div>
     </div> 
@@ -592,15 +680,15 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Agregar / Modificar zanco</h4>
+		        <h4 class="modal-title" id="myModalLabel">Agregar detalles de pieza</h4>
 		      </div>
-		      <div class="modal-body">
-                <form name='frmtipo' class="form-horizontal" id="divdestino" method="post" action="<?php echo $url; ?>createZancos_bd.php">
+		      <div class="modal-body ">
+                <form name='frmtipo' class="form-horizontal" id="respuesta">
 		  
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-		        <button type="submit" class="btn btn-primary">Guardar</button>
+		        <button type="button" class="btn btn-primary hidden" id="enviar" data-dismiss="modal">Guardar</button>
 		      </div>
                 </form>
 		    </div>
@@ -610,6 +698,9 @@
 
 
  <?php require_once(VIEW_PATH.'footer.inc.php'); ?>
+
+    <!-- mlens -->
+    <script src="dist/js/jquery.mlens-1.7.min.js"></script>
 
         <script type="text/javascript">
             
@@ -633,7 +724,7 @@
                     objetoAjax = new XMLHttpRequest();
                 }
                 return objetoAjax;
-            }
+            } 
 
             $("#buscar").on("click", function(e)
                 {
@@ -699,6 +790,89 @@
 
             $(document).ready(function()
             {
+                $("#enviar").on("click", function(e)
+                {
+                    event.preventDefault();
+                    var pieza_registro = null;
+                    var pieza_zanco = null;
+                    var pieza_parte = null;
+                    var pieza_descripcion = null;
+                    var pieza_problema = null;
+                    var pieza_problema_descripcion = null;
+                    var pieza_notas = null;
+
+                        pieza_registro = $("#id_registro").val();
+                        pieza_zanco = $("#no_zanco").val();
+                        pieza_parte = $("#parte").val();
+                        pieza_descripcion = $("#descripcion_pieza").val();
+                        pieza_problema = $("#problema").val();
+                        pieza_problema_descripcion = $("#problema option:selected").text();
+                        pieza_notas = $("#notas").val();
+
+                    if(pieza_registro > 0 && pieza_zanco > 0 && pieza_parte != "" && pieza_problema > 0)
+                    {
+                        $.post( "createZancos_historial.php", {pieza_registro: pieza_registro, pieza_zanco: pieza_zanco, pieza_parte: pieza_parte, pieza_problema:pieza_problema, pieza_notas: pieza_notas })
+                          .done(function( data ) {
+                                //alert( "Data Loaded: " + data );
+
+                                $('#piezas_tabla').append('<tr><td>'+pieza_registro+'</td><td>'+pieza_parte+'</td><td>'+pieza_descripcion+'</td><td>'+pieza_problema_descripcion+'</td></tr>');
+
+                                alert(data);
+                          });
+                        
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                        
+                });
+
+                $("#agregaPieza").on("click", function(e)
+                {
+                    event.preventDefault();
+                        var v = 0;
+
+                        ajaxCargaDatos("respuesta", v );
+                });
+
+                function ajaxCargaDatos(divdestino, uID)
+                {
+                    var ajax=creaAjax();
+
+                    ajax.open("GET", "updateZancos_piezas.php?id="+uID, true);
+                    ajax.onreadystatechange=function() 
+                    { 
+                        if (ajax.readyState==1)
+                        {
+                          // Mientras carga ponemos un letrerito que dice "Verificando..."
+                          $('#'+divdestino).html='Cargando...';
+                        }
+                        if (ajax.readyState==4)
+                        {
+                          // Cuando ya terminó, ponemos el resultado
+                            var str =ajax.responseText; 
+                                        
+                            $('#'+divdestino).html(''+str+'');
+                            $("#modalAgregar").modal("show");
+                
+                        } 
+                    }
+                    ajax.send(null);
+                }
+
+                $("#zoom_zanco").mlens(
+                {
+                    imgSrc: $("#zoom_zanco").attr("data-big"),   // path of the hi-res version of the image
+                    lensShape: "square",                // shape of the lens (circle/square)
+                    lensSize: 300,                  // size of the lens (in px)
+                    borderSize: 4,                  // size of the lens border (in px)
+                    borderColor: "#233E50",                // color of the lens border (#hex)
+                    borderRadius: 0,                // border radius (optional, only if the shape is square)
+                    imgOverlay: $("#zoom_zanco").attr("data-overlay"), // path of the overlay image (optional)
+                    overlayAdapt: false, // true if the overlay image has to adapt to the lens size (true/false)
+                    zoomLevel: 1.5
+                });
                 
                 $("#tipo_movimiento").on("change", function()
                 {
@@ -1008,37 +1182,6 @@
                 });
 
             
-
-                
-
-                
-
-                
-
-                function ajaxCargaDatos(divdestino, uID)
-                {
-                    var ajax=creaAjax();
-
-                    ajax.open("GET", "updateZancos_bd.php?id="+uID, true);
-                    ajax.onreadystatechange=function() 
-                    { 
-                        if (ajax.readyState==1)
-                        {
-                          // Mientras carga ponemos un letrerito que dice "Verificando..."
-                          $('#'+divdestino).html='Cargando...';
-                        }
-                        if (ajax.readyState==4)
-                        {
-                          // Cuando ya terminó, ponemos el resultado
-                            var str =ajax.responseText; 
-                                        
-                            $('#'+divdestino).html(''+str+'');
-                            $("#modalAgregar").modal("show");
-                
-                        } 
-                    }
-                    ajax.send(null);
-                }
 
                 $('.dataTables-example').DataTable({
                 //responsive: true,
