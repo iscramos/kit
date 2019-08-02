@@ -6,7 +6,7 @@ require_once('includes/inc.session.php');
 //$bloques = Bloques::getById($id);
 //print_r($bloques);
 $str="";
-if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 9) ) // para zancos
+if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 9 || $_SESSION["type"] == 10 ) ) // para zancos
 {	
 	//$mes = $_GET['mes'];
 	$consulta = $_REQUEST['consulta'];

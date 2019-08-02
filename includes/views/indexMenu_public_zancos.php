@@ -36,6 +36,9 @@
                                 echo "<li >
                                             <a href='public_zancos_mayor.php'>Zancos > 1.5 años</a>
                                         </li>";
+                                echo "<li >
+                                            <a href='public_zancos_historial.php'>Zancos piezas</a>
+                                        </li>";
                                 
                         
                     	?>

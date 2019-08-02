@@ -3,7 +3,7 @@
 require_once('includes/config.inc.php');
 require_once('includes/inc.session.php');
 
-if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 9) ) // para zancos
+if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 9 || $_SESSION["type"] == 10 ) ) // para zancos
 {
     $consulta = $_REQUEST["consulta"];
     if($consulta == "PARETO_PIEZAS")
