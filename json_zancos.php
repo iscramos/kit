@@ -10,7 +10,7 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 9) ) // para zancos
     {
 
 
-        $q = "SELECT count(zancos_historial_piezas.parte) AS veces, zancos_partes.descripcion AS descripcion
+        $q = "SELECT count(zancos_historial_piezas.parte) AS veces, zancos_partes.parte AS parte
                 FROM zancos_historial_piezas
                     INNER JOIN zancos_partes ON zancos_historial_piezas.parte = zancos_partes.parte
                     GROUP BY zancos_historial_piezas.parte 

@@ -1481,6 +1481,28 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 9) ) // para zancos
 			$str = "NO";
 		}
 	}
+	elseif ($consulta == "IMAGEN_PIEZA") 
+	{
+		// Open database connection
+		$parte = $_REQUEST['parte'];
+		$sql = "SELECT *
+					FROM zancos_partes
+						WHERE parte = '$parte' ";
+					
+		$piezas = Zancos_partes::getAllByQuery($sql);
+
+
+		if (count($piezas) > 0) 
+		{
+			$str = "<h4 style='color: darkorange;'>".$piezas[0]->parte."</h4>";
+			$str.="<img class='img-thumbnail' src='content/partes_zancos/".$piezas[0]->img."' width='100%'>";
+		}
+		else
+		{
+			$str = "NO";
+		}
+	}
+	
 
 	
 }
