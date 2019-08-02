@@ -79,6 +79,7 @@
                                     </div>
                                     
                                     <div class="col-sm-8">
+                                        <h4 class="text-center">HISTORIAL</h4>
                                         <table class="table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action" >
                                             <thead>
                                                 <tr>

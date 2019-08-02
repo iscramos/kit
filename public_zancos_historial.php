@@ -59,7 +59,7 @@
         <div class="" role="main" style="min-height: 800px !important;">
           
           <div class='container text-center'>
-            <h3 class="text-center" > Zancos reporte (> 1.5 años)</h3>
+            <h3 class="text-center" > Zancos reporte (piezas)</h3>
             <?php
               include(VIEW_PATH.'indexMenu_public_zancos.php')
             ?>
@@ -91,6 +91,7 @@
                     </div>
                     
                     <div class="col-sm-8">
+                        <h4 class="text-center">HISTORIAL</h4>
                         <table class="table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action" >
                             <thead>
                                 <tr>
