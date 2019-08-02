@@ -225,11 +225,43 @@
                             };
 
                             var chart = new google.visualization.ColumnChart(document.getElementById('pareto_pieza'));
-
                             chart.draw(view, options);
+
+                            // para el evento de click sobre la columna
+                            google.visualization.events.addListener(chart, 'select', function() 
+                            {
+                              //events.preventDefault();
+                              var selection = chart.getSelection(data);
+                              if(selection != "")
+                              {
+                                var row = selection[0].row;
+                                //alert(row);
+                                if (row != null)
+                                {
+                                    var partecita = data.getValue(row, 0);
+
+                                    v = partecita
+                                    consulta = "IMAGEN_PIEZA";
+
+                                            
+                                    $.get("helper_zancos.php", {consulta:consulta, parte:v} ,function(data)
+                                    { 
+                                        $("#divdestino").html(data);
+                                        $("#modalAgregar").modal("show");
+                                    });
+                                }
+                              }
+
+                              
+                              
+                            });
+                            // termina click
+                            
                     });
 
                 }
+
+                
 
                 function draw_pareto_problema()
                 {
