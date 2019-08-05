@@ -50,7 +50,7 @@
                                         <th style="text-align: center;">Gh</th>
                                         <!--th style="text-align: center;">Zona</th-->
                                         <th style="text-align: center;">Act / Baja</th>
-                                        <th style="text-align: center;">Líder</th>
+                                        <!--th style="text-align: center;">Líder</th-->
                                         <th style="text-align: center;">Nombre</th>
                                         <th style="text-align: center;">Salida</th>
                                         <th style="text-align: center;">WK S</th>
@@ -58,7 +58,7 @@
                                         <th style="text-align: center;">Entrega</th>
                                         <th style="text-align: center;">WK E</th>
                                         <th style="text-align: center;">Servicio</th>
-                                        <th style="text-align: center;">Problema</th>
+                                        <!--th style="text-align: center;">Problema</th-->
                                         <th style="text-align: center;">Acción</th>
                                     </tr>
                                 </thead>
@@ -101,7 +101,7 @@
                                                     echo "<td style='text-align:center;'> - </td>";
                                                 }
                                                 
-                                                echo "<td>".$m->ns_salida_lider."</td>";
+                                                //echo "<td>".$m->ns_salida_lider."</td>";
                                                 echo "<td>".utf8_encode($m->nombre_lider_salida)."</td>";
 
                                                 if($m->tipo_movimiento == 1) // activacion
@@ -114,7 +114,7 @@
                                                     echo "<td style='text-align:center;'> - </td>";
                                                     echo "<td style='text-align:center;'> - </td>";
                                                     echo "<td style='text-align:center;'> - </td>";
-                                                    echo "<td style='text-align:center;'> - </td>";
+                                                    //echo "<td style='text-align:center;'> - </td>";
                                                 }
                                                 else if($m->tipo_movimiento == 2) // baja
                                                 {
@@ -126,7 +126,7 @@
                                                     echo "<td style='text-align:center;'> - </td>";
                                                     echo "<td style='text-align:center;'> - </td>";
                                                     echo "<td style='text-align:center;'> - </td>";
-                                                    echo "<td style='text-align:center;'> - </td>";
+                                                    //echo "<td style='text-align:center;'> - </td>";
                                                 }
                                                 elseif($m->tipo_movimiento == 3) // salida
                                                 {
@@ -195,14 +195,14 @@
                                                         echo "<td style='text-align:center;'> - </td>";
                                                     }
                                                     
-                                                    if($m->descripcion_problema > 0)
+                                                    /*if($m->descripcion_problema > 0)
                                                     {
                                                         echo "<td style='text-align:center;'>".$m->problema_descripcion."</td>";
                                                     }
                                                     else
                                                     {
                                                         echo "<td style='text-align:center;'> - </td>";
-                                                    }
+                                                    }*/
                                                 }
                                                 
                                                 echo "<td>";
@@ -228,7 +228,7 @@
                                             <th></th>
                                             <!--th></th-->
                                             <th></th>
-                                            <th></th>
+                                            <!--th></th-->
                                             <th></th>
                                             <th></th>
                                             <th></th>
@@ -237,7 +237,7 @@
                                             <th></th>
                                             <th></th>
                                             <th></th>
-                                            <th></th>
+                                            <!--th></th-->
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -369,7 +369,7 @@
                 $('.dataTables-example').DataTable( 
                 {
                     initComplete: function () {
-                        this.api().columns([ 1, 7]).every( function () {
+                        this.api().columns([ 1, 6]).every( function () {
                             var column = this;
                             var select = $('<select class="form-control input-sm"><option value="">All</option></select>')
                                 .appendTo( $(column.footer()).empty() )
