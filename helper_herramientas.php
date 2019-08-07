@@ -303,6 +303,171 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
   			$str = "<img src='dist/img/no_disponible.png' width='100px' height='90px'>";
   		}
 	}
+	elseif ($consulta == "PIEZAS") 
+	{
+		// Open database connection
+		$database2 = new Database();
+
+		$sql = "SELECT clave FROM herramientas_herramientas WHERE activaStock = 1";
+		$query = $database2->query($sql);
+		$data = array();
+		while($r = $query->fetch_row()){
+			$data[] = $r[0];
+		}
+
+		// Close database connection
+		$database2->close();
+
+		$str = json_encode($data);
+		//$str.='["item1","item2","item3"]';
+	}
+	elseif ($consulta == "PIEZAS_DETALLES") 
+	{
+		// Open database connection
+		$clave = $_REQUEST['clave'];
+
+		$sql = "SELECT herramientas_herramientas.*, herramientas_udm.descripcion AS udm_descripcion
+					FROM herramientas_herramientas
+						INNER JOIN herramientas_udm ON herramientas_herramientas.id_udm = herramientas_udm.id
+							WHERE herramientas_herramientas.clave = '$clave'
+								AND herramientas_herramientas.activaStock = 1 ";
+					
+		$piezas = Herramientas_herramientas::getAllByQuery($sql);
+
+		if (count($piezas) > 0) 
+		{
+			$str.="<div class='form-group'>
+                        <label class='col-sm-4 control-label'>Descripción</label>
+                        <div class='col-sm-8'>
+                            
+                            <input type='text' class='typeahead form-control input-sm' id='descripcion' name='descripcion' value='".$piezas[0]->descripcion."' readonly required='required'>
+                        </div>
+                    </div>";
+
+            $str.="<div class='form-group'>
+                        <label class='col-sm-4 control-label'>Unidad de medida</label>
+                        <div class='col-sm-8'>
+                            
+                            <input type='text' class='form-control input-sm' id='udm' name='udm' value='".$piezas[0]->udm_descripcion."' readonly required='required'>
+                        </div>
+                    </div>";
+
+            $str.="<div class='form-group'>
+                        <label class='col-sm-4 control-label'>Cantidad</label>
+                        <div class='col-sm-8'>
+                            
+                            <input type='text' class='form-control input-sm' id='cantidad' name='cantidad' value='' required='required' autocomplete='off'>
+                        </div>
+                    </div>";
+		}
+		else
+		{
+			$str = "<h5 style='text-align:center; '>PIEZA NO ENCONTRADA EN LA BD...</h5>";
+		}
+	}
+	elseif ($consulta == "PIEZAS_BUSQUEDA") 
+	{
+		// Open database connection
+		
+
+		$sql = "SELECT herramientas_herramientas.*, herramientas_udm.descripcion AS udm_descripcion, herramientas_stock.stock AS stock
+					FROM herramientas_herramientas
+						INNER JOIN herramientas_udm ON herramientas_herramientas.id_udm = herramientas_udm.id
+						LEFT JOIN herramientas_stock ON herramientas_herramientas.clave = herramientas_stock.clave
+							WHERE  herramientas_herramientas.activaStock = 1 ";
+					
+		$piezas = Herramientas_herramientas::getAllByQuery($sql);
+
+		if (count($piezas) > 0) 
+		{
+			$str.="<table class='table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action'>";
+			$str.="<thead>";
+				$str.="<tr>";
+					$str.="<th>#</th>";
+					$str.="<th>CLAVE</th>";
+					$str.="<th>DESCRIPCION</th>";
+					$str.="<th>UDM</th>";
+					$str.="<th>STOCK</th>";
+					$str.="<th>ACCION</th>";
+				$str.="</tr>";
+			$str.="</thead>";
+			$str.="<tbody>";
+
+				$i = 1;
+				foreach ($piezas as $p) 
+				{
+					$str.="<tr>";
+						$str.="<td>".$i."</td>";
+						$str.="<td>".$p->clave."</td>";
+						$str.="<td>".$p->descripcion."</td>";
+						$str.="<td>".$p->udm_descripcion."</td>";
+						$str.="<td>".$p->stock."</td>";
+						$str.="<td>";
+
+							if($p->stock != "" || $p->stock > 0)
+							{
+
+									$str.="<button type='button' valueEnvia='".$p->clave."' class='btn btn-success add_temporal' title='Agregar pieza' data-dismiss='modal'> <span class='fa fa-plus'></span> </button>";
+							}
+						$str.="</td>";
+					$str.="</tr>";
+
+					$i++;
+				}
+			$str.="</tbody>";
+			$str.="</table>";
+		}
+		else
+		{
+			$str = "<h5 style='text-align:center; '>PIEZA NO ENCONTRADA EN LA BD...</h5>";
+		}
+
+		$str.="<script type='text/javascript'>
+			$('.dataTables-example').DataTable({
+		        'lengthMenu': [[10, -1], [10, 'Todo']], 
+		        'language':{
+		            oPaginate: {
+		                'sNext' : 'Siguiente',
+		                'sPrevious': 'Anterior'
+		            },
+		            'search': 'Buscar ',
+		            'sNext': 'Siguiente',
+		            'sPrevious': 'Anterior',
+		            'lengthMenu': '_MENU_ Registros por página',
+		            'zeroRecords': 'Nada encontrado',
+		            'info': 'Mostrando página _PAGE_ de _PAGES_',
+		            'infoEmpty': 'No registros disponibles',
+		            'infoFiltered': '(filtrado de _MAX_ registros totales)'
+		        }
+		    });
+
+		    $('.add_temporal').on('click', function(e)
+            {
+                alert('es');
+                event.preventDefault();
+                var clave = null;
+                    clave = $(this).attr('valueEnvia');
+
+                if(clave != '')
+                {
+                    /*$.post( 'createHerramienta_transaccion_temporal.php', {pieza_registro: pieza_registro, pieza_zanco: pieza_zanco, pieza_parte: pieza_parte, pieza_problema:pieza_problema, pieza_notas: pieza_notas })
+                      .done(function( data ) {*/
+                            //alert( 'Data Loaded: ' + data );
+
+                            $('#temporal_tabla').append('<tr> <td>'+clave+'</td><td></td><td></td><td></td> </tr>');
+
+                            /*alert(data);
+                      });*/
+                    
+                }
+                else
+                {
+                    return false;
+                }
+                    
+            });
+		</script>";
+	}
 	elseif ($consulta == "BUSQUEDA_POR_ASOCIADO") 
 	{
 		$ns = $_REQUEST['ns'];
@@ -438,7 +603,7 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
   		}
   		else
   		{
-  			$str = "<table>";
+  			$str="*NO ENCONTRADO*";
   		}
 	}
 	elseif($consulta == "NUEVO")

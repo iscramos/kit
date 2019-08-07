@@ -16,6 +16,7 @@ if(isset($_GET["id"]))
 		$herramientas = Herramientas_herramientas::getById($id);
 		$almacenes = Herramientas_almacenes::getById($herramientas->id_almacen);
 		$categorias = Herramientas_categorias::getById($herramientas->id_categoria);
+		$udm = Herramientas_udm::getAllByOrden("descripcion", "ASC");
 
 
 		$proveedores = Herramientas_proveedores::getAll();
@@ -83,12 +84,44 @@ if(isset($_GET["id"]))
 							<input type='number' step='0.01'  class='form-control input-sm' id='precio_unitario' name='precio_unitario' value='".$herramientas->precio_unitario."' autocomplete='off' required='required'>
 						</div>
 				</div>";
+
+		$atributo = "";
+
+		if($herramientas->activaStock > 0)
+		{
+			$atributo = "checked ";
+		}
+
+		$str.="<div class='form-group'>
+						<label class='col-sm-4 col-xs-4 control-label'>Unidad de medida</label>
+						<div class='col-sm-8 col-xs-8'>
+							<select class='form-control input-sm' name='id_udm' id='id_udm' required='required'>";
+								foreach ($udm as $u) 
+								{
+									if($u->id == $herramientas->id_udm)
+									{
+										$str.="<option value='".$u->id."' selected>".$u->descripcion."</option>";
+									}
+									$str.="<option value='".$u->id."'>".$u->descripcion."</option>";
+								}
+							$str.="</select>
+						</div>
+				</div>";
+
+		$str.="<div class='form-group'>
+						<label class='col-sm-4 col-xs-4 control-label'>Stock</label>
+						<div class='col-sm-8 col-xs-8'>
+							<input id='stock' ".$atributo." type='checkbox' name='stock' data-toggle='toggle' data-width='50' data-height='30'>
+						</div>
+				</div>";
+
 	}
 	else
 	{
 		$almacenes = Herramientas_almacenes::getAllByOrden("descripcion", "ASC");
 		$categorias = Herramientas_categorias::getAllByOrden("categoria", "ASC");
 		$proveedores = Herramientas_proveedores::getAllByOrden("descripcion", "ASC");
+		$udm = Herramientas_udm::getAllByOrden("descripcion", "ASC");
 
 		$str.="<div class='form-group hidden'>
 						<label class='col-sm-4 col-xs-4 control-label'>ID</label>
@@ -175,6 +208,26 @@ if(isset($_GET["id"]))
 							$str.="</select>
 						</div>
 				</div>";
+
+		$str.="<div class='form-group'>
+						<label class='col-sm-4 col-xs-4 control-label'>Unidad de medida</label>
+						<div class='col-sm-8 col-xs-8'>
+							<select class='form-control input-sm' name='id_udm' id='id_udm' required='required'>
+								<option value='' style='display:none;'>Seleccione</option>";
+								foreach ($udm as $u) 
+								{
+									$str.="<option value='".$u->id."'>".$u->descripcion."</option>";
+								}
+							$str.="</select>
+						</div>
+				</div>";
+
+		$str.="<div class='form-group'>
+						<label class='col-sm-4 col-xs-4 control-label'>Stock</label>
+						<div class='col-sm-8 col-xs-8'>
+							<input id='stock' type='checkbox' name='stock' data-toggle='toggle' data-width='50' data-height='30'>
+						</div>
+				</div>";
 	}
 }
 else
@@ -185,46 +238,14 @@ else
 echo $str;
 ?>
 
+<!-- toggle -->
+<link href="dist/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="dist/js/bootstrap-toggle.min.js"></script>
 <script type="text/javascript">
-	function extensionCHK(campo)
-    {
-        var src = campo.value;
-        var log = src.length;
-        
-        var pdf = log - 3;
-        var wpdf = src.substring(pdf, log);
-            wpdf = wpdf.toUpperCase();
-        // para .XLSX
-        /*var xlsx = log - 3;
-        var wsubc = src.substring(xlsx, log);
-            wsubc = wsubc.toUpperCase();*/
-      
-      //this.files[0].size gets the size of your file.
-      var tamano = $("#archivo")[0].files[0].size;
-      
-      if (tamano > 5485760)
-      {
-        //alert('El archivo a subir debe ser menor a 1MB');
-        $("#archivo").val("");
-        $("#mensaje").removeClass("hidden");
-        $("#tam").text("El archivo pesa más de 5MB.");
-      
-      }
+  	
+	$(function() 
+	{
+    	$('#stock').bootstrapToggle();
+ 	});
 
-      else if(wpdf!='JPG' && wpdf!='PNG')
-      {
-        //alert('El archivo a subir debe ser una imagen JPG, o PDF');
-        $("#archivo").val("");
-        $("#mensaje").removeClass("hidden");
-        $("#ext").text("El archivo debe ser un JPG, PNG");
-        
-      }
-      else
-      {
-        $("#mensaje").addClass("hidden");
-        $("#tam").text("");
-        $("#ext").text("");
-        
-      }
-    }
 </script>

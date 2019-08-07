@@ -12,6 +12,8 @@ class Herramientas_herramientas {
 	//public $id_responsable;
 	public $fecha_entrada;
 	public $archivo;
+	public $activaStock;
+	public $id_udm;
 
 	
 	public static function getBySql($sql) {
@@ -148,7 +150,7 @@ class Herramientas_herramientas {
 			$statement->execute();
 			
 			// Bind variable to prepared statement
-			$statement->bind_result($id, $clave, $id_almacen, $id_categoria, $id_marca, $descripcion, $precio_unitario, $fecha_entrada, $archivo);
+			$statement->bind_result($id, $clave, $id_almacen, $id_categoria, $id_marca, $descripcion, $precio_unitario, $fecha_entrada, $archivo, $activaStock, $id_udm);
 			
 			// Populate bind variables
 			$statement->fetch();
@@ -171,6 +173,8 @@ class Herramientas_herramientas {
 		$object->precio_unitario = $precio_unitario;
 		$object->fecha_entrada = $fecha_entrada;
 		$object->archivo = $archivo;
+		$object->activaStock = $activaStock;
+		$object->id_udm = $id_udm;
 		return $object;
 	}
 
@@ -231,7 +235,7 @@ class Herramientas_herramientas {
 			$statement->execute();
 			
 			// Bind variable to prepared statement
-			$statement->bind_result($id, $clave, $id_almacen, $id_categoria, $id_marca, $descripcion, $precio_unitario, $fecha_entrada, $archivo);
+			$statement->bind_result($id, $clave, $id_almacen, $id_categoria, $id_marca, $descripcion, $precio_unitario, $fecha_entrada, $archivo, $activaStock, $id_udm);
 			
 			// Populate bind variables
 			$statement->fetch();
@@ -254,6 +258,8 @@ class Herramientas_herramientas {
 		$object->precio_unitario = $precio_unitario;
 		$object->fecha_entrada = $fecha_entrada;
 		$object->archivo = $archivo;
+		$object->activaStock = $activaStock;
+		$object->id_udm = $id_udm;
 		return $object;
 	}
 
@@ -428,7 +434,7 @@ class Herramientas_herramientas {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "insert into herramientas_herramientas (clave, id_almacen, id_categoria, id_marca, descripcion, precio_unitario, fecha_entrada, archivo) values (?, ?, ?, ?, ?, ?, ?, ?)";
+		$sql = "insert into herramientas_herramientas (clave, id_almacen, id_categoria, id_marca, descripcion, precio_unitario, fecha_entrada, archivo, activaStock, id_udm) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		// Open database connection
 		$database = new Database();
@@ -440,7 +446,7 @@ class Herramientas_herramientas {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('siiissss', $this->clave, $this->id_almacen, $this->id_categoria, $this->id_marca, $this->descripcion, $this->precio_unitario, $this->fecha_entrada, $this->archivo);
+			$statement->bind_param('siiissssii', $this->clave, $this->id_almacen, $this->id_categoria, $this->id_marca, $this->descripcion, $this->precio_unitario, $this->fecha_entrada, $this->archivo, $this->activaStock, $this->id_udm);
 			
 			// Execute statement
 			$statement->execute();
@@ -465,7 +471,7 @@ class Herramientas_herramientas {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "update herramientas_herramientas set id_marca = ?, descripcion = ?, precio_unitario = ? where id = ?";
+		$sql = "update herramientas_herramientas set id_marca = ?, descripcion = ?, precio_unitario = ?, activaStock = ?, id_udm = ? where id = ?";
 		
 		// Open database connection
 		$database = new Database();
@@ -477,7 +483,7 @@ class Herramientas_herramientas {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('issi', $this->id_marca, $this->descripcion, $this->precio_unitario, $this->id);
+			$statement->bind_param('issiii', $this->id_marca, $this->descripcion, $this->precio_unitario, $this->activaStock, $this->id_udm, $this->id);
 			
 			// Execute statement
 			$statement->execute();

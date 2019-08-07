@@ -83,8 +83,8 @@
     }
 
     
-    mandarMails_top_ten();
-    mandarMails_zancos();
+    //mandarMails_top_ten();
+    //mandarMails_zancos();
 
   </script>
   </body>

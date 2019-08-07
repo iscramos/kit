@@ -175,8 +175,8 @@
             <h3 class="text-center" > Zancos (dashboard)</h3>
             
             <?php
-                      include(VIEW_PATH.'indexMenu_public_zancos.php')
-                    ?>
+              include(VIEW_PATH.'indexMenu_public_zancos.php')
+            ?>
           </div>
           
             
