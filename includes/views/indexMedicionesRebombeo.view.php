@@ -316,7 +316,7 @@
 
                 $('.dataTables-example').DataTable({
                 //responsive: true,
-                "lengthMenu": [[14, 25, 50, -1], [14, 25, 50, "Todo"]], 
+                "lengthMenu": [[25, 50, -1], [ 25, 50, "Todo"]], 
                 "language":{
                     "oPaginate": {
                         "sNext" : "Siguiente",
