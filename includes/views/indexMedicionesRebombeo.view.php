@@ -79,38 +79,26 @@
                                                 foreach ($mediciones as $medicion):
                                                 {
                                                     
-                                                    $colorVoltaje_l1_l2 = "";
-                                                    $colorVoltaje_l2_l3 = "";
-                                                    $colorVoltaje_l1_l3 = "";
-                                                    $colorAmperaje_l1 = "";
-                                                    $colorAmperaje_l2 = "";
-                                                    $colorAmperaje_l3 = "";
+                                                    $colorVoltaje_l1_l2 = "#59BA5F";
+                                                    $colorVoltaje_l2_l3 = "#59BA5F";
+                                                    $colorVoltaje_l1_l3 = "#59BA5F";
+                                                    $colorAmperaje_l1 = "#59BA5F";
+                                                    $colorAmperaje_l2 = "#59BA5F";
+                                                    $colorAmperaje_l3 = "#59BA5F";
                                                     
                                                     if($medicion->voltaje_l1_l2 < $medicion->volt_nomi_bajo || $medicion->voltaje_l1_l2 > $medicion->volt_nomi_alto)
                                                     {
                                                         $colorVoltaje_l1_l2 = "#D55551";
-                                                    }
-                                                    else
-                                                    {
-                                                        $colorVoltaje_l1_l2 = "#59BA5F";
                                                     }
 
                                                     if($medicion->voltaje_l2_l3 < $medicion->volt_nomi_bajo || $medicion->voltaje_l2_l3 > $medicion->volt_nomi_alto)
                                                     {
                                                         $colorVoltaje_l2_l3 = "#D55551";
                                                     }
-                                                    else
-                                                    {
-                                                        $colorVoltaje_l2_l3 = "#59BA5F";
-                                                    }
 
                                                     if($medicion->voltaje_l1_l3 < $medicion->volt_nomi_bajo || $medicion->voltaje_l1_l3 > $medicion->volt_nomi_alto)
                                                     {
                                                         $colorVoltaje_l1_l3 = "#D55551";
-                                                    }
-                                                    else
-                                                    {
-                                                        $colorVoltaje_l1_l3 = "#59BA5F";
                                                     }
 
                                                     // para el amperaje
@@ -118,27 +106,15 @@
                                                     {
                                                         $colorAmperaje_l1 = "#D55551";
                                                     }
-                                                    else
-                                                    {
-                                                        $colorAmperaje_l1 = "#59BA5F";
-                                                    }
 
                                                     if($medicion->amperaje_l2 < $medicion->amp_min || $medicion->amperaje_l2 > $medicion->amp_max)
                                                     {
                                                         $colorAmperaje_l2 = "#D55551";
                                                     }
-                                                    else
-                                                    {
-                                                        $colorAmperaje_l2 = "#59BA5F";
-                                                    }
-
+                                                    
                                                     if($medicion->amperaje_l3 < $medicion->amp_min || $medicion->amperaje_l3 > $medicion->amp_max)
                                                     {
                                                         $colorAmperaje_l3 = "#D55551";
-                                                    }
-                                                    else
-                                                    {
-                                                        $colorAmperaje_l3 = "#59BA5F";
                                                     }
 
                                                    
@@ -146,7 +122,7 @@
                                                         echo "<td width='5px' class='spec'>$i</td>";
                                                         echo "<td>".$medicion->descripcion."</td>";
                                                         echo "<td>".$medicion->tipoM."</td>";
-                                                        echo "<td>".date("d-m-Y H:i", strtotime($medicion->fechaLectura))."</td>";
+                                                        echo "<td>".$medicion->fecha_fomateada."</td>";
 
                                                         if($medicion->tipo == 1)
                                                         {
@@ -172,14 +148,14 @@
                                                         echo "<td>".$medicion->nivel_dinamico."</td>";
                                                         //echo "<td>".$medicion->caudal."</td>";
 
-                                                        if($medicion->m_consumidos != "")
+                                                        /*if($medicion->m_consumidos != "")
                                                         {
                                                             echo "<td>".($medicion->m_consumidos * 10)."</td>";
                                                         }
                                                         else
-                                                        {
-                                                           echo "<td>".$medicion->m_consumidos."</td>"; 
-                                                        }
+                                                        {*/
+                                                           echo "<td>".$medicion->m_multiplicado."</td>"; 
+                                                        //}
                                                         
                                                         echo "<td>";
                                                             echo "<a type='button' class='btn btn-warning btn-circle btn-sm optionEdit' valueEdit='".$medicion->id."' title='Editar registro' ><i class='fa fa-pencil-square-o'></i></a>";
