@@ -1,35 +1,6 @@
  <?php require_once(VIEW_PATH.'header.inc.php');
  ?>
-    <style type="text/css">
-        @-webkit-keyframes invalid 
-        {
-            from { background-color: #C82333; }
-            to { background-color: inherit; }
-        }
-        @-moz-keyframes invalid 
-        {
-            from { background-color: #C82333; }
-            to { background-color: inherit; }
-        }
-        @-o-keyframes invalid 
-        {
-          from { background-color: #C82333; }
-          to { background-color: inherit; }
-        }
-        @keyframes invalid 
-        {
-          from { background-color: #C82333; }
-          to { background-color: inherit; }
-        }
-        
-        .invalid
-        {
-          -webkit-animation: invalid 1s infinite; /* Safari 4+ */
-          -moz-animation:    invalid 1s infinite; /* Fx 5+ */
-          -o-animation:      invalid 1s infinite; /* Opera 12+ */
-          animation:         invalid 1s infinite; /* IE 10+ */
-        }
-    </style>
+
             
          <!-- page content -->
         <div class="right_col" role="main">
@@ -77,24 +48,24 @@
                                 <table class="table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action" >
                                     <thead>
                                         <tr>
-                                        <th style="text-align: center;">Reg</th>
-                                        <th>Clave</th>
+                                        <th style="text-align: center;"># REG</th>
+                                        <th>CLAVE</th>
                                         
                                         
                                         
                                         <!--th style="text-align: center;">Movimiento</th-->
-                                        <th style="text-align: center;">Gh</th>
+                                        <th style="text-align: center;">GH</th>
                                        
-                                        <th style="text-align: center;">Fecha Act.<br> Baja</th>
-                                        <th style="text-align: center;">Líder</th>
-                                        <th style="text-align: center;">Nombre</th>
-                                        <th style="text-align: center;">Fecha <br> Salida</th>
-                                        <th style="text-align: center;">WK <br> Salida</th>
-                                        <th style="text-align: center;">Desfase <br> (WK) </th>
-                                        <th style="text-align: center;">Fecha <br> Entrega</th>
-                                        <th style="text-align: center;">WK <br> Entrega</th>
-                                        <th style="text-align: center;">Fecha <br> Servicio</th>
-                                        <th style="text-align: center;">Problema</th>
+                                        <!--th style="text-align: center;">Fecha Act.<br> Baja</th-->
+                                        <th style="text-align: center;">LIDER</th>
+                                        <th style="text-align: center;">NOMBRE</th>
+                                        <th style="text-align: center;">F SALIDA</th>
+                                        <th style="text-align: center;">WK SALIDA</th>
+                                        <!--th style="text-align: center;">Desfase <br> (WK) </th-->
+                                        <th style="text-align: center;">F ENTREGA</th>
+                                        <th style="text-align: center;">WK ENTREGA</th>
+                                        <!--th style="text-align: center;">F SERVICIO</th-->
+                                        <!--th style="text-align: center;">PROBLEMA</th-->
                                         <th style="text-align: center;">Acción</th>
                                     </tr>
                                 </thead>
@@ -128,14 +99,14 @@
                                                 echo "<td style='text-align: center;'>".$m->gh."</td>";
                                                //echo "<td style='text-align: center;'>".$m->zona."</td>";
 
-                                                if($m->fecha_activacion_o_baja > 0)
+                                                /*if($m->fecha_activacion_o_baja > 0)
                                                 {
                                                     echo "<td style='text-align:center;'>".date("d/m/Y", strtotime($m->fecha_activacion_o_baja))."</td>";
                                                 }
                                                 else
                                                 {
                                                     echo "<td style='text-align:center;'> - </td>";
-                                                }
+                                                }*/
                                                 
                                                 echo "<td>".$m->ns_salida_lider."</td>";
                                                 echo "<td>".utf8_encode($m->nombre_lider_salida)."</td>";
@@ -178,7 +149,7 @@
                                                     }
 
                                                     // aquí sacamos el desfase
-                                                    $fechaHoy = date_create(date("Y-m-d"));
+                                                    /*$fechaHoy = date_create(date("Y-m-d"));
                                                     $f_salida = date_create($m->fecha_salida);
 
                                                     
@@ -190,7 +161,7 @@
                                                     {
                                                         $d_dias = date_diff($fechaHoy, $f_salida);
                                                         $d_dias = $d_dias->format('%a');
-                                                        $semanas_limite = 0;/*$m->limite_semana;*/
+                                                        $semanas_limite = 0; //$m->limite_semana;
                                                         $semanas_convertidas = $d_dias / 7;
                                                         $semanas_convertidas = round($semanas_convertidas, 2);
                                                         
@@ -207,7 +178,7 @@
                                                         
                                                         
                                                         
-                                                    }
+                                                    }*/
                                                     
                                                     
                                                     if($m->fecha_entrega > 0)
@@ -222,23 +193,23 @@
                                                     }
                                                     
 
-                                                    if($m->fecha_servicio > 0)
+                                                    /*if($m->fecha_servicio > 0)
                                                     {
                                                         echo "<td style='text-align:center;'>".date("d/m/Y", strtotime($m->fecha_servicio))."</td>";
                                                     }
                                                     else
                                                     {
                                                         echo "<td style='text-align:center;'> - </td>";
-                                                    }
+                                                    }*/
                                                     
-                                                    if($m->descripcion_problema > 0)
+                                                    /*if($m->descripcion_problema > 0)
                                                     {
                                                         echo "<td style='text-align:center;'>".$m->problema_descripcion."</td>";
                                                     }
                                                     else
                                                     {
                                                         echo "<td style='text-align:center;'> - </td>";
-                                                    }
+                                                    }*/
                                                 }
                                                 
                                                 echo "<td>";
@@ -261,18 +232,18 @@
                                             
                                             <!--th></th-->
                                             <!--th></th-->
+                                            <!--th></th-->
+                                            <!--th></th-->
+                                            <th></th>
+                                            <th></th>
                                             <th></th>
                                             <!--th></th-->
                                             <th></th>
                                             <th></th>
                                             <th></th>
                                             <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
+                                            <!--th></th-->
+                                            <!--th></th-->
                                             <th></th>
                                         </tr>
                                     </tfoot>
@@ -349,10 +320,6 @@
                 
                 });
 
-                $('.password').focus(function () 
-                {
-                   $('.password').attr('type', 'text'); 
-                });
 
                 function creaAjax()
                 {
@@ -405,7 +372,7 @@
                 $('.dataTables-example').DataTable( 
                 {
                     initComplete: function () {
-                        this.api().columns([0, 1, 5 ]).every( function () {
+                        this.api().columns([0, 1, 4 ]).every( function () {
                             var column = this;
                             var select = $('<select class="form-control input-sm"><option value="">All</option></select>')
                                 .appendTo( $(column.footer()).empty() )
