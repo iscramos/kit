@@ -32,7 +32,15 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6
 	   	//print_r($datos);
 		if(count($datos) > 0)
 		{
-			$str = ($datos[0]->m_consumidos) * 10;
+			if($datos[0]->equipo == "CO-BMU-009")
+			{
+				$str = $datos[0]->m_consumidos;
+			}
+			else
+			{
+				$str = ($datos[0]->m_consumidos) * 10;
+			}
+			
 		}else
 		{
 			$str = 0;

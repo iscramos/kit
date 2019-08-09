@@ -78,36 +78,41 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==7)) 
 							if($equipo->activo == $medicion->equipo)
 							{	
 								$diaCompara = $dias[date('w', strtotime($medicion->fechaLectura))];
+								$potencia = 1;
 
+								if($medicion->equipo != "CO-BMU-009")
+								{
+									$potencia = 10;
+								}
 								//echo $diaCompara;
 								
 								if($diaCompara == "DOMINGO")
 								{
-									$dom = $dom + ($medicion->m_consumidos * 10 );
+									$dom = $dom + ($medicion->m_consumidos * $potencia );
 								}
 								if($diaCompara == "LUNES")
 								{
-									$lun = $lun + ($medicion->m_consumidos * 10 );
+									$lun = $lun + ($medicion->m_consumidos * $potencia );
 								}
 								if($diaCompara == "MARTES")
 								{
-									$mar = $mar + ($medicion->m_consumidos * 10 );
+									$mar = $mar + ($medicion->m_consumidos * $potencia );
 								}
 								if($diaCompara == "MIERCOLES")
 								{
-									$mie = $mie + ($medicion->m_consumidos * 10 );
+									$mie = $mie + ($medicion->m_consumidos * $potencia );
 								}
 								if($diaCompara == "JUEVES")
 								{
-									$jue = $jue + ($medicion->m_consumidos * 10 );
+									$jue = $jue + ($medicion->m_consumidos * $potencia );
 								}
 								if($diaCompara == "VIERNES")
 								{
-									$vie = $vie + ($medicion->m_consumidos * 10 );
+									$vie = $vie + ($medicion->m_consumidos * $potencia );
 								}
 								if($diaCompara == "SABADO")
 								{
-									$sab = $sab + ($medicion->m_consumidos * 10 );
+									$sab = $sab + ($medicion->m_consumidos * $potencia );
 								}
 							}
 							

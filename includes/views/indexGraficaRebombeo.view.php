@@ -210,10 +210,16 @@
                 $("#verDisponibilidad").on("click", function(event) 
                 {
                     event.preventDefault();
-                    var mes = $("#mes").val();
-                    var ano = $("#ano").val();
-                    var equipo = $("#equipo").val();
-                    var tipo = $("#tipo").val();
+                    var mes = null;
+                    var ano = null;
+                    var equipo = null;
+                    var tipo = null;
+
+
+                        mes = $("#mes").val();
+                        ano = $("#ano").val();
+                        equipo = $("#equipo").val();
+                        tipo = $("#tipo").val();
 
                     var medicion_dia_pasado = 0;
 
@@ -421,18 +427,28 @@
                                    
                                     var valor_consumo = 0;
                                     dia = field['fechaLectura'];
+                                    equipito = field['equipo'];
                                     convertida = new Date(dia);
                                     dia_formato = convertida.format("d/m/Y");
-                                    m_consumidos = parseFloat(field['m_consumidos'] * 10 );
 
-                                    if(m_consumidos > medicion_dia_pasado)
+                                    if(equipito == "CO-BMU-009")
                                     {
-                                        valor_consumo = m_consumidos - medicion_dia_pasado;
+                                        m_consumidos = parseFloat(field['m_consumidos']);
                                     }
                                     else
                                     {
-                                        valor_consumo = medicion_dia_pasado - m_consumidos;
+                                        m_consumidos = parseFloat(field['m_consumidos'] * 10 );
                                     }
+                                    
+
+                                    /*if(m_consumidos > medicion_dia_pasado)
+                                    {*/
+                                        valor_consumo = m_consumidos - medicion_dia_pasado;
+                                    //}
+                                    /*else
+                                    {
+                                        valor_consumo = medicion_dia_pasado - m_consumidos;
+                                    }*/
 
                                     //console.log(valor_consumo);
                                     constructorMedidores.push([dia_formato, valor_consumo, valor_consumo]);

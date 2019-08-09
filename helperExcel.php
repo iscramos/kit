@@ -90,6 +90,7 @@ if( isset($_REQUEST["parametro"]) )
 	}
     if ($parametro == "MEDICIONES_REBOMBEO") 
     {
+        $fecha = '2018-12-30';
         //Inicio de la instancia para la exportación en Excel
         header('Content-type: application/vnd.ms-excel');
         header("Content-Disposition: attachment; filename=".$parametro.".xls");
@@ -131,6 +132,7 @@ if( isset($_REQUEST["parametro"]) )
                     INNER JOIN disponibilidad_activos ON bd_rebombeo.equipo = disponibilidad_activos.activo
                     INNER JOIN tipoMedicion_rebombeo ON bd_rebombeo.tipo = tipoMedicion_rebombeo.id
                     WHERE disponibilidad_activos.organizacion = 'COL'
+                    AND DATE_FORMAT(bd_rebombeo.fechaLectura, '%Y-%m-%d') >= '$fecha'
                     ORDER BY bd_rebombeo.fechaLectura DESC";
 
         $mediciones = Bd_rebombeo::getAllByQuery($consulta);
@@ -235,7 +237,15 @@ if( isset($_REQUEST["parametro"]) )
                 echo "<td>".$medicion->caudal."</td>";
                 if($medicion->m_consumidos != "")
                 {
-                    echo "<td>".($medicion->m_consumidos * 10)."</td>";
+                    if($medicion->equipo != "CO-BMU-009")
+                    {
+                        echo "<td>".($medicion->m_consumidos * 10)."</td>";
+                    }
+                    else
+                    {
+                        echo "<td>".($medicion->m_consumidos)."</td>";
+                    }
+                    
                 }
                 else
                 {
