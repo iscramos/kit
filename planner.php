@@ -134,7 +134,12 @@
                     
                     $dia = date("Y-m-d");
 
-                    $semanas = Disponibilidad_calendarios::getAllSemanasByMesAno($mes, $ano);
+                    $q = "SELECT * FROM disponibilidad_calendarios
+                            WHERE mes = $mes
+                                AND ano = $ano
+                                  ORDER BY dia ASC";
+
+                    $semanas = Disponibilidad_calendarios::getAllByQuery($q);
 
                     
                     //print_r($semanas);
@@ -153,24 +158,34 @@
                         echo "</tr>";
                       echo "</thead>";
                       echo "<tbody>";
+
+                      $ban_semana = 1;
                       foreach ($semanas as $s) 
                       {
-                        $semanita = $s->semana;
+                        if($ban_semana == 1)
+                        {
+                          echo "<tr>";
+                            echo "<th>".$s->semana."</th>";
+                        }
+
+                        
+                        //echo $ban_semana;
+                        /*$semanita = $s->semana;
                         $query = "SELECT * FROM disponibilidad_calendarios
                                     WHERE ano = $ano
                                       AND mes = $mes
                                       AND semana =  $semanita
                                     ORDER BY mes, dia";
 
-                        $dias = Disponibilidad_calendarios::getAllByQuery($query);
+                        $dias = Disponibilidad_calendarios::getAllByQuery($query);*/
 
-                        echo "<tr>";
+                        /*echo "<tr>";
                           echo "<th>".$semanita."</th>";
                           foreach ($dias as $d) 
-                          {
+                          {*/
                             $fondo = "background-color:#3DC6AA!important;";
 
-                            $dia_actual = $d->dia;
+                            $dia_actual = $s->dia;
                             $consulta = "SELECT planner.*, disponibilidad_activos.descripcion as descripcion
                                   FROM  planner
                                   INNER JOIN disponibilidad_activos ON planner.equipo = disponibilidad_activos.activo
@@ -181,7 +196,7 @@
                             $plan = Planner::getAllByQuery($consulta);
                                  
 
-                            if($d->dia == $dia )
+                            if($s->dia == $dia )
                             {
                               $fondo = "background-color:#FF9100!important;";
                             }
@@ -189,8 +204,8 @@
                             echo "<td>";
                               echo "<div class='LNoticias-info '>    
                                       <p>    
-                                        <span style='$fondo' class='diames'> ".date("d", strtotime($d->dia))."
-                                          <span>".date("M", strtotime($d->dia))."</span>
+                                        <span style='$fondo' class='diames'> ".date("d", strtotime($s->dia))."
+                                          <span>".date("M", strtotime($s->dia))."</span>
                                         </span>
                                       </p>"; 
 
@@ -247,9 +262,17 @@
                                       
                                     echo "</div>";
                             echo "</td>";
-                          }
+                          //}
 
-                        echo "</tr>";
+                            $ban_semana ++;
+                            if($ban_semana == 8)
+                            {
+                              $ban_semana = 1;
+                              echo "</tr>";
+                            }
+                        
+
+                        
                       }
                       echo "</tbody>";
                     echo "</table>";
