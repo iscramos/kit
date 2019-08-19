@@ -33,7 +33,8 @@ if($_SESSION["type"] == 5)
         $a_lider = "LIDER: <b>".$asociadoData[0]['lider']."</b>";
         $a_codigo = "<b style='color: red;'>".$asociadoData[0]['codigo']."</b> ";
 
-        $a_imagen = "../col2/ch/perfils/".$asociadoData[0]['codigo'];
+        $a_imagen = "../col2/ch/perfils/".$asociadoData[0]['codigo'].".jpg";
+        //echo $a_imagen;
         if (!file_exists($a_imagen)) 
         {
             $a_imagen = "dist/img/avatar.jpg";
