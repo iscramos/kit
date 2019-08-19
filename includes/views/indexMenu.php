@@ -134,7 +134,7 @@
                                   </li>";
 
                                   echo "<li>
-                                            <a href='indexHerramientas_articulos.php'><i class='fa fa-suitcase' aria-hidden='true'></i>Artículos préstamo</a>
+                                            <a href='indexHerramientas_articulos.php'><i class='fa fa-suitcase' aria-hidden='true'></i>Artículos / Htas </a>
                                         </li>";
 
                                     echo "<li>
@@ -142,7 +142,11 @@
                                         </li>";
 
                                     echo "<li>
-                                            <a href='indexHerramientas_movimientos.php'><i class='fa fa-credit-card' aria-hidden='true'></i>Movimientos</a>
+                                            <a href='indexHerramientas_transacciones.php'><i class='fa fa-shopping-cart' aria-hidden='true'></i>Mov artículos</a>
+                                        </li>";
+
+                                    echo "<li>
+                                            <a href='indexHerramientas_movimientos.php'><i class='fa fa-credit-card' aria-hidden='true'></i>Mov herramientas</a>
                                         </li>";
                                     
                                     echo "<li>

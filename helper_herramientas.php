@@ -59,8 +59,12 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 	                        <p style='font-size:11px; text-align:left;'>".$articulo->descripcion."</p>
 	                        <br>
 	                        <p style='margin-bottom:15px !important; text-align:center; position:absolute; bottom:10px;'>";
-
-	                            if( ($articulo->fecha_entrega && $articulo->descripcion_problema > 0) || $articulo->tipo_movimiento == null)
+	                        	
+	                        	if($articulo->activaStock == 1)
+	                        	{
+	                        		$str.= "<h5><a href='indexHerramientas_salidas.php' style='color: #337AB7;'>Ver artículos salida</a></h5>";
+	                        	}
+	                            else if( ($articulo->fecha_entrega && $articulo->descripcion_problema > 0) || $articulo->tipo_movimiento == null)
 	                            {
 	                            	$str.="<a href='indexherramientas_movimientos.php?clave=".$articulo->clave."' class='btn btn-warning btn-xs pull-center ' role='button' title='Ver préstamos'>HISTORIAL</a>";
 
@@ -134,7 +138,11 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 	                        <br>
 	                        <p style='margin-bottom:15px !important; text-align:center; position:absolute; bottom:10px;'>";
 
-	                            if( ($articulo->fecha_entrega > 0 && $articulo->descripcion_problema > 0) || $articulo->tipo_movimiento == null)
+	                        	if($articulo->activaStock == 1)
+	                        	{
+	                        		$str.= "<h5><a href='indexHerramientas_salidas.php' style='color: #337AB7;'>Ver artículos salida</a></h5>";
+	                        	}
+	                            else if( ($articulo->fecha_entrega > 0 && $articulo->descripcion_problema > 0) || $articulo->tipo_movimiento == null)
 	                            {
 	                            	$str.="<a href='indexherramientas_movimientos.php?clave=".$articulo->clave."' class='btn btn-warning btn-xs pull-center ' role='button' title='Ver préstamos'>HISTORIAL</a>";
 
@@ -205,7 +213,11 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 	                        <br>
 	                        <p style='margin-bottom:15px !important; text-align:center; position:absolute; bottom:10px;'>";
 
-	                            if( ($articulo->fecha_entrega > 0 && $articulo->descripcion_problema > 0) || $articulo->tipo_movimiento == null)
+	                        	if($articulo->activaStock == 1)
+	                        	{
+	                        		$str.= "<h5><a href='indexHerramientas_salidas.php' style='color: #337AB7;'>Ver artículos salida</a></h5>";
+	                        	}
+	                            else if( ($articulo->fecha_entrega > 0 && $articulo->descripcion_problema > 0) || $articulo->tipo_movimiento == null)
 	                            {
 	                            	$str.="<a href='indexherramientas_movimientos.php?clave=".$articulo->clave."' class='btn btn-warning btn-xs pull-center ' role='button' title='Ver préstamos'>HISTORIAL</a>";
 
@@ -321,6 +333,47 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 		$str = json_encode($data);
 		//$str.='["item1","item2","item3"]';
 	}
+	elseif ($consulta == "VALIDA_STOCK") 
+	{
+		$codigo = $_REQUEST["codigo"];
+		$clave = $_REQUEST["clave"];
+		$cantidad_pedida = $_REQUEST["cantidad"];
+		$cantidad_temporal = 0;
+		$cantidad_stock = 0;
+
+		$sql = "SELECT stock FROM herramientas_stock WHERE clave = '$clave' ";
+		$data_stock = Herramientas_stock::getAllByQuery($sql);
+		//ECHO $sql;
+		
+
+		if(count($data_stock) > 0)
+		{
+			$cantidad_stock = $data_stock[0]->stock;
+			$q = "SELECT cantidad FROM herramientas_temporal WHERE codigo_asociado = $codigo AND clave = '$clave' ";
+			//echo $q;
+			$data_temporal = Herramientas_temporal::getAllByQuery($q);
+			
+			if(count($data_temporal) > 0)
+			{
+				$cantidad_temporal = $data_temporal[0]->cantidad;
+			}
+
+			if($cantidad_stock >= ($cantidad_pedida + $cantidad_temporal) )
+			{
+
+				$str = "SI";	
+			}
+			else
+			{
+				$str = "NO";	
+			}
+		} 
+		else
+		{
+			$str = "NO";
+		}
+		
+	}
 	elseif ($consulta == "PIEZAS_DETALLES") 
 	{
 		// Open database connection
@@ -364,109 +417,6 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 		{
 			$str = "<h5 style='text-align:center; '>PIEZA NO ENCONTRADA EN LA BD...</h5>";
 		}
-	}
-	elseif ($consulta == "PIEZAS_BUSQUEDA") 
-	{
-		// Open database connection
-		
-
-		$sql = "SELECT herramientas_herramientas.*, herramientas_udm.descripcion AS udm_descripcion, herramientas_stock.stock AS stock
-					FROM herramientas_herramientas
-						INNER JOIN herramientas_udm ON herramientas_herramientas.id_udm = herramientas_udm.id
-						LEFT JOIN herramientas_stock ON herramientas_herramientas.clave = herramientas_stock.clave
-							WHERE  herramientas_herramientas.activaStock = 1 ";
-					
-		$piezas = Herramientas_herramientas::getAllByQuery($sql);
-
-		if (count($piezas) > 0) 
-		{
-			$str.="<table class='table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action'>";
-			$str.="<thead>";
-				$str.="<tr>";
-					$str.="<th>#</th>";
-					$str.="<th>CLAVE</th>";
-					$str.="<th>DESCRIPCION</th>";
-					$str.="<th>UDM</th>";
-					$str.="<th>STOCK</th>";
-					$str.="<th>ACCION</th>";
-				$str.="</tr>";
-			$str.="</thead>";
-			$str.="<tbody>";
-
-				$i = 1;
-				foreach ($piezas as $p) 
-				{
-					$str.="<tr>";
-						$str.="<td>".$i."</td>";
-						$str.="<td>".$p->clave."</td>";
-						$str.="<td>".$p->descripcion."</td>";
-						$str.="<td>".$p->udm_descripcion."</td>";
-						$str.="<td>".$p->stock."</td>";
-						$str.="<td>";
-
-							if($p->stock != "" || $p->stock > 0)
-							{
-
-									$str.="<button type='button' valueEnvia='".$p->clave."' class='btn btn-success add_temporal' title='Agregar pieza' data-dismiss='modal'> <span class='fa fa-plus'></span> </button>";
-							}
-						$str.="</td>";
-					$str.="</tr>";
-
-					$i++;
-				}
-			$str.="</tbody>";
-			$str.="</table>";
-		}
-		else
-		{
-			$str = "<h5 style='text-align:center; '>PIEZA NO ENCONTRADA EN LA BD...</h5>";
-		}
-
-		$str.="<script type='text/javascript'>
-			$('.dataTables-example').DataTable({
-		        'lengthMenu': [[10, -1], [10, 'Todo']], 
-		        'language':{
-		            oPaginate: {
-		                'sNext' : 'Siguiente',
-		                'sPrevious': 'Anterior'
-		            },
-		            'search': 'Buscar ',
-		            'sNext': 'Siguiente',
-		            'sPrevious': 'Anterior',
-		            'lengthMenu': '_MENU_ Registros por página',
-		            'zeroRecords': 'Nada encontrado',
-		            'info': 'Mostrando página _PAGE_ de _PAGES_',
-		            'infoEmpty': 'No registros disponibles',
-		            'infoFiltered': '(filtrado de _MAX_ registros totales)'
-		        }
-		    });
-
-		    $('.add_temporal').on('click', function(e)
-            {
-                alert('es');
-                event.preventDefault();
-                var clave = null;
-                    clave = $(this).attr('valueEnvia');
-
-                if(clave != '')
-                {
-                    /*$.post( 'createHerramienta_transaccion_temporal.php', {pieza_registro: pieza_registro, pieza_zanco: pieza_zanco, pieza_parte: pieza_parte, pieza_problema:pieza_problema, pieza_notas: pieza_notas })
-                      .done(function( data ) {*/
-                            //alert( 'Data Loaded: ' + data );
-
-                            $('#temporal_tabla').append('<tr> <td>'+clave+'</td><td></td><td></td><td></td> </tr>');
-
-                            /*alert(data);
-                      });*/
-                    
-                }
-                else
-                {
-                    return false;
-                }
-                    
-            });
-		</script>";
 	}
 	elseif ($consulta == "BUSQUEDA_POR_ASOCIADO") 
 	{

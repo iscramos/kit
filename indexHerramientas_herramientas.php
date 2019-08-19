@@ -11,9 +11,10 @@ require_once('includes/inc.session.php');
 if($_SESSION["type"] == 5)
 {
 	
-	$consulta = "SELECT *
+	$consulta = "SELECT herramientas_herramientas.*, herramientas_stock.stock
 				FROM herramientas_herramientas
-				ORDER BY id DESC";
+					LEFT JOIN herramientas_stock ON herramientas_herramientas.clave = herramientas_stock.clave  
+				ORDER BY herramientas_herramientas.id DESC";
 	$herramientas_herramientas = Herramientas_herramientas::getAllByQuery($consulta);
 
 	

@@ -1,13 +1,19 @@
  <?php require_once(VIEW_PATH.'header.inc.php');
  ?>
 
-          <!-- page content -->
+<style type="text/css">
+    .typeahead
+    {
+        width: 100% !important;
+    }
+</style>
+            
+         <!-- page content -->
         <div class="right_col" role="main">
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Mis artículos...</h3>
-                        
+                        <h3>Entradas...</h3>
                     </div>
                     <div class="title_right ">
                         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -39,58 +45,39 @@
                                 <!-- aqui va el contenido -->
                                 <table class="table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action" >
                                     <thead>
-                                        <tr> 
-                                            <th>#</th>
-                                            <th>CLAVE</th>
-                                            <!--th>Categoría</th-->
-                                            <th>DESCRIPCION</th>
-                                            <!--th>Precio unitario</th-->
-                                            <th>STOCK</th>
-                                            <!--th>Fecha de entrada</th-->
-                                            
-                                            <th>ACCION</th>
-                                        </tr>
-                                    </thead>
+                                        <tr>
+                                        <th>#</th>
+                                        <th>Fecha de entrada</th>
+                                        <th>Clave</th>
+                                        <th>Descripción</th>
+                                        <th>Cantidad</th>
+                                        <!--th>Acción</th-->
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     <?php
                                         $i=1;
-                                        //print_r($herramientas_herramientas);
-                                        foreach ($herramientas_herramientas as $herramienta):
+                                        foreach ($herramientas_entradas as $entrada):
                                         {
-                                            //$prestamos = Herramientas_prestamos::getAllMaxHerramienta($herramienta->id);
-                                            
-                                            //print_r($prestamos);
-                                            echo "<tr campoid='".$herramienta->id."' >";
+                                           
+                                            echo "<tr campoid='".$entrada->id."'>";
                                                 echo "<th width='5px' class='spec'>$i</th>";
-                                                echo "<td>".$herramienta->clave."</td>";
-                                                //echo "<td>".$herramienta->categoria."</td>";
-                                                echo "<td>".$herramienta->descripcion."</td>";
-                                                //echo "<td>$ ".$herramienta->precio_unitario."</td>";
-                                                echo "<td>".$herramienta->stock."</td>";
-                                                
+                                                echo "<td>".date("d-m-Y", strtotime($entrada->fechaEntrada))."</td>";
+                                                echo "<td>".$entrada->clave."</td>";
+                                                echo "<td>".$entrada->descripcion."</td>";
+                                                echo "<td>".$entrada->cantidad."</td>";
+                                                //echo "<td>";
 
-
-                                                    /*
-                                                    if($herramienta->estatus == "" || $herramienta->estatus == 2 )
-                                                    {
-                                                        echo "<td style='background: #169F85; color:white;'>EN ALMACEN</td>";
-                                                    }
-                                                    else if($herramienta->estatus == 1 )
-                                                    {
-                                                        echo "<td style='background: #f0ad4e; color:white;'>EN PRESTAMO</td>";
-                                                    }*/
-                                                
-                                                
-                                                echo "<td>";
-
-                                                    echo " <a type='button' class='btn btn-warning btn-sm optionEdit' valueEdit='".$herramienta->id."' title='Editar registro' >Editar</a>";
-                                                echo "</td>";
+                                                    /*echo " <a type='button' class='btn btn-warning btn-sm optionEdit' valueEdit='".$entrada->id."' title='Editar registro' >Editar</a>";*/
+                                                    /*echo " <a type='button' class='btn btn-danger btn-circle btn-md' data-toggle='confirmation' data-btn-ok-label='S&iacute;' data-btn-ok-icon='glyphicon glyphicon-share-alt' data-btn-ok-class='btn-danger' data-btn-cancel-label='No' data-btn-cancel-icon='glyphicon glyphicon-ban-circle' data-btn-cancel-class='btn-default'><span title='Eliminar registro'class='glyphicon glyphicon-remove' aria-hidden='true'></span></a>";
+                                                   /* echo " <a class='btn btn-danger btn-circle btn-md' data-toggle='confirmation' data-singleton='true'  title='Eliminar registro'><i class='fa fa-times'></i></a>";*/
+                                                //echo "</td>";
                                             echo "</tr>";
 
                                             $i ++;
                                         }
-                                        endforeach;
-                                    ?>
+                                            endforeach;
+                                        ?>
                                     </tbody>
                                 </table>
                             
@@ -110,15 +97,27 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Agregar / Modificar herramienta</h4>
+		        <h4 class="modal-title" id="myModalLabel">Generar entrada</h4>
 		      </div>
 		      <div class="modal-body">
-                <form name='frmtipo' class="form-horizontal" id="divdestino" method="post" action="<?php echo $url; ?>createHerramientas_herramientas.php" enctype="multipart/form-data">
+                <form name='frmtipo' class="form-horizontal"  method="post" action="<?php echo $url; ?>createHerramientas_entradas.php">
+                    <div class='form-group'>
+                        <div class="input-group ">
+                            <input type="text" name="clave" id="clave" class="form-control typeahead" data-provide="typeahead" value="" required="required" onkeyup="javascript:this.value=this.value.toUpperCase();" autocomplete="off">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-primary" id="buscar" title="Buscar pieza"> <span class='glyphicon glyphicon-search'></span> </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row" id="divdestino">
+                        
+                    </div>
 		  
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-		        <button type="submit" class="btn btn-primary" id="mandar">Guardar</button>
+		        <button type="submit" class="btn btn-primary hidden" id="enviar" >Guardar</button>
 		      </div>
                 </form>
 		    </div>
@@ -148,13 +147,8 @@
                 { 
                     event.preventDefault();
                     var v = 0;
-                    var id_categoria = 0;
-                    var id_almacen = 0;
-                        id_categoria = $("#id_categoria").val();
-                        id_almacen = $("#id_almacen").val();
-                        //alert(id_categoria);
 
-                    ajaxCargaDatos("divdestino", v, id_categoria, id_almacen);
+                    ajaxCargaDatos("divdestino", v );
                 
                 });
 
@@ -164,83 +158,35 @@
                     var v = 0;
                         v = $(this).attr("valueEdit");
 
-                    var id_categoria = 0;
-                    var id_almacen = 0;
-                        id_categoria = $("#id_categoria").val();
-                        id_almacen = $("#id_almacen").val();
+                        console.log(v);
 
-                        //console.log(v);
-
-                    ajaxCargaDatos("divdestino", v, id_categoria, id_almacen);
+                    ajaxCargaDatos("divdestino", v );
                 
                 });
 
-                $("#mandar").on("click", function(event) 
+
+                $("#buscar").on('click', function(event) 
                 {
                     event.preventDefault();
+                    /* Act on the event */
                     var clave = null;
-                    var descripcion = null;
-                    var precio_unitario = null;
-                    var archivo = null;
-                    var id_marca = null;
-                    var id_almacen = null;
-                    var id_categoria = null;
-                    var id = null;
-
-                        clave = $("#clave").val()
-                        descripcion = $("#descripcion").val();
-                        precio_unitario = $("#precio_unitario").val();
-                        archivo = $("#archivo").val();
-                        id_marca = $("#id_marca").val();
-                        id_almacen = $("#id_almacen").val();
-                        id_categoria = $("#id_categoria").val();
-                        consulta = "EXISTE_CLAVE";
-                        id = $("#id").val();
-
-                        /*alert("clave"+clave);
-                        alert("descripcion"+descripcion);
-                        alert("precio_unitario"+precio_unitario);
-                        alert("archivo"+archivo);
-                        alert("id_marca"+id_marca);
-                        alert("id_almacen"+id_almacen);
-                        alert("id_categoria"+id_categoria);*/
-                    
-
-                    var respuesta = null;
-                    
-
-                    if ( (clave != 0) && (descripcion != "") && (precio_unitario > 0) && (archivo != "") && (id_marca > 0) && (id_almacen > 0) && (id_categoria > 0) ) 
+                        clave = $("#clave").val();
+                        consulta = "PIEZAS_DETALLES";
+                    if (clave != "") 
                     {
                         $.get("helper_herramientas.php", {consulta:consulta, clave:clave} ,function(data)
-                        {
-                            
-                            respuesta = data;
-                            if(respuesta == "SI" && id < 0)
-                            {
-                                alert("ESTE ARTICULO YA EXISTE EN LA BD...");
-                                $("#clave").focus();
-                                
-                                return false;
-                            }
-                            else
-                            {
-                               $("form:first").submit();
-                            }
-                            
+                        { 
+                            $("#divdestino").html(data);
                         });
+
+                        $("#enviar").removeClass('hidden');
                     }
                     else
                     {
-                        alert("Llene los campos correspondientes...");
+                        $("#enviar").addClass('hidden');
                         return false;
                     }
-                    
-
-                    
-
-
                 });
-
                 
 
                 function creaAjax()
@@ -264,11 +210,11 @@
                     return objetoAjax;
                 }
 
-                function ajaxCargaDatos(divdestino, uID, id_categoria, id_almacen)
+                function ajaxCargaDatos(divdestino, uID)
                 {
                     var ajax=creaAjax();
 
-                    ajax.open("GET", "updateHerramientas_herramientas.php?id="+uID+"&id_categoria="+id_categoria+"&id_almacen="+id_almacen, true);
+                    ajax.open("GET", "updateHerramientas_entradas.php?id="+uID, true);
                     ajax.onreadystatechange=function() 
                     { 
                         if (ajax.readyState==1)
@@ -309,6 +255,19 @@
 
             }); // end ready
         </script>
+
+        <script src="dist/js/bootstrap3-typeahead.min.js"></script>
+        
+        <script type="text/javascript">
+            
+                $.get("helper_herramientas.php?consulta=PIEZAS", function(data){
+                  $("#clave").typeahead({ source:data });
+                },'json');
+                //example_collection.json
+                // ["item1","item2","item3"]
+               
+        </script>
+
 </body>
 
 </html>

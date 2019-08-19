@@ -69,6 +69,8 @@ require_once(MODEL_PATH.'herramientas_almacenes.model.php');
 require_once(MODEL_PATH.'herramientas_movimientos.model.php');
 require_once(MODEL_PATH.'herramientas_entradas.model.php');
 require_once(MODEL_PATH.'herramientas_stock.model.php');
+require_once(MODEL_PATH.'herramientas_temporal.model.php');
+require_once(MODEL_PATH.'herramientas_transacciones.model.php');
 require_once(MODEL_PATH.'mediciones_camara_fria.model.php');
 
 require_once(MODEL_PATH.'mp_mc_historicos.model.php');

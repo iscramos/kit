@@ -628,6 +628,165 @@ if(isset($_REQUEST["parametro"]))
 				$pdf.="NO DATA";
 			}
 		}
+		if($parametro == "ARTICULOS_ENTREGA")
+		{
+			
+			if(isset($_REQUEST['codigo_asociado']) )
+			{
+				
+				$codigo_asociado = $_REQUEST["codigo_asociado"];
+				$nombre = $_REQUEST["nombre"];
+				$fecha = date("d/m/Y H:i");
+
+				$a_nombre = $nombre;
+
+
+			   	$q = "SELECT herramientas_transacciones.*, herramientas_herramientas.descripcion AS descripcion, herramientas_herramientas.precio_unitario, herramientas_udm.udm
+                		FROM herramientas_transacciones
+                    		INNER JOIN herramientas_herramientas ON herramientas_transacciones.clave = herramientas_herramientas.clave
+                    		INNER JOIN herramientas_udm ON herramientas_herramientas.id_udm = herramientas_udm.id
+                       	 	WHERE herramientas_transacciones.codigo_asociado = $codigo_asociado";    
+
+    			$temporales = Herramientas_temporal::getAllByQuery($q);
+
+				$pdf.="<table style=' border-collapse:collapse;' border='0'>
+							<tr>
+					          <th width='600' colspan='6' style='text-align:center;'><img style='width:120; height:auto; text-align:center;' src='".$url."dist/img/naturesweet_picture.png'><br><br></th>
+					        </tr>
+					      	<tr>
+					          <th width='600' colspan='6' style='font-size:12px; text-align:center;'>NatureSweet Invernaderos S. de R.L. de C.V.
+						        <br>
+						        Planta Colima
+						        <br>
+						        Carretera a Minatitlán KM. 5.5 Camino a La Caja, 
+								<br>
+								Predio Copalitos, Villa de Álvarez, COL - 28970
+								<br>O: 312.316.39.00 www.naturesweet.com
+					          </th>
+					        </tr>
+					        <tr>
+					        	<th width='100' style='text-align:right;'> </th>
+					        	<th width='100' style='text-align:right;'> </th>
+					        	<th width='100' style='text-align:right;'> </th>
+					        	<th width='100' style='text-align:right;'> </th>
+					        	<th width='100' style='text-align:right;'> </th>
+					          	<td width='100' style='font-size:11px; text-align:right; '> ".$fecha."</td>
+					        </tr>
+				      	</table>";
+				$pdf.="<br>";
+
+				
+
+				//print_r($segregaciones);
+				
+				
+					
+			$pdf.="<table style='font-size:12px; border-collapse:collapse;'  border='0'>";
+				
+					$pdf.="<tr>";
+						$pdf.="<th width='100' height='30' style='text-align:center; background: #D4D4D4;'>CANTIDAD</th>
+								<th width='100' height='30' style='text-align:center; background: #D4D4D4;'>UNIDAD</th>
+								<th width='300' height='30' style='text-align:left; background: #D4D4D4;'>DESCRIPCION</th> 
+								<th width='100' height='30' style='text-align:left; background: #D4D4D4;'>TOTAL</th>";
+					$pdf.="</tr>";
+						setlocale(LC_MONETARY, 'es_MX');
+						$total = 0;
+						foreach ($temporales as $temporal) 
+						{
+							$subtotal = ($temporal->cantidad) * ($temporal->precio_unitario);
+							$total = $total + $subtotal;
+
+							$subtotal = money_format('%#10n', $subtotal, 10);
+							
+							$pdf.="<tr>";
+								$pdf.="<td width='100' style='text-align:center; '>".$temporal->cantidad."</td>"; 
+								$pdf.="<td width='100' style='text-align:center; '>".$temporal->udm."</td>";
+								$pdf.="<td width='300' style='text-align:left; '> ".$temporal->descripcion."</td>";
+								$pdf.="<td width='100' style='text-align:right; '>".$subtotal."</td>";
+							$pdf.="</tr>";
+						}
+			$pdf.="</table>";
+
+					$total_flotante = number_format($total, 2, '.', ' ');
+					$total = money_format('%#10n', $total, 10);
+					$pdf.="<br>
+							<table style='font-size:12; border-collapse:collapse;' border='0'>
+							
+					      	<tr >
+					      		<td width='100' style='text-align:left; border-top: #D4D4D4 solid; '></td>
+					      		<td width='100' style='text-align:left; border-top: #D4D4D4 solid; '></td>
+					      		<td width='300' style='text-align:right; border-top: #D4D4D4 solid; font-size:14;'><b>TOTAL</b></td>
+					      		<td width='100' style='text-align:right; border-top: #D4D4D4 solid; font-size:14;'>".$total."</td>
+					      	</tr>
+				      	</table>";
+
+
+				    $pdf.="<br>";
+				    $pdf.="<br>";
+
+				    //$letra = num2letras($total_flotante);
+				    $letra = NumeroALetras::convertir($total_flotante, 'pesos', 'centimos');
+				    $articulos = count($temporales);
+				    
+				    $atiende = $_SESSION["usr_nombre"];
+				    $pdf.="<div><b>".$letra."</b></div>";
+
+				    $pdf.="<br>";
+				    $pdf.="<div> No. de artículos: <b>".$articulos."</b></div>";
+				    $pdf.="<div> Te atendió: <b>".$atiende."</b></div>";
+				    $pdf.="<br>";
+				    $pdf.="<br>";
+				    $pdf.="<br>";
+
+				    
+				    
+				    $pdf.="<div style='text-align:center; padding:0;'>";
+				    	$pdf.="<label style='font-size: 14;'><b>".$a_nombre."</b></label><br>";
+				    	$pdf.="__________________________________<br>";
+				    	$pdf.="<label style='font-size: 14;'>ARTICULOS RECIBIDOS</label>";
+				    $pdf.="</div>";
+
+				require_once(dirname(__FILE__).'/pdf/html2pdf.class.php');
+				ob_start();
+				$contentFinal="<page backtop='15mm' backbottom='15mm' backleft='20mm' backright='20mm'>
+				  <page_header > 
+
+				  </page_header> 
+				  <page_footer>  
+				        <table  >
+				          <tr >
+				              <td>P&aacute;gina [[page_cu]]/[[page_nb]]</td>
+				            
+				          </tr>
+				        </table> 
+
+				       
+				  </page_footer>".$pdf."</page>";
+
+
+					  /*echo $contentFinal;
+					  die();*/
+
+					try
+					{
+
+					    $content = ob_get_clean(); 
+					    $html2pdf = new HTML2PDF('P', 'A4', 'fr');
+					    $html2pdf->pdf->SetDisplayMode('fullpage');
+					    $html2pdf->writeHTML($contentFinal, isset($_GET['vuehtml']));
+					    $html2pdf->Output($parametro.".pdf","false"); 
+					}
+					catch(HTML2PDF_exception $e) 
+					{
+					    echo $e;
+					    exit;
+					}
+			}
+			else
+			{
+				$pdf.="NO DATA";
+			}
+		}
 		
 }		
 else
