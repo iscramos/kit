@@ -7,7 +7,7 @@
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Movimientos <?php  if(isset($clave)) echo "para: ".$clave; ?></h3>
+                        <h3>Préstamos <?php  if(isset($clave)) echo "para: ".$clave; ?></h3>
                     </div>
                     <div class="title_right ">
                         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -15,7 +15,7 @@
                             <?php
                                 if(!isset($clave) )
                                 {
-                                    echo "<a href='indexHerramientas_movimientos_actualizar.php?action=NEW&reg=0&mov=0&clave=0' type='button' class='btn btn-success btn-circle btn-sm' title='Nuevo movimiento' >Nuevo
+                                    echo "<a href='indexHerramientas_movimientos_actualizar.php?action=NEW&reg=0&mov=0&clave=0' type='button' class='btn btn-success btn-circle btn-sm' title='Nuevo préstamo' >Nuevo
                                      </a>";
                                 }
                                 
@@ -57,7 +57,7 @@
                                         <th style="text-align: center;">GH</th>
                                        
                                         <!--th style="text-align: center;">Fecha Act.<br> Baja</th-->
-                                        <th style="text-align: center;">LIDER</th>
+                                        <th style="text-align: center;">CODIGO</th>
                                         <th style="text-align: center;">NOMBRE</th>
                                         <th style="text-align: center;">F SALIDA</th>
                                         <th style="text-align: center;">WK SALIDA</th>

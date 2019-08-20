@@ -6,7 +6,7 @@
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Herramientas (movimientos)...</h3>
+                        <h3>Préstamos (productos)...</h3>
                     </div>
                     <div class="title_right ">
                         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -125,12 +125,12 @@
                                                 <input type="number" class="form-control" name="tamano" id="tamano" value=""readonly="true">
                                             </div>
 
-                                            <div class="form-group col-sm-4 ">   
+                                            <div class="form-group col-sm-4 hidden">   
                                                 <label >Tamaño</label>
                                                 <input type="text" class="form-control" name="descripcion" id="descripcion" value="" autocomplete="" readonly="true">
                                             </div>
 
-                                            <div class="form-group col-sm-4">   
+                                            <div class="form-group col-sm-4 hidden">   
                                                 <label >Límite semanal</label>
                                                 <input type="number" class="form-control" name="tiempo_limite" id="tiempo_limite" value="" autocomplete="" readonly="true">
                                             </div> 
@@ -149,10 +149,6 @@
                                                     ?>
                                                 </select>
                                             </div> 
-                                        </div>
-
-                                        <!-- SEGUNDA LINEA -->
-                                        <div class='row'>
                                             <div class='form-group col-sm-4'>
                                                 <label >Invernadero</label>
                                                 <select class='form-control' name='gh' id='gh' required='required'>
@@ -171,6 +167,11 @@
                                                 <label >Zona</label>
                                                 <input type='text' class='form-control' name='zona' id='zona' value=''  required='required' readonly='true'>
                                             </div>
+                                        </div>
+
+                                        <!-- SEGUNDA LINEA -->
+                                        <div class='row hidden'>
+                                            
 
                                             <div class='form-group'>
                                                 <div class='col-sm-4'>
@@ -364,12 +365,12 @@
                                                 <input type="number" class="form-control" name="tamano" id="tamano" value=""readonly="true">
                                             </div>
 
-                                            <div class="form-group col-sm-4 ">   
+                                            <div class="form-group col-sm-4 hidden">   
                                                 <label >Tamaño</label>
                                                 <input type="text" class="form-control" name="descripcion" id="descripcion" value="" autocomplete="" readonly="true">
                                             </div>
 
-                                            <div class="form-group col-sm-4">   
+                                            <div class="form-group col-sm-4 hidden">   
                                                 <label >Límite semanal</label>
                                                 <input type="number" class="form-control" name="tiempo_limite" id="tiempo_limite" value="" autocomplete="" readonly="true">
                                             </div> 
@@ -387,12 +388,7 @@
                                                         }
                                                     ?>
                                                 </select>
-                                            </div> 
-                                        </div>
-                                        <!-- SEGUNDA LINEA -->
-                                        
-                                        
-                                        <div class="row">
+                                            </div>
                                             <div class="form-group col-sm-4">
                                                 <label >Invernadero</label>
                                                 <select class="form-control" name="gh" id="gh" required="required">
@@ -410,6 +406,12 @@
                                                 <label >Zona</label>
                                                 <input type="text" class="form-control" name="zona" id="zona" value="<?php echo $herramientas_movimientos[0]->zona; ?>" autocomplete="" required="required" readonly="true">
                                             </div>
+                                        </div>
+                                        <!-- SEGUNDA LINEA -->
+                                        
+                                        
+                                        <div class="row hidden">
+                                            
 
                                             
                                             <div class="form-group col-sm-4">

@@ -65,7 +65,7 @@
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Herramientas (movimientos)...</h3>
+                        <h3>Productos (despacho)...</h3>
                     </div>
                     <div class="title_right ">
                         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -211,7 +211,7 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Búsqueda de piezas</h4>
+		        <h4 class="modal-title" id="myModalLabel">Productos para despacho</h4>
 		      </div>
 		      <div class="modal-body" >   
                 <table class='table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action'>
@@ -264,7 +264,7 @@
                     .done(function( data )
                     {
 
-                        $("#mensaje").text("Artículo eliminado...");
+                        $("#mensaje").text("Producto eliminado...");
                         $("#mensaje").removeClass();
                         $("#mensaje").addClass('alert alert-danger');
                         $("#mensaje").alert();
@@ -286,7 +286,7 @@
                     .done(function( data )
                     {
 
-                        $("#mensaje").text("Artículos eliminados...");
+                        $("#mensaje").text("Productos eliminados...");
                         $("#mensaje").removeClass();
                         $("#mensaje").addClass('alert alert-danger');
                         $("#mensaje").alert();
@@ -322,7 +322,7 @@
                         .done(function( data )
                         {
 
-                            $("#mensaje").text("Transaccion completada, ver detales en menú transacciones...");
+                            $("#mensaje").text("Transacción completada, ver detalles en menú despachos...");
                             $("#mensaje").removeClass();
                             $("#mensaje").addClass('alert alert-success');
                             $("#mensaje").alert();
@@ -339,7 +339,7 @@
                     }
                     else
                     {
-                        $("#mensaje").text("Ingrese artículos...");
+                        $("#mensaje").text("Ingrese productos...");
                         $("#mensaje").removeClass();
                         $("#mensaje").addClass('alert alert-info');
                         $("#mensaje").alert();
@@ -405,7 +405,7 @@
                           {
                             if(data == "SI")
                             {
-                                $("#mensaje").text("Artículo agregado...");
+                                /*$("#mensaje").text("Producto agregado...");
                                 $("#mensaje").removeClass();
                                 $("#mensaje").addClass('alert alert-success');
                                 $("#mensaje").alert();
@@ -413,14 +413,14 @@
                                 $("#mensaje").slideUp(1000);
                                 });
 
-                                $("#articulos_ingresados").html(data);
+                                $("#articulos_ingresados").html(data);*/
 
 
                                 $.post( 'createHerramienta_transaccion_temporal.php', {clave: clave, cantidad: cantidad, codigo: codigo })
                                   .done(function( data )
                                   {
 
-                                        $("#mensaje").text("Artículo agregado...");
+                                        $("#mensaje").text("Producto agregado...");
                                         $("#mensaje").removeClass();
                                         $("#mensaje").addClass('alert alert-success');
                                         $("#mensaje").alert();
@@ -433,7 +433,7 @@
                             }
                             else
                             {
-                                $("#mensaje").text("ARTICULO NO AGREGADO / SUPERA EL STOCK");
+                                $("#mensaje").text("PRODUCTO NO AGREGADO / SUPERA EL STOCK");
                                 $("#mensaje").removeClass();
                                 $("#mensaje").addClass('alert alert-warning');
                                 $("#mensaje").alert();

@@ -6,7 +6,7 @@
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Mis artículos...</h3>
+                        <h3>Mis productos...</h3>
                         
                     </div>
                     <div class="title_right ">
@@ -110,7 +110,7 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Agregar / Modificar herramienta</h4>
+		        <h4 class="modal-title" id="myModalLabel">Agregar / Modificar Producto</h4>
 		      </div>
 		      <div class="modal-body">
                 <form name='frmtipo' class="form-horizontal" id="divdestino" method="post" action="<?php echo $url; ?>createHerramientas_herramientas.php" enctype="multipart/form-data">

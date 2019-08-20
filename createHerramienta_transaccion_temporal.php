@@ -103,7 +103,7 @@ else
       	.done(function( data )
       	{
 
-            $("#mensaje").text("Artículo eliminado...");
+            $("#mensaje").text("Producto eliminado...");
             $("#mensaje").removeClass();
             $("#mensaje").addClass('alert alert-danger');
             $("#mensaje").alert();

@@ -128,25 +128,25 @@
                                         <li><a href='indexHerramientas_categorias.php'>Categorías</a></li>
                                         <li><a href='indexHerramientas_proveedores.php'>Proveedores</a></li>
                                         <li><a href='indexHerramientas_udm.php'>Unidades de medida</a></li>
-                                        <li><a href='indexHerramientas_herramientas.php'>Artículos / piezas</a></li>
-                                        <li><a href='indexHerramientas_entradas.php'>Entrada piezas</a></li>
+                                        <li><a href='indexHerramientas_herramientas.php'>Productos</a></li>
+                                        <li><a href='indexHerramientas_entradas.php'>Entradas</a></li>
                                     </ul>
                                   </li>";
 
                                   echo "<li>
-                                            <a href='indexHerramientas_articulos.php'><i class='fa fa-suitcase' aria-hidden='true'></i>Artículos / Htas </a>
+                                            <a href='indexHerramientas_articulos.php'><i class='fa fa-suitcase' aria-hidden='true'></i>Mis productos</a>
                                         </li>";
 
                                     echo "<li>
-                                            <a href='indexHerramientas_salidas.php'><i class='fa fa-shopping-bag' aria-hidden='true'></i>Artículos salidas</a>
+                                            <a href='indexHerramientas_salidas.php'><i class='fa fa-shopping-bag' aria-hidden='true'></i>Despachar producto</a>
                                         </li>";
 
                                     echo "<li>
-                                            <a href='indexHerramientas_transacciones.php'><i class='fa fa-shopping-cart' aria-hidden='true'></i>Mov artículos</a>
+                                            <a href='indexHerramientas_transacciones.php'><i class='fa fa-shopping-cart' aria-hidden='true'></i>Despachos</a>
                                         </li>";
 
                                     echo "<li>
-                                            <a href='indexHerramientas_movimientos.php'><i class='fa fa-credit-card' aria-hidden='true'></i>Mov herramientas</a>
+                                            <a href='indexHerramientas_movimientos.php'><i class='fa fa-credit-card' aria-hidden='true'></i>Préstamos</a>
                                         </li>";
                                     
                                     echo "<li>

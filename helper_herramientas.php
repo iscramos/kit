@@ -631,12 +631,12 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 		                                <input type='number' class='form-control' name='tamano' id='tamano' value='' readonly='true'>
 		                            </div>
 
-		                            <div class='form-group col-sm-4 '>   
+		                            <div class='form-group col-sm-4 hidden'>   
 		                                <label >Tamaño</label>
 		                                <input type='text' class='form-control' name='descripcion' id='descripcion' value='' autocomplete='' readonly='true'>
 		                            </div>
 
-		                            <div class='form-group col-sm-4'>   
+		                            <div class='form-group col-sm-4 hidden'>   
 		                                <label >Límite semanal</label>
 		                                <input type='number' class='form-control' name='tiempo_limite' id='tiempo_limite' value='' autocomplete='' readonly='true'>
 		                            </div> 
@@ -655,10 +655,7 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 		                                    
 		                                $str.="</select>
 		                            </div> 
-		                        </div>";
-
-		                $str.="<div class='row'>
-			                        <div class='form-group col-sm-4'>
+		                            <div class='form-group col-sm-4'>
 			                            <label >Invernadero</label>
 			                            <select class='form-control' name='gh' id='gh' required='required'>
 			                                <option value='' style='display: none;'>Seleccione</option>";
@@ -675,6 +672,10 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 			                            <label >Zona</label>
 			                            <input type='text' class='form-control' name='zona' id='zona' value='' autocomplete='' required='required' readonly='true'>
 			                        </div>
+		                        </div>";
+
+		                $str.="<div class='row hidden'>
+			                        
 			                        
 			                        <div class='form-group col-sm-4'>
 			                            <label >Fecha activación / baja</label>

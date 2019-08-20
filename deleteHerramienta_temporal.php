@@ -77,7 +77,7 @@ if (isset($_REQUEST['codigo_asociado']) && intval($_REQUEST['codigo_asociado']) 
       	.done(function( data )
       	{
 
-            $("#mensaje").text("Artículo eliminado...");
+            $("#mensaje").text("Producto eliminado...");
             $("#mensaje").removeClass();
             $("#mensaje").addClass('alert alert-danger');
             $("#mensaje").alert();

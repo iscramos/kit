@@ -7,7 +7,7 @@
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Transacciones </h3>
+                        <h3>Despachos </h3>
                     </div>
                     <div class="title_right ">
                         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -40,7 +40,7 @@
                                 <table class="table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action" >
                                     <thead>
                                         <tr>
-                                        <th style="text-align: center;"># TRANSACCION</th>
+                                        <th style="text-align: center;"># DESPACHO</th>
                                         <th style="text-align: center;">FECHA</th>
                                         <th style="text-align: center;">NOMBRE DEL ASOCIADO</th>
 

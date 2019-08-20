@@ -24,7 +24,7 @@
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Mis artículos...</h3>
+                        <h3>Mis productos...</h3>
                     
                 </div>
                     <div class="title_right ">
@@ -107,7 +107,7 @@
                     <div class="col-md-10 col-sm-10 col-xs-10">
                         <div class="x_panel" style="margin-bottom: 40px;">
                             <div class="x_title">
-                                <h2><i class="fa fa-cogs"></i> Artículos <small>en el sistema</small></h2>
+                                <h2><i class="fa fa-cogs"></i> Productos <small>en el sistema</small></h2>
 
                                 <ul class="nav navbar-right panel_toolbox">
                                   <li>
@@ -140,7 +140,7 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Prestar artículo</h4>
+		        <h4 class="modal-title" id="myModalLabel">Prestar producto</h4>
 		      </div>
 		      <div class="modal-body">
                 <form name='frmtipo' class="form-horizontal" id="divdestino" method="post" action="<?php echo $url; ?>createHerramientas_prestamos.php">
@@ -279,7 +279,7 @@
                     }
                     else
                     {
-                        alert("CAPTURE LA CLAVE DEL ARTICULO...");
+                        alert("CAPTURE LA CLAVE DEL PRODUCTO...");
                     }
                     
                 });

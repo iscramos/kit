@@ -42,7 +42,7 @@ if(isset($_GET["consulta"]))
 						if($p->stock != "" || $p->stock > 0)
 						{
 
-								$str.="<button type='button' valueCodigo='".$codigo_asociado."' valueEnvia='".$p->clave."' valueDescripcion='".$p->descripcion."' class='btn btn-success add_temporal' title='Agregar pieza' data-dismiss='modal'> <span class='fa fa-plus'></span> </button>";
+								$str.="<button type='button' valueCodigo='".$codigo_asociado."' valueEnvia='".$p->clave."' valueDescripcion='".$p->descripcion."' class='btn btn-success add_temporal' title='Agregar producto' data-dismiss='modal'> <span class='fa fa-plus'></span> </button>";
 						}
 					$str.="</td>";
 				$str.="</tr>";
@@ -52,7 +52,7 @@ if(isset($_GET["consulta"]))
 		}
 		else
 		{
-			$str = "<h5 style='text-align:center; '>PIEZA NO ENCONTRADA EN LA BD...</h5>";
+			$str = "<h5 style='text-align:center; '>PRODUCTO NO ENCONTRADO EN LA BD...</h5>";
 		}			
 	}
 }
@@ -104,7 +104,7 @@ echo $str;
               {
                 if(data == "SI")
                 {
-                    $("#mensaje").text("Artículo agregado...");
+                    $("#mensaje").text("Producto agregado...");
                     $("#mensaje").removeClass();
                     $("#mensaje").addClass('alert alert-success');
                     $("#mensaje").alert();
@@ -119,7 +119,7 @@ echo $str;
                       .done(function( data )
                       {
 
-                            $("#mensaje").text("Artículo agregado...");
+                            $("#mensaje").text("Producto agregado...");
                             $("#mensaje").removeClass();
                             $("#mensaje").addClass('alert alert-success');
                             $("#mensaje").alert();
@@ -132,7 +132,7 @@ echo $str;
                 }
                 else
                 {
-                    $("#mensaje").text("ARTICULO NO AGREGADO / SUPERA EL STOCK");
+                    $("#mensaje").text("PRODUCTO NO AGREGADO / SUPERA EL STOCK");
                     $("#mensaje").removeClass();
                     $("#mensaje").addClass('alert alert-warning');
                     $("#mensaje").alert();
