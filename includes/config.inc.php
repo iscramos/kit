@@ -18,7 +18,7 @@ $contentRead = "content/";
 
 $urlFotos="http://192.168.167.231/col2/ch/perfils/";
 
-$lideres = array(41185, 239, 14993, 15113);
+$lideres = array(41185, 14993, 15113);
 $zonas_norte = array("ZONA D", "ZONA E", "ZONA F", "AREAS COMUNES");
 $zonas_sur = array("ZONA A", "ZONA B", "ZONA C", "ZONA G", "OFICINAS PB", "OFICINAS PA", "COMEDOR SUR", "COMEDOR CENTRAL", "COMEDOR NORTE", "AREAS COMUNES", "EMPAQUE", "EMBARQUES");
 

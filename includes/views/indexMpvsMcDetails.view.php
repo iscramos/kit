@@ -39,10 +39,10 @@
                                         {
                                             $nombreLider = "ORFANEL RENDON RAMIREZ";
                                         }
-                                        if($lider == 239)
+                                        /*if($lider == 239)
                                         {
                                             $nombreLider = "HUMBERTO CERVANTES";
-                                        }
+                                        }*/
                                         if($lider == 14993)
                                         {
                                             $nombreLider = "MIGUEL TADEO";
@@ -529,10 +529,10 @@
                                         {
                                             $nombreLider = "ORFANEL RENDON RAMIREZ";
                                         }
-                                        if($responsable == 239)
+                                        /*if($responsable == 239)
                                         {
                                             $nombreLider = "HUMBERTO CERVANTES";
-                                        }
+                                        }*/
                                         if($responsable == 14993)
                                         {
                                             $nombreLider = "MIGUEL TADEO";
@@ -751,7 +751,7 @@
 
         /*var semanas = ["ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];*/
 
-        var lideres = [41185, 239, 14993, 15113];
+        var lideres = [41185, 14993, 15113];
         // PARA LAS GRAFICAS LINEALES
         google.charts.load('current', {'packages':['corechart' ]});
         google.charts.setOnLoadCallback(drawChart);

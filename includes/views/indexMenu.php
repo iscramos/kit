@@ -152,6 +152,10 @@
                                     echo "<li>
                                             <a href='indexHerramientas_asociado.php'><i class='fa fa-search' aria-hidden='true'></i>Asociado</a>
                                         </li>";
+
+                                    echo "<li>
+                                            <a href='indexHerramientas_dashboard.php'><i class='fa fa-desktop' aria-hidden='true'></i>Dashboard</a>
+                                        </li>";
                             }
                             elseif ($_SESSION["type"] == 6) // for taller mecanico
                             {

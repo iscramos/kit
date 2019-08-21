@@ -60,10 +60,10 @@
                                         <th style="text-align: center;">CODIGO</th>
                                         <th style="text-align: center;">NOMBRE</th>
                                         <th style="text-align: center;">F SALIDA</th>
-                                        <th style="text-align: center;">WK SALIDA</th>
+                                        <!--th style="text-align: center;">WK SALIDA</th-->
                                         <!--th style="text-align: center;">Desfase <br> (WK) </th-->
                                         <th style="text-align: center;">F ENTREGA</th>
-                                        <th style="text-align: center;">WK ENTREGA</th>
+                                        <!--th style="text-align: center;">WK ENTREGA</th-->
                                         <!--th style="text-align: center;">F SERVICIO</th-->
                                         <!--th style="text-align: center;">PROBLEMA</th-->
                                         <th style="text-align: center;">Acción</th>
@@ -137,16 +137,16 @@
                                                 }*/
                                                 if($m->tipo_movimiento == 3) // salida
                                                 {
-                                                    if($m->fecha_salida > 0)
-                                                    {
+                                                    /*if($m->fecha_salida > 0)
+                                                    {*/
                                                         echo "<td style='text-align:center;'>".date("d/m/Y", strtotime($m->fecha_salida))."</td>";
-                                                        echo "<td style='text-align:center;'>".$m->wk_salida."</td>";
-                                                    }
-                                                    else
+                                                        //echo "<td style='text-align:center;'>".$m->wk_salida."</td>";
+                                                    //}
+                                                    /*else
                                                     {
                                                         echo "<td style='text-align:center;'> - </td>";
-                                                        echo "<td style='text-align:center;'> - </td>";
-                                                    }
+                                                        //echo "<td style='text-align:center;'> - </td>";
+                                                    }*/
 
                                                     // aquí sacamos el desfase
                                                     /*$fechaHoy = date_create(date("Y-m-d"));
@@ -184,12 +184,12 @@
                                                     if($m->fecha_entrega > 0)
                                                     {
                                                         echo "<td style='text-align:center;'>".date("d/m/Y", strtotime($m->fecha_entrega))."</td>";
-                                                        echo "<td style='text-align:center;'>".$m->wk_entrega."</td>";
+                                                        //echo "<td style='text-align:center;'>".$m->wk_entrega."</td>";
                                                     }
                                                     else
                                                     {
                                                         echo "<td style='text-align:center;'> - </td>";
-                                                        echo "<td style='text-align:center;'> - </td>";
+                                                        //echo "<td style='text-align:center;'> - </td>";
                                                     }
                                                     
 
@@ -239,9 +239,9 @@
                                             <th></th>
                                             <!--th></th-->
                                             <th></th>
+                                            <!--th></th-->
                                             <th></th>
-                                            <th></th>
-                                            <th></th>
+                                            <!--th></th-->
                                             <!--th></th-->
                                             <!--th></th-->
                                             <th></th>

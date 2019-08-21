@@ -116,7 +116,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 			$str.="<h4 style='text-align:center;' >MANTENIMIENTOS</h4>
 					<input class='form-control hidden' type='number' id='ano' value='$ano'>
 					<a href='indexMp_Mc_lider.php?responsable=41185&ano=$ano' target='_blank' title='Ver cumplimiento por líder' type='button' class='btn btn-default btn-md'> <i class='fa fa-user' aria-hidden='true'></i> Orfanel Rendón</a>
-					<a href='indexMp_Mc_lider.php?responsable=239&ano=$ano' target='_blank' title='Ver cumplimiento por líder' type='button' class='btn btn-default btn-md'> <i class='fa fa-user' aria-hidden='true'></i> Humberto Cervantes</a>
+					
 					<a href='indexMp_Mc_lider.php?responsable=14993&ano=$ano' target='_blank' title='Ver cumplimiento por líder' type='button' class='btn btn-default btn-md'> <i class='fa fa-user' aria-hidden='true'></i> Miguel Tadeo</a>
 					<a href='indexMp_Mc_lider.php?responsable=15113&ano=$ano' target='_blank' title='Ver cumplimiento por líder' type='button' class='btn btn-default btn-md'> <i class='fa fa-user' aria-hidden='true'></i> Antonio Virgen</a>
 					 <br>";
@@ -745,51 +745,54 @@ echo $str;
 	 			// COMPARANDO MESES
 	 			$.each(result, function(i, field)
 		      	{
-		 			if (field['mes'] == '01')
+		      		var campo = null;
+		      		var campo = parseInt(field[mes]);
+
+		 			if (field['mes'] == 1)
 		 			{
 		 				mesHistorico = "ENERO";
 		 			}
-		 			else if(field['mes'] == '02')
+		 			else if(field['mes'] == 2)
 		 			{
 		 				mesHistorico = "FEBRERO";
 		 			}
-		 			else if(field['mes'] == '03')
+		 			else if(field['mes'] == 3)
 		 			{
 		 				mesHistorico = "MARZO";
 		 			}
-		 			else if(field['mes'] == '04')
+		 			else if(field['mes'] == 4)
 		 			{
 		 				mesHistorico = "ABRIL";
 		 			}
-		 			else if(field['mes'] == '05')
+		 			else if(field['mes'] == 5)
 		 			{
 		 				mesHistorico = "MAYO";
 		 			}
-		 			else if(field['mes'] == '06')
+		 			else if(field['mes'] == 6)
 		 			{
 		 				mesHistorico = "JUNIO";
 		 			}
-		 			else if(field['mes'] == '07')
+		 			else if(field['mes'] == 7)
 		 			{
 		 				mesHistorico = "JULIO";
 		 			}
-		 			else if(field['mes'] == '08')
+		 			else if(field['mes'] == 8)
 		 			{
 		 				mesHistorico = "AGOSTO";
 		 			}
-		 			else if(field['mes'] == '09')
+		 			else if(field['mes'] == 9)
 		 			{
 		 				mesHistorico = "SEPTIEMBRE";
 		 			}
-		 			else if(field['mes'] == '10')
+		 			else if(field['mes'] == 10)
 		 			{
 		 				mesHistorico = "OCTUBRE";
 		 			}
-		 			else if(field['mes'] == '11')
+		 			else if(field['mes'] == 11)
 		 			{
 		 				mesHistorico = "NOVIEMBRE";
 		 			}
-		 			else if(field['mes'] == '12')
+		 			else if(field['mes'] == 12)
 		 			{
 		 				mesHistorico = "DICIEMBRE";
 		 			}

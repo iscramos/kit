@@ -10,7 +10,9 @@ require_once('includes/inc.session.php');
 
 if($_SESSION["type"] == 1)
 {
-	$disponibilidad_data = Disponibilidad_data::getAllByOrden("ot", "asc");
+	$q = "SELECT * FROM disponibilidad_data ORDER BY ot ASC LIMIT 100";
+	//$disponibilidad_data = Disponibilidad_data::getAllByOrden("ot", "asc");
+	$disponibilidad_data = Disponibilidad_data::getAllByQuery($q);
 	// Include page view
 	require_once(VIEW_PATH.'indexDisponibilidadData.view.php');
 }

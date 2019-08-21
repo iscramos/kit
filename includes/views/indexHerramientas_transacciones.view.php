@@ -48,7 +48,7 @@
                                         <!--th style="text-align: center;">Fecha Act.<br> Baja</th-->
                                         <th style="text-align: center;">ARTICULOS</th>
                                         <th style="text-align: center;">TICKET</th>
-                                        <th style="text-align: center;">Acción</th>
+                                        <th style="text-align: center;">ACCION</th>
                                     </tr>
                                 </thead>
                                 <tbody >
