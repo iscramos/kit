@@ -14,6 +14,8 @@ class Herramientas_herramientas {
 	public $archivo;
 	public $activaStock;
 	public $id_udm;
+	public $retirado;
+	public $fecha_retirado;
 
 	
 	public static function getBySql($sql) {
@@ -150,7 +152,7 @@ class Herramientas_herramientas {
 			$statement->execute();
 			
 			// Bind variable to prepared statement
-			$statement->bind_result($id, $clave, $id_almacen, $id_categoria, $id_marca, $descripcion, $precio_unitario, $fecha_entrada, $archivo, $activaStock, $id_udm);
+			$statement->bind_result($id, $clave, $id_almacen, $id_categoria, $id_marca, $descripcion, $precio_unitario, $fecha_entrada, $archivo, $activaStock, $id_udm, $retirado, $fecha_retirado);
 			
 			// Populate bind variables
 			$statement->fetch();
@@ -175,6 +177,8 @@ class Herramientas_herramientas {
 		$object->archivo = $archivo;
 		$object->activaStock = $activaStock;
 		$object->id_udm = $id_udm;
+		$object->retirado = $retirado;
+		$object->fecha_retirado = $fecha_retirado;
 		return $object;
 	}
 
@@ -235,7 +239,7 @@ class Herramientas_herramientas {
 			$statement->execute();
 			
 			// Bind variable to prepared statement
-			$statement->bind_result($id, $clave, $id_almacen, $id_categoria, $id_marca, $descripcion, $precio_unitario, $fecha_entrada, $archivo, $activaStock, $id_udm);
+			$statement->bind_result($id, $clave, $id_almacen, $id_categoria, $id_marca, $descripcion, $precio_unitario, $fecha_entrada, $archivo, $activaStock, $id_udm, $retirado, $fecha_retirado);
 			
 			// Populate bind variables
 			$statement->fetch();
@@ -260,6 +264,8 @@ class Herramientas_herramientas {
 		$object->archivo = $archivo;
 		$object->activaStock = $activaStock;
 		$object->id_udm = $id_udm;
+		$object->retirado = $retirado;
+		$object->fecha_retirado = $fecha_retirado;
 		return $object;
 	}
 
@@ -501,6 +507,44 @@ class Herramientas_herramientas {
 		// Return affected rows
 		return $affected_rows;			
 
+	}
+
+	public function retirar() {
+
+		// Initialize affected rows
+		$affected_rows = FALSE;
+	
+		// Build database query
+		$sql = "update herramientas_herramientas set retirado = ?, fecha_retirado = ? where clave = ?";
+		
+		// Open database connection
+		$database = new Database();
+		
+		// Get instance of statement
+		$statement = $database->stmt_init();
+		
+		// Prepare query
+		if ($statement->prepare($sql)) {
+			
+			// Bind parameters
+			$statement->bind_param('iss', $this->retirado, $this->fecha_retirado, $this->clave);
+			
+			// Execute statement
+			$statement->execute();
+			
+			// Get affected rows
+			$affected_rows = $database->affected_rows;
+				
+			// Close statement
+			$statement->close();
+		}
+		
+		// Close database connection
+		$database->close();
+
+		// Return affected rows
+		return $affected_rows;			
+	
 	}
 
 	public function delete() {

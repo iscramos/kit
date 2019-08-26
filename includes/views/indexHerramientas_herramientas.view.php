@@ -46,6 +46,7 @@
                                             <th>DESCRIPCION</th>
                                             <!--th>Precio unitario</th-->
                                             <th>STOCK</th>
+                                            <th>ESTATUS</th>
                                             <!--th>Fecha de entrada</th-->
                                             
                                             <th>ACCION</th>
@@ -60,7 +61,7 @@
                                             //$prestamos = Herramientas_prestamos::getAllMaxHerramienta($herramienta->id);
                                             
                                             //print_r($prestamos);
-                                            echo "<tr campoid='".$herramienta->id."' >";
+                                            echo "<tr campoid='".$herramienta->clave."' >";
                                                 echo "<th width='5px' class='spec'>$i</th>";
                                                 echo "<td>".$herramienta->clave."</td>";
                                                 //echo "<td>".$herramienta->categoria."</td>";
@@ -79,11 +80,27 @@
                                                     {
                                                         echo "<td style='background: #f0ad4e; color:white;'>EN PRESTAMO</td>";
                                                     }*/
-                                                
+                                                if($herramienta->retirado == 0)
+                                                {
+                                                    echo "<td class='text-center'> <i class='fa fa-circle' aria-hidden='true' style='color: #1E9E74;'></i></td>";
+                                                }
+                                                else
+                                                {
+                                                    echo "<td class='text-center'> <i class='fa fa-circle' aria-hidden='true' style='color: #C9302C;'></i></td>";
+                                                }
                                                 
                                                 echo "<td>";
 
-                                                    echo " <a type='button' class='btn btn-warning btn-sm optionEdit' valueEdit='".$herramienta->id."' title='Editar registro' >Editar</a>";
+                                                    echo " <a type='button' class='btn btn-warning btn-xs optionEdit' valueEdit='".$herramienta->id."' title='Editar registro' >Editar</a>";
+                                                    if($herramienta->retirado == 0 && $herramienta->activaStock == 0)
+                                                    {
+                                                       echo " <a type='button' class='btn btn-danger btn-xs' data-toggle='confirmation' data-singleton='true' data-placement='left' title='¿Está seguro?'>Retirar</a>";
+                                                    }
+                                                    elseif ($herramienta->retirado == 1) 
+                                                    {
+                                                        echo " <a type='button' class='btn btn-danger btn-xs' disabled='disabled'>Retirado</a>";
+                                                    }
+                                                    
                                                 echo "</td>";
                                             echo "</tr>";
 
@@ -130,15 +147,17 @@
  <?php require_once(VIEW_PATH.'footer.inc.php'); ?>
 
         <script type="text/javascript">
-            $('[data-toggle="tooltip"]').tooltip();
             $('[data-toggle="confirmation"]').confirmation(
             {
+
                 title: '¿Eliminar?',
                 btnOkLabel : '<i class="icon-ok-sign icon-white"></i> Si',
                       
                 onConfirm: function(event) {
-                  var idR = $(this).parents("tr").attr("campoid");
-                  window.location.href='deleteUser.php?id='+idR;
+                    //event.preventDefault();
+                  var clave = $(this).parents("tr").attr("campoid");
+                  var accion = "RETIRAR";
+                  window.location.href = 'deleteHerramienta_herramienta.php?clave='+clave+'&accion='+accion;
                 },
             });
 
