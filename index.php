@@ -245,8 +245,8 @@
                         <p class="texto-footer">
                             <ul class="listita">
                                 <li><a href="public_zancos_dashboard.php" >Zancos dashboard</a></li>
-                                <li><a href="public_zancos_desfase.php" >Zancos desfase</a></li>
-                                <li><a href="public_zancos_mayor.php" >Zancos > 1.5 años</a></li>
+                                <li><a href="public_scanner.php" >QR SCANNER</a></li>
+                                
                             </ul>
                         </p>
                      </div> 

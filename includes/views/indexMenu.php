@@ -62,6 +62,11 @@
                                         </a>
                                     </li>";
                                 echo "<li>
+                                        <a href='indexQRgenerador.php'>
+                                            <i class='fa fa-qrcode' aria-hidden='true'></i></i> QR Generador
+                                        </a>
+                                    </li>";
+                                echo "<li>
                                         <a href='indexUsers.php'><i class='fa fa-users fa-fw'></i> Usuarios</a>
                                     </li>";
                                 echo "<li>
