@@ -27,10 +27,9 @@
                     <?php
                       foreach ($años as $a) 
                       {
-                        if($actual != $a->ano)
-                        {
+                        
                           echo "<option value='".$a->ano."'>".$a->ano."</option>";
-                        }
+                        
                         
                       }
                     ?>

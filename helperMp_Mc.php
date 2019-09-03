@@ -137,7 +137,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 	                </div>";
 	        $str.="</div>";
 
-	        $str.="<div class='row'>";
+	        /*$str.="<div class='row'>";
 				$str.="<div class='col-md-12 col-sm-12'>
 	                    <div class='panel panel-default'>
 	                        <div class='panel-heading'>
@@ -151,7 +151,7 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 ||
 	                    </div>
 	                    <!-- /.panel -->
 	                </div>";
-	        $str.="</div>";
+	        $str.="</div>";*/
 
 	       
 
@@ -643,7 +643,7 @@ echo $str;
 
     google.charts.load("visualization", "1", {packages:["corechart","bar"]});
     google.charts.setOnLoadCallback(drawPorMes);
-    google.charts.setOnLoadCallback(drawPorHistorico);
+    
       
      
     
@@ -721,169 +721,7 @@ echo $str;
 
 	}
 	
-	function drawPorHistorico()
-	{
-		// Para crear la gráfica de cumplimiento histórico
-	 	var anoParametro = $("#ano").val();
-	 	var meses = ["ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
-		var constructorHistorico = [['',  'TOTAL', 'Preventivos', 'Correctivos']];
-
-	 	$.getJSON("api_mp_mc_historico.php?ano="+anoParametro, function(result)
-	 	{
-	 		$.each(meses, function(key, value)
-	 		{
-	 			var mesHistorico = "";
-	 			var mes = value;
-
-	 			var porcentajePreventivo = 0;
-				var porcentajeCorrectivo = 0;
-
-				var porcentajeMesMp = 0;
-				var porcentajeMesMc = 0;
-				var porcentajeMesTotal = 0;
-				var cuentaSemana = 0;
-	 			// COMPARANDO MESES
-	 			$.each(result, function(i, field)
-		      	{
-		      		var campo = null;
-		      		var campo = parseInt(field[mes]);
-
-		 			if (field['mes'] == 1)
-		 			{
-		 				mesHistorico = "ENERO";
-		 			}
-		 			else if(field['mes'] == 2)
-		 			{
-		 				mesHistorico = "FEBRERO";
-		 			}
-		 			else if(field['mes'] == 3)
-		 			{
-		 				mesHistorico = "MARZO";
-		 			}
-		 			else if(field['mes'] == 4)
-		 			{
-		 				mesHistorico = "ABRIL";
-		 			}
-		 			else if(field['mes'] == 5)
-		 			{
-		 				mesHistorico = "MAYO";
-		 			}
-		 			else if(field['mes'] == 6)
-		 			{
-		 				mesHistorico = "JUNIO";
-		 			}
-		 			else if(field['mes'] == 7)
-		 			{
-		 				mesHistorico = "JULIO";
-		 			}
-		 			else if(field['mes'] == 8)
-		 			{
-		 				mesHistorico = "AGOSTO";
-		 			}
-		 			else if(field['mes'] == 9)
-		 			{
-		 				mesHistorico = "SEPTIEMBRE";
-		 			}
-		 			else if(field['mes'] == 10)
-		 			{
-		 				mesHistorico = "OCTUBRE";
-		 			}
-		 			else if(field['mes'] == 11)
-		 			{
-		 				mesHistorico = "NOVIEMBRE";
-		 			}
-		 			else if(field['mes'] == 12)
-		 			{
-		 				mesHistorico = "DICIEMBRE";
-		 			}
-		 			//console.log(mesHistorico);
-	 				if(mesHistorico == mes)
-		 			{
-					   porcentajePreventivo = parseFloat(field['cumplimientomp']) + parseFloat(porcentajePreventivo);
-					   porcentajeCorrectivo = parseFloat(field['cumplimientomc']) + parseFloat(porcentajeCorrectivo);
-					  // porcentajeCorrectivo = $(".valorMC"+mes).val();
-					   
-						   
-						
-					/*porcentajePreventivo = parseFloat(porcentajePreventivo);
-					porcentajeCorrectivo = parseFloat(porcentajeCorrectivo);
-
-					porcentajeMes = parseFloat( (porcentajePreventivo + porcentajeCorrectivo) / 2 );
-
-					constructorHistorico.push([mes, porcentajeMes, porcentajePreventivo, porcentajeCorrectivo]);*/
-						cuentaSemana++;
-
-		 			}
-	 			
-		        	/*console.log("ano = "+field['ano'] +" mes= " + field['mes'] + " semana= "+field['semana']);*/
-		      	});// fin de each result
-
-	 			if(porcentajePreventivo > 0)
-	 			{
-	 				porcentajeMesMp = porcentajePreventivo / cuentaSemana;	
-	 			}
-	 			else
-	 			{
-	 				porcentajeMesMp = parseFloat(porcentajePreventivo);
-	 			}
-
-	 			if(porcentajeCorrectivo > 0)
-	 			{
-	 				porcentajeMesMc = porcentajeCorrectivo / cuentaSemana;
-	 			}
-	 			else
-	 			{
-	 				porcentajeMesMc = parseFloat(porcentajeCorrectivo);
-	 			}
-		      	
-		      	
-	 			/*if(porcentajeMesTotal > 0)
-	 			{*/
-	 				porcentajeMesTotal = parseFloat( (porcentajeMesMp + porcentajeMesMc) / 2 );
-	 			/*}
-	 			else
-	 			{
-	 				porcentajeMesTotal = parseFloat(porcentajeMesTotal);
-	 			}*/
-		      	
-
-		      	//console.log(porcentajeMesTotal);
-
-		      	constructorHistorico.push([mes, porcentajeMesTotal
-		      		, porcentajeMesMp, porcentajeMesMc]);
-
-		      	
-
-	 		});// fin de each mes
-
-	 		var data = google.visualization.arrayToDataTable(constructorHistorico);
-
-	        var options = {
-	        	
-	          chart: {
-	            //title: 'Company Performance',
-	            subtitle: 'Cumplimiento mensual de MP vs MC Histórico',
-
-	          },
-	          bars: 'vertical',
-	          vAxis: {
-	          		title: '% de cumplimiento',
-	          		format: '#\'%\''
-	          		
-	          		
-	      		},
-	          height: 315,
-	          colors: ['#337ab7', '#5cb85c', '#f0ad4e']
-	        };
-
-	        var chart = new google.charts.Bar(document.getElementById('graficaHistorica'));
-
-	        chart.draw(data, google.charts.Bar.convertOptions(options));
-
-	    }); // fin de getJson
-		
-
-	}
+	
 
 </script>
 
