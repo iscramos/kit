@@ -237,14 +237,14 @@ if( isset($_REQUEST["parametro"]) )
                 echo "<td>".$medicion->caudal."</td>";
                 if($medicion->m_consumidos != "")
                 {
-                    if($medicion->equipo != "CO-BMU-009")
+                    /*if($medicion->equipo != "CO-BMU-009")
                     {
                         echo "<td>".($medicion->m_consumidos * 10)."</td>";
                     }
                     else
-                    {
+                    {*/
                         echo "<td>".($medicion->m_consumidos)."</td>";
-                    }
+                    //}
                     
                 }
                 else

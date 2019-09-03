@@ -148,14 +148,10 @@
                                                         echo "<td>".$medicion->nivel_dinamico."</td>";
                                                         //echo "<td>".$medicion->caudal."</td>";
 
-                                                        if($medicion->m_consumidos != "" && $medicion->equipo != "CO-BMU-009")
-                                                        {
-                                                            echo "<td>".($medicion->m_consumidos * 10)."</td>";
-                                                        }
-                                                        else
-                                                        {
+                                                        
+                                                        
                                                            echo "<td>".$medicion->m_consumidos."</td>"; 
-                                                        }
+                                                        
                                                         
                                                         echo "<td>";
                                                             echo "<a type='button' class='btn btn-warning btn-circle btn-sm optionEdit' valueEdit='".$medicion->id."' title='Editar registro' ><i class='fa fa-pencil-square-o'></i></a>";

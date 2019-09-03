@@ -80,10 +80,10 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==7)) 
 								$diaCompara = $dias[date('w', strtotime($medicion->fechaLectura))];
 								$potencia = 1;
 
-								if($medicion->equipo != "CO-BMU-009")
+								/*if($medicion->equipo != "CO-BMU-009")
 								{
 									$potencia = 10;
-								}
+								}*/
 								//echo $diaCompara;
 								
 								if($diaCompara == "DOMINGO")
