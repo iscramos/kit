@@ -111,7 +111,7 @@ if(isset($_GET["id"]))
 		$str.="<div class='form-group'>
 						<label class='col-sm-4 col-xs-4 control-label'>Stock</label>
 						<div class='col-sm-8 col-xs-8'>
-							<input id='stock' ".$atributo." type='checkbox' name='stock' data-toggle='toggle' data-width='50' data-height='30'>
+							<input id='stock' ".$atributo." type='checkbox' name='stock'>
 						</div>
 				</div>";
 
@@ -224,8 +224,8 @@ if(isset($_GET["id"]))
 
 		$str.="<div class='form-group'>
 						<label class='col-sm-4 col-xs-4 control-label'>Stock</label>
-						<div class='col-sm-8 col-xs-8'>
-							<input id='stock' type='checkbox' name='stock' data-toggle='toggle' data-width='50' data-height='30'>
+						<div class='col-sm-8 col-xs-8 '>
+							<input id='stock' type='checkbox' name='stock'>
 						</div>
 				</div>";
 	}
@@ -237,15 +237,3 @@ else
 
 echo $str;
 ?>
-
-<!-- toggle -->
-<link href="dist/css/bootstrap-toggle.min.css" rel="stylesheet">
-<script src="dist/js/bootstrap-toggle.min.js"></script>
-<script type="text/javascript">
-  	
-	$(function() 
-	{
-    	$('#stock').bootstrapToggle();
- 	});
-
-</script>

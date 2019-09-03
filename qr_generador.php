@@ -34,7 +34,7 @@ if(isset($_REQUEST['atributo']) && ($_SESSION["type"]==1)) // para el admimistra
     $codeContents .= 'END:VCARD'; */
      
     // generating 
-    QRcode::png($codeContents, $tempDir.$atributo.'.png', QR_ECLEVEL_L, 3); 
+    QRcode::png($codeContents, $tempDir.$atributo.'.png', QR_ECLEVEL_L, 2); 
     
     // displaying 
     echo '<img src="'.$tempDir.$atributo.'.png" />'; 

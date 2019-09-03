@@ -244,8 +244,9 @@
                      <div class="col-md-3 col-xs-3">
                         <p class="texto-footer">
                             <ul class="listita">
-                                <li><a href="public_zancos_dashboard.php" >Zancos dashboard</a></li>
-                                <li><a href="public_scanner.php" >QR SCANNER</a></li>
+                                <li><a href="public_zancos_dashboard.php" >Zancos</a></li>
+                                <li><a href="public_scanner.php" >QR Scanner</a></li>
+                                <li><a href="public_medidores.php" >Medidores</a></li>
                                 
                             </ul>
                         </p>
