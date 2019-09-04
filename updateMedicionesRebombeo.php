@@ -191,6 +191,24 @@ if(isset($_GET["id"]))
 						<input type='number' step='0.01' class='form-control input-sm' id='caudal' name='caudal' value='".$medicion->caudal."' autocomplete='off' >
 					</div>
 				</div>";
+
+			$atributo = "";
+			if($medicion->reinicio == 1)
+			{
+				$atributo = "checked";
+			}
+
+			$str.="<div class='form-group'>
+					<div class='col-md-3 col-xs-12'>
+						<label >Reinicio de Medidor</label>
+						<input type='checkbox' class='form-control' ".$atributo." id='reinicio' name='reinicio' > 
+							
+					</div>
+					<div class='col-md-9 col-xs-12'>
+						<label >Comentarios adicionales</label>
+						<textarea class='form-control' rows='2' id='comentarios' name='comentarios' >".$medicion->comentarios."</textarea>
+					</div>
+				</div>";
 		}
 		else
 		{
@@ -202,6 +220,24 @@ if(isset($_GET["id"]))
 					<div class='col-md-3 col-xs-12'>
 						<label >Caudal</label>
 						<input type='number' step='0.01' class='form-control input-sm' id='caudal' name='caudal' value='".$medicion->caudal."' autocomplete='off' readonly>
+					</div>
+				</div>";
+
+			$atributo = "";
+			if($medicion->reinicio == 1)
+			{
+				$atributo = "checked";
+			}
+			
+			$str.="<div class='form-group'>
+					<div class='col-md-3 col-xs-12'>
+						<label >Reinicio de Medidor</label>
+						<input style='pointer-events:none;' type='checkbox' class='form-control' ".$atributo." id='reinicio' name='reinicio' readonly> 
+							
+					</div>
+					<div class='col-md-9 col-xs-12'>
+						<label >Comentarios adicionales</label>
+						<textarea class='form-control' rows='2' id='comentarios' name='comentarios' readonly>".$medicion->comentarios."</textarea>
 					</div>
 				</div>";
 		}
@@ -370,6 +406,17 @@ if(isset($_GET["id"]))
 						<input type='number' step='0.01' class='form-control input-sm' id='caudal' name='caudal' value='' autocomplete='off' >
 					</div>
 				</div>";
+		$str.="<div class='form-group'>
+					<div class='col-md-3 col-xs-12 hidden visible'>
+						<label >Reinicio de Medidor</label>
+						<input type='checkbox' class='form-control' id='reinicio' name='reinicio' > 
+							
+					</div>
+					<div class='col-md-9 col-xs-12 hidden visible'>
+						<label >Comentarios adicionales</label>
+						<textarea class='form-control' rows='2' id='comentarios' name='comentarios' ></textarea>
+					</div>
+				</div>";
 	}
 }
 else
@@ -413,6 +460,10 @@ echo $str;
     		datoTipo = $("#tipo").val();
     		equipo = $(this).val();
 
+    		$("#reinicio").val(null);
+    		$('#reinicio').css('pointer-events','auto');
+    		$('#reinicio').prop('checked', false);
+    		$("#comentarios").val(null);
     		$("#m_consumidos").val(null);
 			$("#voltaje_l1_l2").val(null);
 			$("#voltaje_l2_l3").val(null);
@@ -483,6 +534,10 @@ echo $str;
     		var tipo = null;
     		tipo = $("#tipo").val();
     		//console.log("seleccion "+ tipo);
+    			$("#reinicio").attr("readonly", "true");
+    			$('#reinicio').css('pointer-events','none');
+    			$('#reinicio').prop('checked', false);
+    			$("#comentarios").attr("readonly", "true");
     			$("#m_consumidos").attr("readonly", "true");
     			$("#voltaje_l1_l2").attr("readonly", "true");
     			$("#voltaje_l2_l3").attr("readonly", "true");
@@ -499,6 +554,8 @@ echo $str;
     			$("#amp_max").attr("readonly", "true");
     			$("#amp_min").attr("readonly", "true");
 
+    			$("#reinicio").val(null);
+    			$("#comentarios").val(null);
     			$("#m_consumidos").val(null);
     			$("#voltaje_l1_l2").val(null);
     			$("#voltaje_l2_l3").val(null);
@@ -530,7 +587,7 @@ echo $str;
     			$("#amperaje_l3").removeAttr("readonly");
 
     			$(".voltaje").removeClass("hidden");
-    			$(".voltaje").removeClass("hidden");
+    			//$(".voltaje").removeClass("hidden");
 
     		}
     		else if(tipo == 2) // niveles
@@ -540,16 +597,19 @@ echo $str;
     			$("#nivel_estatico").removeAttr("readonly");
 
     			$(".nivel").removeClass("hidden");
-    			$(".nivel").removeClass("hidden");
+    			//$(".nivel").removeClass("hidden");
     		}
     		else if(tipo == 3) // medidores
     		{
     			$("#equipo option:first").prop('selected','selected');
     			$("#m_consumidos").removeAttr("readonly");
     			$("#caudal").removeAttr("readonly");
+    			$("#reinicio").removeAttr("readonly");
+    			$('#reinicio').css('pointer-events','auto');
+    			$("#comentarios").removeAttr("readonly");
 
     			$(".medidor").removeClass("hidden");
-    			$(".medidor").removeClass("hidden");
+    			//$(".medidor").removeClass("hidden");
     		}
 
     	})

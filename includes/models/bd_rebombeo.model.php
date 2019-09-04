@@ -21,6 +21,8 @@ class Bd_rebombeo {
 	public $amp_max;
 	public $amp_min;
 	public $m_consumidos;
+	public $reinicio;
+	public $comentarios;
 
 
 	
@@ -127,7 +129,7 @@ class Bd_rebombeo {
 			$statement->execute();
 			
 			// Bind variable to prepared statement
-			$statement->bind_result($id, $tipo, $equipo, $fechaLectura, $voltaje_l1_l2, $voltaje_l2_l3, $voltaje_l1_l3, $amperaje_l1, $amperaje_l2, $amperaje_l3, $caudal, $nivel_estatico, $nivel_dinamico, $hp, $volt_nomi_bajo, $volt_nomi_alto, $amp_max, $amp_min, $m_consumidos);
+			$statement->bind_result($id, $tipo, $equipo, $fechaLectura, $voltaje_l1_l2, $voltaje_l2_l3, $voltaje_l1_l3, $amperaje_l1, $amperaje_l2, $amperaje_l3, $caudal, $nivel_estatico, $nivel_dinamico, $hp, $volt_nomi_bajo, $volt_nomi_alto, $amp_max, $amp_min, $m_consumidos, $reinicio, $comentarios);
 			
 			// Populate bind variables
 			$statement->fetch();
@@ -160,6 +162,8 @@ class Bd_rebombeo {
 		$object->amp_max = $amp_max;
 		$object->amp_min = $amp_min;
 		$object->m_consumidos = $m_consumidos;
+		$object->reinicio = $reinicio;
+		$object->comentarios = $comentarios;
 		return $object;
 	}
 
@@ -196,7 +200,7 @@ class Bd_rebombeo {
 	
 	
 		// Build database query
-		$sql = "insert into bd_rebombeo (equipo, tipo, fechaLectura, voltaje_l1_l2, voltaje_l2_l3, voltaje_l1_l3, amperaje_l1, amperaje_l2, amperaje_l3, caudal, nivel_estatico, nivel_dinamico, hp, volt_nomi_bajo, volt_nomi_alto, amp_max, amp_min, m_consumidos) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		$sql = "insert into bd_rebombeo (equipo, tipo, fechaLectura, voltaje_l1_l2, voltaje_l2_l3, voltaje_l1_l3, amperaje_l1, amperaje_l2, amperaje_l3, caudal, nivel_estatico, nivel_dinamico, hp, volt_nomi_bajo, volt_nomi_alto, amp_max, amp_min, m_consumidos, reinicio, comentarios) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		// Open database connection
 		$database = new Database();
@@ -208,7 +212,7 @@ class Bd_rebombeo {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('sissssssssssssssss', $this->equipo, $this->tipo, $this->fechaLectura, $this->voltaje_l1_l2, $this->voltaje_l2_l3, $this->voltaje_l1_l3, $this->amperaje_l1, $this->amperaje_l2, $this->amperaje_l3, $this->caudal, $this->nivel_estatico, $this->nivel_dinamico, $this->hp, $this->volt_nomi_bajo, $this->volt_nomi_alto, $this->amp_max, $this->amp_min, $this->m_consumidos);
+			$statement->bind_param('sissssssssssssssssis', $this->equipo, $this->tipo, $this->fechaLectura, $this->voltaje_l1_l2, $this->voltaje_l2_l3, $this->voltaje_l1_l3, $this->amperaje_l1, $this->amperaje_l2, $this->amperaje_l3, $this->caudal, $this->nivel_estatico, $this->nivel_dinamico, $this->hp, $this->volt_nomi_bajo, $this->volt_nomi_alto, $this->amp_max, $this->amp_min, $this->m_consumidos, $this->reinicio, $this->comentarios);
 			
 			// Execute statement
 			$statement->execute();
@@ -233,7 +237,7 @@ class Bd_rebombeo {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "update bd_rebombeo set voltaje_l1_l2 = ?, voltaje_l2_l3 = ?, voltaje_l1_l3 = ?, amperaje_l1 = ?, amperaje_l2 = ?, amperaje_l3 = ?, caudal = ?, nivel_estatico = ?, nivel_dinamico = ?, hp = ?, volt_nomi_bajo = ?, volt_nomi_alto = ?, amp_max = ?, amp_min = ?, m_consumidos = ? where id = ?";
+		$sql = "update bd_rebombeo set voltaje_l1_l2 = ?, voltaje_l2_l3 = ?, voltaje_l1_l3 = ?, amperaje_l1 = ?, amperaje_l2 = ?, amperaje_l3 = ?, caudal = ?, nivel_estatico = ?, nivel_dinamico = ?, hp = ?, volt_nomi_bajo = ?, volt_nomi_alto = ?, amp_max = ?, amp_min = ?, m_consumidos = ?, reinicio = ?, comentarios = ? where id = ?";
 		
 		// Open database connection
 		$database = new Database();
@@ -245,7 +249,7 @@ class Bd_rebombeo {
 		if ($statement->prepare($sql)) {
 			//die("entro");
 			// Bind parameters
-			$statement->bind_param('sssssssssssssssi', $this->voltaje_l1_l2, $this->voltaje_l2_l3, $this->voltaje_l1_l3, $this->amperaje_l1, $this->amperaje_l2, $this->amperaje_l3, $this->caudal, $this->nivel_estatico, $this->nivel_dinamico, $this->hp, $this->volt_nomi_bajo, $this->volt_nomi_alto, $this->amp_max, $this->amp_min, $this->m_consumidos, $this->id);
+			$statement->bind_param('sssssssssssssssisi', $this->voltaje_l1_l2, $this->voltaje_l2_l3, $this->voltaje_l1_l3, $this->amperaje_l1, $this->amperaje_l2, $this->amperaje_l3, $this->caudal, $this->nivel_estatico, $this->nivel_dinamico, $this->hp, $this->volt_nomi_bajo, $this->volt_nomi_alto, $this->amp_max, $this->amp_min, $this->m_consumidos, $this->reinicio, $this->comentarios, $this->id);
 			
 			// Execute statement
 			$statement->execute();

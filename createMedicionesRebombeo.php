@@ -22,6 +22,8 @@ $volt_nomi_alto = NULL;
 $amp_max = NULL;
 $amp_min = NULL;
 $m_consumidos = NULL;
+$reinicio = NULL;
+$comentarios = NULL;
 //echo date("Y-m-d H:i", $_POST["fechaLectura"]);
 /*echo strftime("%Y-%m-%d %H:%M", strtotime($_POST["fechaLectura"]));
 echo "<pre>";
@@ -53,6 +55,15 @@ if(isset($_POST["id"]) && intval($_POST["id"]) > 0)
 		$amp_max = $_POST["amp_max"];
 		$amp_min = $_POST["amp_min"];
 		$m_consumidos = $_POST["m_consumidos"];
+		if (isset($_POST['reinicio'])) 
+		{
+			$reinicio = 1;
+		}
+		else
+		{
+			$reinicio = 0;
+		}
+		$comentarios = $_POST["comentarios"];
 		
 
 		// new object
@@ -75,6 +86,8 @@ if(isset($_POST["id"]) && intval($_POST["id"]) > 0)
 		$rebombeo->amp_max = $amp_max;
 		$rebombeo->amp_min = $amp_min;
 		$rebombeo->m_consumidos = $m_consumidos;
+		$rebombeo->reinicio = $reinicio;
+		$rebombeo->comentarios = $comentarios;
 		$rebombeo->save();
 	}	
 }
@@ -102,6 +115,15 @@ else
 		$amp_max = $_POST["amp_max"];
 		$amp_min = $_POST["amp_min"];
 		$m_consumidos = $_POST["m_consumidos"];
+		if (isset($_POST['reinicio'])) 
+		{
+			$reinicio = 1;
+		}
+		else
+		{
+			$reinicio = 0;
+		}
+		$comentarios = $_POST["comentarios"];
 		
 
 		// new object
@@ -125,6 +147,8 @@ else
 		$rebombeo->amp_max = $amp_max;
 		$rebombeo->amp_min = $amp_min;
 		$rebombeo->m_consumidos = $m_consumidos;
+		$rebombeo->reinicio = $reinicio;
+		$rebombeo->comentarios = $comentarios;
 		$rebombeo->save();
 	}
 }
