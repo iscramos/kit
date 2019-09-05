@@ -418,7 +418,7 @@
                         {
                             
 
-                            var constructorMedidores = [['DIA / HORA',  'METROS CUBICOS CONSUMIDOS', {type:'number', role:'annotation'}]];
+                            var constructorMedidores = [['DIA / HORA',  'METROS CUBICOS CONSUMIDOS', {type:'string', role:'annotation'}]];
 
                             $.getJSON("helperGrafico.php?tipo="+tipo+"&ano="+ano+"&mes="+mes+"&equipo="+equipo, function(result)
                             {
@@ -430,6 +430,8 @@
                                     equipito = field['equipo'];
                                     convertida = new Date(dia);
                                     dia_formato = convertida.format("d/m/Y");
+                                    comentarios = field['comentarios'];
+                                    reinicio = field['reinicio'];
 
                                     if(equipito == "CO-BMU-009")
                                     {
@@ -441,19 +443,23 @@
                                     }
                                     
 
-                                    /*if(m_consumidos > medicion_dia_pasado)
-                                    {*/
-                                        valor_consumo = m_consumidos - medicion_dia_pasado;
-                                    //}
-                                    /*else
+                                    if(reinicio == 1)
                                     {
-                                        valor_consumo = medicion_dia_pasado - m_consumidos;
-                                    }*/
+                                        valor_consumo = m_consumidos
+                                        medicion_dia_pasado = 0;
+                                        comentarios = " "+comentarios;
+                                    }
+                                    else
+                                    {
+                                        valor_consumo = m_consumidos - medicion_dia_pasado;
+                                        medicion_dia_pasado = m_consumidos;
+                                    }
+                                    
 
                                     //console.log(valor_consumo);
-                                    constructorMedidores.push([dia_formato, valor_consumo, valor_consumo]);
+                                    constructorMedidores.push([dia_formato, valor_consumo, valor_consumo+comentarios]);
                                     
-                                    medicion_dia_pasado = m_consumidos;
+                                    
                                     /*console.log("v_min = "+field['v_min'] +" v_max= " + field['v_max'] + " l1_l2 = "+field['voltaje_l1_l2']);*/
                                 });// fin de each result
 
