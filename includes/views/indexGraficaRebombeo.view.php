@@ -263,9 +263,11 @@
                                             {
                                                 medicion_dia_pasado = data;
                                                 //alert(medicion_dia_pasado);
+
+                                                $('#medidores').html('<div style="text-align:center;"><img src="dist/img/loading.gif"/></div>');
+                                                google.charts.setOnLoadCallback(drawMedidores);
                                             }); 
-                                $('#medidores').html('<div style="text-align:center;"><img src="dist/img/loading.gif"/></div>');
-                                    google.charts.setOnLoadCallback(drawMedidores);
+                                
                               }
                               
                               
@@ -456,7 +458,7 @@
                                     }
                                     
 
-                                    //console.log(valor_consumo);
+                                    //console.log(medicion_dia_pasado);
                                     constructorMedidores.push([dia_formato, valor_consumo, valor_consumo+comentarios]);
                                     
                                     
