@@ -669,6 +669,47 @@
                 return objetoAjax;
             }
 
+            function funcion_buscar(clave)
+            {   
+                $("#recibeData").html("<img style='text-align:center;' src='dist/img/load_2019.gif'>");
+                $(".imagenArt").html("<img style='text-align:center;' src='dist/img/load_2019.gif'>");
+                var ajax = creaAjax();
+                ajax.open("GET", "helper_herramientas.php?consulta=NUEVO&clave="+clave, true);
+                ajax.onreadystatechange=function() 
+                { 
+                    if (ajax.readyState==1)
+                    {
+                      // Mientras carga ponemos un letrerito que dice "Verificando..."
+                      DestinoMsg.innerHTML='Verificando...';
+                    }
+                    if (ajax.readyState==4)
+                    {
+                        // Cuando ya terminó, ponemos el resultado
+                        var str = ajax.responseText;
+                        
+                        if(str == '*NO ENCONTRADO*')
+                        {
+                            $("#recibeData").text("Al parecer este artículo no está registrado en la Base de Datos...");
+                            $(".imagenArt").html("<img src='dist/img/no_disponible.png' width='100px' height='90px'>");
+                            //return false;
+                        }
+                        else
+                        {
+                            $.get("helper_herramientas.php", {consulta:"IMAGEN", clave:clave} ,function(data)
+                            { 
+                                $(".imagenArt").html(data);
+                            });
+
+                            $("#recibeData").html(str);
+                            $("#guardar").removeClass("hidden");
+                            //return false;
+                        }         
+                      
+                    } 
+                }
+                ajax.send(null);
+            }
+
             $("#buscar").on("click", function(e)
                 {
                     e.preventDefault();
@@ -681,43 +722,8 @@
                     if(clave != "")
                     {
                        
-                        $("#recibeData").html("<img style='text-align:center;' src='dist/img/load_2019.gif'>");
-                        $(".imagenArt").html("<img style='text-align:center;' src='dist/img/load_2019.gif'>");
-                        var ajax = creaAjax();
-                        ajax.open("GET", "helper_herramientas.php?consulta=NUEVO&clave="+clave, true);
-                        ajax.onreadystatechange=function() 
-                        { 
-                            if (ajax.readyState==1)
-                            {
-                              // Mientras carga ponemos un letrerito que dice "Verificando..."
-                              DestinoMsg.innerHTML='Verificando...';
-                            }
-                            if (ajax.readyState==4)
-                            {
-                                // Cuando ya terminó, ponemos el resultado
-                                var str = ajax.responseText;
-                                
-                                if(str == '*NO ENCONTRADO*')
-                                {
-                                    $("#recibeData").text("Al parecer este artículo no está registrado en la Base de Datos...");
-                                    $(".imagenArt").html("<img src='dist/img/no_disponible.png' width='100px' height='90px'>");
-                                    //return false;
-                                }
-                                else
-                                {
-                                    $.get("helper_herramientas.php", {consulta:"IMAGEN", clave:clave} ,function(data)
-                                    { 
-                                        $(".imagenArt").html(data);
-                                    });
-
-                                    $("#recibeData").html(str);
-                                    $("#guardar").removeClass("hidden");
-                                    //return false;
-                                }         
-                              
-                            } 
-                        }
-                        ajax.send(null);
+                        funcion_buscar(clave);
+                        //return false;
                     }
                     else
                     {
@@ -731,6 +737,21 @@
                 
               if (event.which == 13) 
               {
+
+                var clave = null;
+                clave = $("#clave").val();
+                $("#tamano").val(null);
+                $("#descripcion").val(null);
+                $("#tiempo_limite").val(null);
+                
+
+                if(clave != "")
+                {
+                   
+                    funcion_buscar(clave);
+                    //return false;
+                }
+                
                 return false;
               }
             });
