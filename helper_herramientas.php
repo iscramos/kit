@@ -54,15 +54,15 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 	                <div class='thumbnail' style=' padding:0px!important'>
 	                <span style='font-size:10px; background:#5C4283; color:white; float:left; padding:3px; border-radius:3px; width:60px; text-align: left; position:absolute; left:11px;'> $ ".$articulo->precio_unitario."</span>
 	                  <img style='width:140; height:100px;'  src='content/".$articulo->archivo."' >
-	                    <div class='caption' style='height:90px; padding: 3px 3px !important;'>
+	                    <div class='caption' style='height:90px; padding: 3px 3px !important; position:relative;'>
 	                        <h5 style='margin-bottom:0px; margin-top:0px; text-align:left;'>".$articulo->clave."</h5>
 	                        <p style='font-size:11px; text-align:left;'>".$articulo->descripcion."</p>
-	                        <br>
-	                        <p style='margin-bottom:15px !important; text-align:center; position:absolute; bottom:10px;'>";
+	                        
+	                        <p style='margin-bottom:15px !important; text-align:center; position:absolute; bottom:0px;'>";
 	                        	
 	                        	if($articulo->activaStock == 1)
 	                        	{
-	                        		$str.= "<h5><a href='indexHerramientas_salidas.php' style='color: #337AB7;'>Ver artículos salida</a></h5>";
+	                        		$str.= "<h5 style='position:absolute; bottom: 0px;'><a href='indexHerramientas_salidas.php' style='color: #337AB7;'>Ver artículos salida</a></h5>";
 	                        	}
 	                            else if( ($articulo->fecha_entrega && $articulo->descripcion_problema > 0) || $articulo->tipo_movimiento == null)
 	                            {
@@ -132,7 +132,7 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 	                <div class='thumbnail' style=' padding:0px!important'>
 	                <span style='font-size:10px; background:#5C4283; color:white; float:left; padding:3px; border-radius:3px; width:60px; text-align: left; position:absolute; left:11px;'> $ ".$articulo->precio_unitario."</span>
 	                  <img style='width:140; height:100px;'  src='content/".$articulo->archivo."' >
-	                    <div class='caption' style='height:90px; padding: 3px 3px !important;'>
+	                    <div class='caption' style='height:90px; padding: 3px 3px !important; position:relative;'>
 	                        <h5 style='margin-bottom:0px; margin-top:0px; text-align:left;'>".$articulo->clave."</h5>
 	                        <p style='font-size:11px; text-align:left;'>".$articulo->descripcion."</p>
 	                        <br>
@@ -207,7 +207,7 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 	                <div class='thumbnail' style=' padding:0px!important'>
 	                <span style='font-size:10px; background:#5C4283; color:white; float:left; padding:3px; border-radius:3px; width:60px; text-align: left; position:absolute; left:11px;'> $ ".$articulo->precio_unitario."</span>
 	                  <img style='width:140; height:100px;'  src='content/".$articulo->archivo."' >
-	                    <div class='caption' style='height:90px; padding: 3px 3px !important;'>
+	                    <div class='caption' style='height:90px; padding: 3px 3px !important; position:relative;'>
 	                        <h5 style='margin-bottom:0px; margin-top:0px; text-align:left;'>".$articulo->clave."</h5>
 	                        <p style='font-size:11px; text-align:left;'>".$articulo->descripcion."</p>
 	                        <br>
