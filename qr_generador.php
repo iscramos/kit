@@ -11,8 +11,9 @@ $str="";
 if(isset($_REQUEST['atributo']) && ($_SESSION["type"]==1)) // para el admimistrador
 {	
 	//$mes = $_GET['mes'];
-	$atributo = $_REQUEST['atributo'];
-	$consulta = $_REQUEST['consulta'];
+	/*$atributo = $_REQUEST['atributo'];
+	$consulta = $_REQUEST['consulta'];*/
+
 
 	//include('../lib/full/qrlib.php'); 
     //include('config.php'); 
@@ -23,6 +24,7 @@ if(isset($_REQUEST['atributo']) && ($_SESSION["type"]==1)) // para el admimistra
     // here our data 
     $atributo = $_REQUEST['atributo'];
 	$consulta = $_REQUEST['consulta'];
+    $tamano = $_REQUEST['tamano'];
 	$qr_destino = $url;
     // we building raw data 
     
@@ -34,7 +36,7 @@ if(isset($_REQUEST['atributo']) && ($_SESSION["type"]==1)) // para el admimistra
     $codeContents .= 'END:VCARD'; */
      
     // generating 
-    QRcode::png($codeContents, $tempDir.$atributo.'.png', QR_ECLEVEL_L, 2); 
+    QRcode::png($codeContents, $tempDir.$atributo.'.png', QR_ECLEVEL_L, $tamano); 
     
     // displaying 
     echo '<img src="'.$tempDir.$atributo.'.png" />'; 

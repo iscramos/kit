@@ -50,6 +50,17 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
+                                                <label class="col-sm-2 control-label">Tamaño</label>
+                                                <div class="col-sm-10">
+                                                    <select class="form-control" name="tamano" id="tamano">
+                                                        <option value="1">1</option>
+                                                        <option value="2" selected="selected">2</option>
+                                                        <option value="4">3</option>
+                                                        <option value="4">4</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">
                                                     <button type="submit" class="btn btn-default">Generar</button>
                                                 </div>
