@@ -3,7 +3,7 @@
     
     $familia_critica = array("ELECTRICA", "EMBARQUES", "FUMIGACION", "METROLOGIA", "REMOLQUES", "RIEGO", "TRACTORES");
 
-    $arrays = array("orfanelr@naturesweet.com", "sbarajas@naturesweet.com", "lramos@naturesweet.com");
+    $arrays = array("lramos@naturesweet.com", "tecnicocol@naturesweet.com", "sbarajas@naturesweet.com", "mmatias@naturesweet.com", "kmontano@naturesweet.com", "gangulo@naturesweet.com", "orfanelr@naturesweet.com", "lguzman@naturesweet.com", "javalos@naturesweet.com", "fhernandez@naturesweet.com", "yperalta@naturesweet.com", "emontero@naturesweet.com", "mcontreras@naturesweet.com", "efrainc@naturesweet.com", "srios@naturesweet.com", "nrodriguez@naturesweet.com", "hernandezj@naturesweet.com", "gernesto@naturesweet.com", "aochoa@naturesweet.com");
 
     function get_nombre_dia($fecha)
     {
