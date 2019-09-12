@@ -127,7 +127,7 @@
                                 
                                 if(str == '*NO ENCONTRADO*')
                                 {
-                                    $("#recibeData").text("Al parecer este asociado no cuenta con movmimientos en la Base de Datos...");
+                                    $("#recibeData").text("Al parecer este asociado no cuenta con movimientos en la Base de Datos...");
                                     //return false;
                                 }
                                 else

@@ -426,12 +426,22 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 						FROM herramientas_movimientos
 							LEFT JOIN zancos_problemas ON herramientas_movimientos.descripcion_problema = zancos_problemas.id
 						WHERE herramientas_movimientos.ns_salida_lider = $ns
-						ORDER BY herramientas_movimientos.id_registro DESC";
+						ORDER BY herramientas_movimientos.id_registro DESC"; 
 		$datos = Herramientas_movimientos::getAllByQuery($consulta);
 
-		if(isset($datos[0]))
+
+		$q = "SELECT herramientas_transacciones.*, herramientas_herramientas.descripcion, sum(herramientas_transacciones.cantidad) AS articulos_totales
+                FROM herramientas_transacciones
+                    INNER JOIN herramientas_herramientas ON herramientas_transacciones.clave = herramientas_herramientas.clave
+                    	WHERE herramientas_transacciones.codigo_asociado = $ns
+                    	GROUP BY herramientas_transacciones.id_transaccion
+                    		ORDER BY herramientas_transacciones.id_transaccion DESC"; 
+		
+		$herramientas_transacciones = Herramientas_transacciones::getAllByQuery($q);
+
+		if(isset($datos[0]) || isset($herramientas_transacciones[0]))
   		{
-  			$str.="<h4>TRANSACCIONES</h4>";
+  			$str.="<h4>PRESTAMOS</h4>";
   			$str.= "<table class='table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action'>";
   				$str.= "<thead>";
   					$str.= "<tr>";
@@ -547,6 +557,32 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 	                            }
 	                        }
 	                    $str.="</tr>";
+  					}
+  				$str.= "</tbody>";
+  			$str.= "</table>";
+  		
+  			$str.="<h4>DESPACHOS</h4>";
+  			$str.= "<table class='table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action'>";
+  				$str.= "<thead>";
+  					$str.="<tr>";
+                        $str.="<th style='text-align: center;'># DESPACHO</th>";
+                        $str.="<th style='text-align: center;'>FECHA</th>";
+                        $str.="<th style='text-align: center;'>NOMBRE DEL ASOCIADO</th>";
+                        $str.="<th style='text-align: center;'>ARTICULOS</th>";
+                        $str.="<th style='text-align: center;'>ACCION</th>";
+                    $str.="</tr>";
+  				$str.= "</thead>";
+  				$str.= "<tbody>";
+  					foreach ($herramientas_transacciones as $transaccion) 
+  					{
+  						$str.="<tr campoid='".$transaccion->id_transaccion."'>";
+                                                
+                            $str.="<td style='color:red;'>".$transaccion->id_transaccion."</td>";
+                            $str.="<td style='color:red;'>".date("d/m/Y", strtotime($transaccion->fecha))."</td>";
+                            $str.="<td style=''>".$transaccion->nombre."</td>";
+                            $str.="<td style='text-align:right;'>".$transaccion->articulos_totales."</td>";
+                            $str.="<td style='text-align:center;'><a type='button' target='_blank' href='helperExport.php?codigo_asociado=".$transaccion->codigo_asociado."&parametro=ARTICULOS_ENTREGA&nombre=".$transaccion->nombre."' class='btn btn-primary btn-xs'  title='Ver ticket' > Imprimir <i class='fa fa-file-text-o' aria-hidden='true'></i> </a></td>";
+                        $str.="</tr>";
   					}
   				$str.= "</tbody>";
   			$str.= "</table>";
