@@ -243,6 +243,7 @@
                             }
                             else
                             {
+                                $("#mandar").attr("disabled", true);
                                $("form:first").submit();
                             }
                             
