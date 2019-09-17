@@ -6,7 +6,7 @@ require_once('includes/inc.session.php');
 //$bloques = Bloques::getById($id);
 //print_r($bloques);
 $str="";
-if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==7)) // para el admimistrador
+if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==7 || $_SESSION["type"]==10)) // para el admimistrador
 {	
 	//$mes = $_GET['mes'];
 	$ano = $_GET['ano'];
@@ -135,13 +135,13 @@ if(isset($_GET['parametro']) && ($_SESSION["type"]==1 || $_SESSION["type"]==7)) 
 				$str.="<br><div class='form-group'>
 						<p style='text-align:center;'> - - - - COMPLEMENTAR DATOS - - - - </p>
 						    <div class='col-md-3'>
-						    	<label class='col-sm-2 control-label'>Semana</label>
+						    	<label>Semana</label>
 						      	<input type='number' class='form-control input-sm' id='semana' name='semana' value='".$semana."' readonly>
 						    </div>
-						    <div class='col-sm-3'>
+						    <div class='col-md-3'>
                                 <label >Fecha</label>
                                 <div class='input-group date' id='datetimepicker1'>
-                                    <input type='text' name='fecha' id='fecha' class='form-control' value='' autocomplete='off' required>
+                                    <input type='text' name='fecha' id='fecha' class='form-control input-sm' value='' autocomplete='off' required>
                                     <span class='input-group-addon'>
                                         <span class='glyphicon glyphicon-calendar'></span>
                                     </span>

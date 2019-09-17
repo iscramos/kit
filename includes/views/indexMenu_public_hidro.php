@@ -24,10 +24,12 @@
                             
                                 
 
-                                  echo "<li >
-                                            <a href='public_grafica_rebombeo.php'>Medidores</a>
+                                echo "<li >
+                                        <a href='public_grafica_rebombeo.php'>Medidores</a>
+                                    </li>";
+                                echo "<li >
+                                            <a href='public_sispa.php'>SISPA</a>
                                         </li>";
-                                
 
                                 /*echo "<li >
                                             <a href='public_zancos_desfase.php'>Zancos desfase</a>
