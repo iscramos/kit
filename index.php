@@ -246,7 +246,7 @@
                             <ul class="listita">
                                 <li><a href="public_zancos_dashboard.php" >Zancos</a></li>
                                 <li><a href="public_scanner.php" >QR Scanner</a></li>
-                                <li><a href="public_medidores.php" >Medidores</a></li>
+                                <li><a href="public_grafica_rebombeo.php" >Medidores</a></li>
                                 
                             </ul>
                         </p>

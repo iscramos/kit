@@ -6,7 +6,7 @@ require_once('includes/inc.session.php');
 //$bloques = Bloques::getById($id);
 //print_r($bloques);
 $str="";
-if(isset($_GET['equipo']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7)) // para el admimistrador
+if(isset($_GET['equipo']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_SESSION["type"]== 10)) // para el admimistrador
 {	
 	//$mes = $_GET['mes'];
 	$equipo = $_GET['equipo'];

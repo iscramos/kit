@@ -6,7 +6,7 @@ require_once('includes/inc.session.php');
 //$bloques = Bloques::getById($id);
 //print_r($bloques);
 $str="";
-if(isset($_REQUEST['consulta']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7)) // para el admimistrador
+if(isset($_REQUEST['consulta']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_SESSION["type"] == 10)) // para el admimistrador
 {
 	$consulta = $_GET['consulta'];
 
