@@ -786,7 +786,159 @@ if(isset($_REQUEST["parametro"]))
 			{
 				$pdf.="NO DATA";
 			}
-		}
+		}// fin de articulos entrega
+		else if($parametro == "ARTICULOS_PRESTADOS")
+		{
+			
+			if(isset($_REQUEST['reg']) )
+			{
+				
+				$reg = $_REQUEST["reg"];
+				$nombre = $_REQUEST["nombre"];
+				$fecha = date("d/m/Y H:i");
+
+				$a_nombre = $nombre;
+
+
+			   	$q = "SELECT herramientas_movimientos.*, zancos_acciones.accion, herramientas_herramientas.archivo AS archivo, herramientas_herramientas.descripcion AS descripcion
+					FROM  herramientas_movimientos
+					INNER JOIN herramientas_herramientas ON herramientas_movimientos.clave = herramientas_herramientas.clave
+					INNER JOIN zancos_acciones ON herramientas_movimientos.tipo_movimiento = zancos_acciones.id
+						WHERE herramientas_movimientos.id_registro = $reg
+					ORDER BY herramientas_movimientos.id_registro DESC";
+
+				$prestamo = Herramientas_movimientos::getAllByQuery($q);
+
+				$pdf.="<table style=' border-collapse:collapse;' border='0'>
+							<tr>
+					          <th width='600' colspan='6' style='text-align:center;'><img style='width:120; height:auto; text-align:center;' src='".$url."dist/img/naturesweet_picture.png'><br><br></th>
+					        </tr>
+					      	<tr>
+					          <th width='600' colspan='6' style='font-size:12px; text-align:center;'>NatureSweet Invernaderos S. de R.L. de C.V.
+						        <br>
+						        Planta Colima
+						        <br>
+						        Carretera a Minatitlán KM. 5.5 Camino a La Caja, 
+								<br>
+								Predio Copalitos, Villa de Álvarez, COL - 28970
+								<br>O: 312.316.39.00 www.naturesweet.com
+					          </th>
+					        </tr>
+					        <tr>
+					        	<th width='100' style='text-align:right;'> </th>
+					        	<th width='100' style='text-align:right;'> </th>
+					        	<th width='100' style='text-align:right;'> </th>
+					        	<th width='100' style='text-align:right;'> </th>
+					        	<th width='100' style='font-size:11px; text-align:right;'> Fecha. de impr. :</th>
+					          	<td width='100' style='font-size:11px; text-align:left; '> ".$fecha."</td>
+					        </tr>
+				      	</table>";
+				$pdf.="<br>";
+
+				
+
+				//print_r($segregaciones);
+				
+				$pdf.="<div style='text-align:center; padding:0; border: #D4D4D4 solid;'>";
+			    	$pdf.="<img style='width:80; height:auto; text-align:center;' src='".$contentRead.$prestamo[0]->archivo."'>";
+				$pdf.="</div>";
+					
+				$pdf.="<table style='font-size:12px; border-collapse:collapse;'  border='0'>";
+					
+						$pdf.="<tr>";
+							$pdf.="<th width='100' height='30' style='text-align:left; background: #D4D4D4;'>CLAVE</th>
+									<th width='500' height='30' style='text-align:left; background: #D4D4D4;'>DESCRIPCION</th>";
+						$pdf.="</tr>";
+							
+							foreach ($prestamo as $p) 
+							{
+								
+								
+								$pdf.="<tr>";
+									$pdf.="<td width='100' style='text-align:left; '>".$p->clave."</td>"; 
+									$pdf.="<td width='500' style='text-align:left; '>".$p->descripcion."</td>";
+								$pdf.="</tr>";
+							}
+				$pdf.="</table>";
+
+				    $pdf.="<br>";
+
+				    
+				    $atiende = $_SESSION["usr_nombre"];
+
+				    
+				    $pdf.="<div style=' border: #D4D4D4 dashed;'>
+				    		No. de préstamo: <b style='color:red;' >".$prestamo[0]->id_registro."</b>
+				    		<br>
+				     		Invernadero: <b>".$prestamo[0]->gh."</b>
+				    		<br>
+				    		Código: <b>".$prestamo[0]->ns_salida_lider."</b>
+				    		<br>
+				    		Fecha salida: <b>".date("d/m/Y", strtotime($prestamo[0]->fecha_salida))."</b>
+				    		
+				    		Fecha entrega: ________________
+				    		Fecha servicio: ________________
+				    		<br>
+				    		Problema: ________________
+				    		<br>
+				    		</div>";
+				    $pdf.="<br>";
+
+				    $pdf.="<div> No. de artículos: <b>1</b></div>";
+				    $pdf.="<div> Te atendió: <b>".$atiende."</b></div>";
+				    $pdf.="<br>";
+				    $pdf.="<br>";
+				    $pdf.="<br>";
+
+				    
+				    
+				    $pdf.="<div style='text-align:center; padding:0;'>";
+				    	$pdf.="<label style='font-size: 14;'><b>".$a_nombre."</b></label><br>";
+				    	$pdf.="__________________________________<br>";
+				    	$pdf.="<label style='font-size: 14;'>RECIBI PRESTAMO</label>";
+				    $pdf.="</div>";
+
+				require_once(dirname(__FILE__).'/pdf/html2pdf.class.php');
+				ob_start();
+				$contentFinal="<page backtop='15mm' backbottom='15mm' backleft='20mm' backright='20mm'>
+				  <page_header > 
+
+				  </page_header> 
+				  <page_footer>  
+				        <table  >
+				          <tr >
+				              <td>P&aacute;gina [[page_cu]]/[[page_nb]]</td>
+				            
+				          </tr>
+				        </table> 
+
+				       
+				  </page_footer>".$pdf."</page>";
+
+
+					  /*echo $contentFinal;
+					  die();*/
+
+					try
+					{
+
+					    $content = ob_get_clean(); 
+					    $html2pdf = new HTML2PDF('P', 'A4', 'fr');
+					    $html2pdf->pdf->SetDisplayMode('fullpage');
+					    $html2pdf->writeHTML($contentFinal, isset($_GET['vuehtml']));
+					    $html2pdf->Output($parametro."_reg_".$reg.".pdf","false"); 
+					}
+					catch(HTML2PDF_exception $e) 
+					{
+					    echo $e;
+					    exit;
+					}
+			}
+			else
+			{
+				$pdf.="NO DATA";
+			}
+		}// fin de articulos prestados
 		
 }		
 else

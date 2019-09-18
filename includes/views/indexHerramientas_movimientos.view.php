@@ -215,6 +215,8 @@
                                                 echo "<td>";
 
                                                     echo " <a type='button' href='indexHerramientas_movimientos_actualizar.php?action=EDIT&reg=$m->id_registro&mov=$m->tipo_movimiento&clave=$m->clave' class='btn btn-warning btn-xs'  title='Editar registro' >Editar</a>";
+
+                                                    echo "<a type='button' target='_blank' href='helperExport.php?parametro=ARTICULOS_PRESTADOS&nombre=".$m->nombre_lider_salida."&reg=".$m->id_registro."' class='btn btn-primary btn-xs'  title='Ver ticket' > Imprimir <i class='fa fa-file-text-o' aria-hidden='true'></i> </a>";
                                                     /*echo " <a type='button' class='btn btn-danger btn-circle btn-xs' data-toggle='confirmation' data-btn-ok-label='S&iacute;' data-btn-ok-icon='glyphicon glyphicon-share-alt' data-btn-ok-class='btn-danger' data-btn-cancel-label='No' data-btn-cancel-icon='glyphicon glyphicon-ban-circle' data-btn-cancel-class='btn-default'><span title='Eliminar registro'class='glyphicon glyphicon-remove' aria-hidden='true'></span></a>";*/
                                                    /* echo " <a class='btn btn-danger btn-circle btn-md' data-toggle='confirmation' data-singleton='true'  title='Eliminar registro'><i class='fa fa-times'></i></a>";*/
                                                 echo "</td>";
