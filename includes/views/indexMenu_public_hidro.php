@@ -31,6 +31,13 @@
                                             <a href='public_sispa.php'>SISPA</a>
                                         </li>";
 
+                                echo "<li >
+                                            <a href='public_concentrado.php'>Concentrado</a>
+                                        </li>";  
+                                echo "<li >
+                                            <a href='public_niveles.php'>Niveles</a>
+                                        </li>";                            
+
                                 /*echo "<li >
                                             <a href='public_zancos_desfase.php'>Zancos desfase</a>
                                         </li>";
