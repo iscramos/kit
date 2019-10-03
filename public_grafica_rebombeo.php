@@ -194,21 +194,21 @@
                                     dia_formato = convertida.format("d/m/Y");
                                     comentarios = field['comentarios'];
                                     reinicio = field['reinicio'];
+                                    m_consumidos = parseFloat(field['m_consumidos']);
 
-                                    if(equipito == "CO-BMU-009")
+                                    if(equipito != "CO-BMU-009")
                                     {
-                                        m_consumidos = parseFloat(field['m_consumidos']);
+                                        m_consumidos = m_consumidos * 10;
                                     }
-                                    else
-                                    {
-                                        m_consumidos = parseFloat(field['m_consumidos'] * 10 );
-                                    }
+                                    
+                                        
+                                    
                                     
 
                                     if(reinicio == 1)
                                     {
                                         valor_consumo = m_consumidos
-                                        medicion_dia_pasado = 0;
+                                        medicion_dia_pasado = m_consumidos;
                                         comentarios = " "+comentarios;
                                     }
                                     else
@@ -218,7 +218,7 @@
                                     }
                                     
 
-                                    //console.log(medicion_dia_pasado);
+                                    //console.log(dia_formato+" "+medicion_dia_pasado);
                                     constructorMedidores.push([dia_formato, valor_consumo, valor_consumo+comentarios]);
                                     
                                     
