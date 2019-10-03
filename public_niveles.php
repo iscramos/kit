@@ -96,9 +96,23 @@
                 <div style="text-align: center;" id="niveles">
 
                 </div><!-- fin del div center -->
+                
             
               </div>
             </div>
+            <div style="text-align: justify;">
+                    <p>
+                        <ul>
+                            <li>
+                                <b>NIVEL ESTÁTICO:</b> Es aquel que se mide cuando el pozo esta en su máximo nivel antes de que funcione la bomba, es decir; el pozo ya recuperado.
+                            </li>
+                            <li>
+                                <b>NIVEL DINÁMICO:</b> Es aquel que se mide cuando la bomba esta trabajando, para ver cuanto ha bajado el nivel y observar cuanto demora en recuperarse.
+                            </li>
+                        </ul>
+
+                    </p>
+                </div><!-- fin del div center -->
           </div>  
         </div>
 
