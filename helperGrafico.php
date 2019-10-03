@@ -78,7 +78,7 @@ if(isset($_REQUEST['equipo']) && ($_SESSION["type"]==1 || $_SESSION["type"]==6 |
 						FROM bd_rebombeo
 						INNER JOIN disponibilidad_activos ON bd_rebombeo.equipo = disponibilidad_activos.activo
 						INNER JOIN tipoMedicion_rebombeo ON bd_rebombeo.tipo = tipoMedicion_rebombeo.id
-							WHERE bd_rebombeo.fechaLectura 
+							WHERE DATE_FORMAT(bd_rebombeo.fechaLectura, '%Y-%m-%d') 
 								BETWEEN '$inicio' 
 									AND '$fin'
 								AND bd_rebombeo.equipo = '$equipo'

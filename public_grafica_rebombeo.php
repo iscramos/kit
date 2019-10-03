@@ -218,7 +218,7 @@
                                     }
                                     
 
-                                    //console.log(dia_formato+" "+medicion_dia_pasado);
+                                    //console.log(dia_formato);
                                     constructorMedidores.push([dia_formato, valor_consumo, valor_consumo+comentarios]);
                                     
                                     
