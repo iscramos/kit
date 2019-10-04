@@ -26,7 +26,18 @@ if(isset($_GET["consulta"]))
 
 		if (count($piezas) > 0) 
 		{
-			
+			$str.="<table class='table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action'>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>CLAVE</th>
+                            <th>DESCRIPCION</th>
+                            <th>UDM</th>
+                            <th>STOCK</th>
+                            <th>ACCION</th>
+                        </tr>
+                    </thead>
+                    <tbody >";
 			
 			$i = 1;
 			foreach ($piezas as $p) 
@@ -49,6 +60,8 @@ if(isset($_GET["consulta"]))
 
 				$i++;
 			}
+			$str.="</tbody>
+                </table>";
 		}
 		else
 		{
@@ -153,5 +166,23 @@ echo $str;
 	    }
 	        
 	});
+
+	$('.dataTables-example').DataTable({
+                    'lengthMenu': [[10, -1], [10, 'Todo']],  
+                    'language':{
+                        oPaginate: {
+                            'sNext' : 'Siguiente',
+                            'sPrevious': 'Anterior'
+                        },
+                        'search': 'Buscar ',
+                        'sNext': 'Siguiente',
+                        'sPrevious': 'Anterior',
+                        'lengthMenu': '_MENU_ Registros por página',
+                        'zeroRecords': 'Nada encontrado',
+                        'info': 'Mostrando página _PAGE_ de _PAGES_',
+                        'infoEmpty': 'No registros disponibles',
+                        'infoFiltered': '(filtrado de _MAX_ registros totales)'
+                    }
+                });
 
 </script>

@@ -213,22 +213,10 @@
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		        <h4 class="modal-title" id="myModalLabel">Productos para despacho</h4>
 		      </div>
-		      <div class="modal-body" >   
-                <table class='table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action'>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>CLAVE</th>
-                            <th>DESCRIPCION</th>
-                            <th>UDM</th>
-                            <th>STOCK</th>
-                            <th>ACCION</th>
-                        </tr>
-                    </thead>
-                    <tbody id="divdestino">
+		      <div class="modal-body" id="divdestino">   
+                
                         <!-- contenido -->
-                    </tbody>
-                </table>
+                    
 		  
 		      </div>
 		      <div class="modal-footer">
@@ -477,7 +465,7 @@
                 };
 
                 $('.dataTables-example').DataTable({
-                    'lengthMenu': [[10, -1], [10, 'Todo']], 
+                    'lengthMenu': [[10, -1], [10, 'Todo']],  
                     'language':{
                         oPaginate: {
                             'sNext' : 'Siguiente',
