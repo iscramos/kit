@@ -305,6 +305,7 @@
                         
                         /*url = "helperExport.php?codigo_asociado="+codigo_asociado+"&parametro="+parametro;
                         window.open(url, '_blank');*/
+                        $("#aprobar").attr("disabled", true);
 
                         $.post( 'createHerramienta_transaccion.php', {codigo_asociado: codigo_asociado, nombre:nombre})
                         .done(function( data )
@@ -334,6 +335,8 @@
                         $("#mensaje").fadeTo(1000, 700).slideUp(700, function(){
                         $("#mensaje").slideUp(1000);
                         });
+
+                        $("#aprobar").attr("disabled", false);
                     }
                     
                     return false;
@@ -367,6 +370,7 @@
                         codigo_asociado = $("#codigo_asociado").val();
                     consulta = "PIEZAS_BUSQUEDA";
                     ajaxCargaDatos("divdestino", consulta, codigo_asociado);
+                    $("#aprobar").attr("disabled", false);
                 });
 
                 // para buscar zancos por enter
@@ -393,6 +397,7 @@
                           {
                             if(data == "SI")
                             {
+                                $("#aprobar").attr("disabled", false);
                                 /*$("#mensaje").text("Producto agregado...");
                                 $("#mensaje").removeClass();
                                 $("#mensaje").addClass('alert alert-success');
