@@ -52,7 +52,7 @@
                                         </td>
                                         <td style="background: #2DB67C; color:white; vertical-align:middle; text-align: center;">
                                             <h3>
-                                                <?php echo count($zancos_total) + count($zancos_stock); ?>
+                                                <?php echo count($zancos_total) + count($zancos_stock)+ count($zancos_solo_activados); ?>
                                             </h3>
                                         </td>
                                         <td style="vertical-align:middle; text-align: center;">
@@ -80,6 +80,14 @@
                                                                     $x++;
                                                                 }
                                                             }
+
+                                                            foreach ($zancos_solo_activados as $solo) 
+                                                            {
+                                                                if ($solo->tamano == $t->id) 
+                                                                {
+                                                                    $x++;
+                                                                }
+                                                            }
                                                             echo "<td style='text-align:right;'><button class='btn btn-sm' style='background: #2DB67C; color:white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
@@ -96,7 +104,7 @@
                                         </td>
                                         <td style="background: #218838; color:white; vertical-align:middle; text-align: center;">
                                             <h3>
-                                                <?php echo count($zancos_activo); ?>
+                                                <?php echo count($zancos_activo) + count($zancos_solo_activados); ?>
                                             </h3>
                                         </td>
                                         <td style="vertical-align:middle; text-align: center;">
@@ -113,6 +121,15 @@
                                                             foreach ($zancos_activo as $activo) 
                                                             {
                                                                 if ($activo->tamano == $t->id) 
+                                                                {
+                                                                    $x++;
+                                                                    
+                                                                }
+                                                            }
+
+                                                            foreach ($zancos_solo_activados as $solo) 
+                                                            {
+                                                                if ($solo->tamano == $t->id) 
                                                                 {
                                                                     $x++;
                                                                 }

@@ -161,8 +161,8 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 9 || $_SESSION["type"] 
 						(SELECT no_zanco
                        		FROM zancos_movimientos
                        	)
-                    AND zancos_bd.tamano = $tamano;
-                    /*AND no_zanco > 0*/";
+                    AND zancos_bd.tamano = $tamano
+                    AND no_zanco = 0";
 		$zancos_stock = Zancos_bd::getAllByQuery($consulta);
 
 		$str.="<table class='table header-fixed jambo_table dataTables_wrapper'>";
@@ -362,6 +362,17 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 9 || $_SESSION["type"] 
 		$zancos_activo = Zancos_bd::getAllByQuery($consulta);
 
 
+		$consulta = "SELECT zancos_bd.*, zancos_tamanos.tamano AS tamano_descripcion FROM zancos_bd
+					INNER JOIN zancos_tamanos ON zancos_bd.tamano = zancos_tamanos.id
+					WHERE zancos_bd.no_zanco NOT IN 
+						(SELECT no_zanco
+                       		FROM zancos_movimientos
+                       	)
+                    AND zancos_bd.tamano = $tamano
+                    AND no_zanco > 0";
+		$zancos_solo_activados = Zancos_bd::getAllByQuery($consulta);
+
+
 		$str.="<table class='table header-fixed jambo_table dataTables_wrapper'>";
 				$str.="<thead>";
 					$str.="<tr>";
@@ -379,6 +390,16 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 9 || $_SESSION["type"] 
 							$str.="<td style='width: 20%'>".$i."</td>";
 							$str.="<td style='width: 40%'>".$disponible->no_zanco."</td>";
 							$str.="<td style='width: 40%'>".$disponible->tamano_descripcion."</td>";
+						$str.="</tr>";
+						$i++;
+					}
+
+					foreach ($zancos_solo_activados as $solo) 
+					{
+						$str.="<tr>";
+							$str.="<td style='width: 20%'>".$i."</td>";
+							$str.="<td style='width: 40%'>".$solo->no_zanco."</td>";
+							$str.="<td style='width: 40%'>".$solo->tamano_descripcion."</td>";
 						$str.="</tr>";
 						$i++;
 					}

@@ -72,7 +72,7 @@
             (SELECT no_zanco
                           FROM zancos_movimientos
                         )
-                    /*AND no_zanco > 0*/";
+                    AND no_zanco = 0";
   $zancos_stock = Zancos_bd::getAllByQuery($consulta);
 
   //echo "<pre>"; print_r($zancos_stock); echo "</pre>";
@@ -146,6 +146,14 @@
               AND m.fecha_servicio <> 0) )";
   $zancos_activo = Zancos_bd::getAllByQuery($consulta);
 
+  $consulta = "SELECT * FROM zancos_bd
+          WHERE no_zanco NOT IN 
+            (SELECT no_zanco
+                          FROM zancos_movimientos
+                        )
+                    AND no_zanco > 0";
+  $zancos_solo_activados = Zancos_bd::getAllByQuery($consulta);
+
   $consulta = "SELECT m.*, zancos_tamanos.tamano AS tamano_descripcion
 
       FROM zancos_movimientos m
@@ -196,11 +204,13 @@
                         <td style="vertical-align:middle; text-align: center;">
                             <i class="fa fa-database fa-3x" aria-hidden="true" style="color: #2DB67C;"></i>
                             <h3 style="color: black;">TOTAL</h3>
+                            (DISPONIBLES + CAMPO + SERVICIO + STOCK)
                         </td>
                         <td style="background: #2DB67C; color:white; vertical-align:middle; text-align: center;">
                             <h3>
-                                <?php echo count($zancos_total) + count($zancos_stock); ?>
+                                <?php echo count($zancos_total) + count($zancos_stock) + count($zancos_solo_activados); ?>
                             </h3>
+
                         </td>
                         <td style="vertical-align:middle; text-align: center;">
                             <i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i>
@@ -227,6 +237,14 @@
                                                     $x++;
                                                 }
                                             }
+
+                                            foreach ($zancos_solo_activados as $solo) 
+                                            {
+                                                if ($solo->tamano == $t->id) 
+                                                {
+                                                    $x++;
+                                                }
+                                            }
                                             echo "<td style='text-align:right;'><button class='btn btn-sm' style='background: #2DB67C; color:white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
                                         echo "</tr>";
                                     }
@@ -243,7 +261,7 @@
                         </td>
                         <td style="background: #218838; color:white; vertical-align:middle; text-align: center;">
                             <h3>
-                                <?php echo count($zancos_activo); ?>
+                                <?php echo count($zancos_activo) + count($zancos_solo_activados); ?>
                             </h3>
                         </td>
                         <td style="vertical-align:middle; text-align: center;">
@@ -260,6 +278,13 @@
                                             foreach ($zancos_activo as $activo) 
                                             {
                                                 if ($activo->tamano == $t->id) 
+                                                {
+                                                    $x++;
+                                                }
+                                            }
+                                            foreach ($zancos_solo_activados as $solo) 
+                                            {
+                                                if ($solo->tamano == $t->id) 
                                                 {
                                                     $x++;
                                                 }
@@ -525,11 +550,13 @@
                         <td style="vertical-align:middle; text-align: center;">
                             <i class="fa fa-home fa-3x" aria-hidden="true" style="color: #5A6268;"></i>
                             <h3 style="color: black;">STOCK</h3>
+                            (Sin asignar número)
                         </td>
                         <td style="background: #5A6268; color: white; vertical-align:middle; text-align: center;">
                             <h3>
                                 <?php echo count($zancos_stock); ?>
                             </h3>
+
                         </td>
                         <td style="vertical-align:middle; text-align: center;">
                             <i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i>

@@ -61,7 +61,7 @@ if($_SESSION["type"] == 9)
 						(SELECT no_zanco
                        		FROM zancos_movimientos
                        	)
-                    /*AND no_zanco > 0*/";
+                    AND no_zanco = 0";
 	$zancos_stock = Zancos_bd::getAllByQuery($consulta);
 
 	//echo "<pre>"; print_r($zancos_stock); echo "</pre>";
@@ -134,6 +134,15 @@ if($_SESSION["type"] == 9)
 			  		OR (m.tipo_movimiento = 3
 			  			AND m.fecha_servicio <> 0) )";
 	$zancos_activo = Zancos_bd::getAllByQuery($consulta);
+
+	$consulta = "SELECT * FROM zancos_bd
+					WHERE no_zanco NOT IN 
+						(SELECT no_zanco
+                       		FROM zancos_movimientos
+                       	)
+                    AND no_zanco > 0";
+	$zancos_solo_activados = Zancos_bd::getAllByQuery($consulta);
+	//print_r($zancos_solo_activados)
 
 	$consulta = "SELECT m.*, zancos_tamanos.tamano AS tamano_descripcion
 

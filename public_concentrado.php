@@ -50,7 +50,7 @@
           
             
           <div class="col-md-12 col-sm-12 col-xs-12">
-              <form class='form-inline pull-right' style="padding-bottom: 10px;">
+              <form class='form-inline pull-right hidden' style="padding-bottom: 10px;">
                     
                 <div class="form-group">
                     <select class="form-control input-sm" id="equipo" >
@@ -110,7 +110,7 @@
               <div class="x_content">
                 <!-- aqui va el contenido -->
                 <div style="text-align: center;" id="medidores">
-
+                    EN CONSTRUCCION
                 </div><!-- fin del div center -->
             
               </div>
