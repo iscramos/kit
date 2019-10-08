@@ -63,7 +63,7 @@
                                                 echo "<td style='color:red;'>".date("d/m/Y", strtotime($transaccion->fecha))."</td>";
                                                 echo "<td style=''>".$transaccion->nombre."</td>";
                                                 echo "<td style='text-align:right;'>".$transaccion->articulos_totales."</td>";
-                                                echo "<td style='text-align:center;'><a type='button' target='_blank' href='helperExport.php?codigo_asociado=".$transaccion->codigo_asociado."&parametro=ARTICULOS_ENTREGA&nombre=".$transaccion->nombre."' class='btn btn-primary btn-xs'  title='Ver ticket' > Imprimir <i class='fa fa-file-text-o' aria-hidden='true'></i> </a></td>";
+                                                echo "<td style='text-align:center;'><a type='button' target='_blank' href='helperExport.php?codigo_asociado=".$transaccion->codigo_asociado."&parametro=ARTICULOS_ENTREGA&nombre=".$transaccion->nombre."&despacho=".$transaccion->id_transaccion."' class='btn btn-primary btn-xs'  title='Ver ticket' > Imprimir <i class='fa fa-file-text-o' aria-hidden='true'></i> </a></td>";
                                                 
                                                 
                                                 /*echo "<td>";

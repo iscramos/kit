@@ -637,6 +637,7 @@ if(isset($_REQUEST["parametro"]))
 				$codigo_asociado = $_REQUEST["codigo_asociado"];
 				$nombre = $_REQUEST["nombre"];
 				$fecha = date("d/m/Y H:i");
+				$despacho = $_REQUEST["despacho"];
 
 				$a_nombre = $nombre;
 
@@ -645,7 +646,7 @@ if(isset($_REQUEST["parametro"]))
                 		FROM herramientas_transacciones
                     		INNER JOIN herramientas_herramientas ON herramientas_transacciones.clave = herramientas_herramientas.clave
                     		INNER JOIN herramientas_udm ON herramientas_herramientas.id_udm = herramientas_udm.id
-                       	 	WHERE herramientas_transacciones.codigo_asociado = $codigo_asociado";    
+                       	 	WHERE herramientas_transacciones.id_transaccion = $despacho";    
 
     			$temporales = Herramientas_temporal::getAllByQuery($q);
 
@@ -691,10 +692,13 @@ if(isset($_REQUEST["parametro"]))
 					$pdf.="</tr>";
 						setlocale(LC_MONETARY, 'es_MX');
 						$total = 0;
+						$articulos = 0;
 						foreach ($temporales as $temporal) 
 						{
 							$subtotal = ($temporal->cantidad) * ($temporal->precio_unitario);
 							$total = $total + $subtotal;
+
+							$articulos += $temporal->cantidad;
 
 							$subtotal = money_format('%#10n', $subtotal, 10);
 							
@@ -726,7 +730,7 @@ if(isset($_REQUEST["parametro"]))
 
 				    //$letra = num2letras($total_flotante);
 				    $letra = NumeroALetras::convertir($total_flotante, 'pesos', 'centimos');
-				    $articulos = count($temporales);
+				    //$articulos = count($temporales);
 				    
 				    $atiende = $_SESSION["usr_nombre"];
 				    $pdf.="<div><b>".$letra."</b></div>";
