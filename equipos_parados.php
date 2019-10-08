@@ -10,7 +10,7 @@
     $activos_equipos = Disponibilidad_activos::getAllByQuery($query);
     //include(VIEW_PATH.'indexMenu.php');
 
-    $arrays = array("orfanelr@naturesweet.com", "sbarajas@naturesweet.com", "lramos@naturesweet.com");
+    $arrays = array("orfanelr@naturesweet.com", "sbarajas@naturesweet.com", "lramos@naturesweet.com", "coriae@naturesweet.com", "fherrera@naturesweet.com", "izamora@naturesweet.com", "jmdiaz@naturesweet.com");
 
 $q = "SELECT  disponibilidad_data.ot, disponibilidad_data.descripcion AS descripcion, disponibilidad_activos.descripcion AS descripcion_equipo
         FROM disponibilidad_data

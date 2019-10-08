@@ -464,25 +464,6 @@
                     ajax.send(null);
                 };
 
-                $('.dataTables-example').DataTable({
-                    'lengthMenu': [[10, -1], [10, 'Todo']],  
-                    'language':{
-                        oPaginate: {
-                            'sNext' : 'Siguiente',
-                            'sPrevious': 'Anterior'
-                        },
-                        'search': 'Buscar ',
-                        'sNext': 'Siguiente',
-                        'sPrevious': 'Anterior',
-                        'lengthMenu': '_MENU_ Registros por página',
-                        'zeroRecords': 'Nada encontrado',
-                        'info': 'Mostrando página _PAGE_ de _PAGES_',
-                        'infoEmpty': 'No registros disponibles',
-                        'infoFiltered': '(filtrado de _MAX_ registros totales)'
-                    }
-                });
-                
-
             }); // end ready
         </script>
 </body>
