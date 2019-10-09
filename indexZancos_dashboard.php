@@ -16,7 +16,9 @@ if($_SESSION["type"] == 9)
 
 	$zancos_tamanos = Zancos_tamanos::getAllByOrden("id", "ASC");
 
-	$consulta = "SELECT * FROM zancos_ghs GROUP BY zona ORDER BY zona ASC";
+	$consulta = "SELECT * FROM zancos_ghs 
+					WHERE zona <> '*'
+					GROUP BY zona ORDER BY zona ASC";
 	$zancos_zonas = Zancos_ghs::getAllByQuery($consulta);
 	
 	$consulta = "SELECT m.*, zancos_tamanos.tamano AS tamano_descripcion
