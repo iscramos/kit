@@ -15,35 +15,47 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 	{
 		$id_categoria = $_REQUEST["id_categoria"];
 
-		$consulta = "SELECT herramientas_herramientas.*,
-					(SELECT herramientas_movimientos.tipo_movimiento
+		/*$consulta = "SELECT herramientas_herramientas.*,
+					(SELECT tipo_movimiento
 						FROM herramientas_movimientos 
 							WHERE clave = herramientas_herramientas.clave
-								ORDER BY herramientas_herramientas.clave 
-									DESC LIMIT 1
+								AND id_registro = (SELECT MAX(id_registro) FROM herramientas_movimientos )
 					)  AS tipo_movimiento,
-					(SELECT herramientas_movimientos.fecha_entrega
+					(SELECT fecha_entrega
 						FROM herramientas_movimientos 
 							WHERE clave = herramientas_herramientas.clave
-								ORDER BY herramientas_herramientas.clave 
-									DESC LIMIT 1
+								AND id_registro = (SELECT MAX(id_registro) FROM herramientas_movimientos )
 					)  AS fecha_entrega,
-					(SELECT herramientas_movimientos.fecha_servicio
+					(SELECT fecha_servicio
 						FROM herramientas_movimientos 
 							WHERE clave = herramientas_herramientas.clave
-								ORDER BY herramientas_herramientas.clave 
-									DESC LIMIT 1
+								AND id_registro = (SELECT MAX(id_registro) FROM herramientas_movimientos )
 					)  AS fecha_servicio,
-					(SELECT herramientas_movimientos.descripcion_problema
+					(SELECT descripcion_problema
 						FROM herramientas_movimientos 
 							WHERE clave = herramientas_herramientas.clave
-								ORDER BY herramientas_herramientas.clave 
-									DESC LIMIT 1
+								AND id_registro = (SELECT MAX(id_registro) FROM herramientas_movimientos )
 					)  AS descripcion_problema
 				FROM herramientas_herramientas
-				WHERE herramientas_herramientas.id_categoria = $id_categoria";
+				WHERE herramientas_herramientas.id_categoria = $id_categoria";*/
 
 				//echo $consulta;
+
+		$consulta = "SELECT h.*,
+					   m.id_registro,
+				       m.tipo_movimiento,
+				       m.fecha_entrega,
+				       m.descripcion_problema
+				  FROM herramientas_herramientas h
+				  LEFT JOIN herramientas_movimientos m
+				    ON m.clave = h.clave
+				   	AND m.id_registro = (SELECT max(m2.id_registro)
+				                               FROM herramientas_movimientos m2
+				                              WHERE m2.clave = m.clave)
+				    WHERE h.id_categoria = $id_categoria";
+			  
+
+			  //echo $consulta;
 
 		$herramientas_herramientas = Herramientas_herramientas::getAllByQuery($consulta);
 		if(count($herramientas_herramientas) > 0)
@@ -95,33 +107,42 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 	
     	$id_marca = $_REQUEST["id_marca"];
 
-		$consulta = "SELECT herramientas_herramientas.*,
-					(SELECT herramientas_movimientos.tipo_movimiento
+		/*$consulta = "SELECT herramientas_herramientas.*,
+					(SELECT tipo_movimiento
 						FROM herramientas_movimientos 
 							WHERE clave = herramientas_herramientas.clave
-								ORDER BY herramientas_herramientas.clave 
-									DESC LIMIT 1
+								AND id_registro = (SELECT MAX(id_registro) FROM herramientas_movimientos )
 					)  AS tipo_movimiento,
-					(SELECT herramientas_movimientos.fecha_entrega
+					(SELECT fecha_entrega
 						FROM herramientas_movimientos 
 							WHERE clave = herramientas_herramientas.clave
-								ORDER BY herramientas_herramientas.clave 
-									DESC LIMIT 1
+								AND id_registro = (SELECT MAX(id_registro) FROM herramientas_movimientos )
 					)  AS fecha_entrega,
-					(SELECT herramientas_movimientos.fecha_servicio
+					(SELECT fecha_servicio
 						FROM herramientas_movimientos 
 							WHERE clave = herramientas_herramientas.clave
-								ORDER BY herramientas_herramientas.clave 
-									DESC LIMIT 1
+								AND id_registro = (SELECT MAX(id_registro) FROM herramientas_movimientos )
 					)  AS fecha_servicio,
-					(SELECT herramientas_movimientos.descripcion_problema
+					(SELECT descripcion_problema
 						FROM herramientas_movimientos 
 							WHERE clave = herramientas_herramientas.clave
-								ORDER BY herramientas_herramientas.clave 
-									DESC LIMIT 1
+								AND id_registro = (SELECT MAX(id_registro) FROM herramientas_movimientos )
 					)  AS descripcion_problema
 				FROM herramientas_herramientas
-				WHERE herramientas_herramientas.id_marca = $id_marca";
+				WHERE herramientas_herramientas.id_marca = $id_marca";*/
+
+		$consulta = "SELECT h.*,
+					   m.id_registro,
+				       m.tipo_movimiento,
+				       m.fecha_entrega,
+				       m.descripcion_problema
+				  FROM herramientas_herramientas h
+				  LEFT JOIN herramientas_movimientos m
+				    ON m.clave = h.clave
+				   	AND m.id_registro = (SELECT max(m2.id_registro)
+				                               FROM herramientas_movimientos m2
+				                              WHERE m2.clave = m.clave)
+				    WHERE h.id_marca = $id_marca";
 
 		$herramientas_herramientas = Herramientas_herramientas::getAllByQuery($consulta);
 		if(count($herramientas_herramientas) > 0)
@@ -136,11 +157,11 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 	                        <h5 style='margin-bottom:0px; margin-top:0px; text-align:left;'>".$articulo->clave."</h5>
 	                        <p style='font-size:11px; text-align:left;'>".$articulo->descripcion."</p>
 	                        <br>
-	                        <p style='margin-bottom:15px !important; text-align:center; position:absolute; bottom:10px;'>";
+	                        <p style='margin-bottom:15px !important; text-align:center; position:absolute; bottom:0px;'>";
 
 	                        	if($articulo->activaStock == 1)
 	                        	{
-	                        		$str.= "<h5><a href='indexHerramientas_salidas.php' style='color: #337AB7;'>Ver artículos salida</a></h5>";
+	                        		$str.= "<h5 style='position:absolute; bottom: 0px;'><a href='indexHerramientas_salidas.php' style='color: #337AB7;'>Ver artículos salida</a></h5>";
 	                        	}
 	                            else if( ($articulo->fecha_entrega > 0 && $articulo->descripcion_problema > 0) || $articulo->tipo_movimiento == null)
 	                            {
@@ -170,33 +191,41 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 	
     	$clave = $_REQUEST["clave"];
 
-		$consulta = "SELECT herramientas_herramientas.*,
-					(SELECT herramientas_movimientos.tipo_movimiento
+		/*$consulta = "SELECT herramientas_herramientas.*,
+					(SELECT tipo_movimiento
 						FROM herramientas_movimientos 
 							WHERE clave = herramientas_herramientas.clave
-								ORDER BY herramientas_herramientas.clave 
-									DESC LIMIT 1
+								AND id_registro = (SELECT MAX(id_registro) FROM herramientas_movimientos )
 					)  AS tipo_movimiento,
-					(SELECT herramientas_movimientos.fecha_entrega
+					(SELECT fecha_entrega
 						FROM herramientas_movimientos 
 							WHERE clave = herramientas_herramientas.clave
-								ORDER BY herramientas_herramientas.clave 
-									DESC LIMIT 1
+								AND id_registro = (SELECT MAX(id_registro) FROM herramientas_movimientos )
 					)  AS fecha_entrega,
-					(SELECT herramientas_movimientos.fecha_servicio
+					(SELECT fecha_servicio
 						FROM herramientas_movimientos 
 							WHERE clave = herramientas_herramientas.clave
-								ORDER BY herramientas_herramientas.clave 
-									DESC LIMIT 1
+								AND id_registro = (SELECT MAX(id_registro) FROM herramientas_movimientos )
 					)  AS fecha_servicio,
-					(SELECT herramientas_movimientos.descripcion_problema
+					(SELECT descripcion_problema
 						FROM herramientas_movimientos 
 							WHERE clave = herramientas_herramientas.clave
-								ORDER BY herramientas_herramientas.clave 
-									DESC LIMIT 1
+								AND id_registro = (SELECT MAX(id_registro) FROM herramientas_movimientos )
 					)  AS descripcion_problema
 				FROM herramientas_herramientas
-				WHERE herramientas_herramientas.clave = '$clave'";
+				WHERE herramientas_herramientas.clave = '$clave'";*/
+			$consulta = "SELECT h.*,
+					   m.id_registro,
+				       m.tipo_movimiento,
+				       m.fecha_entrega,
+				       m.descripcion_problema
+				  FROM herramientas_herramientas h
+				  LEFT JOIN herramientas_movimientos m
+				    ON m.clave = h.clave
+				   	AND m.id_registro = (SELECT max(m2.id_registro)
+				                               FROM herramientas_movimientos m2
+				                              WHERE m2.clave = m.clave)
+				    WHERE h.clave = '$clave'";
 				//echo $consulta;
 		$herramientas_herramientas = Herramientas_herramientas::getAllByQuery($consulta);
 		if(count($herramientas_herramientas) > 0)
@@ -211,11 +240,11 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 	                        <h5 style='margin-bottom:0px; margin-top:0px; text-align:left;'>".$articulo->clave."</h5>
 	                        <p style='font-size:11px; text-align:left;'>".$articulo->descripcion."</p>
 	                        <br>
-	                        <p style='margin-bottom:15px !important; text-align:center; position:absolute; bottom:10px;'>";
+	                        <p style='margin-bottom:15px !important; text-align:center; position:absolute; bottom:0px;'>";
 
 	                        	if($articulo->activaStock == 1)
 	                        	{
-	                        		$str.= "<h5><a href='indexHerramientas_salidas.php' style='color: #337AB7;'>Ver artículos salida</a></h5>";
+	                        		$str.= "<h5 style='position:absolute; bottom: 0px;'><a href='indexHerramientas_salidas.php' style='color: #337AB7;'>Ver artículos salida</a></h5>";
 	                        	}
 	                            else if( ($articulo->fecha_entrega > 0 && $articulo->descripcion_problema > 0) || $articulo->tipo_movimiento == null)
 	                            {
