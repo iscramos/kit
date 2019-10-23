@@ -76,7 +76,7 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 	                        	{
 	                        		$str.= "<h5 style='position:absolute; bottom: 0px;'><a href='indexHerramientas_salidas.php' style='color: #337AB7;'>Ver artículos salida</a></h5>";
 	                        	}
-	                            else if( ($articulo->fecha_entrega && $articulo->descripcion_problema > 0) || $articulo->tipo_movimiento == null)
+	                            else if( ($articulo->fecha_entrega && $articulo->descripcion_problema > 0) || ($articulo->tipo_movimiento == null && $articulo->fecha_retirado == 0 ) )
 	                            {
 	                            	$str.="<a href='indexherramientas_movimientos.php?clave=".$articulo->clave."' class='btn btn-warning btn-xs pull-center ' role='button' title='Ver préstamos'>HISTORIAL</a>";
 
@@ -163,7 +163,7 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 	                        	{
 	                        		$str.= "<h5 style='position:absolute; bottom: 0px;'><a href='indexHerramientas_salidas.php' style='color: #337AB7;'>Ver artículos salida</a></h5>";
 	                        	}
-	                            else if( ($articulo->fecha_entrega > 0 && $articulo->descripcion_problema > 0) || $articulo->tipo_movimiento == null)
+	                            else if( ($articulo->fecha_entrega > 0 && $articulo->descripcion_problema > 0) || ($articulo->tipo_movimiento == null && $articulo->fecha_retirado == 0))
 	                            {
 	                            	$str.="<a href='indexherramientas_movimientos.php?clave=".$articulo->clave."' class='btn btn-warning btn-xs pull-center ' role='button' title='Ver préstamos'>HISTORIAL</a>";
 
@@ -246,7 +246,7 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 	                        	{
 	                        		$str.= "<h5 style='position:absolute; bottom: 0px;'><a href='indexHerramientas_salidas.php' style='color: #337AB7;'>Ver artículos salida</a></h5>";
 	                        	}
-	                            else if( ($articulo->fecha_entrega > 0 && $articulo->descripcion_problema > 0) || $articulo->tipo_movimiento == null)
+	                            else if( ($articulo->fecha_entrega > 0 && $articulo->descripcion_problema > 0) || ($articulo->tipo_movimiento == null && $articulo->fecha_retirado == 0))
 	                            {
 	                            	$str.="<a href='indexherramientas_movimientos.php?clave=".$articulo->clave."' class='btn btn-warning btn-xs pull-center ' role='button' title='Ver préstamos'>HISTORIAL</a>";
 
