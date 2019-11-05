@@ -23,9 +23,13 @@
                             <div class="x_title">
                                 <h2><i class="fa fa-cogs"></i> Registros <small>en el sistema</small></h2>
                                 <ul class="nav navbar-right panel_toolbox">
-                                  <li>
-                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                  </li>
+                                    <li>
+                                        <a class=" text-success" title="Exportar a .XLSX" href="helperExcel_personalizado.php?parametro=STOCK_ALMACEN" target="_blank"><i class="fa fa-file-text "></i></a>
+                                    </li>
+                                    <li>
+                                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                  
                                 </ul>
                                 <div class="clearfix"></div>
                             </div>
