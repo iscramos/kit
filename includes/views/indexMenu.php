@@ -161,6 +161,11 @@
                                     echo "<li>
                                             <a href='indexHerramientas_dashboard.php'><i class='fa fa-desktop' aria-hidden='true'></i>Dashboard</a>
                                         </li>";
+
+                                echo "<li><a><i class='fa fa-calculator'></i> REPORTES <span class='fa fa-chevron-down'></span></a>
+                                    <ul class='nav child_menu'>
+                                        <li><a href='indexHerramientas_reportes_stock.php'>Stock</a></li>
+                                  </li>";
                             }
                             elseif ($_SESSION["type"] == 6) // for taller mecanico
                             {
