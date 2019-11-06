@@ -528,25 +528,25 @@ date_default_timezone_set('Europe/London');
             ),
             'borders' => array(
                 'top' => array(
-                    'style' => PHPExcel_Style_Border::BORDER_MEDIUM ,
+                    'style' => PHPExcel_Style_Border::BORDER_THIN ,
                     'color' => array(
                         'rgb' => '000000'
                     )
                 ),
                 'bottom' => array(
-                    'style' => PHPExcel_Style_Border::BORDER_MEDIUM ,
+                    'style' => PHPExcel_Style_Border::BORDER_THIN ,
                     'color' => array(
                         'rgb' => '000000'
                     )
                 ),
                 'right' => array(
-                    'style' => PHPExcel_Style_Border::BORDER_MEDIUM ,
+                    'style' => PHPExcel_Style_Border::BORDER_THIN ,
                     'color' => array(
                         'rgb' => '000000'
                     )
                 ),
                 'left' => array(
-                    'style' => PHPExcel_Style_Border::BORDER_MEDIUM ,
+                    'style' => PHPExcel_Style_Border::BORDER_THIN ,
                     'color' => array(
                         'rgb' => '000000'
                     )
@@ -874,6 +874,183 @@ if( isset($_REQUEST["parametro"]) )
         // Redirect output to a client’s web browser (Excel2007)
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="ALMACEN_STOCK.xlsx"');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
+
+        // If you're serving to IE over SSL, then the following may be needed
+        header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+        header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header ('Pragma: public'); // HTTP/1.0
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save('php://output');
+        exit;
+
+    }
+    if ($parametro == "ZANCOS_DESFASE") 
+    {
+            
+                # code...
+                // Create new PHPExcel object
+                $objPHPExcel = new PHPExcel();
+
+                // Set document properties
+                $objPHPExcel->getProperties()->setCreator("Nature Sweet Planta Colima")
+                                             ->setLastModifiedBy("KIT")
+                                             ->setTitle("KT")
+                                             ->setSubject("Reporte Zancos en Desfase")
+                                             ->setDescription("ZANCOS")
+                                             ->setKeywords("- L")
+                                             ->setCategory("PRODUCCION");
+
+
+                // Add some data
+                $objPHPExcel->setActiveSheetIndex(0)
+                            ->setCellValue('A1', '')
+                            ->mergeCells('A1:I1')
+                            ->setCellValue('A2', 'REPORTE ZANCOS EN DESFASE')
+                            ->mergeCells('A2:I2')
+                            ->setCellValue('A3', 'ZANCO')
+                            ->setCellValue('B3', 'TAMAÑO')
+                            ->setCellValue('C3', 'DESAFASE SEMANAS')
+                            ->setCellValue('D3', 'ULTIMO REGISTRO')
+                            ->setCellValue('E3', 'ZONA')
+                            ->setCellValue('F3', 'GH')
+                            ->setCellValue('G3', 'FECHA SALIDA')
+                            ->setCellValue('H3', 'CODIGO')
+                            ->setCellValue('I3', 'NOMBRE');
+
+
+                $objPHPExcel->getActiveSheet()->getStyle('A1:I1')->applyFromArray($estiloPrimero);
+                $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(5);
+                $objPHPExcel->getActiveSheet()->getStyle('A2:I2')->applyFromArray($estiloTituloReporte);
+                $objPHPExcel->getActiveSheet()->getRowDimension('2')->setRowHeight(50);
+                /*$objPHPExcel->getActiveSheet()->getStyle('A3:E3')->applyFromArray($estiloInformativo); // para datos informativos
+                $objPHPExcel->getActiveSheet()->getStyle('F3:W3')->applyFromArray($estiloPersonal); // para datos personales
+                $objPHPExcel->getActiveSheet()->getStyle('X3:BF3')->applyFromArray($estiloAcademico); // para datos academicos
+                $objPHPExcel->getActiveSheet()->getStyle('BG3:BK3')->applyFromArray($estiloProfesional); // para datos profesionales
+                $objPHPExcel->getActiveSheet()->getRowDimension('3')->setRowHeight(25);*/
+
+                $objPHPExcel->getActiveSheet()->getStyle('A3')->applyFromArray($columna3); // para datos informativos
+                $objPHPExcel->getActiveSheet()->getStyle('B3')->applyFromArray($columna3); // para datos informativos
+                $objPHPExcel->getActiveSheet()->getStyle('C3')->applyFromArray($columna3); // para datos informativos
+                $objPHPExcel->getActiveSheet()->getStyle('D3')->applyFromArray($columna3); // para datos informativos
+                $objPHPExcel->getActiveSheet()->getStyle('E3')->applyFromArray($columna3); // para datos informativos
+                $objPHPExcel->getActiveSheet()->getStyle('F3')->applyFromArray($columna3); // para datos informativos
+                $objPHPExcel->getActiveSheet()->getStyle('G3')->applyFromArray($columna3); // para datos informativos
+                $objPHPExcel->getActiveSheet()->getStyle('H3')->applyFromArray($columna3); // para datos informativos
+                $objPHPExcel->getActiveSheet()->getStyle('I3')->applyFromArray($columna3); // para datos informativos
+
+                $objPHPExcel->getActiveSheet()->getRowDimension('3')->setRowHeight(20);
+
+                $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
+                $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
+                $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(25);
+                $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(25);
+                $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(10);
+                $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(10);
+                $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(25);
+                $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(25);
+                $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(100);
+
+                
+                $fecha_hoy = date("Y-m-d");
+    
+                $q = "SELECT m.*, zancos_tamanos.tamano AS tamano_descripcion
+
+                    FROM zancos_movimientos m
+                    INNER JOIN
+                    (
+                        SELECT max(id_registro) reg, no_zanco, fecha_salida
+                        FROM zancos_movimientos
+                        GROUP BY no_zanco
+                    ) m2
+                      ON m.no_zanco = m2.no_zanco
+                      INNER JOIN zancos_tamanos ON m.tamano = zancos_tamanos.id
+                      AND m.id_registro = m2.reg
+                      AND m.tipo_movimiento = 3
+                      AND m.fecha_entrega = 0
+                      AND (DATEDIFF('$fecha_hoy', m.fecha_salida) ) > (m.tiempo_limite * 7)
+                    order by m.no_zanco ASC";
+                      
+                $zancos_movimientos = Zancos_movimientos::getAllByQuery($q);
+                
+                $pocision = 4;
+                $registro = 1;
+
+                foreach ($zancos_movimientos as $zanco):
+                {
+                    
+                   // aquí sacamos los años, para ver si son mayores a 1.5 años
+                    $fechaHoy = date_create(date("Y-m-d"));
+                    $fecha_salida = date_create($zanco->fecha_salida);
+
+                            $d_dias = date_diff($fechaHoy, $fecha_salida);
+                            $d_dias = $d_dias->format('%a');
+                            $semanas_limite = $zanco->tiempo_limite;
+                            $semanas_convertidas = $d_dias / 7;
+                            $semanas_convertidas = round($semanas_convertidas, 2);
+                   
+                   
+                        $diferencia_semanas = $semanas_convertidas - $semanas_limite;
+                               
+                      
+                       
+                        
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$pocision, $zanco->no_zanco);
+                    $objPHPExcel->getActiveSheet()->getStyle('A'.$pocision)->applyFromArray($blanco);
+
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$pocision, $zanco->tamano_descripcion);
+                    $objPHPExcel->getActiveSheet()->getStyle('B'.$pocision)->applyFromArray($blanco);
+
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$pocision, $diferencia_semanas);
+                    $objPHPExcel->getActiveSheet()->getStyle('C'.$pocision)->applyFromArray($rojo);
+
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$pocision, $zanco->id_registro);
+                    $objPHPExcel->getActiveSheet()->getStyle('D'.$pocision)->applyFromArray($blanco);
+
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$pocision, $zanco->zona);
+                    $objPHPExcel->getActiveSheet()->getStyle('E'.$pocision)->applyFromArray($blanco);
+
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$pocision, $zanco->gh);
+                    $objPHPExcel->getActiveSheet()->getStyle('F'.$pocision)->applyFromArray($blanco);
+
+                    if($zanco->fecha_salida > 0)
+                    {
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$pocision, date("d-m-Y", strtotime($zanco->fecha_salida)));
+                        $objPHPExcel->getActiveSheet()->getStyle('G'.$pocision)->applyFromArray($blanco);
+                    }
+                    else
+                    {
+                        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$pocision, '-');
+                        $objPHPExcel->getActiveSheet()->getStyle('G'.$pocision)->applyFromArray($blanco);
+                    }
+                    
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$pocision, $zanco->ns_salida_lider);
+                    $objPHPExcel->getActiveSheet()->getStyle('H'.$pocision)->applyFromArray($blanco);
+
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$pocision, $zanco->nombre_lider_salida);
+                    $objPHPExcel->getActiveSheet()->getStyle('I'.$pocision)->applyFromArray($blanco);
+                    
+                    $registro++;
+                    $pocision++;
+                }
+                endforeach;
+            
+
+        // Rename worksheet
+        $objPHPExcel->getActiveSheet()->setTitle('KIT ZANCOS');
+
+
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $objPHPExcel->setActiveSheetIndex(0);
+
+
+        // Redirect output to a client’s web browser (Excel2007)
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="ZANCOS_DESFASE.xlsx"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');

@@ -130,8 +130,8 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 						}*/
 						$str.="<th>ESTADO</th>";
 						$str.="<th>LIMITE</th>
-						<th>CIERRE</th>
-						<th>* MOTIVO </th>";
+						<th>CIERRE</th>";
+						/*<th>* MOTIVO </th>";*/
 			$str.="</tr>
 			</thead>
 			</tbody>";
@@ -158,7 +158,7 @@ if( ($_SESSION["type"]==1 || $_SESSION["type"]==6 || $_SESSION["type"]==7 || $_S
 
 					$str.="<td class='bg-success'>".date("d-M", strtotime($orden->fecha_finalizacion_programada))."</td>";
 					$str.="<td >".$fecha_fin_tecnico."</td>";
-					$str.="<td >".$orden->motivo."</td>";
+					//$str.="<td >".$orden->motivo."</td>";
 				$str.="</tr>";
 			}
 	$str.="</tbody>

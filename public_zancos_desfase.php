@@ -21,7 +21,7 @@
           AND m.tipo_movimiento = 3
           AND m.fecha_entrega = 0
           AND (DATEDIFF('$fecha_hoy', m.fecha_salida) ) > (m.tiempo_limite * 7)
-        order by m.id_registro desc";
+        order by m.no_zanco ASC";
           
     $zancos_movimientos = Zancos_movimientos::getAllByQuery($q);
  ?>
@@ -41,9 +41,12 @@
           
           
             <div class="col-md-12 col-sm-12 col-xs-12">
+                <a class=" pull-right" title="Descargar registros" style="margin-bottom: 5px; " href="helperExcel_personalizado.php?parametro=ZANCOS_DESFASE" target="_BLANK"><img src="dist/img/excel.png" width="24px"></a>
+                
               <div class="x_panel">
-                    
+                        
                 <div class="x_content">
+
                 <!-- aqui va el contenido -->
                 <table class="table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action" >
                     <thead>
