@@ -52,7 +52,8 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 				   	AND m.id_registro = (SELECT max(m2.id_registro)
 				                               FROM herramientas_movimientos m2
 				                              WHERE m2.clave = m.clave)
-				    WHERE h.id_categoria = $id_categoria";
+				    WHERE h.id_categoria = $id_categoria
+				   	ORDER BY h.clave ASC";
 			  
 
 			  //echo $consulta;
@@ -142,7 +143,8 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 				   	AND m.id_registro = (SELECT max(m2.id_registro)
 				                               FROM herramientas_movimientos m2
 				                              WHERE m2.clave = m.clave)
-				    WHERE h.id_marca = $id_marca";
+				    WHERE h.id_marca = $id_marca
+				    ORDER BY h.clave ASC";
 
 		$herramientas_herramientas = Herramientas_herramientas::getAllByQuery($consulta);
 		if(count($herramientas_herramientas) > 0)
@@ -225,7 +227,8 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
 				   	AND m.id_registro = (SELECT max(m2.id_registro)
 				                               FROM herramientas_movimientos m2
 				                              WHERE m2.clave = m.clave)
-				    WHERE h.clave = '$clave'";
+				    WHERE h.clave = '$clave'
+				    ORDER BY h.clave ASC";
 				//echo $consulta;
 		$herramientas_herramientas = Herramientas_herramientas::getAllByQuery($consulta);
 		if(count($herramientas_herramientas) > 0)

@@ -274,6 +274,10 @@ $variableHTML = ob_get_clean();
                               {
                                    echo "<img src='".$url."dist/img/bomba.png' alt='...' class='img-responsive'>";
                               }
+                              else if(strpos($critico->activo, 'CO-BSC') !== false)
+                              {
+                                   echo "<img src='".$url."dist/img/bascula.png' alt='...' class='img-responsive'>";
+                              }
                               else
                               {
                                   echo "<img src='' alt='...' class='img-responsive'>";

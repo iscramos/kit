@@ -132,12 +132,19 @@
                                         
                                     </div>
                                     <div class="row">
-                                        <div class="form-group col-sm-4">
-                                            <label ></label>
+                                        <div class="form-group col-sm-1">
+                                            <label >CANTIDAD</label>
+                                            <div class="input-group " style="margin-bottom: 0px;">
+                                                <input type="number" name="temp_cantidad" id="temp_cantidad" class="form-control" min="1" value="1" autocomplete="off" required>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-3">
+                                            <label class="text-primary">CLAVE</label>
                                             <div class="input-group " style="margin-bottom: 0px;">
                                                 <input type="text" name="clave" id="clave" class="form-control" value="" autofocus="autofocus" autocomplete="off" required="">
                                                 <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-default" id="buscar" title="Buscar artículo"> <span class='glyphicon glyphicon-search'></span> </button>
+                                                    <button type="button" class="btn btn-primary" id="buscar" title="Buscar artículo"> <span class='glyphicon glyphicon-search'></span> </button>
                                                 </span>
                                             </div>
                                         </div>
@@ -165,10 +172,10 @@
                                                 <thead>
                                                     <tr>
                                                         <!--th>#</th-->
-                                                        <th>Clave</th>
-                                                        <th>Descripcion</th>
-                                                        <th>Cantidad</th>
-                                                        <th>Acción</th>
+                                                        <th>CLAVE</th>
+                                                        <th>DESCRIPCION</th>
+                                                        <th>CANTIDAD</th>
+                                                        <th>ACCION</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="articulos_ingresados">
@@ -366,6 +373,7 @@
 
                 $("#buscar").on("click", function(e)
                 {
+                    $("#temp_cantidad").val(1);
                     var codigo_asociado = null;
                         codigo_asociado = $("#codigo_asociado").val();
                     consulta = "PIEZAS_BUSQUEDA";
@@ -377,17 +385,20 @@
                 $( "#clave" ).keypress(function( event ) 
                 {
                     var clave = $(this).val();
+                    var cantidad = null;
+                        cantidad = $("#temp_cantidad").val();
 
-                    if (event.which == 13 && clave != "") 
+                    if (event.which == 13 && clave != "" && cantidad > 0) 
                     {
                         event.preventDefault();
                         var clave = null;
                         var codigo = null;
-                        var cantidad = null;
+                        
 
                             clave = $(this).val();
                             codigo = $("#codigo_asociado").val();
-                            cantidad = 1;
+                            //cantidad = 1;
+                            
                             consulta = "VALIDA_STOCK";
 
                             $("#mensaje").html(null);
@@ -438,6 +449,7 @@
                                 
                           });
                         
+                        $("#temp_cantidad").val(1);
                             
                         $(this).val(null);
                     }
