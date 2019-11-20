@@ -9,6 +9,7 @@ $no_zanco = NULL;
 $parte = NULL;
 $problema = NULL;
 $notas = NULL;
+$fecha = NULL;
 
 /*echo "<pre>";
 	print_r($_POST);
@@ -43,6 +44,7 @@ else
 		$parte = $_POST["pieza_parte"];
 		$problema = $_POST["pieza_problema"];
 		$notas = sanitize_output($_POST["pieza_notas"]);
+		$fecha = date("Y-m-d");
 		
 
 		// new object
@@ -53,6 +55,7 @@ else
 		$historial->parte = $parte;
 		$historial->problema = $problema;
 		$historial->notas = $notas;
+		$historial->fecha = $fecha;
 		$historial->save();
 
 		echo "PIEZA AGREGADA AL HISTORIAL...";

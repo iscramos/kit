@@ -25,7 +25,8 @@
     $consulta_historial = "SELECT zancos_historial_piezas.*, zancos_problemas.descripcion AS descripcion_problema, zancos_partes.descripcion AS descripcion_pieza 
               FROM zancos_historial_piezas
                   INNER JOIN zancos_problemas ON zancos_historial_piezas.problema = zancos_problemas.id
-                  INNER JOIN zancos_partes ON zancos_historial_piezas.parte = zancos_partes.parte";
+                  INNER JOIN zancos_partes ON zancos_historial_piezas.parte = zancos_partes.parte
+                  ORDER BY zancos_historial_piezas.fecha DESC";
           
     $zancos_historial = Zancos_historial_piezas::getAllByQuery($consulta_historial);
     //print_r($_SESSION);
@@ -97,7 +98,8 @@
                                 <tr>
                                 
                                     <th>#</th>
-                                    <th>NO ZANCO</th>
+                                    <th>FECHA</th>
+                                    <th>ZANCO</th>
                                     <th>PIEZA</th>
                                     <th>DESCRIPCION</th>
                                     <th>PROBLEMA</th>
@@ -112,6 +114,15 @@
                                 {
                                     echo "<tr>";
                                         echo "<td>".$i."</td>";
+                                        if($historial->fecha > 0)
+                                        {
+                                          echo "<td>".date("d-m-Y", strtotime($historial->fecha))."</td>";  
+                                        }
+                                        else
+                                        {
+                                          echo "<td></td>";
+                                        }
+                                        
                                         echo "<td>".$historial->no_zanco."</td>";
                                         echo "<td><a class='verPieza' title='Ver pieza' href='#' style='color: darkorange !important;' valueSee='".$historial->parte."'>".$historial->parte."</a></td>";
                                         echo "<td>".$historial->descripcion_pieza."</td>";

@@ -8,6 +8,7 @@ class Zancos_historial_piezas {
 	public $parte;
 	public $problema;
 	public $notas;
+	public $fecha;
 
 	
 	public static function getBySql($sql) {
@@ -145,7 +146,7 @@ class Zancos_historial_piezas {
 			$statement->execute();
 			
 			// Bind variable to prepared statement
-			$statement->bind_result($id, $id_registro, $parte, $problema, $notas);
+			$statement->bind_result($id, $id_registro, $parte, $problema, $notas, $fecha);
 			
 			// Populate bind variables
 			$statement->fetch();
@@ -164,6 +165,7 @@ class Zancos_historial_piezas {
 		$object->parte = $parte;
 		$object->problema = $problema;
 		$object->notas = $notas;
+		$object->fecha = $fecha;
 		return $object;
 	}
 	
@@ -177,7 +179,7 @@ class Zancos_historial_piezas {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "insert into zancos_historial_piezas (id_registro, no_zanco, parte, problema, notas) values (?, ?, ?, ?, ?)";
+		$sql = "insert into zancos_historial_piezas (id_registro, no_zanco, parte, problema, notas, fecha) values (?, ?, ?, ?, ?, ?)";
 		
 		// Open database connection
 		$database = new Database();
@@ -189,7 +191,7 @@ class Zancos_historial_piezas {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('iisis', $this->id_registro, $this->no_zanco, $this->parte, $this->problema, $this->notas);
+			$statement->bind_param('iisiss', $this->id_registro, $this->no_zanco, $this->parte, $this->problema, $this->notas, $this->fecha);
 			
 			// Execute statement
 			$statement->execute();
@@ -214,7 +216,7 @@ class Zancos_historial_piezas {
 		$affected_rows = FALSE;
 	
 		// Build database query
-		$sql = "update zancos_historial_piezas set id_registro = ?, no_zanco = ?, parte = ?, problema = ?, notas = ? where id = ?";
+		$sql = "update zancos_historial_piezas set id_registro = ?, no_zanco = ?, parte = ?, problema = ?, notas = ?, fecha = ? where id = ?";
 		
 		// Open database connection
 		$database = new Database();
@@ -226,7 +228,7 @@ class Zancos_historial_piezas {
 		if ($statement->prepare($sql)) {
 			
 			// Bind parameters
-			$statement->bind_param('iisisi', $this->id_registro, $this->no_zanco, $this->parte, $this->problema, $this->notas, $this->id_registro);
+			$statement->bind_param('iisissi', $this->id_registro, $this->no_zanco, $this->parte, $this->problema, $this->notas, $this->fecha, $this->id_registro);
 			
 			// Execute statement
 			$statement->execute();
