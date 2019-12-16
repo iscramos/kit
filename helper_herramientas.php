@@ -613,7 +613,7 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5) ) // para herramient
                             $str.="<td style='color:red;'>".date("d/m/Y", strtotime($transaccion->fecha))."</td>";
                             $str.="<td style=''>".$transaccion->nombre."</td>";
                             $str.="<td style='text-align:right;'>".$transaccion->articulos_totales."</td>";
-                            $str.="<td style='text-align:center;'><a type='button' target='_blank' href='helperExport.php?codigo_asociado=".$transaccion->codigo_asociado."&parametro=ARTICULOS_ENTREGA&nombre=".$transaccion->nombre."' class='btn btn-primary btn-xs'  title='Ver ticket' > Imprimir <i class='fa fa-file-text-o' aria-hidden='true'></i> </a></td>";
+                            $str.="<td style='text-align:center;'><a type='button' target='_blank' href='helperExport.php?despacho=".$transaccion->id_transaccion."&codigo_asociado=".$transaccion->codigo_asociado."&parametro=ARTICULOS_ENTREGA&nombre=".$transaccion->nombre."' class='btn btn-primary btn-xs'  title='Ver ticket' > Imprimir <i class='fa fa-file-text-o' aria-hidden='true'></i> </a></td>";
                         $str.="</tr>";
   					}
   				$str.= "</tbody>";
