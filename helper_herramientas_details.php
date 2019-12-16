@@ -13,7 +13,7 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5 || $_SESSION["type"] 
 	
 	$str.="<style type='text/css'> 
 				
-				table {
+				.tablita {
   					border-spacing: 0px;
   					border:none !important;
   				}
@@ -66,7 +66,7 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5 || $_SESSION["type"] 
 
 		
 
-		$str.="<table class='table header-fixed jambo_table dataTables_wrapper'>";
+		$str.="<table class='tablita header-fixed jambo_table dataTables_wrapper'>";
 				$str.="<thead>";
 					$str.="<tr>";
 						$str.="<td style='width: 10%'>#</td>";
@@ -104,7 +104,7 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5 || $_SESSION["type"] 
 
 		
 
-		$str.="<table class='table header-fixed jambo_table dataTables_wrapper'>";
+		$str.="<table class='tablita header-fixed jambo_table dataTables_wrapper'>";
 				$str.="<thead>";
 					$str.="<tr>";
 						$str.="<td style='width: 10%'>#</td>";
@@ -149,7 +149,7 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5 || $_SESSION["type"] 
 	//echo $consulta;
 	$herramientas_servicio = Herramientas_movimientos::getAllByQuery($consulta);
 
-		$str.="<table class='table header-fixed jambo_table dataTables_wrapper'>";
+		$str.="<table class='tablita header-fixed jambo_table dataTables_wrapper'>";
 				$str.="<thead>";
 					$str.="<tr>";
 						$str.="<td style='width: 10%'>#</td>";
@@ -196,14 +196,14 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5 || $_SESSION["type"] 
 	//print_r($herramientas_prestadas);
 
 
-		$str.="<table class='table header-fixed jambo_table dataTables_wrapper'>";
+		$str.="<table class='table table-condensed table-bordered table-striped table-hover dataTables-example dataTables_wrapper jambo_table bulk_action' style='width: 100%;'>";
 				$str.="<thead>";
 					$str.="<tr>";
-						$str.="<td style='width: 10%'>#</td>";
-						$str.="<td style='width: 20%'>CLAVE</td>";
-						$str.="<td style='width: 50%'>DESCRIPCION</td>";
-						$str.="<td style='width: 10%'>ZONA</td>";
-						$str.="<td style='width: 10%'>GH</td>";
+						$str.="<td >#</td>";
+						$str.="<td >CLAVE</td>";
+						$str.="<td >DESCRIPCION</td>";
+						$str.="<td >ZONA</td>";
+						$str.="<td >GH</td>";
 					$str.="</tr>";
 				$str.="</thead>";
 				$str.="<tbody>";
@@ -212,11 +212,11 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5 || $_SESSION["type"] 
 					foreach ($herramientas_prestadas as $campo) 
 					{
 						$str.="<tr>";
-							$str.="<td style='width: 10%'>".$i."</td>";
-							$str.="<td style='width: 20%'>".$campo->clave."</td>";
-							$str.="<td style='width: 50%'>".$campo->descripcion."</td>";
-							$str.="<td style='width: 10%'>".$campo->zona."</td>";
-							$str.="<td style='width: 10%'>".$campo->gh."</td>";
+							$str.="<td >".$i."</td>";
+							$str.="<td >".$campo->clave."</td>";
+							$str.="<td >".$campo->descripcion."</td>";
+							$str.="<td >".$campo->zona."</td>";
+							$str.="<td >".$campo->gh."</td>";
 						$str.="</tr>";
 						$i++;
 					}
@@ -260,7 +260,7 @@ if(isset($_REQUEST['consulta']) && ($_SESSION["type"] == 5 || $_SESSION["type"] 
 		$herramientas_stock = Herramientas_herramientas::getAllByQuery($consulta);
 
 
-		$str.="<table class='table header-fixed jambo_table dataTables_wrapper'>";
+		$str.="<table class='tablita header-fixed jambo_table dataTables_wrapper'>";
 				$str.="<thead>";
 					$str.="<tr>";
 						$str.="<td style='width: 10%'>#</td>";
@@ -309,4 +309,23 @@ echo $str;
 
 
 ?>
-<style type="text/css"></style>
+<script type='text/javascript'>
+	
+	$('.dataTables-example').DataTable({
+                //responsive: true,
+                'language':{
+                    'oPaginate': {
+                        'sNext' : 'Siguiente',
+                        'sPrevious': 'Anterior'
+                    },
+                    'search': 'Buscar ',
+                    'sNext': 'Siguiente',
+                    'sPrevious': 'Anterior',
+                    'lengthMenu': '_MENU_ Registros por página',
+                    'zeroRecords': 'Nada encontrado',
+                    'info': 'Mostrando página _PAGE_ de _PAGES_',
+                    'infoEmpty': 'No registros disponibles',
+                    'infoFiltered': '(filtrado de _MAX_ registros totales)'
+                }
+            });
+</script>
