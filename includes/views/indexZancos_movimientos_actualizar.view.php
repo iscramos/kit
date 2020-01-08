@@ -601,69 +601,12 @@
                             
                                 </form>
                                 </div>
-                                <?php 
-                                    if(isset($zancos_movimientos[0]->no_zanco))
-                                    {
-                                        ?>
-                                <div class="row">
-                                    <hr>
-                                
-                                    <div class="col-sm-4 text-center zoom">
-                                        <h4>MODEL IV</h4> 
-                                        <img id="zoom_zanco" class="img img-thumbnail" src="content/partes_zancos/model4.jpg" width="100%">
-                                    </div>
-                                    <!-- COMIENZA EL HISTORAL DE PIEZAS DAÑADAS -->
-                                    <div class="col-sm-8 ">
-                                        
-                                        <i>HISTORIAL DE PIEZAS</i>
-                                        <button class="btn btn-sm btn-primary pull-right" title="Añadir detalle de piezas" id="agregaPieza">
-                                            <span class='glyphicon glyphicon-plus'></span>
-                                        </button>
-                                        <table class="table table-condensed table-bordered table-striped  table-hover dataTables_wrapper jambo_table bulk_action" id="piezas_tabla">
-                                            <thead>
-                                                <tr>
-                                                    <th>REGISTRO</th>
-                                                    <th>PIEZA</th>
-                                                    <th>DESCRIPCION</th>
-                                                    <th>PROBLEMA</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php 
-                                                    
-                                                        $zanco_temporal = $zancos_movimientos[0]->no_zanco;
-                                                        $consulta_historial = "SELECT zancos_historial_piezas.*, zancos_problemas.descripcion AS descripcion_problema, zancos_partes.descripcion AS descripcion_pieza 
-                                                                FROM zancos_historial_piezas
-                                                                    INNER JOIN zancos_problemas ON zancos_historial_piezas.problema = zancos_problemas.id
-                                                                    INNER JOIN zancos_partes ON zancos_historial_piezas.parte = zancos_partes.parte
-                                                                            WHERE zancos_historial_piezas.no_zanco = $zanco_temporal";
-                                                        //echo $consulta_historial;
-                                                        $zancos_historial = Zancos_historial_piezas::getAllByQuery($consulta_historial);
-
-                                                        foreach ($zancos_historial as $historial) 
-                                                        {
-                                                            echo "<tr>";
-                                                                echo "<td>".$historial->id_registro."</td>";
-                                                                echo "<td>".$historial->parte."</td>";
-                                                                echo "<td>".$historial->descripcion_pieza."</td>";
-                                                                echo "<td>".$historial->descripcion_problema."</td>";
-                                                            echo "</tr>";
-                                                        }
-                                                     
-                                                    
-                                                ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!-- TERMINA EL HISTORAL DE PIEZAS DAÑADAS -->
-                                </div>
-                                <?php 
-                                }
-                                ?>
-
                             </div>
                         </div>
                     </div> <!-- fin class='' -->
+                    <div class="row" id="VerHistorial">
+                        
+                    </div>
                 </div>
                  <br>
                  <br>
@@ -674,26 +617,27 @@
     </div> 
 
 
-  		<!-- Modal -->
-		<div class="modal fade" id="modalAgregar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Agregar detalles de pieza</h4>
-		      </div>
-		      <div class="modal-body ">
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalAgregar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Agregar detalles de pieza</h4>
+              </div>
+              <div class="modal-body ">
                 <form name='frmtipo' class="form-horizontal" id="respuesta">
-		  
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-		        <button type="button" class="btn btn-primary hidden" id="enviar" data-dismiss="modal">Guardar</button>
-		      </div>
+          
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary hidden" id="enviar" data-dismiss="modal">Guardar</button>
+              </div>
                 </form>
-		    </div>
-		  </div>
-		</div>
+            </div>
+          </div>
+        </div>
 
 
 
@@ -764,6 +708,14 @@
                                     $("#recibeData").html(str);
                                      $("#guardar").removeClass("hidden");
                                     //return false;
+
+
+                                    $.post( "helper_zancos_piezas.php", {no_zanco: no_zanco})
+                                      .done(function( data ) {
+                                            //alert( "Data Loaded: " + data );
+
+                                            $('#VerHistorial').html(data);
+                                      });
                                 }         
                               
                             } 
@@ -790,6 +742,18 @@
 
             $(document).ready(function()
             {
+                var zan = null;
+                    zan = $("#no_zanco").val();
+                    if(zan > 0)
+                    {
+                        $.post( "helper_zancos_piezas.php", {no_zanco: zan})
+                          .done(function( data ) {
+                                //alert( "Data Loaded: " + data );
+
+                                $('#VerHistorial').html(data);
+                          });
+                    }
+
                 $("#enviar").on("click", function(e)
                 {
                     event.preventDefault();
