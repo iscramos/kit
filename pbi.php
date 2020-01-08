@@ -70,7 +70,10 @@
               
               <iframe class="embed-responsive-item hidden pbi_2018"  src="https://app.powerbi.com/view?r=eyJrIjoiMDM2NDE4NGItNmVlNS00NmUzLTgxZDYtNjczYTAxOWEzZWIyIiwidCI6IjM1ZjM2ZTgyLTFhNDQtNGUyMi04NzliLWJhYmZmYjQzNjAwNiIsImMiOjR9" frameborder="0" allowFullScreen="true" ></iframe>
 
-              <iframe class="embed-responsive-item  pbi_2019"src="https://app.powerbi.com/view?r=eyJrIjoiZTBmZjlkZjItZmNiZi00MDU0LTgxYjAtNGI1YzU5NjA2NjFhIiwidCI6IjM1ZjM2ZTgyLTFhNDQtNGUyMi04NzliLWJhYmZmYjQzNjAwNiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
+              <iframe class="embed-responsive-item  pbi_2019" src="https://app.powerbi.com/view?r=eyJrIjoiZTBmZjlkZjItZmNiZi00MDU0LTgxYjAtNGI1YzU5NjA2NjFhIiwidCI6IjM1ZjM2ZTgyLTFhNDQtNGUyMi04NzliLWJhYmZmYjQzNjAwNiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
+
+
+              <iframe class="embed-responsive-item  pbi_2020"src="https://app.powerbi.com/view?r=eyJrIjoiYjE3ZTM5YzktMDc5Ny00YTE3LThjMjEtMTE5YmVhMmJlN2RjIiwidCI6IjM1ZjM2ZTgyLTFhNDQtNGUyMi04NzliLWJhYmZmYjQzNjAwNiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
               
               </div>
               
@@ -93,17 +96,25 @@
           {
             $(".pbi_2018").removeClass("hidden");
             $(".pbi_2019").addClass("hidden");
+            $(".pbi_2020").addClass("hidden");
           }
           else if (ano == 2019)
           {
             $(".pbi_2018").addClass("hidden");
             $(".pbi_2019").removeClass("hidden");
+            $(".pbi_2020").addClass("hidden");
+          }else if (ano == 2020)
+          {
+            $(".pbi_2018").addClass("hidden");
+            $(".pbi_2019").addClass("hidden");
+            $(".pbi_2020").removeClass("hidden");
           }
           else
           {
             alert("NO DATA: SELECCIONE OTRO AÑO...")
             $(".pbi_2018").addClass("hidden");
             $(".pbi_2019").addClass("hidden");
+            $(".pbi_2020").addClass("hidden");
           }
           
         });
