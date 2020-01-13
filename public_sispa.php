@@ -58,7 +58,8 @@
                         <option value='<?php echo date('Y'); ?>' style="display: none;"><?php echo date('Y'); ?></option>
 
                         <?php
-                            foreach ($anos as $ano) 
+                            $anos = Disponibilidad_anos::getAllByOrden("ano", "DESC");
+                            foreach ($anos as $ano)  
                             {
                                 echo "<option value='".$ano->ano."' >".$ano->ano."</option>";
                             }
