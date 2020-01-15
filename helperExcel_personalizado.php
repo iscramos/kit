@@ -799,12 +799,14 @@ if( isset($_REQUEST["parametro"]) )
                             ->setCellValue('B3', 'CATEGORIA')
                             ->setCellValue('C3', 'DESCRIPCION')
                             ->setCellValue('D3', 'STOCK')
-                            ->setCellValue('E3', 'UNIDAD DE MEDIDA');
+                            ->setCellValue('E3', 'UNIDAD DE MEDIDA')
+                            ->setCellValue('F3', 'P UNITARIO')
+                            ->setCellValue('G3', 'SUBTOTAL');
 
 
-                $objPHPExcel->getActiveSheet()->getStyle('A1:E1')->applyFromArray($estiloPrimero);
+                $objPHPExcel->getActiveSheet()->getStyle('A1:G1')->applyFromArray($estiloPrimero);
                 $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(5);
-                $objPHPExcel->getActiveSheet()->getStyle('A2:E2')->applyFromArray($estiloTituloReporte);
+                $objPHPExcel->getActiveSheet()->getStyle('A2:G2')->applyFromArray($estiloTituloReporte);
                 $objPHPExcel->getActiveSheet()->getRowDimension('2')->setRowHeight(50);
                 /*$objPHPExcel->getActiveSheet()->getStyle('A3:E3')->applyFromArray($estiloInformativo); // para datos informativos
                 $objPHPExcel->getActiveSheet()->getStyle('F3:W3')->applyFromArray($estiloPersonal); // para datos personales
@@ -817,14 +819,18 @@ if( isset($_REQUEST["parametro"]) )
                 $objPHPExcel->getActiveSheet()->getStyle('C3')->applyFromArray($columna3); // para datos informativos
                 $objPHPExcel->getActiveSheet()->getStyle('D3')->applyFromArray($columna3); // para datos informativos
                 $objPHPExcel->getActiveSheet()->getStyle('E3')->applyFromArray($columna3); // para datos informativos
+                $objPHPExcel->getActiveSheet()->getStyle('F3')->applyFromArray($columna3); // para datos informativos
+                $objPHPExcel->getActiveSheet()->getStyle('G3')->applyFromArray($columna3); // para datos informativos
 
                 $objPHPExcel->getActiveSheet()->getRowDimension('3')->setRowHeight(20);
 
                 $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(25);
                 $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(25);
                 $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(100);
-                $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(25);
-                $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(25);
+                $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(10);
+                $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
+                $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(15);
+                $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(15);
 
                 
                 $consulta = "SELECT herramientas_herramientas.*, herramientas_stock.stock, herramientas_udm.descripcion AS udm_descripcion, herramientas_categorias.categoria AS categoria_descripcion
@@ -839,8 +845,12 @@ if( isset($_REQUEST["parametro"]) )
                 
                 $pocision = 4;
                 $registro = 1;
+                $total = 0;
                 foreach ($herramientas_herramientas as $herramienta):
                 {
+                    $stock = $herramienta->stock;
+                    $precio = $herramienta->precio_unitario;
+                    $subtotal = $stock * $precio;
                         
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$pocision, $herramienta->clave);
                     $objPHPExcel->getActiveSheet()->getStyle('A'.$pocision)->applyFromArray($blanco);
@@ -851,17 +861,27 @@ if( isset($_REQUEST["parametro"]) )
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$pocision, $herramienta->descripcion);
                     $objPHPExcel->getActiveSheet()->getStyle('C'.$pocision)->applyFromArray($blanco);
 
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$pocision, $herramienta->stock);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$pocision, $stock);
                     $objPHPExcel->getActiveSheet()->getStyle('D'.$pocision)->applyFromArray($verde_stock);
 
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$pocision, $herramienta->udm_descripcion);
                     $objPHPExcel->getActiveSheet()->getStyle('E'.$pocision)->applyFromArray($blanco);
+
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$pocision, $precio);
+                    $objPHPExcel->getActiveSheet()->getStyle('F'.$pocision)->applyFromArray($blanco);
+
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$pocision, $subtotal);
+                    $objPHPExcel->getActiveSheet()->getStyle('G'.$pocision)->applyFromArray($blanco);
                     
+                    $total = $total + $subtotal;
+
                     $registro++;
                     $pocision++;
                 }
                 endforeach;
-            
+                    $pocision = $pocision + 2;
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$pocision, $total);
+                    $objPHPExcel->getActiveSheet()->getStyle('G'.$pocision)->applyFromArray($blanco);
 
         // Rename worksheet
         $objPHPExcel->getActiveSheet()->setTitle('KIT Almacen');
@@ -1032,7 +1052,7 @@ if( isset($_REQUEST["parametro"]) )
                     $objPHPExcel->getActiveSheet()->getStyle('H'.$pocision)->applyFromArray($blanco);
 
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$pocision, $zanco->nombre_lider_salida);
-                    $objPHPExcel->getActiveSheet()->getStyle('I'.$pocision)->applyFromArray($blanco);
+                    $objPHPExcel->getActiveSheet()->getStyle('I'.$pocision)->getNumberFormat()->setFormatCode('#,##0.00')->applyFromArray($blanco);
                     
                     $registro++;
                     $pocision++;

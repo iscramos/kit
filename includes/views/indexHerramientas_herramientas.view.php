@@ -45,7 +45,7 @@
                                             <!--th>Categoría</th-->
                                             <th>DESCRIPCION</th>
                                             <!--th>Precio unitario</th-->
-                                            <th>STOCK</th>
+                                            <!--th>STOCK</th-->
                                             <th>ESTATUS</th>
                                             <!--th>Fecha de entrada</th-->
                                             
@@ -67,7 +67,7 @@
                                                 //echo "<td>".$herramienta->categoria."</td>";
                                                 echo "<td>".$herramienta->descripcion."</td>";
                                                 //echo "<td>$ ".$herramienta->precio_unitario."</td>";
-                                                echo "<td>".$herramienta->stock."</td>";
+                                                //echo "<td>".$herramienta->stock."</td>";
                                                 
 
 
