@@ -96,7 +96,7 @@
                                                                     $x++;
                                                                 }
                                                             }
-                                                            echo "<td style='text-align:right;'><button class='btn btn-sm' style='background: #2DB67C; color:white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
+                                                            echo "<td style='text-align:right;'><button class='btn btn-sm' style='background: #2DB67C; color:white; width:50px; ' title='Ver registros'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
                                                 ?>
@@ -142,7 +142,7 @@
                                                                     $x++;
                                                                 }
                                                             }
-                                                            echo "<td style='text-align:right;'><button consulta='DISPONIBLES' categoria='".$c->id."' class='btn btn-sm ver' style='background: #218838; color:white; width:50px; ' title='Ver zancos'>".$x."</button></td>";
+                                                            echo "<td style='text-align:right;'><button consulta='DISPONIBLES' categoria='".$c->id."' class='btn btn-sm ver' style='background: #218838; color:white; width:50px; ' title='Ver registros'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
                                                 ?>
@@ -180,7 +180,7 @@
                                                                 }
                                                             }
                                                             echo "<td style='text-align:right;'><button consulta='CAMPO' categoria='".$c->id."' 
-                                                            class='btn btn-sm ver' style='background: #E0A800; color: black; width:50px; ' title='Ver zancos'>".$x."</button></td>";
+                                                            class='btn btn-sm ver' style='background: #E0A800; color: black; width:50px; ' title='Ver registros'>".$x."</button></td>";
                                                         echo "</tr>";
                                                     }
                                                 ?>

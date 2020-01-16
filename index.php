@@ -235,7 +235,7 @@
                         <p class="texto-footer">
                             <ul class="listita">
                                 
-                                <li><a href="historial_mp_mc.php" >Historial de MP y MC</a></li>
+                                <!--li><a href="historial_mp_mc.php" >Historial de MP y MC</a></li-->
                                 <li><a href="planner.php?<?php echo $param; ?>" >Proyección MP</a></li>
                                 <li><a href="equipos_parados.php" >Equipos parados</a></li>
                             </ul>
