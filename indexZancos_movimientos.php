@@ -15,6 +15,7 @@ if($_SESSION["type"] == 9)
 			INNER JOIN zancos_tamanos ON zancos_movimientos.tamano = zancos_tamanos.id
 			INNER JOIN zancos_acciones ON zancos_movimientos.tipo_movimiento = zancos_acciones.id
 			LEFT JOIN zancos_problemas ON zancos_movimientos.descripcion_problema = zancos_problemas.id
+			WHERE zancos_movimientos.fecha_activacion_o_baja >= '2020-01-01' OR zancos_movimientos.fecha_salida >= '2020-01-01'
 			ORDER BY zancos_movimientos.id_registro DESC";
 			
 	$zancos_movimientos = Zancos_movimientos::getAllByQuery($q);
