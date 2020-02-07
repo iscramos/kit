@@ -76,9 +76,15 @@
                     else
                     {
                       echo "<div class='col-xs-12 col-sm-4 col-sm-offset-4 '>
+                            <video autoplay controls loop width='600px' height='400px' src='".$url.$contentRead."qr_temporal/qr.mp4' ></video>
+                          </div>";
+
+                      echo "<div class='col-xs-12 col-sm-4 col-sm-offset-4 '>
                         <h1 style='color: black;'>404</h1>
                         <p>Faltan algunos parámetros</p>
                         <a class='btn btn-success' href='index.php'>Ir a inicio</a>
+
+
                       </div>";
                     }
                       

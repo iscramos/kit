@@ -26,7 +26,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2><i class="fa fa-cogs"></i> Registros <small>en el sistema</small></h2>
+                                <h2><i class="fa fa-cogs"></i> Registros <small>en el sistema - </small> <b style="color: #C9302C;"> Para mejorar la rapidez, se mostrarán registros posteriores al 01-01-2020</b> </h2>
                                 <ul class="nav navbar-right panel_toolbox">
                                   <li>
                                     <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>

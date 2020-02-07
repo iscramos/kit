@@ -148,18 +148,19 @@
             $(document).ready(function()
             {
                 $("#verDisponibilidad").on("click", function(event) 
-                {
+                {   
                     event.preventDefault();
                     var mes = null;
                     var ano = null;
                     var equipo = null;
                     var tipo = null;
-
+                    var total = 0;
                         $("#medidores").html("");
                         mes = $("#mes").val();
                         ano = $("#ano").val();
                         equipo = $("#equipo").val();
                         tipo = 3; // para medidores
+
 
                     var medicion_dia_pasado = 0;
 
@@ -220,7 +221,7 @@
 
                                     //console.log(dia_formato);
                                     constructorMedidores.push([dia_formato, valor_consumo, valor_consumo+comentarios]);
-                                    
+                                    total = total + valor_consumo;
                                     
                                     /*console.log("v_min = "+field['v_min'] +" v_max= " + field['v_max'] + " l1_l2 = "+field['voltaje_l1_l2']);*/
                                 });// fin de each result
@@ -235,10 +236,10 @@
                                     chart: {
                                       //title: 'MEDICIONES DE AMPERAJE',
                                       subtitle: equipo,
-                                      type: 'number',
+                                      type: 'number'
                                     },
                                     fontSize: 11,
-                                    title: 'MEDICIONES DE METROS CUBICOS CONSUMIDOS',
+                                    title: total + ' METROS CUBICOS EN EL MES',
                                     pointSize: 5,
                                     curveType: 'function',
                                     legend: { position: 'bottom' },
